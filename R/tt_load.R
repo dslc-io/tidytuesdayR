@@ -22,7 +22,6 @@ tt_load_gh<-function(week="2019-01-15"){
   tt_year <- year(week)
   git_url <- file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data",tt_year,week)
 
-
   gh_page <- get_tt_html(git_url)
 
   readme_html<-gh_page%>%
