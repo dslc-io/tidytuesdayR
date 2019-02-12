@@ -2,6 +2,8 @@ tidytuesdayR
 ================
 Ellis Hughes
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 tidytuesdayR is made to assist with the import of data posted for #TidyTuesday by the [R4DataScience](https://github.com/rfordatascience) team. Just enter a string formatted as "YYYY-MM-dd", and if there is a tidytuesday dataset available, it will download the readme and the data. 
 
@@ -55,5 +57,9 @@ tt_data$agencies
     ## #   longitude <chr>, latitude <chr>, error <chr>, parent <chr>,
     ## #   short_english_name <chr>, english_name <chr>, unicode_name <chr>,
     ## #   agency_type <chr>
+    
+    
+## Contributing
+Please note that the [34m'tidytuesdayR'[39m project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 

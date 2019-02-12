@@ -1,14 +1,26 @@
 Package: tidytuesdayR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Access TidyTuesday Data and Readme Easily
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Ellis Hughes (auth)
+Maintainer: Ellis Hughesr <ellishughes@live.com>
+Description: 
+  TidyTuesday is a project by R4DataScience where they post a dataset onto github for people to analyze and visualize.
+  Currently the method to process the data is to download the data using the Github gui, or enter a rather long URL into the data loading tool of choice.
+  This function provides the tools to download and access this data by simply providing a date-string into tt_load.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
+Depends:
+    dplyr,
+    readxl,
+    rvest,
+    tools,
+    lubridate,
+    purrr,
+    readr,
+    rstudioapi,
+    xml2
