@@ -18,7 +18,7 @@ Pulls the Readme and URLs of the data from the TidyTuesday github folder based o
 \examples{
 tt_gh<-tt_load_gh("2019-01-15")
 
-readme(tt_gh)
+show_readme(tt_gh)
 tt_gh$files
 
 }

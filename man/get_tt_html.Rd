@@ -6,6 +6,9 @@
 \usage{
 get_tt_html(git_url)
 }
+\arguments{
+\item{git_url}{url to tidytuesday files}
+}
 \description{
 Get TidyTuesday URL and HTML
 }

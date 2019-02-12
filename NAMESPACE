@@ -2,6 +2,7 @@
 
 S3method("$",tt_data)
 S3method(print,tt_data)
+export(show_readme)
 export(tt_load)
 export(tt_load_gh)
 export(tt_read_data)

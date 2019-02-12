@@ -15,7 +15,7 @@
 #' @examples
 #' tt_gh<-tt_load_gh("2019-01-15")
 #'
-#' readme(tt_gh)
+#' show_readme(tt_gh)
 #' tt_gh$files
 #'
 tt_load_gh<-function(week="2019-01-15"){
@@ -24,17 +24,11 @@ tt_load_gh<-function(week="2019-01-15"){
 
   gh_page <- get_tt_html(git_url)
 
-  readme_html<-gh_page%>%
-    html_nodes('.Box-body') %>%
-    # Extract the raw text as a lis
-    as.character()%>%
-    gsub("href=\"/rfordatascience/tidytuesday/","href=\"https://github.com/rfordatascience/tidytuesday/",.)
+  # Extract the raw text as a list
+  readme_html<-as.character(html_nodes(gh_page,'.Box-body'))
+  readme_html<-gsub("href=\"/rfordatascience/tidytuesday/","href=\"https://github.com/rfordatascience/tidytuesday/",readme_html)
 
-  files <- gh_page%>%
-    html_nodes('.files')%>%
-    html_nodes('.content a')%>%
-    html_attrs()%>%
-    map_chr(`[`,'title')
+  files <- map_chr(html_attrs(html_nodes(html_nodes(gh_page,'.files'),'.content a')),`[`,'title')
 
   files<-files[!files%in%"readme.md"]
 

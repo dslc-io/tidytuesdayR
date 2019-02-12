@@ -2,10 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{print.tt_data}
 \alias{print.tt_data}
-\title{print utilities for tt_data objects}
+\title{print utility for tt_data objects}
 \usage{
 \method{print}{tt_data}(x, ...)
 }
+\arguments{
+\item{x}{an object used to select a method.}
+
+\item{...}{further arguments passed to or from other methods.}
+}
 \description{
-print utilities for tt_data objects
+print utility for tt_data objects
 }

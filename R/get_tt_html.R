@@ -1,4 +1,5 @@
 #' @title Get TidyTuesday URL and HTML
+#' @param git_url url to tidytuesday files
 get_tt_html<-function(git_url){
   tt_html<-try(read_html(git_url),silent = TRUE)
   if(inherits(tt_html,"try-error")){

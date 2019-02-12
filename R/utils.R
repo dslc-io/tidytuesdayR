@@ -1,5 +1,6 @@
 
-#' @title print utilities for tt_data objects
+#' @title print utility for tt_data objects
+#' @inheritParams base::print
 #' @importFrom tools file_path_sans_ext
 #' @export
 print.tt_data<-function(x,...){
@@ -15,12 +16,20 @@ print.tt_data<-function(x,...){
 }
 
 #' @title Readme HTML maker and Viewer
+#' @param tt tt_data object for printing
 #' @importFrom rstudioapi viewer
 readme<-function(tt){
   if(length(tt[['tt']]$readme)>0 & rstudioapi::isAvailable()){
     readmeURL<-tt_make_html(tt)
     rstudioapi::viewer(url = readmeURL)
   }
+}
+
+#' @title Print Readme to RStudio HTML Viewer
+#' @param tt tt_data object for printing
+#' @export
+show_readme<-function(tt){
+  readme(tt)
 }
 
 tt_make_html<-function(x){
