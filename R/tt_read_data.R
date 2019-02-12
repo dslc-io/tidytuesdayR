@@ -1,25 +1,22 @@
-#' Reads in TidyTuesday datasets from Github repo
-#' 
-#' Reads in the actual data from the TidyTuesday github 
-#' 
+#' @title Reads in TidyTuesday datasets from Github repo
+#'
+#' @description  Reads in the actual data from the TidyTuesday github
+#'
 #' @param tt tt_gh object from tt_load_gh function
 #' @param x index/name of data object to read in. string or int
 #' @return tibble
 #' @export
-#' 
-#' @import tidyverse
+#'
+#' @importFrom readr read_csv read_delim
 #' @import tools
 #' @import readxl
-#' 
+#'
 #' @family tt_read_data
-#' 
-#' @example 
+#'
+#' @examples
 #' tt_gh<-tt_load_gh("2019-01-15")
-#' 
+#'
 #' tt_dataset_1<-tt_read_data(tt_gh,tt_gh$files[1])
-#' 
-#' 
-
 tt_read_data<-function(tt,x){
   switch (class(x),
           "character" = tt_read_data.character(tt,x),
@@ -49,8 +46,8 @@ tt_read_data.numeric<-function(tt,x){
   }
 }
 
-tt_read_url<-function(path){
-  switch(file_ext(tt$files[x]),
+tt_read_url<-function(url){
+  switch(file_ext(url),
          "xls"=read_xls(url),
          "xlsx"=read_xlsx(url),
          "tsv"=read_delim(url,"\t"),

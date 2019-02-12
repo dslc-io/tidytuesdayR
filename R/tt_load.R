@@ -1,15 +1,16 @@
-#' Load TidyTuesday data from Github
+#' @title  Load TidyTuesday data from Github
 #'
-#' Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided
+#' @description Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided
 #'
 #' @param week string representation of the date of data to pull, in YYYY-MM-dd format
 #' @return tt_gh object. List object with the following entries: readme, files, url
 #' @export
 #'
-#' @importFrom rvest read_html
-#' @importFrom lubridate
-#' @import tidyverse
-#' @import lubridate
+#' @importFrom xml2 read_html
+#' @importFrom lubridate year
+#' @importFrom purrr map_chr
+#' @import rvest
+#' @import dplyr
 #'
 #' @examples
 #' tt_gh<-tt_load_gh("2019-01-15")
@@ -21,7 +22,8 @@ tt_load_gh<-function(week="2019-01-15"){
   tt_year <- year(week)
   git_url <- file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data",tt_year,week)
 
-  gh_page <- read_html(git_url)
+
+  gh_page <- get_tt_html(git_url)
 
   readme_html<-gh_page%>%
     html_nodes('.Box-body') %>%
@@ -50,6 +52,8 @@ tt_load_gh<-function(week="2019-01-15"){
 #' @return tt_data object (list class)
 #'
 #' @export
+#'
+#' @importFrom purrr map
 #'
 #' @examples
 #' tt_output<-tt_load("2019-01-15")
