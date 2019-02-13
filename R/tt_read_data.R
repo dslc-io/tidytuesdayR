@@ -32,7 +32,7 @@ tt_read_data.character<-function(tt,x){
     tt_read_url(url)
   }else{
     stop(paste0("That is not an available file for this TidyTuesday week!\nAvailable Datasets:\n",
-                paste(x$files,"\n\t",collapse="")))
+                paste(tt$files,"\n\t",collapse="")))
   }
 }
 
