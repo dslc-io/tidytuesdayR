@@ -4,5 +4,12 @@ language: R
 sudo: false
 cache: packages
 
+jobs:
+  include:
+  - r: devel
+  - stage: full
+    os: osx
+  - r: release
+
 after_success:
   - Rscript -e 'covr::codecov()'
