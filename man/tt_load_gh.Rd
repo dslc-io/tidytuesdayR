@@ -7,7 +7,9 @@
 tt_load_gh(x, week)
 }
 \arguments{
-\item{week}{string representation of the date of data to pull, in YYYY-MM-dd format}
+\item{x}{string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year}
+
+\item{week}{left empty unless x is a numeric year entry, in which case the week of interest should be entered}
 }
 \value{
 tt_gh object. List object with the following entries: readme, files, url

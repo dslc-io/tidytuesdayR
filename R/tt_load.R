@@ -1,6 +1,7 @@
 #' @title Load tt data from Github
 #'
-#' @param date YYYY-MM-dd date string
+#' @param x string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
+#' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
 #' @return tt_data object (list class)
 #'
 #' @export
@@ -25,7 +26,9 @@ tt_load<-function(x,week){
 #'
 #' @description Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided
 #'
-#' @param week string representation of the date of data to pull, in YYYY-MM-dd format
+#' @param x string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
+#' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
+#'
 #' @return tt_gh object. List object with the following entries: readme, files, url
 #' @export
 #'

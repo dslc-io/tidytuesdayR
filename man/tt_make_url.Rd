@@ -8,6 +8,8 @@ tt_make_url(x, week)
 }
 \arguments{
 \item{x}{either a string or numeric entry indicating the full date of}
+
+\item{week}{left empty unless x is a numeric year entry, in which case the week of interest should be entered}
 }
 \description{
 Given multiple types of inputs, generate
