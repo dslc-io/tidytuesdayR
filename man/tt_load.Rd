@@ -4,7 +4,7 @@
 \alias{tt_load}
 \title{Load tt data from Github}
 \usage{
-tt_load(date)
+tt_load(x, week)
 }
 \arguments{
 \item{date}{YYYY-MM-dd date string}

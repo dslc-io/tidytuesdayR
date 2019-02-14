@@ -4,7 +4,7 @@
 \alias{tt_load_gh}
 \title{Load TidyTuesday data from Github}
 \usage{
-tt_load_gh(week = "2019-01-15")
+tt_load_gh(x, week)
 }
 \arguments{
 \item{week}{string representation of the date of data to pull, in YYYY-MM-dd format}
@@ -20,5 +20,4 @@ tt_gh<-tt_load_gh("2019-01-15")
 
 show_readme(tt_gh)
 tt_gh$files
-
 }

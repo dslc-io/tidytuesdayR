@@ -18,14 +18,21 @@ devtools::install_github("thebioengineer/tidytuesdayR")
 
 ## Usage
 
-The way this is used is by simply calling the 'tt_load' function and entering the date to pull
+The way this is used is by simply calling the 'tt_load' function and entering the date to pull.
 
 ``` r 
 library(tidytuesdayR)
 tt_data<-tt_load("2019-01-15")
+
 ```
 
-To view the readme and the datasets available, simply print the tt_data object
+You can also enter the year and which week that you are interested in as well.
+``` r
+tt_data<-tt_load(2019,week=3) 
+
+```
+
+To view the readme and the datasets available, simply print the tt_data object.
 
 ``` r
 print(tt_data)
