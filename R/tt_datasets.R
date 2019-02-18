@@ -36,7 +36,7 @@ tt_datasets<-function(year){
   datasets<- url %>%
     xml2::read_html()%>%
     rvest::html_nodes("table")%>%
-    `[[`(table)
+    `[`(table)
   datasets<-structure(list(html=datasets),
                       class="tt_dataset_table")
 
@@ -61,7 +61,9 @@ print.tt_dataset_table<-function(x,...,printConsole=FALSE){
     cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
     x$html%>%
       as.character%>%
-      purrr::walk(~cat(.x,file = tmpHTML,append = TRUE))
+      purrr::walk(~cat(gsub("href=\"/rfordatascience/tidytuesday/",
+                            "href=\"https://github.com/rfordatascience/tidytuesday/",
+                            .x),file = tmpHTML,append = TRUE))
     cat("</div>",file = tmpHTML,append = TRUE)
     cat("</body></html>",file = tmpHTML,append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
@@ -92,7 +94,9 @@ print.tt_dataset_table_list<-function(x,...,printConsole=FALSE){
 
     names(x)%>%
       purrr::map(function(.x,x){list(html=as.character(x[[.x]]$html),year=.x)},x=x)%>%
-      purrr::walk(~cat(paste0("<h2>",.x$year,"</h2>\n",.x$html),file = tmpHTML,append = TRUE))
+      purrr::walk(~cat(paste0("<h2>",.x$year,"</h2>\n",gsub("href=\"/rfordatascience/tidytuesday/",
+                                                                         "href=\"https://github.com/rfordatascience/tidytuesday/",
+                                                                         .x$html)),file = tmpHTML,append = TRUE))
 
     cat("</div>",file = tmpHTML,append = TRUE)
     cat("</body></html>",file = tmpHTML,append = TRUE)
