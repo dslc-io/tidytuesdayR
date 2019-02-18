@@ -45,7 +45,7 @@ tt_load<-function(x,week){
 #' tt_gh$files
 tt_load_gh<-function(x,week){
   if(missing(x)){
-    on.exit(tt_available())
+    on.exit({print(tt_available())})
     stop("Enter either the year or date of the TidyTuesday Data to extract!")
   }
 
