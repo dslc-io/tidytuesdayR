@@ -23,6 +23,7 @@ tt_available<-function(){
 #' @param year numeric entry representing the year of tidytuesday you want the list of datasets for. Leave empty for most recent year.
 #' @import xml2
 #' @import rvest
+#' @export
 #'
 tt_datasets<-function(year){
   if(missing(year)){
