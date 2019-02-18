@@ -12,7 +12,7 @@ tt_make_url<-function(x,week){
 }
 
 tt_make_url.date<-function(x){
-  tt_year <- year(x)
+  tt_year <- lubridate::year(x)
   tt_formatted_date<-tt_date_format(x)
   tt_folders<-tt_weeks(tt_year)
   if(!as.character(tt_formatted_date)%in%tt_folders){
@@ -25,27 +25,40 @@ tt_make_url.year<-function(x,week){
   tt_folders<-tt_weeks(x)
   if(week>length(tt_folders)){
     stop(paste0("Only ",length(tt_folders)," TidyTuesday Weeks exist in ",x,". Please enter a value for week between 1 and ",length(tt_folders)))
+  }else if(week < 1){
+    stop(paste0("Week entry must be a valid positive integer between 1 and ",length(tt_folders),"."))
+
   }
   tt_url<-file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data",x,tt_folders[week])
 }
 
 tt_weeks<-function(year){
-  tt_years<-html_attr(html_nodes(html_nodes(html_nodes(
-    read_html("https://github.com/rfordatascience/tidytuesday/tree/master/data"),
-    ".files"),".content"),"a"),"title")
-  tt_years<-suppressWarnings({tt_years[!is.na(as.numeric(tt_years))]})
-  if(!as.character(year)%in%tt_years){
+  tt_year<-tt_years()
+  if(!as.character(year)%in%tt_year){
     stop(paste0("TidyTuesday did not exist for ",year,". \n\t TidyTuesday has only existed from ",
-                min(as.numeric(tt_years))," to ",max(as.numeric(tt_years))))
+                min(as.numeric(tt_year))," to ",max(as.numeric(tt_year))))
   }
   tt_base_url<-file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data",year)
-  tt_folders<-html_attr(html_nodes(html_nodes(html_nodes(read_html(tt_base_url),".files"),".content"),"a"),"title")
+  tt_folders<-xml2::read_html(tt_base_url) %>%
+    rvest::html_nodes(".files") %>%
+    rvest::html_nodes(".content") %>%
+    rvest::html_nodes("a") %>%
+    rvest::html_attr("title")
   tt_folders<-tt_folders[valid_date(tt_folders)]
+}
+
+tt_years<-function(){
+  tt_years<-xml2::read_html("https://github.com/rfordatascience/tidytuesday/tree/master/data")%>%
+    rvest::html_nodes(".files")%>%
+    rvest::html_nodes(".content")%>%
+    rvest::html_nodes("a")%>%
+    rvest::html_attr("title")
+  suppressWarnings({tt_years[!is.na(as.numeric(tt_years))]})
 }
 
 #' @importFrom lubridate as_date is.Date
 valid_date<-function(x){
-  suppressWarnings({!is.na(as_date(as.character(x))) | is.Date(x)})
+  suppressWarnings({!is.na(lubridate::as_date(as.character(x))) | lubridate::is.Date(x)})
 }
 
 #' @importFrom lubridate year month day ymd

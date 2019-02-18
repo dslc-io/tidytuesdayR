@@ -29,6 +29,13 @@ test_that("tt_load_gh returns error when incorrect years or week number entries"
   testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
 })
 
+test_that("tt_load_gh returns error when incorrect years or week number entries", {
+  testthat::expect_error(tt_load_gh(2018,92),"Please enter a value for week between 1")
+  testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
+})
+test_that("tt_load_gh returns error when nothing is entered", {
+  testthat::expect_error(tt_load_gh(),"Enter either the year or date of the TidyTuesday Data")
+})
 
 #test driven dev, new feature to add
 test_that("Returns simple list of object when no readme.md available", {
@@ -39,12 +46,9 @@ test_that("Returns simple list of object when no readme.md available", {
 
 
 test_that("tt_load loads all data available",{
-
   tt_obj<-tt_load("2019-01-15")
-
   expect_equal(tt_obj$agencies,
                           readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-15/agencies.csv"))
-
   expect_equal(tt_obj$launches,
                           readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-15/launches.csv"))
 
