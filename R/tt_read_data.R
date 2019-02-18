@@ -48,8 +48,8 @@ tt_read_data.numeric<-function(tt,x){
 
 tt_read_url<-function(url){
   switch(file_ext(url),
-         "xls"=read_xls(url),
-         "xlsx"=read_xlsx(url),
-         "tsv"=read_delim(url,"\t"),
-         "csv"=read_delim(url,","))
+         "xls"=readxl::read_xls(url),
+         "xlsx"=readxl::read_xlsx(url),
+         "tsv"=readr::read_delim(url,"\t"),
+         "csv"=readr::read_delim(url,","))
 }

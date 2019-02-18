@@ -1,7 +1,7 @@
 Package: tidytuesdayR
 Type: Package
 Title: Access TidyTuesday Data and Readme Easily
-Version: 0.1.0
+Version: 0.1.1
 Author: Ellis Hughes (auth)
 Maintainer: Ellis Hughes <ellishughes@live.com>
 Description: 
@@ -16,12 +16,12 @@ Suggests:
     testthat,
     covr
 Imports:
-    dplyr,
-    readxl,
-    rvest,
-    tools,
-    lubridate,
-    purrr,
-    readr,
-    rstudioapi,
-    xml2
+    dplyr (>= 0.7.8),
+    readxl (>= 1.1.0),
+    rvest (>= 0.3.2),
+    tools (>= 3.5.1),
+    lubridate (>= 1.7.4),
+    purrr (>= 0.2.5),
+    readr (>= 1.1.1),
+    rstudioapi (>= 0.8),
+    xml2 (>= 1.2.0)

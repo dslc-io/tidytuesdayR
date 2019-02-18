@@ -19,9 +19,12 @@ print.tt_data<-function(x,...){
 #' @param tt tt_data object for printing
 #' @importFrom rstudioapi viewer
 readme<-function(tt){
-  if(length(tt[['tt']]$readme)>0 & rstudioapi::isAvailable()){
-    readmeURL<-tt_make_html(tt)
-    rstudioapi::viewer(url = readmeURL)
+  if(length(tt[['tt']]$readme)>0 ){
+    #if running in rstudio, print out that
+    if(rstudioapi::isAvailable()){
+      readmeURL<-tt_make_html(tt)
+      rstudioapi::viewer(url = readmeURL)
+    }
   }
 }
 
