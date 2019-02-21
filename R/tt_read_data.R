@@ -48,8 +48,14 @@ tt_read_data.numeric<-function(tt,x){
 
 tt_read_url<-function(url){
   switch(file_ext(url),
-         "xls"=readxl::read_xls(url),
-         "xlsx"=readxl::read_xlsx(url),
+         "xls"=download_read(url,readxl::read_xls),
+         "xlsx"=download_read(url,readxl::read_xlsx),
          "tsv"=readr::read_delim(url,"\t"),
          "csv"=readr::read_delim(url,","))
+}
+
+download_read<-function(url,func){
+  temp_excel<-tempfile(fileext = tools::file_ext(url))
+  download.file(url,temp_excel,quiet = TRUE,cacheOK = TRUE)
+  func(temp_excel)
 }
