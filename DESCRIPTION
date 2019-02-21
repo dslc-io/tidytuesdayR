@@ -2,8 +2,8 @@ Package: tidytuesdayR
 Type: Package
 Title: Access TidyTuesday Data and Readme Easily
 Version: 0.1.1
-Author: Ellis Hughes (auth)
-Maintainer: Ellis Hughes <ellishughes@live.com>
+Authors@R: c(
+    person("Ellis", "Hughes", , "ellishughes@live.com", c("aut", "cre")))
 Description: 
   TidyTuesday is a project by R4DataScience where they post a dataset onto github for people to analyze and visualize.
   Currently the method to process the data is to download the data using the Github gui, or enter a rather long URL into the data loading tool of choice.
@@ -16,12 +16,12 @@ Suggests:
     testthat,
     covr
 Imports:
-    dplyr (>= 0.7.8),
-    readxl (>= 1.1.0),
-    rvest (>= 0.3.2),
-    tools (>= 3.5.1),
-    lubridate (>= 1.7.4),
-    purrr (>= 0.2.5),
-    readr (>= 1.1.1),
-    rstudioapi (>= 0.8),
-    xml2 (>= 1.2.0)
+    dplyr,
+    readxl,
+    rvest,
+    tools,
+    lubridate,
+    purrr,
+    readr,
+    rstudioapi,
+    xml2
