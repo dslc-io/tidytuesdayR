@@ -54,8 +54,10 @@ tt_read_url<-function(url){
          "csv"=readr::read_delim(url,","))
 }
 
+#' @title utility to assist with 'reading' urls that cannot normally be read by file functions
+#' @importFrom utils download.file
 download_read<-function(url,func){
   temp_excel<-tempfile(fileext = tools::file_ext(url))
-  download.file(url,temp_excel,quiet = TRUE,cacheOK = TRUE)
+  utils::download.file(url,temp_excel,quiet = TRUE,cacheOK = TRUE)
   func(temp_excel)
 }
