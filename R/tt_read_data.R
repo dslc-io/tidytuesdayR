@@ -62,7 +62,7 @@ tt_read_url<-function(url){
 #' @importFrom utils download.file
 #'
 download_read<-function(url,func,...){
-  temp_excel<-tempfile(fileext = tools::file_ext(url))
-  utils::download.file(url,temp_excel,quiet = TRUE,cacheOK = TRUE)
+  temp_excel<-tempfile(fileext = paste0(".",tools::file_ext(url)))
+  utils::download.file(url,temp_excel,quiet = TRUE)
   func(temp_excel,...)
 }
