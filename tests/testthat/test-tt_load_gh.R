@@ -55,7 +55,7 @@ test_that("tt_load loads excel files properly",{
   tt_obj<-tt_load("2018-04-02")
 
   tempExcelFile<-tempfile(fileext = "xlsx")
-  download.file("https://www.github.com/rfordatascience/tidytuesday/raw/master/data/2018/2018-04-02/us_avg_tuition.xlsx",
+  utils::download.file("https://www.github.com/rfordatascience/tidytuesday/raw/master/data/2018/2018-04-02/us_avg_tuition.xlsx",
                 tempExcelFile,cacheOK = TRUE,quiet = TRUE)
 
   expect_equal(tt_obj$us_avg_tuition,readxl::read_xlsx(tempExcelFile))

@@ -55,9 +55,14 @@ tt_read_url<-function(url){
 }
 
 #' @title utility to assist with 'reading' urls that cannot normally be read by file functions
+#'
+#' @param url path to online file to be read
+#' @param func the function to perform reading of url
+#' @param ... args to pass to func
 #' @importFrom utils download.file
-download_read<-function(url,func){
+#'
+download_read<-function(url,func,...){
   temp_excel<-tempfile(fileext = tools::file_ext(url))
   utils::download.file(url,temp_excel,quiet = TRUE,cacheOK = TRUE)
-  func(temp_excel)
+  func(temp_excel,...)
 }

@@ -4,7 +4,14 @@
 \alias{download_read}
 \title{utility to assist with 'reading' urls that cannot normally be read by file functions}
 \usage{
-download_read(url, func)
+download_read(url, func, ...)
+}
+\arguments{
+\item{url}{path to online file to be read}
+
+\item{func}{the function to perform reading of url}
+
+\item{...}{args to pass to func}
 }
 \description{
 utility to assist with 'reading' urls that cannot normally be read by file functions
