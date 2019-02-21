@@ -12,6 +12,8 @@ download_read(url, func, ..., mode = "w")
 \item{func}{the function to perform reading of url}
 
 \item{...}{args to pass to func}
+
+\item{mode}{mode passed to \code{utils::download.file}. default is "w"}
 }
 \description{
 utility to assist with 'reading' urls that cannot normally be read by file functions

@@ -28,7 +28,7 @@ tt_read_data<-function(tt,x){
 
 tt_read_data.character<-function(tt,x){
   if(x%in%tt$files){
-    url<-gsub("tree/master","master",gsub("github.com","raw.githubusercontent.com",file.path(tt$url,x)))
+    url<-paste0(gsub("tree","blob",file.path(tt$url,x)),"?raw=true")
     tt_read_url(url)
   }else{
     stop(paste0("That is not an available file for this TidyTuesday week!\nAvailable Datasets:\n",
@@ -38,7 +38,7 @@ tt_read_data.character<-function(tt,x){
 
 tt_read_data.numeric<-function(tt,x){
   if(x>0 & x <= length(tt$files)){
-    url<-gsub("tree/master","master",gsub("github.com","raw.githubusercontent.com",file.path(tt$url,tt$files[x])))
+    url<-paste0(gsub("tree","blob",file.path(tt$url,tt$files[x])),"?raw=true")
     tt_read_url(url)
   }else{
     stop(paste0("That is not an available index for the files for this TidyTuesday week!\nAvailable Datasets:\n\t",
@@ -47,7 +47,7 @@ tt_read_data.numeric<-function(tt,x){
 }
 
 tt_read_url<-function(url){
-  switch(file_ext(url),
+  switch(file_ext(gsub("[?]raw=true","",url)),
          "xls"=download_read(url,readxl::read_xls,mode="wb"),
          "xlsx"=download_read(url,readxl::read_xlsx,mode="wb"),
          "tsv"=readr::read_delim(url,"\t"),
@@ -59,6 +59,7 @@ tt_read_url<-function(url){
 #' @param url path to online file to be read
 #' @param func the function to perform reading of url
 #' @param ... args to pass to func
+#' @param mode mode passed to \code{utils::download.file}. default is "w"
 #' @importFrom utils download.file
 #'
 download_read<-function(url,func,...,mode="w"){
