@@ -46,8 +46,9 @@ tt_read_data.numeric<-function(tt,x){
   }
 }
 
+
 tt_read_url<-function(url){
-  switch(file_ext(gsub("[?]raw=true","",url)),
+  switch(tools::file_ext(gsub("[?]raw=true","",url)),
          "xls"=download_read(url,readxl::read_xls,mode="wb"),
          "xlsx"=download_read(url,readxl::read_xlsx,mode="wb"),
          "tsv"=readr::read_delim(url,"\t"),

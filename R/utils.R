@@ -5,7 +5,7 @@
 #' @export
 print.tt_data<-function(x,...){
   readme(x)
-  message("Available Datasets:\n\t",paste(file_path_sans_ext(x[['tt']]$files),"\n\t",collapse=""))
+  message("Available Datasets:\n\t",paste(tools::file_path_sans_ext(x[['tt']]$files),"\n\t",collapse=""))
 }
 
 #' @title Access TidyTuesday data from tt_data object
