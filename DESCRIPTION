@@ -16,12 +16,12 @@ Suggests:
     testthat,
     covr
 Imports:
-    dplyr (>= 0.7.8),
-    readxl (>= 1.1.0),
-    rvest (>= 0.3.2),
-    tools (>= 3.5.1),
-    lubridate (>= 1.7.4),
+    dplyr,
+    readxl (>= 1.0.0),
+    rvest, 
+    tools (>= 3.1.0), 
+    lubridate (>= 1.5.6),
     purrr (>= 0.2.5),
-    readr (>= 1.1.1),
-    rstudioapi (>= 0.8),
-    xml2 (>= 1.2.0)
+    readr (>= 1.0.0), 
+    rstudioapi (>= 0.2), 
+    xml2
