@@ -8,7 +8,7 @@ test_that("tt_read_data only works for numeric,integer, or character entries", {
   integerRead<-tt_read_data(tt_gh_data,1L)
   characterRead<-tt_read_data(tt_gh_data,'agencies.csv')
 
-  url<-gsub("tree/master","master",gsub("github.com","raw.githubusercontent.com",file.path(tt_gh_data$url,"agencies.csv")))
+  url<-paste0(gsub("tree","blob",file.path(tt_gh_data$url,"agencies.csv")),"?raw=true")
   readURL<-read_csv(url)
 
 
