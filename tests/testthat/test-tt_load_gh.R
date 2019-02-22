@@ -25,13 +25,16 @@ test_that("tt_load_gh returns error when incorrect date", {
   testthat::expect_error(tt_load_gh("2019-01-16"),"is not a date that has TidyTuesday data")
 })
 test_that("tt_load_gh returns error when incorrect years or week number entries", {
-  testthat::expect_error(tt_load_gh(2018,-1),"positive integer between 1 and ")
   testthat::expect_error(tt_load_gh(2018,92),"Please enter a value for week between 1")
   testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
 })
 
+test_that("tt_load_gh returns error when incorrect years or week number entries", {
+  testthat::expect_error(tt_load_gh(2018,92),"Please enter a value for week between 1")
+  testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
+})
 test_that("tt_load_gh returns error when nothing is entered", {
-  capture.output({testthat::expect_error(tt_load_gh(),"Enter either the year or date of the TidyTuesday Data")})
+  testthat::expect_error(tt_load_gh(),"Enter either the year or date of the TidyTuesday Data")
 })
 
 #test driven dev, new feature to add
@@ -50,6 +53,7 @@ test_that("tt_load loads all data available",{
                           readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-15/launches.csv"))
 
 })
+
 
 test_that("tt_load loads excel files properly",{
   tt_obj<-tt_load("2018-04-02")

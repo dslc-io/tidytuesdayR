@@ -67,3 +67,4 @@ download_read<-function(url,func,...,mode="w"){
   utils::download.file(url,temp_excel,quiet = TRUE,mode=mode)
   func(temp_excel,...)
 }
+
