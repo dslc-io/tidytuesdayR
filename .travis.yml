@@ -24,7 +24,7 @@ jobs:
       - Rscript -e 'devtools::install_version("dplyr", version = "0.5.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("readxl", version = "1.0.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("rvest", version = "0.3.0",upgrade="never")'
-      - Rscript -e 'devtools::install_version("lubridate", version = "1.5.6",upgrade="never")'
+      - Rscript -e 'devtools::install_version("lubridate", version = "1.7.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("purrr", version = "0.2.5",upgrade="never")'
       - Rscript -e 'devtools::install_version("readr", version = "1.0.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("rstudioapi", version = "0.2",upgrade="never")'
