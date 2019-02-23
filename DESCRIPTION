@@ -1,27 +1,54 @@
 Package: tidytuesdayR
 Type: Package
-Title: Access TidyTuesday Data and Readme Easily
+Title: Access The Weekly TidyTuesday Project Dataset
 Version: 0.1.1
-Author: Ellis Hughes (auth)
-Maintainer: Ellis Hughes <ellishughes@live.com>
+Authors@R: 
+    c(
+      person(
+        given = "Ellis", 
+        family = "Hughes", 
+        email = "ellishughes@live.com", 
+        role = c("aut", "cre")
+      ),
+      person(
+        given = "Jon", 
+        family = "Harmon", 
+        email = "jonthegeek@gmail.com", 
+        role = "ctb"
+      ),
+      person(
+        given = "Thomas", 
+        family = "Mock", 
+        email = "j.thomasmock@gmail.com", 
+        role = "ctb"
+      ),
+      person(
+        given = "R4DS Online Learning Community",
+        email = "rfordatasci@gmail.com",
+        role = "dtc"
+      )
+    )
 Description: 
-  TidyTuesday is a project by R4DataScience where they post a dataset onto github for people to analyze and visualize.
-  Currently the method to process the data is to download the data using the Github gui, or enter a rather long URL into the data loading tool of choice.
-  This function provides the tools to download and access this data by simply providing a date-string into tt_load.
+  TidyTuesday is a project by the R4DS Online Learning Community in which they 
+  post a weekly dataset onto Github for people to analyze and visualize.
+  This package provides the tools to easily download this data and the 
+  description of the source by simply providing a date-string into the 
+  function `tt_load`.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Depends: R (>= 3.4.0)
 Suggests: 
     testthat,
     covr
 Imports:
-    dplyr (>= 0.7.8),
-    readxl (>= 1.1.0),
-    rvest (>= 0.3.2),
-    tools (>= 3.5.1),
-    lubridate (>= 1.7.4),
+    dplyr,
+    readxl (>= 1.0.0),
+    rvest, 
+    tools (>= 3.1.0), 
+    lubridate (>= 1.5.6),
     purrr (>= 0.2.5),
-    readr (>= 1.1.1),
-    rstudioapi (>= 0.8),
-    xml2 (>= 1.2.0)
+    readr (>= 1.0.0), 
+    rstudioapi (>= 0.2), 
+    xml2
