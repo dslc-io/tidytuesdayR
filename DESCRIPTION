@@ -45,9 +45,9 @@ Suggests:
 Imports:
     dplyr,
     readxl (>= 1.0.0),
-    rvest, 
+    rvest (>= 0.3.0), 
     tools (>= 3.1.0), 
-    lubridate (>= 1.5.6),
+    lubridate (>= 1.7.0),
     purrr (>= 0.2.5),
     readr (>= 1.0.0), 
     rstudioapi (>= 0.2), 
