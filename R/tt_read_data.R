@@ -14,16 +14,17 @@
 #' @family tt_read_data
 #'
 #' @examples
-#' tt_gh <- tt_load_gh("2019-01-15")
-#' 
-#' tt_dataset_1 <- tt_read_data(tt_gh, tt_gh$files[1])
-tt_read_data <- function(tt, x) {
-  switch(class(x),
-    "character" = tt_read_data.character(tt, x),
-    "numeric" = tt_read_data.numeric(tt, x),
-    "integer" = tt_read_data.numeric(tt, x),
-    stop(paste("No method for entry of class:", class(x)))
-  )
+#' tt_gh<-tt_load_gh("2019-01-15")
+#'
+#' tt_dataset_1<-tt_read_data(tt_gh,tt_gh$files[1])
+tt_read_data<-function(tt,x){
+  suppressMessages({switch (class(x),
+          "character" = tt_read_data.character(tt,x),
+          "numeric" = tt_read_data.numeric(tt,x),
+          "integer" = tt_read_data.numeric(tt,x),
+          stop(paste("No method for entry of class:",class(x)))
+  )})
+
 }
 
 tt_read_data.character <- function(tt, x) {
@@ -51,13 +52,13 @@ tt_read_data.numeric <- function(tt, x) {
 }
 
 
-tt_read_url <- function(url) {
-  switch(tools::file_ext(gsub("[?]raw=true", "", url)),
-    "xls" = download_read(url, readxl::read_xls, mode = "wb"),
-    "xlsx" = download_read(url, readxl::read_xlsx, mode = "wb"),
-    "tsv" = readr::read_delim(url, "\t"),
-    "csv" = readr::read_delim(url, ",")
-  )
+tt_read_url<-function(url){
+  url<-gsub(" ","%20",url)
+  switch(tools::file_ext(gsub("[?]raw=true","",url)),
+         "xls"=download_read(url,readxl::read_xls,mode="wb"),
+         "xlsx"=download_read(url,readxl::read_xlsx,mode="wb"),
+         "tsv"=readr::read_delim(url,"\t",guess_max = 21474836,progress = FALSE),
+         "csv"=readr::read_delim(url,",",guess_max = 21474836,progress = FALSE))
 }
 
 #' @title utility to assist with 'reading' urls that cannot normally be read by file functions
@@ -68,8 +69,9 @@ tt_read_url <- function(url) {
 #' @param mode mode passed to \code{utils::download.file}. default is "w"
 #' @importFrom utils download.file
 #'
-download_read <- function(url, func, ..., mode = "w") {
-  temp_excel <- tempfile(fileext = paste0(".", tools::file_ext(url)))
-  utils::download.file(url, temp_excel, quiet = TRUE, mode = mode)
-  func(temp_excel, ...)
+download_read<-function(url,func,...,mode="w"){
+  temp_file<-tempfile(fileext = paste0(".",tools::file_ext(url)))
+  utils::download.file(url,temp_file,quiet = TRUE,mode=mode)
+  func(temp_file,...)
+
 }
