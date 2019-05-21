@@ -9,16 +9,15 @@
 #' @importFrom purrr map
 #'
 #' @examples
-#' tt_output<-tt_load("2019-01-15")
-#'
-#'
-tt_load<-function(x,week){
-  tt<-tt_load_gh(x,week)
-  tt_data<-purrr::map(tt$files,~tt_read_data(tt,.x))
-  names(tt_data)<-tools::file_path_sans_ext(tt$files)
-  tt_results<-structure(list(
-    data=tt_data,
-    tt=tt),class="tt_data")
+#' tt_output <- tt_load("2019-01-15")
+tt_load <- function(x, week) {
+  tt <- tt_load_gh(x, week)
+  tt_data <- purrr::map(tt$files, ~ tt_read_data(tt, .x))
+  names(tt_data) <- tools::file_path_sans_ext(tt$files)
+  tt_results <- structure(list(
+    data = tt_data,
+    tt = tt
+  ), class = "tt_data")
   return(tt_results)
 }
 
@@ -39,39 +38,43 @@ tt_load<-function(x,week){
 #' @import dplyr
 #'
 #' @examples
-#' tt_gh<-tt_load_gh("2019-01-15")
-#'
+#' tt_gh <- tt_load_gh("2019-01-15")
+#' 
 #' show_readme(tt_gh)
 #' tt_gh$files
-tt_load_gh<-function(x,week){
-  if(missing(x)){
-    on.exit({print(tt_available())})
+tt_load_gh <- function(x, week) {
+  if (missing(x)) {
+    on.exit({
+      print(tt_available())
+    })
     stop("Enter either the year or date of the TidyTuesday Data to extract!")
   }
 
-  tt_git_url <- tt_make_url(x,week)
+  tt_git_url <- tt_make_url(x, week)
   tt_gh_page <- get_tt_html(tt_git_url)
 
   # Extract the raw text as a list
-  readme_html<-tt_gh_page%>%
-    rvest::html_nodes('.Box-body')%>%
+  readme_html <- tt_gh_page %>%
+    rvest::html_nodes(".Box-body") %>%
     as.character()
-  readme_html<-gsub("href=\"/rfordatascience/tidytuesday/",
-                    "href=\"https://github.com/rfordatascience/tidytuesday/",
-                    readme_html)
+  readme_html <- gsub(
+    "href=\"/rfordatascience/tidytuesday/",
+    "href=\"https://github.com/rfordatascience/tidytuesday/",
+    readme_html
+  )
 
-  files <- tt_gh_page%>%
-    rvest::html_nodes('.files')%>%
-    rvest::html_nodes('.content a')%>%
-    rvest::html_attrs()%>%
-    purrr::map_chr(`[`,'title')
+  files <- tt_gh_page %>%
+    rvest::html_nodes(".files") %>%
+    rvest::html_nodes(".content a") %>%
+    rvest::html_attrs() %>%
+    purrr::map_chr(`[`, "title")
 
-  files<-files[!files%in%"readme.md"]
+  files <- files[!files %in% "readme.md"]
 
-  tt_results<-structure(list(
-    readme=readme_html,
-    files=files,
-    url=tt_git_url),class="tt_gh")
+  tt_results <- structure(list(
+    readme = readme_html,
+    files = files,
+    url = tt_git_url
+  ), class = "tt_gh")
   return(tt_results)
 }
-
