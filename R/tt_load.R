@@ -1,4 +1,4 @@
-#' @title Load tt data from Github
+#' @title Load TidyTuesday data from Github
 #'
 #' @param x string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
 #' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
@@ -9,16 +9,16 @@
 #' @importFrom purrr map
 #'
 #' @examples
-#' tt_output <- tt_load("2019-01-15")
-tt_load <- function(x, week) {
+#' tt_output<-tt_load("2019-01-15")
+tt_load<-function(x, week){
   tt <- tt_load_gh(x, week)
-  tt_data <- purrr::map(tt$files, ~ tt_read_data(tt, .x))
-  names(tt_data) <- tools::file_path_sans_ext(tt$files)
-  tt_results <- structure(list(
-    data = tt_data,
-    tt = tt
-  ), class = "tt_data")
-  return(tt_results)
+  tt_data <- purrr::map(attr(tt,".files"), ~tt_read_data(tt, .x))
+  names(tt_data) <- tools::file_path_sans_ext(attr(tt, ".files"))
+
+  structure(
+    tt_data,
+    ".tt"=tt,
+    class="tt_data")
 }
 
 #' @title  Load TidyTuesday data from Github
@@ -39,11 +39,10 @@ tt_load <- function(x, week) {
 #'
 #' @examples
 #' tt_gh <- tt_load_gh("2019-01-15")
-#' 
+#'
 #' show_readme(tt_gh)
-#' tt_gh$files
-tt_load_gh <- function(x, week) {
-  if (missing(x)) {
+tt_load_gh <- function(x, week){
+  if(missing(x)){
     on.exit({
       print(tt_available())
     })
@@ -69,12 +68,14 @@ tt_load_gh <- function(x, week) {
     rvest::html_attrs() %>%
     purrr::map_chr(`[`, "title")
 
-  files <- files[!files %in% "readme.md"]
+  #remove readme or directory paths
+  files <- files[ !(files %in% "readme.md"|file_path_sans_ext(files ) == files)]
 
-  tt_results <- structure(list(
-    readme = readme_html,
-    files = files,
-    url = tt_git_url
-  ), class = "tt_gh")
-  return(tt_results)
+  structure(
+    files,
+    ".files"=files,
+    ".readme"=readme_html,
+    ".url"=tt_git_url,
+    class="tt_gh")
+
 }
