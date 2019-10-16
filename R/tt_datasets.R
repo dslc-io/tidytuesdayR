@@ -12,7 +12,8 @@ tt_available<-function(){
     list()%>%
     purrr::set_names(as.character(tt_year[which.max(tt_year)]))
   datasets<-c(currDatasets,pastDatasets)[tt_year[order(tt_year,decreasing = TRUE)]]
-  structure(datasets,class=c("tt_dataset_table_list"))
+  structure(datasets,
+            class=c("tt_dataset_table_list"))
 }
 
 
@@ -37,10 +38,11 @@ tt_datasets<-function(year){
     xml2::read_html()%>%
     rvest::html_nodes("table")%>%
     `[`(table)
-  datasets<-structure(list(html=datasets),
-                      class="tt_dataset_table")
 
-  return(datasets)
+  structure(
+    datasets,
+    ".html"=datasets,
+    class="tt_dataset_table")
 }
 
 
@@ -59,7 +61,7 @@ print.tt_dataset_table<-function(x,...,printConsole=FALSE){
         <link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">
         </head><body>",file=tmpHTML)
     cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
-    x$html%>%
+    attr(x,".html")%>%
       as.character%>%
       purrr::walk(~cat(gsub("href=\"/rfordatascience/tidytuesday/",
                             "href=\"https://github.com/rfordatascience/tidytuesday/",
@@ -68,7 +70,7 @@ print.tt_dataset_table<-function(x,...,printConsole=FALSE){
     cat("</body></html>",file = tmpHTML,append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
   }else{
-    x$html%>%
+    attr(x,".html")%>%
       rvest::html_table()
   }
 }
@@ -93,7 +95,7 @@ print.tt_dataset_table_list<-function(x,...,printConsole=FALSE){
     cat("<h1>TidyTuesday Datasets</h1>",file = tmpHTML,append = TRUE)
 
     names(x)%>%
-      purrr::map(function(.x,x){list(html=as.character(x[[.x]]$html),year=.x)},x=x)%>%
+      purrr::map(function(.x,x){list(html=as.character(attr(x[[.x]],".html")),year=.x)},x=x)%>%
       purrr::walk(~cat(paste0("<h2>",.x$year,"</h2>\n",gsub("href=\"/rfordatascience/tidytuesday/",
                                                                          "href=\"https://github.com/rfordatascience/tidytuesday/",
                                                                          .x$html)),file = tmpHTML,append = TRUE))
@@ -103,7 +105,7 @@ print.tt_dataset_table_list<-function(x,...,printConsole=FALSE){
     rstudioapi::viewer(url = tmpHTML)
   }else{
     names(x)%>%
-      purrr::map(function(.x,x){list(table=rvest::html_table(x[[.x]]$html),year=.x)},x=x)%>%
+      purrr::map(function(.x,x){list(table=rvest::html_table(attr(x[[.x]],".html")),year=.x)},x=x)%>%
       purrr::walk(function(.x){cat(paste0("Year: ",.x$year,"\n"));print(.x$table);cat("\n\n")})
   }
 }

@@ -20,6 +20,6 @@ Reads in the actual data from the TidyTuesday github
 \examples{
 tt_gh<-tt_load_gh("2019-01-15")
 
-tt_dataset_1<-tt_read_data(tt_gh,tt_gh$files[1])
+tt_dataset_1<-tt_read_data(tt_gh,tt_gh[1])
 }
 \concept{tt_read_data}

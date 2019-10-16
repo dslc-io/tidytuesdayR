@@ -6,8 +6,10 @@
 tt_make_url<-function(x,week){
  if(valid_date(x)){
       tt_make_url.date(x)
-   }else if(is.numeric(x)){
+   }else if(valid_year(x)){
       tt_make_url.year(x,week)
+   }else{
+     stop("Entries must render to a valid date or year")
    }
 }
 
@@ -59,6 +61,10 @@ tt_years<-function(){
 #' @importFrom lubridate as_date is.Date
 valid_date<-function(x){
   suppressWarnings({!is.na(lubridate::as_date(as.character(x))) | lubridate::is.Date(x)})
+}
+
+valid_year <- function(x){
+  suppressWarnings({!is.na(lubridate::as_date(paste0(as.character(x),"-01-01")))})
 }
 
 #' @importFrom lubridate year month day ymd
