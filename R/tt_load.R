@@ -9,7 +9,6 @@
 #' @importFrom purrr map
 #'
 #' @examples
-<<<<<<< HEAD
 #' tt_output<-tt_load("2019-01-15")
 tt_load<-function(x, week){
   tt <- tt_load_gh(x, week)
