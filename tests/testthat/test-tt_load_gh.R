@@ -19,23 +19,6 @@ test_that("tt_load_gh returns tt_gh object when provided proper year and TT week
   testthat::expect_equal(attr(tt_gh,".url"),"https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-01-15")
 })
 
-# check that correct data are returned
-test_that(
-  "tt_load_gh returns tt_gh object when given proper year and TT week number", {
-    tt_gh <- tt_load_gh(2019, 3)
-
-    expect_s3_class(tt_gh, "tt_gh")
-    expect_equal(tt_gh$files, c("agencies.csv", "launches.csv"))
-    expect_equal(
-      tt_gh$url,
-      paste0(
-        "https://github.com/rfordatascience/tidytuesday/tree/master/data/",
-        "2019/2019-01-15"
-      )
-    )
-  }
-)
-
 # check that errors are returned
 test_that("tt_load_gh returns error when incorrect date", {
   expect_error(

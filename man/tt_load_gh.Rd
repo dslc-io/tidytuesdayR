@@ -18,8 +18,7 @@ tt_gh object. List object with the following entries: readme, files, url
 Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided
 }
 \examples{
-tt_gh<-tt_load_gh("2019-01-15")
+tt_gh <- tt_load_gh("2019-01-15")
 
 show_readme(tt_gh)
-
 }
