@@ -1,8 +1,7 @@
 context("test-tt_load_gh")
 
-#check that correct data are returned
+# check that correct data are returned
 test_that("tt_load_gh returns tt_gh object when provided proper date", {
-
   tt_gh<-tt_load_gh("2019-01-15")
 
   testthat::expect_s3_class(tt_gh,"tt_gh")
@@ -20,26 +19,64 @@ test_that("tt_load_gh returns tt_gh object when provided proper year and TT week
   testthat::expect_equal(attr(tt_gh,".url"),"https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-01-15")
 })
 
-#check that errors are returned
+# check that correct data are returned
+test_that(
+  "tt_load_gh returns tt_gh object when given proper year and TT week number", {
+    tt_gh <- tt_load_gh(2019, 3)
+
+    expect_s3_class(tt_gh, "tt_gh")
+    expect_equal(tt_gh$files, c("agencies.csv", "launches.csv"))
+    expect_equal(
+      tt_gh$url,
+      paste0(
+        "https://github.com/rfordatascience/tidytuesday/tree/master/data/",
+        "2019/2019-01-15"
+      )
+    )
+  }
+)
+
+# check that errors are returned
 test_that("tt_load_gh returns error when incorrect date", {
-  testthat::expect_error(tt_load_gh("2019-01-16"),"is not a date that has TidyTuesday data")
-})
-test_that("tt_load_gh returns error when incorrect years or week number entries", {
-  testthat::expect_error(tt_load_gh(2018,92),"Please enter a value for week between 1")
-  testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
+  expect_error(
+    tt_load_gh("2019-01-16"),
+    "is not a date that has TidyTuesday data"
+  )
 })
 
+test_that(
+  "tt_load_gh returns error when incorrect years or week number entries", {
+    expect_error(
+      tt_load_gh(2018, 92),
+      "Please enter a value for week between 1"
+    )
+    expect_error(
+      tt_load_gh(2017, 92),
+      "TidyTuesday did not exist for"
+    )
+  }
+)
+
 test_that("tt_load_gh returns error when incorrect years or week number entries", {
-  testthat::expect_error(tt_load_gh(2018,92),"Please enter a value for week between 1")
-  testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
+  expect_error(
+    tt_load_gh(2018, 92),
+    "Please enter a value for week between 1"
+  )
+  expect_error(
+    tt_load_gh(2017, 92),
+    "TidyTuesday did not exist for"
+  )
 })
+
 test_that("tt_load_gh returns error when nothing is entered", {
-  outputs<-capture.output({testthat::expect_error(tt_load_gh(),
-                         "Enter either the year or date of the TidyTuesday Data")
+  outputs<-capture.output({
+    testthat::expect_error(
+      tt_load_gh(),
+      "Enter either the year or date of the TidyTuesday Data")
   })
 })
 
-#test driven dev, new feature to add
+# test driven dev, new feature to add
 test_that("Returns simple list of object when no readme.md available", {
   tt_gh<-tt_load_gh("2018-04-09")
   expect_s3_class(tt_gh,"tt_gh")
@@ -56,14 +93,19 @@ test_that("tt_load loads all data available",{
 
 })
 
+test_that("tt_load loads excel files properly", {
+  tt_obj <- tt_load("2018-04-02")
 
-test_that("tt_load loads excel files properly",{
-  tt_obj<-tt_load("2018-04-02")
+  tempExcelFile <- tempfile(fileext = ".xlsx")
+  utils::download.file(
+    paste0(
+      "https://www.github.com/rfordatascience/tidytuesday/raw/master/data/",
+      "2018/2018-04-02/us_avg_tuition.xlsx?raw=true"
+    ),
+    tempExcelFile,
+    quiet = TRUE,
+    mode = "wb"
+  )
 
-  tempExcelFile<-tempfile(fileext = ".xlsx")
-  utils::download.file("https://www.github.com/rfordatascience/tidytuesday/raw/master/data/2018/2018-04-02/us_avg_tuition.xlsx?raw=true",
-                tempExcelFile,quiet = TRUE,mode = "wb")
-
-  expect_equal(tt_obj$us_avg_tuition,readxl::read_xlsx(tempExcelFile))
+  expect_equal(tt_obj$us_avg_tuition, readxl::read_xlsx(tempExcelFile))
 })
-

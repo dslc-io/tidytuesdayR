@@ -32,6 +32,8 @@ test_that("print.tt_data lists the available datasets", {
 
   capturedOutput<-capture_message({print(tt_data)})
 
-  testthat::expect_equal(capturedOutput$message,"Available Datasets:\n\tvalue1 \n\tvalue2 \n\t\n")
+  testthat::expect_equal(
+    capturedOutput$message,
+    "Available Datasets:\n\tvalue1 \n\tvalue2 \n\t\n"
+    )
 })
-
