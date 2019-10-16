@@ -1,49 +1,39 @@
 context("test-utils")
 
+tt_data<-structure(
+  list(value1="value1",
+       value2="value2"),
+  .tt=structure(
+    c("value1.csv","value2.csv"),
+    .files=c("value1.csv","value2.csv"),
+    .url = "fake_url",
+    .readme = "<p class=\"contents\">README contents</p>",
+    class = "tt_gh"),
+  class="tt_data")
+
 test_that("tt_make_html generates a properly formatted html doc", {
-  tt_data <- structure(
-    list(
-      tt = list(readme = "<p class=\"contents\">README contents</p>")
-    )
-  )
-  enteredValues <- read_html(tt_make_html(tt_data)) %>%
-    html_nodes(".contents") %>%
-    as.character()
-
-  expect_equal(enteredValues, "<p class=\"contents\">README contents</p>")
-})
-
-test_that("`$` accesses the data from the tt_data object", {
-  value1 <- "value1"
-  value2 <- data.frame(
-    x = 1:5,
-    y = c(1, 1, 1, 2, 2)
-  )
-
-  tt_data <- structure(
-    list(data = list(value1 = value1, value2 = value2)),
-    class = "tt_data"
-  )
-
-  expect_equal(tt_data$value1, value1)
-  expect_equal(tt_data$value2, value2)
+  enteredValues<-read_html(tt_make_html(attr(tt_data,".tt")))%>%
+    html_nodes(".contents")%>%
+    as.character
+  testthat::expect_equal(enteredValues,"<p class=\"contents\">README contents</p>")
 })
 
 test_that("print.tt_data lists the available datasets", {
-  tt_data <- structure(
-    list(
-      data = list(value1 = "value1", value2 = "value2"),
-      tt = list(files = c("value1.csv", "value2.csv"))
-    ),
-    class = "tt_data"
-  )
+  tt_data<-structure(
+    list(value1="value1",
+              value2="value2"),
+    .tt=structure(
+      c("value1.csv","value2.csv"),
+      .files=c("value1.csv","value2.csv"),
+      .url = "fake_url",
+      .readme = "README",
+      class = "tt_gh"),
+    class="tt_data")
 
-  capturedOutput <- capture_message({
-    print(tt_data)
-  })
+  capturedOutput<-capture_message({print(tt_data)})
 
-  expect_equal(
+  testthat::expect_equal(
     capturedOutput$message,
     "Available Datasets:\n\tvalue1 \n\tvalue2 \n\t\n"
-  )
+    )
 })

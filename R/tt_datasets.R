@@ -12,15 +12,17 @@ tt_available <- function() {
   ) %>%
     purrr::set_names(as.character(tt_year[-which.max(tt_year)]))
 
-  currDatasets <- tt_datasets() %>%
-    list() %>%
+  currDatasets<-tt_datasets()%>%
+    list()%>%
     purrr::set_names(as.character(tt_year[which.max(tt_year)]))
 
-  datasets <- c(
-    currDatasets, pastDatasets
-  )[tt_year[order(tt_year, decreasing = TRUE)]]
+  datasets<-c(
+    currDatasets,
+    pastDatasets
+    )[tt_year[order(tt_year,decreasing = TRUE)]]
 
-  structure(datasets, class = c("tt_dataset_table_list"))
+  structure(datasets,
+            class=c("tt_dataset_table_list"))
 }
 
 #' @title Available datasets
@@ -41,16 +43,16 @@ tt_datasets <- function(year) {
     )
     table <- 2
   }
+
   datasets <- url %>%
     xml2::read_html() %>%
     rvest::html_nodes("table") %>%
     `[`(table)
-  datasets <- structure(
-    list(html = datasets),
-    class = "tt_dataset_table"
-  )
 
-  return(datasets)
+  structure(
+    datasets,
+    ".html"=datasets,
+    class="tt_dataset_table")
 }
 
 #' @title print utility for tt_dataset_table object
@@ -60,9 +62,9 @@ tt_datasets <- function(year) {
 #' @importFrom rstudioapi isAvailable viewer
 #' @importFrom rvest html_table
 #' @export
-print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
-  if (rstudioapi::isAvailable() & !printConsole) {
-    tmpHTML <- tempfile(fileext = ".html")
+print.tt_dataset_table <- function(x, ..., printConsole=FALSE){
+  if (rstudioapi::isAvailable() & !printConsole){
+    tmpHTML<-tempfile(fileext = ".html")
     github_markdown_header <- paste(
       "<!DOCTYPE html><html lang=\"en\"><head>\n",
       "<link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">\n",
@@ -71,12 +73,11 @@ print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
         "href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/",
         "3.0.1/github-markdown.min.css\">\n"
       ),
-      "</head><body>\n"
-    )
-    cat(github_markdown_header, file = tmpHTML)
-    cat("<div class='repository-content'>", file = tmpHTML, append = TRUE)
+      "</head><body>")
 
-    x$html %>%
+    cat(github_markdown_header, file = tmpHTML)
+    cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
+    attr(x,".html")%>%
       as.character() %>%
       purrr::walk(
         ~ cat(
@@ -89,12 +90,11 @@ print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
           append = TRUE
         )
       )
-
-    cat("</div>", file = tmpHTML, append = TRUE)
-    cat("</body></html>", file = tmpHTML, append = TRUE)
+    cat("</div>",file = tmpHTML,append = TRUE)
+    cat("</body></html>",file = tmpHTML,append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
-  } else {
-    x$html %>%
+  }else{
+    attr(x,".html")%>%
       rvest::html_table()
   }
 }
@@ -123,15 +123,15 @@ print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
     cat("<div class='repository-content'>", file = tmpHTML, append = TRUE)
     cat("<h1>TidyTuesday Datasets</h1>", file = tmpHTML, append = TRUE)
 
-    names(x) %>%
+    names(x)%>%
       purrr::map(
         function(.x, x) {
-          list(html = as.character(x[[.x]]$html), year = .x)
+          list(html=as.character(attr(x[[.x]],".html")),year=.x)
         },
         x = x
-      ) %>%
+      )%>%
       purrr::walk(
-        ~ cat(
+        ~cat(
           paste0(
             "<h2>",
             .x$year,
@@ -140,27 +140,28 @@ print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
               "href=\"/rfordatascience/tidytuesday/",
               "href=\"https://github.com/rfordatascience/tidytuesday/",
               .x$html
-            )
-          ),
+              )
+            ),
           file = tmpHTML,
           append = TRUE
+          )
         )
-      )
 
     cat("</div>", file = tmpHTML, append = TRUE)
     cat("</body></html>", file = tmpHTML, append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
-  } else {
-    names(x) %>%
+  }else{
+    names(x)%>%
       purrr::map(
         function(.x, x) {
-          list(table = rvest::html_table(x[[.x]]$html), year = .x)
-        },
-        x = x
-      ) %>%
+          list(
+            table=rvest::html_table(attr(x[[.x]],".html")),year=.x)
+          },
+        x=x
+      )%>%
       purrr::walk(
         function(.x) {
-          cat(paste0("Year: ", .x$year, "\n"))
+          cat(paste0("Year: ",.x$year,"\n"))
           print(.x$table)
           cat("\n\n")
         }

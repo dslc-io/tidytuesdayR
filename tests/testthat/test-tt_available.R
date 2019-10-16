@@ -13,7 +13,7 @@ test_that("tt_available returns all years", {
 
 
 test_that("tt_datasets prints to console when rstudio viewer is not available", {
-  ds <- tt_datasets(2018)
-  consoleOutput <- print(ds, printConsole = TRUE)
-  testthat::expect_equivalent(ds$html %>% rvest::html_table(), consoleOutput)
+  ds<-tt_datasets(2018)
+  consoleOutput<-print(ds,printConsole=TRUE)
+  testthat::expect_equivalent(attr(ds,".html")%>%rvest::html_table(),consoleOutput)
 })
