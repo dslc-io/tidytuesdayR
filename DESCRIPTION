@@ -1,7 +1,7 @@
 Package: tidytuesdayR
 Type: Package
 Title: Access The Weekly TidyTuesday Project Dataset
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: 
     c(
       person(
@@ -35,6 +35,8 @@ Description:
   description of the source by simply providing a date-string into the 
   function `tt_load`.
 License: MIT + file LICENSE
+URL: https://github.com/thebioengineer/tidytuesdayR
+BugReports: https://github.com/thebioengineer/tidytuesdayR/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

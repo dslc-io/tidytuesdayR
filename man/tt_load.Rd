@@ -2,7 +2,7 @@
 % Please edit documentation in R/tt_load.R
 \name{tt_load}
 \alias{tt_load}
-\title{Load tt data from Github}
+\title{Load TidyTuesday data from Github}
 \usage{
 tt_load(x, week)
 }
@@ -15,10 +15,8 @@ tt_load(x, week)
 tt_data object (list class)
 }
 \description{
-Load tt data from Github
+Load TidyTuesday data from Github
 }
 \examples{
 tt_output<-tt_load("2019-01-15")
-
-
 }
