@@ -18,7 +18,7 @@ identify_delim <- function(path,
                            ) {
 
   # Load lines of file in
-  test <- readLines(file, n = n + skip)
+  test <- readLines(path, n = n + skip)
   if (skip > 0) {
     test <- test[-c(seq(skip))]
   }
@@ -26,7 +26,7 @@ identify_delim <- function(path,
   if(sum(comment_lines) > 0){
     eof<- FALSE
     while((length(test) - sum(comment_lines) < n) & !eof){
-      test <- readLines(file, n = n + skip + sum(comment_lines))
+      test <- readLines(path, n = n + skip + sum(comment_lines))
       if(length(test) < n + skip + sum(comment_lines)){
         eof <- TRUE
       }

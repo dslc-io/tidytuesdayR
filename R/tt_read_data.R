@@ -70,8 +70,8 @@ tt_read_url<-function(url){
 #'
 download_read<-function(url, func, ..., mode="w", find_delim = FALSE){
 
-  temp_file<-tempfile(fileext = paste0(".",tools::file_ext(path)))
-  utils::download.file(path,temp_file,quiet = TRUE,mode=mode)
+  temp_file<-tempfile(fileext = paste0(".",tools::file_ext(url)))
+  utils::download.file(url,temp_file,quiet = TRUE,mode=mode)
 
   dots <- as.list(substitute(substitute(...)))[-1]
   func_call <- c(substitute(func),substitute(temp_file),dots)
