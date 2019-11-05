@@ -17,9 +17,8 @@ readme <- function(tt){
   }
   if ( length(attr(tt,".readme"))>0 ) {
     #if running in rstudio, print out that
-    if( rstudioapi::isAvailable()) {
-      readmeURL <- tt_make_html(tt)
-      rstudioapi::viewer(url = readmeURL)
+    if(rstudioapi::isAvailable()){
+      rstudioapi::viewer(url = tt_make_html(tt))
     }
   }
 }

@@ -19,12 +19,14 @@ test_that("tt_load_gh returns tt_gh object when provided proper year and TT week
   testthat::expect_equal(attr(tt_gh,".url"),"https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-01-15")
 })
 
-# check that errors are returned
+
+#check that errors are returned
 test_that("tt_load_gh returns error when incorrect date", {
-  expect_error(
-    tt_load_gh("2019-01-16"),
-    "is not a date that has TidyTuesday data"
-  )
+  nullout <- capture.output({testthat::expect_error(tt_load_gh("2019-01-16"),"is not a date that has TidyTuesday data")})
+})
+test_that("tt_load_gh returns error when incorrect years or week number entries", {
+  testthat::expect_error(tt_load_gh(2018,92),"Please enter a value for week between 1")
+  testthat::expect_error(tt_load_gh(2017,92),"TidyTuesday did not exist for")
 })
 
 test_that(
@@ -52,11 +54,11 @@ test_that("tt_load_gh returns error when incorrect years or week number entries"
 })
 
 test_that("tt_load_gh returns error when nothing is entered", {
-  outputs<-capture.output({
-    testthat::expect_error(
-      tt_load_gh(),
-      "Enter either the year or date of the TidyTuesday Data")
-  })
+  nullout <- capture.output({testthat::expect_error(tt_load_gh(),"Enter either the year or date of the TidyTuesday Data")})
+})
+test_that("tt_load_gh returns error when week is not a valid entry between 1 and n weeks", {
+  testthat::expect_error(tt_load_gh(2019,0),
+                         "Week entry must be a valid positive integer")
 })
 
 # test driven dev, new feature to add
