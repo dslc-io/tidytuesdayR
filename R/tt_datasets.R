@@ -53,12 +53,7 @@ tt_datasets<-function(year){
 #' @export
 print.tt_dataset_table<-function(x,...,printConsole=FALSE){
   if(rstudioapi::isAvailable() & !printConsole){
-    tmpHTML<-tempfile(fileext = ".html")
-    cat("<!DOCTYPE html><html lang=\"en\"><head>
-        <link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">
-        <link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">
-        </head><body>",file=tmpHTML)
-    cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
+    tmpHTML<-setup_doc()
     x$html%>%
       as.character%>%
       purrr::walk(~cat(gsub("href=\"/rfordatascience/tidytuesday/",
@@ -84,14 +79,8 @@ print.tt_dataset_table<-function(x,...,printConsole=FALSE){
 print.tt_dataset_table_list<-function(x,...,printConsole=FALSE){
 
   if(rstudioapi::isAvailable() & !printConsole){
-    tmpHTML<-tempfile(fileext = ".html")
-    cat("<!DOCTYPE html><html lang=\"en\"><head>
-        <link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">
-        <link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">
-        </head><body>",file=tmpHTML)
-    cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
+    tmpHTML<-setup_doc()
     cat("<h1>TidyTuesday Datasets</h1>",file = tmpHTML,append = TRUE)
-
     names(x)%>%
       purrr::map(function(.x,x){list(html=as.character(x[[.x]]$html),year=.x)},x=x)%>%
       purrr::walk(~cat(paste0("<h2>",.x$year,"</h2>\n",gsub("href=\"/rfordatascience/tidytuesday/",
@@ -109,3 +98,11 @@ print.tt_dataset_table_list<-function(x,...,printConsole=FALSE){
 }
 
 
+setup_doc<-function(tmpHTML = tempfile(fileext = ".html")){
+  cat("<!DOCTYPE html><html lang=\"en\"><head>
+        <link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">
+        <link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">
+        </head><body>",file=tmpHTML)
+  cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
+  return(tmpHTML)
+}

@@ -4,16 +4,18 @@
 \alias{download_read}
 \title{utility to assist with 'reading' urls that cannot normally be read by file functions}
 \usage{
-download_read(url, func, ..., mode = "w")
+download_read(path, func, ..., mode = "w", find_delim = FALSE)
 }
 \arguments{
-\item{url}{path to online file to be read}
-
 \item{func}{the function to perform reading of url}
 
 \item{...}{args to pass to func}
 
 \item{mode}{mode passed to \code{utils::download.file}. default is "w"}
+
+\item{find_delim}{should the delimeters be found for the file}
+
+\item{url}{path to online file to be read}
 }
 \description{
 utility to assist with 'reading' urls that cannot normally be read by file functions

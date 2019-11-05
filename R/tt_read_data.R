@@ -52,8 +52,8 @@ tt_read_url<-function(url){
   switch(tools::file_ext(gsub("[?]raw=true","",url)),
          "xls"=download_read(url,readxl::read_xls,mode="wb"),
          "xlsx"=download_read(url,readxl::read_xlsx,mode="wb"),
-         "tsv"=readr::read_delim(url,"\t",guess_max = 21474836,progress = FALSE),
-         "csv"=readr::read_delim(url,",",guess_max = 21474836,progress = FALSE))
+         download_read(url,readr::read_delim,guess_max = 21474836,progress = FALSE,find_delim = TRUE)
+  )
 }
 
 #' @title utility to assist with 'reading' urls that cannot normally be read by file functions
@@ -62,11 +62,27 @@ tt_read_url<-function(url){
 #' @param func the function to perform reading of url
 #' @param ... args to pass to func
 #' @param mode mode passed to \code{utils::download.file}. default is "w"
+#' @param find_delim should the delimeters be found for the file
 #' @importFrom utils download.file
 #'
-download_read<-function(url,func,...,mode="w"){
-  temp_file<-tempfile(fileext = paste0(".",tools::file_ext(url)))
-  utils::download.file(url,temp_file,quiet = TRUE,mode=mode)
-  func(temp_file,...)
+download_read<-function(path, func, ..., mode="w", find_delim = FALSE){
+
+  temp_file<-tempfile(fileext = paste0(".",tools::file_ext(path)))
+  utils::download.file(path,temp_file,quiet = TRUE,mode=mode)
+
+  dots <- as.list(substitute(substitute(...)))[-1]
+  func_call <- c(substitute(func),substitute(temp_file),dots)
+
+  if(find_delim){
+    if(!(!is.null(names(func_call)) &
+         "delim"%in%names(func_call)) &
+         "delim" %in% names(as.list(args(func)))){
+      func_call$delim <- identify_delim(temp_file)
+    }
+  }
+
+  eval(as.call(func_call))
 }
 
+
+#
