@@ -4,10 +4,12 @@
 \alias{identify_delim}
 \title{Identify potential delimeters of file}
 \usage{
-identify_delim(file, delims = c("\\t", ",", " ", "|", ";"), n = 10,
+identify_delim(path, delims = c("\\t", ",", " ", "|", ";"), n = 10,
   comment = "#", skip = 0, quote = "\\"")
 }
 \arguments{
+\item{path}{path to file}
+
 \item{delims}{a vector of delimeters to try}
 
 \item{n}{number of rows to look at in the file to determine the delimters}
@@ -17,8 +19,6 @@ identify_delim(file, delims = c("\\t", ",", " ", "|", ";"), n = 10,
 \item{skip}{number of lines to skip at the beginning}
 
 \item{quote}{set of quoting characters}
-
-\item{path}{path to file}
 }
 \description{
 Identify potential delimeters of file

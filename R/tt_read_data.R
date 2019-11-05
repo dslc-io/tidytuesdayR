@@ -68,7 +68,7 @@ tt_read_url<-function(url){
 #' @param find_delim should the delimeters be found for the file
 #' @importFrom utils download.file
 #'
-download_read<-function(path, func, ..., mode="w", find_delim = FALSE){
+download_read<-function(url, func, ..., mode="w", find_delim = FALSE){
 
   temp_file<-tempfile(fileext = paste0(".",tools::file_ext(path)))
   utils::download.file(path,temp_file,quiet = TRUE,mode=mode)

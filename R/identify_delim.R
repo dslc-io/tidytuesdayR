@@ -9,7 +9,7 @@
 #' @importFrom utils download.file
 #'
 
-identify_delim <- function(file,
+identify_delim <- function(path,
                            delims = c("\t", ",", " ", "|", ";" ),
                            n = 10,
                            comment = "#",
