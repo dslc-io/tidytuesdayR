@@ -23,13 +23,6 @@ readme <- function(tt) {
   }
 }
 
-#' @title Print Readme to RStudio HTML Viewer
-#' @param tt tt_data object for printing
-#' @export
-show_readme <- function(tt) {
-  readme(tt)
-}
-
 tt_make_html <- function(x) {
   tmpHTML <- tempfile(fileext = ".html")
   cat(c(
