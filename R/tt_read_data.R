@@ -14,48 +14,53 @@
 #' @family tt_read_data
 #'
 #' @examples
-#' tt_gh<-tt_load_gh("2019-01-15")
+#' tt_gh <- tt_load_gh("2019-01-15")
 #'
-#' tt_dataset_1<-tt_read_data(tt_gh,tt_gh[1])
-tt_read_data<-function(tt,x){
-  suppressMessages({switch (class(x),
-          "character" = tt_read_data.character(tt,x),
-          "numeric" = tt_read_data.numeric(tt,x),
-          "integer" = tt_read_data.numeric(tt,x),
-          stop(paste("No method for entry of class:",class(x)))
-  )})
-
+#' tt_dataset_1 <- tt_read_data(tt_gh, tt_gh[1])
+tt_read_data <- function(tt, x) {
+  suppressMessages({
+    switch(class(x),
+      "character" = tt_read_data.character(tt, x),
+      "numeric" = tt_read_data.numeric(tt, x),
+      "integer" = tt_read_data.numeric(tt, x),
+      stop(paste("No method for entry of class:", class(x)))
+    )
+  })
 }
 
-tt_read_data.character <- function(tt, x){
-  if ( x%in%attr(tt,".files")){
-    url<-paste0(gsub("tree","blob",file.path(attr(tt,".url"),x)),"?raw=true")
+tt_read_data.character <- function(tt, x) {
+  if (x %in% attr(tt, ".files")) {
+    url <- paste0(gsub("tree", "blob", file.path(attr(tt, ".url"), x)), "?raw=true")
     tt_read_url(url)
   } else {
     stop(paste0(
       "That is not an available file for this TidyTuesday week!\nAvailable Datasets:\n",
-      paste(attr(tt,".files"),"\n\t",collapse="")))
+      paste(attr(tt, ".files"), "\n\t", collapse = "")
+    ))
   }
 }
 
-tt_read_data.numeric <- function(tt, x){
-  if( x>0 & x <= length(attr(tt,".files")) ) {
-    url<-paste0(gsub("tree","blob",file.path(attr(tt,".url"),attr(tt,".files")[x])),"?raw=true")
+tt_read_data.numeric <- function(tt, x) {
+  if (x > 0 & x <= length(attr(tt, ".files"))) {
+    url <- paste0(gsub("tree", "blob", file.path(attr(tt, ".url"), attr(tt, ".files")[x])), "?raw=true")
     tt_read_url(url)
-  }else{
+  } else {
     stop(paste0(
       "That is not an available index for the files for this TidyTuesday week!\nAvailable Datasets:\n\t",
-      paste0(seq(1,length(attr(tt,".files"))),": ",attr(tt,".files"),"\n\t",collapse="")))
+      paste0(seq(1, length(attr(tt, ".files"))), ": ", attr(tt, ".files"), "\n\t", collapse = "")
+    ))
   }
 }
 
 
-tt_read_url<-function(url){
-  url<-gsub(" ","%20",url)
-  switch(tools::file_ext(gsub("[?]raw=true","",url)),
-         "xls"=download_read(url,readxl::read_xls,mode="wb"),
-         "xlsx"=download_read(url,readxl::read_xlsx,mode="wb"),
-         download_read(url,readr::read_delim,guess_max = 21474836,progress = FALSE,find_delim = TRUE)
+tt_read_url <- function(url) {
+  url <- gsub(" ", "%20", url)
+  switch(tools::file_ext(gsub("[?]raw=true", "", tolower(url))),
+    "xls"  = download_read(url, readxl::read_xls, mode = "wb"),
+    "xlsx" = download_read(url, readxl::read_xlsx, mode = "wb"),
+    "rds"  = download_read(url, readRDS, mode = "wb"),
+    "rda"  = download_read(url, read_rda, mode = "wb"),
+    download_read(url, readr::read_delim, guess_max = 21474836, progress = FALSE, find_delim = TRUE)
   )
 }
 
@@ -68,22 +73,32 @@ tt_read_url<-function(url){
 #' @param find_delim should the delimeters be found for the file
 #' @importFrom utils download.file
 #'
-download_read<-function(url, func, ..., mode="w", find_delim = FALSE){
-
-  temp_file<-tempfile(fileext = paste0(".",tools::file_ext(url)))
-  utils::download.file(url,temp_file,quiet = TRUE,mode=mode)
+download_read <- function(url, func, ..., mode = "w", find_delim = FALSE) {
+  temp_file <- tempfile(fileext = paste0(".", tools::file_ext(url)))
+  utils::download.file(url, temp_file, quiet = TRUE, mode = mode)
 
   dots <- as.list(substitute(substitute(...)))[-1]
-  func_call <- c(substitute(func),substitute(temp_file),dots)
+  func_call <- c(substitute(func), substitute(temp_file), dots)
 
-  if(find_delim){
-    if(!(!is.null(names(func_call)) &
-         "delim"%in%names(func_call)) &
-         "delim" %in% names(as.list(args(func)))){
+  if (find_delim) {
+    if (!(!is.null(names(func_call)) &
+      "delim" %in% names(func_call)) &
+      "delim" %in% names(as.list(args(func)))) {
       func_call$delim <- identify_delim(temp_file)
     }
   }
 
-  eval(as.call(func_call))
+  return(eval(as.call(func_call)))
 }
 
+#' @title utility to load RDA with out using assigned name in envir
+#'
+#' @param path path to RDA file
+#' @importFrom base load
+#' @importFrom base new.env
+#
+read_rda <- function(path){
+  load_env<-new.env()
+  load(path,envir = load_env)
+  load_env[[ls(load_env)[1]]]
+}
