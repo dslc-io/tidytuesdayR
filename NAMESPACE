@@ -3,7 +3,6 @@
 S3method(print,tt_data)
 S3method(print,tt_dataset_table)
 S3method(print,tt_dataset_table_list)
-export(show_readme)
 export(tt_available)
 export(tt_datasets)
 export(tt_load)
