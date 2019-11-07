@@ -22,8 +22,8 @@ jobs:
   - r: release
     install:
       - Rscript -e 'install.packages("devtools")'
-      - Rscript -e 'devtools::install_version("rlang", version = "0.3.2",upgrade="never")'
-      - Rscript -e 'devtools::install_version("dplyr", version = "0.5.0",upgrade="never")'
+      - Rscript -e 'devtools::install_version("rlang", version = "0.4.1",upgrade="never")'
+      - Rscript -e 'devtools::install_version("dplyr", version = "0.8.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("readxl", version = "1.0.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("rvest", version = "0.3.0",upgrade="never")'
       - Rscript -e 'devtools::install_version("lubridate", version = "1.7.0",upgrade="never")'
