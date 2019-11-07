@@ -11,6 +11,7 @@ print.tt_data <- function(x, ...) {
 #' @title Readme HTML maker and Viewer
 #' @param tt tt_data object for printing
 #' @importFrom rstudioapi viewer
+#' @export
 readme <- function(tt) {
   if ("tt_data" %in% class(tt)) {
     tt <- attr(tt, ".tt")
@@ -21,13 +22,6 @@ readme <- function(tt) {
       rstudioapi::viewer(url = tt_make_html(tt))
     }
   }
-}
-
-#' @title Print Readme to RStudio HTML Viewer
-#' @param tt tt_data object for printing
-#' @export
-show_readme <- function(tt) {
-  readme(tt)
 }
 
 tt_make_html <- function(x) {

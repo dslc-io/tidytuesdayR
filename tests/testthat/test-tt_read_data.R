@@ -53,3 +53,22 @@ test_that("tt_read_data informs when selection is out of range/not available", {
     "That is not an available index"
   )
 })
+
+
+test_that("tt_read_data can load RDS files just as easily as text files",{
+  tt_gh_data <- tt_load_gh("2019-01-01")
+
+  expect_is(
+    tt_read_data(tt_gh_data, 1),
+    c("tbl_df","tbl","data.frame")
+  )
+
+})
+
+
+test_that("read_rda will not arbitrarily assign the object to the current environment",{
+  new_dataset<-read_rda("testfiles/test.rda")
+  expect_false(exists("testdf"))
+  expect_equal(data.frame(x=c(1,2,3),y=c("A","B","C")),
+               new_dataset)
+})
