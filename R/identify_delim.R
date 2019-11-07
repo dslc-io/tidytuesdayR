@@ -10,12 +10,11 @@
 #'
 
 identify_delim <- function(path,
-                           delims = c("\t", ",", " ", "|", ";" ),
+                           delims = c("\t", ",", " ", "|", ";"),
                            n = 10,
                            comment = "#",
                            skip = 0,
-                           quote = "\""
-                           ) {
+                           quote = "\"") {
 
   # Load lines of file in
   test <- readLines(path, n = n + skip)
@@ -23,11 +22,11 @@ identify_delim <- function(path,
     test <- test[-c(seq(skip))]
   }
   comment_lines <- grepl("^[#]", test)
-  if(sum(comment_lines) > 0){
-    eof<- FALSE
-    while((length(test) - sum(comment_lines) < n) & !eof){
+  if (sum(comment_lines) > 0) {
+    eof <- FALSE
+    while ((length(test) - sum(comment_lines) < n) & !eof) {
       test <- readLines(path, n = n + skip + sum(comment_lines))
-      if(length(test) < n + skip + sum(comment_lines)){
+      if (length(test) < n + skip + sum(comment_lines)) {
         eof <- TRUE
       }
       if (skip > 0) {
@@ -41,8 +40,8 @@ identify_delim <- function(path,
   # Attempt splitting on list of delimieters
   num_splits <- list()
   for (delim in delims) {
-    delim_regex <- paste0("[",delim,"](?=(?:[^",quote,"]*",quote,"[^",quote,"]*",quote,")*[^",quote,"]*$)")
-    num_splits[[delim]] <- do.call("c", lapply(strsplit(test, delim_regex,perl = TRUE), length))
+    delim_regex <- paste0("[", delim, "](?=(?:[^", quote, "]*", quote, "[^", quote, "]*", quote, ")*[^", quote, "]*$)")
+    num_splits[[delim]] <- do.call("c", lapply(strsplit(test, delim_regex, perl = TRUE), length))
   }
 
   if (all(unlist(num_splits) == 1)) {
@@ -57,16 +56,17 @@ identify_delim <- function(path,
 
   good_delims <- names(good_delims)[good_delims]
 
-  if(length(good_delims)==0){
+  if (length(good_delims) == 0) {
     warning("Not able to detect delimiter for the file. Defaulting to ` `.")
     return(" ")
-  }else if(length(good_delims) > 1){
-    warning("Detected multiple possible delimeters:",
-    paste0("`",good_delims,"`",collapse=", "),". Defaulting to ",
-    paste0("`",good_delims[1],"`"),".")
+  } else if (length(good_delims) > 1) {
+    warning(
+      "Detected multiple possible delimeters:",
+      paste0("`", good_delims, "`", collapse = ", "), ". Defaulting to ",
+      paste0("`", good_delims[1], "`"), "."
+    )
     return(good_delims[1])
-  }else{
+  } else {
     return(good_delims)
   }
-
 }

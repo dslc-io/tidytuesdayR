@@ -4,12 +4,14 @@
 \alias{tt_read_data}
 \title{Reads in TidyTuesday datasets from Github repo}
 \usage{
-tt_read_data(tt, x)
+tt_read_data(tt, x, guess_max = 5000)
 }
 \arguments{
 \item{tt}{tt_gh object from tt_load_gh function}
 
 \item{x}{index/name of data object to read in. string or int}
+
+\item{guess_max}{number of rows to use to esimate col type, defaults to 5000. Only used for text files.}
 }
 \value{
 tibble
@@ -18,8 +20,8 @@ tibble
 Reads in the actual data from the TidyTuesday github
 }
 \examples{
-tt_gh<-tt_load_gh("2019-01-15")
+tt_gh <- tt_load_gh("2019-01-15")
 
-tt_dataset_1<-tt_read_data(tt_gh,tt_gh[1])
+tt_dataset_1 <- tt_read_data(tt_gh, tt_gh[1])
 }
 \concept{tt_read_data}
