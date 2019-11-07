@@ -2,7 +2,7 @@ tidytuesdayR
 ================
 Ellis Hughes
 
-[![Travis build status](https://travis-ci.org/thebioengineer/tidytuesdayR.svg?branch=master)](https://travis-ci.org/thebioengineer/tidytuesdayR)
+[![Travis build status](https://travis-ci.com/thebioengineer/tidytuesdayR.svg?branch=master)](https://travis-ci.org/thebioengineer/tidytuesdayR)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/thebioengineer/tidytuesdayR?branch=master&svg=true)](https://ci.appveyor.com/project/thebioengineer/tidytuesdayR)
 [![Coverage status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
