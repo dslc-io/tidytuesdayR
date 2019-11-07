@@ -4,7 +4,8 @@
 \alias{download_read}
 \title{utility to assist with 'reading' urls that cannot normally be read by file functions}
 \usage{
-download_read(url, func, ..., mode = "w")
+download_read(url, func, ..., guess_max, mode = "w",
+  find_delim = FALSE)
 }
 \arguments{
 \item{url}{path to online file to be read}
@@ -13,7 +14,11 @@ download_read(url, func, ..., mode = "w")
 
 \item{...}{args to pass to func}
 
+\item{guess_max}{number of rows to use to predict column type. Only used if is an arg in `func`}
+
 \item{mode}{mode passed to \code{utils::download.file}. default is "w"}
+
+\item{find_delim}{should the delimeters be found for the file}
 }
 \description{
 utility to assist with 'reading' urls that cannot normally be read by file functions

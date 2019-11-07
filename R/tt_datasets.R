@@ -12,17 +12,18 @@ tt_available <- function() {
   ) %>%
     purrr::set_names(as.character(tt_year[-which.max(tt_year)]))
 
-  currDatasets<-tt_datasets()%>%
-    list()%>%
+  currDatasets <- tt_datasets() %>%
+    list() %>%
     purrr::set_names(as.character(tt_year[which.max(tt_year)]))
 
-  datasets<-c(
+  datasets <- c(
     currDatasets,
     pastDatasets
-    )[tt_year[order(tt_year,decreasing = TRUE)]]
+  )[tt_year[order(tt_year, decreasing = TRUE)]]
 
   structure(datasets,
-            class=c("tt_dataset_table_list"))
+    class = c("tt_dataset_table_list")
+  )
 }
 
 #' @title Available datasets
@@ -51,8 +52,9 @@ tt_datasets <- function(year) {
 
   structure(
     datasets,
-    ".html"=datasets,
-    class="tt_dataset_table")
+    ".html" = datasets,
+    class = "tt_dataset_table"
+  )
 }
 
 #' @title print utility for tt_dataset_table object
@@ -62,39 +64,21 @@ tt_datasets <- function(year) {
 #' @importFrom rstudioapi isAvailable viewer
 #' @importFrom rvest html_table
 #' @export
-print.tt_dataset_table <- function(x, ..., printConsole=FALSE){
-  if (rstudioapi::isAvailable() & !printConsole){
-    tmpHTML<-tempfile(fileext = ".html")
-    github_markdown_header <- paste(
-      "<!DOCTYPE html><html lang=\"en\"><head>\n",
-      "<link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">\n",
-      "<link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\"",
-      paste0(
-        "href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/",
-        "3.0.1/github-markdown.min.css\">\n"
-      ),
-      "</head><body>")
-
-    cat(github_markdown_header, file = tmpHTML)
-    cat("<div class='repository-content'>",file = tmpHTML,append = TRUE)
-    attr(x,".html")%>%
+print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
+  if (rstudioapi::isAvailable() & !printConsole) {
+    tmpHTML <- setup_doc()
+    x$html %>%
       as.character() %>%
-      purrr::walk(
-        ~ cat(
-          gsub(
-            "href=\"/rfordatascience/tidytuesday/",
-            "href=\"https://github.com/rfordatascience/tidytuesday/",
-            .x
-          ),
-          file = tmpHTML,
-          append = TRUE
-        )
-      )
-    cat("</div>",file = tmpHTML,append = TRUE)
-    cat("</body></html>",file = tmpHTML,append = TRUE)
+      purrr::walk(~ cat(gsub(
+        "href=\"/rfordatascience/tidytuesday/",
+        "href=\"https://github.com/rfordatascience/tidytuesday/",
+        .x
+      ), file = tmpHTML, append = TRUE))
+    cat("</div>", file = tmpHTML, append = TRUE)
+    cat("</body></html>", file = tmpHTML, append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
-  }else{
-    attr(x,".html")%>%
+  } else {
+    attr(x, ".html") %>%
       rvest::html_table()
   }
 }
@@ -108,30 +92,17 @@ print.tt_dataset_table <- function(x, ..., printConsole=FALSE){
 #' @export
 print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
   if (rstudioapi::isAvailable() & !printConsole) {
-    tmpHTML <- tempfile(fileext = ".html")
-    github_markdown_header <- paste(
-      "<!DOCTYPE html><html lang=\"en\"><head>\n",
-      "<link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">\n",
-      "<link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\"",
-      paste0(
-        "href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/",
-        "3.0.1/github-markdown.min.css\">\n"
-      ),
-      "</head><body>\n"
-    )
-    cat(github_markdown_header, file = tmpHTML)
-    cat("<div class='repository-content'>", file = tmpHTML, append = TRUE)
+    tmpHTML <- setup_doc()
     cat("<h1>TidyTuesday Datasets</h1>", file = tmpHTML, append = TRUE)
-
-    names(x)%>%
+    names(x) %>%
       purrr::map(
         function(.x, x) {
-          list(html=as.character(attr(x[[.x]],".html")),year=.x)
+          list(html = as.character(attr(x[[.x]], ".html")), year = .x)
         },
         x = x
-      )%>%
+      ) %>%
       purrr::walk(
-        ~cat(
+        ~ cat(
           paste0(
             "<h2>",
             .x$year,
@@ -140,31 +111,41 @@ print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
               "href=\"/rfordatascience/tidytuesday/",
               "href=\"https://github.com/rfordatascience/tidytuesday/",
               .x$html
-              )
-            ),
+            )
+          ),
           file = tmpHTML,
           append = TRUE
-          )
         )
+      )
 
     cat("</div>", file = tmpHTML, append = TRUE)
     cat("</body></html>", file = tmpHTML, append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
-  }else{
-    names(x)%>%
+  } else {
+    names(x) %>%
       purrr::map(
         function(.x, x) {
           list(
-            table=rvest::html_table(attr(x[[.x]],".html")),year=.x)
-          },
-        x=x
-      )%>%
+            table = rvest::html_table(attr(x[[.x]], ".html")), year = .x
+          )
+        },
+        x = x
+      ) %>%
       purrr::walk(
         function(.x) {
-          cat(paste0("Year: ",.x$year,"\n"))
+          cat(paste0("Year: ", .x$year, "\n"))
           print(.x$table)
           cat("\n\n")
         }
       )
   }
+}
+
+setup_doc <- function(tmpHTML = tempfile(fileext = ".html")) {
+  cat("<!DOCTYPE html><html lang=\"en\"><head>
+        <link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">
+        <link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">
+        </head><body>", file = tmpHTML)
+  cat("<div class='repository-content'>", file = tmpHTML, append = TRUE)
+  return(tmpHTML)
 }
