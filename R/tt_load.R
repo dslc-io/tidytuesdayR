@@ -50,7 +50,7 @@ tt_load <- function(x, week, ...) {
 #' @examples
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
-#' show_readme(tt_gh)
+#' readme(tt_gh)
 tt_load_gh <- function(x, week) {
   if (missing(x)) {
     on.exit({
@@ -98,8 +98,9 @@ tt_load_gh <- function(x, week) {
           matched_file <- NA
         }
         return(matched_file)
-      }) %>%
-      `[`(!is.na(.))
+      })
+
+    files_in_readme<- files_in_readme[!is.na(files_in_readme)]
 
     if(length(files_in_readme)>0){
       files_to_use<-files_in_readme

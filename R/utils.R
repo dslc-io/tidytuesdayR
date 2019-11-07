@@ -11,6 +11,7 @@ print.tt_data <- function(x, ...) {
 #' @title Readme HTML maker and Viewer
 #' @param tt tt_data object for printing
 #' @importFrom rstudioapi viewer
+#' @export
 readme <- function(tt) {
   if ("tt_data" %in% class(tt)) {
     tt <- attr(tt, ".tt")

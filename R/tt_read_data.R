@@ -70,6 +70,7 @@ tt_read_url <- function(url, guess_max = 5000) {
 #' @param url path to online file to be read
 #' @param func the function to perform reading of url
 #' @param ... args to pass to func
+#' @param guess_max number of rows to use to predict column type. Only used if is an arg in `func`
 #' @param mode mode passed to \code{utils::download.file}. default is "w"
 #' @param find_delim should the delimeters be found for the file
 #' @importFrom utils download.file
