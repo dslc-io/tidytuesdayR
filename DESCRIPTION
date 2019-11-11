@@ -43,7 +43,8 @@ RoxygenNote: 6.1.1
 Depends: R (>= 3.4.0)
 Suggests: 
     testthat,
-    covr
+    covr,
+    pkgdown
 Imports:
     dplyr (>= 0.8.0),
     readxl (>= 1.0.0),
