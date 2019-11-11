@@ -44,6 +44,20 @@ test_that("print.tt_data lists the available datasets", {
 
   testthat::expect_equal(
     capturedOutput$message,
-    "Available Datasets:\n\tvalue1 \n\tvalue2 \n\t\n"
+    "Available datasets:\n\tvalue1 \n\tvalue2 \n\t\n"
   )
+})
+
+test_that("print.tt lists all the available files for the weeks tt",{
+  tt_obj <- tt_load_gh(2019, week = 16)
+
+  capturedOutput <- capture_message({
+    print(tt_obj)
+    })
+
+  expect_equal(
+    capturedOutput$message,
+    "Available datasets for download:\n\tbrexit.csv \n\tcorbyn.csv \n\tdogs.csv \n\teu_balance.csv \n\tpensions.csv \n\ttrade.csv \n\twomen_research.csv \n\t\n"
+  )
+
 })
