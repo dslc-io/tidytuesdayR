@@ -1,74 +1,112 @@
-tidytuesdayR
-================
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+## tidytuesdayR
+
 Ellis Hughes
 
-[![Travis build status](https://travis-ci.com/thebioengineer/tidytuesdayR.svg?branch=master)](https://travis-ci.com/thebioengineer/tidytuesdayR)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/thebioengineer/tidytuesdayR?branch=master&svg=true)](https://ci.appveyor.com/project/thebioengineer/tidytuesdayR)
-[![Coverage status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Travis build
+status](https://travis-ci.com/thebioengineer/tidytuesdayR.svg?branch=master)](https://travis-ci.com/thebioengineer/tidytuesdayR)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/thebioengineer/tidytuesdayR?branch=master&svg=true)](https://ci.appveyor.com/project/thebioengineer/tidytuesdayR)
+[![Coverage
+status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-tidytuesdayR is made to assist with the import of data posted for #TidyTuesday by the [R4DataScience](https://github.com/rfordatascience) team. Just enter a string formatted as "YYYY-MM-dd", and if there is a tidytuesday dataset available, it will download the readme and the data. 
+{tidytuesdayR} has the main goal to make it easy to participate in the
+weekly [\#TidyTuesday](https://github.com/rfordatascience/tidytuesday)
+project. Currently this is done by assisting with the import of data
+posted on the [R4DataScience](https://github.com/rfordatascience) Tidy
+Tuesday repository.
 
 ## Installation
 
 Currently this package is only available on GitHub:
+
 ``` r
+#install.package("devtools")
 devtools::install_github("thebioengineer/tidytuesdayR")
 ```
 
 ## Usage
 
-The way this is used is by simply calling the 'tt_load' function and entering the date to pull.
+There are currently two methods to access the data from the respository.
 
-``` r 
+### tt\_load()
+
+The first and simplest way is to use the ‘tt\_load()’ function. This
+function has accepts two types of inputs to determine which data to
+grab. It can be a date as a string in the YYYY-MM-DD format like below.
+
+``` r
 library(tidytuesdayR)
-tt_data<-tt_load("2019-01-15")
-
+tt_data <- tt_load("2019-01-15")
 ```
 
-You can also enter the year and which week that you are interested in as well.
-``` r
-tt_data<-tt_load(2019,week=3) 
-
-```
-
-To view the readme and the datasets available, simply print the tt_data object.
+Or the function can accept the year as the first argument, and which
+week of the year as the second.
 
 ``` r
-print(tt_data)
+tt_data <- tt_load(2019, week=3) 
 ```
 
-    ## Available Datasets:
-    ##  agencies 
-    ##  launches 
-    ##  
-
-Finally, to access the datasets, use the `$` access and the name of the dataset
+`tt_load()` naively downloads *all* the data that is available and
+stores them in the resulting `tt_data` object. To access the data, use
+the `$` or `[[` notation and the name of the dataset.
 
 ``` r
 tt_data$agencies
+tt_data[["agencies"]]
 ```
 
-    ## # A tibble: 74 x 19
-    ##    agency count ucode state_code type  class tstart tstop short_name name 
-    ##    <chr>  <dbl> <chr> <chr>      <chr> <chr> <chr>  <chr> <chr>      <chr>
-    ##  1 RVSN    1528 RVSN  SU         O/LA  D     1960   1991~ RVSN       Rake~
-    ##  2 UNKS     904 GUKOS SU         O/LA  D     1986 ~ 1991  UNKS       Upra~
-    ##  3 NASA     469 NASA  US         O/LA~ C     1958 ~ -     NASA       Nati~
-    ##  4 USAF     388 USAF  US         O/LA~ D     1947 ~ -     USAF       Unit~
-    ##  5 AE       258 AE    F          O/LA  B     1980 ~ *     Arianespa~ Aria~
-    ##  6 AFSC     247 AFSC  US         LA    D     1961 ~ 1992~ AFSC       US A~
-    ##  7 VKSR     200 GUKOS RU         O/LA  D     1997 ~ 2001~ VKS RVSN   Voen~
-    ##  8 CALT     181 CALT  CN         LA/L~ C     1957 ~ -     CALT       Zhon~
-    ##  9 FKA      128 MOM   RU         O/LA  C     2004   2016~ Roskosmos  Fede~
-    ## 10 SAST     105 SBA   CN         O/LA~ B     1993   -     SAST       Shan~
-    ## # ... with 64 more rows, and 9 more variables: location <chr>,
-    ## #   longitude <chr>, latitude <chr>, error <chr>, parent <chr>,
-    ## #   short_english_name <chr>, english_name <chr>, unicode_name <chr>,
-    ## #   agency_type <chr>
-    
-    
+### tt\_load\_gh() and tt\_read\_data()
+
+The second method to access the data from the repository is to use the
+combination of `tt_load_gh()` and `tt_read_data()` functions.
+`tt_load_gh()` takes similar arguments as `tt_load()`, in that either
+the date or a combination of year and week can be entered.
+
+``` r
+tt <- tt_load_gh("2019-01-15")
+```
+
+The `tt` object lists the available files for download. To download the
+data, use the `tt_read_data()` function. `tt_read_data()` expects the
+first argument to be the `tt` object. The second argument can be a
+string indicating the name of the file to download from the repository,
+or the index in the `tt` object
+
+``` r
+agencies <- tt %>% 
+  tt_read_data("agencies.csv")
+
+# The first index of the tt object is `agencies.csv`
+# agencies <- tt %>% 
+#   tt_read_data(1)
+```
+
+## Tidy Tuesday Details
+
+The tt\_data and tt objects both have a function for showing the readme
+for that week called `readme()`. In addition, the print methods for both
+objects show the readme in a viewer and the available datasets in the
+console.
+
+``` r
+readme(tt_data)
+print(tt_data)
+```
+
+``` 
+## Available Datasets:
+##  agencies 
+##  launches 
+##  
+```
+
 ## Contributing
-Please note that the 'tidytuesdayR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-
+Please note that the ‘tidytuesdayR’ project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
+this project, you agree to abide by its terms.
