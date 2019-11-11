@@ -115,6 +115,6 @@ tt_load_gh <- function(x, week) {
     ".files" = files_to_use,
     ".readme" = readme_html,
     ".url" = tt_git_url,
-    class = "tt_gh"
+    class = "tt"
   )
 }

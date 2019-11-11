@@ -5,7 +5,16 @@
 #' @export
 print.tt_data <- function(x, ...) {
   readme(x)
-  message("Available Datasets:\n\t", paste(tools::file_path_sans_ext(names(x)), "\n\t", collapse = ""))
+  message("Available datasets:\n\t", paste(tools::file_path_sans_ext(names(x)), "\n\t", collapse = ""))
+}
+
+#' @title print utility for tt_data objects
+#' @inheritParams base::print
+#' @importFrom tools file_path_sans_ext
+#' @export
+print.tt <- function(x,...){
+  readme(x)
+  message("Available datasets for download:\n\t", paste(attr(x,".files"), "\n\t", collapse = ""))
 }
 
 #' @title Readme HTML maker and Viewer
