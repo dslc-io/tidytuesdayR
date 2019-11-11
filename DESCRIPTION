@@ -1,7 +1,7 @@
 Package: tidytuesdayR
 Type: Package
 Title: Access The Weekly TidyTuesday Project Dataset
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: 
     c(
       person(
