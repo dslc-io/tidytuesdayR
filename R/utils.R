@@ -13,7 +13,6 @@ print.tt_data <- function(x, ...) {
 #' @importFrom tools file_path_sans_ext
 #' @export
 print.tt <- function(x,...){
-  readme(x)
   message("Available datasets for download:\n\t", paste(attr(x,".files"), "\n\t", collapse = ""))
 }
 

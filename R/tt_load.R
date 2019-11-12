@@ -44,6 +44,7 @@ tt_load <- function(x, week, ...) {
 #' @importFrom xml2 read_html
 #' @importFrom lubridate year
 #' @importFrom purrr map_chr
+#' @importFrom tools file_path_sans_ext file_ext
 #' @import rvest
 #' @import dplyr
 #'
@@ -82,8 +83,13 @@ tt_load_gh <- function(x, week) {
 
   files_to_use <- available_files
 
+  # remove readme or directory folders or pictures
+  files_to_use <- files_to_use[!(tolower(files_to_use) %in% "readme.md" |
+                                   file_path_sans_ext(files_to_use) == files_to_use|
+                                   tolower(file_ext(files_to_use)) %in% c("png","jpg","rmd"))]
+
   # do not try if we don't have a read me or no files listed
-  if(length(available_files)>0 & length(readme_html)>0){
+  if(length(files_to_use)>0 & length(readme_html)>0){
     files_in_readme <- readme_html %>%
       xml2::read_html() %>%
       rvest::html_node("code") %>%
@@ -91,9 +97,9 @@ tt_load_gh <- function(x, week) {
       base::strsplit("\\n") %>%
       `[[`(1) %>%
       purrr::map_chr(function(x){
-        file_match<-do.call('c',lapply(available_files,grepl,x))
+        file_match<-do.call('c',lapply(files_to_use,grepl,x))
         if(any(file_match)){
-          matched_file <- available_files[file_match]
+          matched_file <- files_to_use[file_match]
         }else{
           matched_file <- NA
         }
@@ -107,8 +113,6 @@ tt_load_gh <- function(x, week) {
     }
   }
 
-  # remove readme or directory paths
-  files_to_use <- files_to_use[ !(files_to_use %in% "readme.md" | file_path_sans_ext(files_to_use) == files_to_use)]
 
   structure(
     files_to_use,
