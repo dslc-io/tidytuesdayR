@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## tidytuesdayR
+# tidytuesdayR <img src="man/figures/logo.png" align="right" height=140/>
 
 Ellis Hughes
 
@@ -25,7 +25,7 @@ Tuesday repository.
 Currently this package is only available on GitHub:
 
 ``` r
-#install.package("devtools")
+#install.packages("devtools")
 devtools::install_github("thebioengineer/tidytuesdayR")
 ```
 
