@@ -76,7 +76,7 @@ tt_read_url <- function(url, guess_max = 5000) {
 #' @importFrom utils download.file
 #'
 download_read <- function(url, func, ..., guess_max, mode = "w", find_delim = FALSE) {
-  temp_file <- tempfile(fileext = paste0(".", tools::file_ext(url)))
+  temp_file <- tempfile(fileext = paste0(".", tools::file_(gsub("[?]raw=true", "",url))))
   utils::download.file(url, temp_file, quiet = TRUE, mode = mode)
 
   dots <- as.list(substitute(substitute(...)))[-1]
