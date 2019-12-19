@@ -13,10 +13,10 @@
 #' tt_output <- tt_load("2019-01-15")
 tt_load <- function(x, week, ...) {
   tt <- tt_load_gh(x, week)
-  message("--- Downloading files...")
+  message("--- Downloading files ---")
   tt_data <- purrr::map(attr(tt, ".files"), function(x) tt_read_data(tt, x, ... ))
   names(tt_data) <- tools::file_path_sans_ext(attr(tt, ".files"))
-  message("--- Download complete...")
+  message("--- Download complete ---")
   structure(
     tt_data,
     ".tt" = tt,
@@ -62,7 +62,7 @@ tt_load_gh <- function(x, week) {
   }
 
   tt_git_url <- tt_make_url(x, week)
-  message("Downloading #TidyTuesday Information for ",basename(tt_git_url)," ----")
+  message("--- Downloading #TidyTuesday Information for ",basename(tt_git_url)," ----")
   tt_gh_page <- get_tt_html(tt_git_url)
 
   # Extract the raw text as a list
@@ -115,7 +115,7 @@ tt_load_gh <- function(x, week) {
     }
   }
 
-  message("--- Identified ",length(files_to_use)," files to use ----")
+  message("--- Identified ",length(files_to_use)," files available for download ----")
 
   structure(
     files_to_use,
