@@ -40,3 +40,9 @@ test_that("Can skip lines with comments to find delimeters, or ones identified t
   expect_equal(identify_delim(delim_file), ",")
   expect_equal(identify_delim(delim_file, skip = 1), ",")
 })
+
+test_that("Can handle new line values in quotes", {
+  delim_file <- tempfile()
+  writeLines(c("test,the,\"delim\nnewline\"", "this,is,\"a comma\nwith a new line\""), delim_file)
+  expect_equal(identify_delim(delim_file), ",")
+})
