@@ -16,43 +16,37 @@ identify_delim <- function(path,
                            skip = 0,
                            quote = "\"") {
 
-  # Load lines of file in
-  test <- readLines(path, n = n + skip)
-  if (skip > 0) {
-    test <- test[-c(seq(skip))]
-  }
-  comment_lines <- grepl("^[#]", test)
-  if (sum(comment_lines) > 0) {
-    eof <- FALSE
-    while ((length(test) - sum(comment_lines) < n) & !eof) {
-      test <- readLines(path, n = n + skip + sum(comment_lines))
-      if (length(test) < n + skip + sum(comment_lines)) {
-        eof <- TRUE
-      }
-      if (skip > 0) {
-        test <- test[-c(seq(skip))]
-      }
-      comment_lines <- grepl("^[#]", test)
-    }
-    test <- test[!comment_lines]
-  }
-
   # Attempt splitting on list of delimieters
   num_splits <- list()
   for (delim in delims) {
-    delim_regex <- paste0("[", delim, "](?=(?:[^", quote, "]*", quote, "[^", quote, "]*", quote, ")*[^", quote, "]*$)")
-    num_splits[[delim]] <- do.call("c", lapply(strsplit(test, delim_regex, perl = TRUE), length))
+
+    test <- scan(path,
+                 what = "character",
+                 nlines = n,
+                 allowEscapes = FALSE,
+                 encoding = "UTF-8",
+                 sep = delim,
+                 quote = quote,
+                 skip = skip,
+                 comment.char = comment,
+                 quiet = TRUE)
+
+    num_splits[[delim]] <- length(test)
   }
 
-  if (all(unlist(num_splits) == 1)) {
+  if(all(unlist(num_splits) < n)){
+    n <- as.numeric(names(sort(table(unlist(num_splits)),decreasing = TRUE)[1]))
+  }
+
+  if (all(unlist(num_splits) == n)) {
     warning("Not able to detect delimiter for the file. Defaulting to `\t`.")
     return("\t")
   }
 
   # which delims that produced consistent splits and greater than 1?
-  good_delims <- do.call("c", lapply(num_splits, function(cuts) {
-    all(cuts == cuts[1]) & cuts[1] > 1
-  }))
+  good_delims <- do.call("c", lapply(num_splits, function(cuts, nrows) {
+    (cuts %% nrows == 0) & cuts > nrows
+  }, n))
 
   good_delims <- names(good_delims)[good_delims]
 
