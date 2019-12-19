@@ -13,9 +13,10 @@
 #' tt_output <- tt_load("2019-01-15")
 tt_load <- function(x, week, ...) {
   tt <- tt_load_gh(x, week)
+  message("--- Downloading files ---")
   tt_data <- purrr::map(attr(tt, ".files"), function(x) tt_read_data(tt, x, ... ))
   names(tt_data) <- tools::file_path_sans_ext(attr(tt, ".files"))
-
+  message("--- Download complete ---")
   structure(
     tt_data,
     ".tt" = tt,
@@ -44,6 +45,7 @@ tt_load <- function(x, week, ...) {
 #' @importFrom xml2 read_html
 #' @importFrom lubridate year
 #' @importFrom purrr map_chr
+#' @importFrom tools file_path_sans_ext file_ext
 #' @import rvest
 #' @import dplyr
 #'
@@ -60,6 +62,7 @@ tt_load_gh <- function(x, week) {
   }
 
   tt_git_url <- tt_make_url(x, week)
+  message("--- Downloading #TidyTuesday Information for ",basename(tt_git_url)," ----")
   tt_gh_page <- get_tt_html(tt_git_url)
 
   # Extract the raw text as a list
@@ -82,8 +85,13 @@ tt_load_gh <- function(x, week) {
 
   files_to_use <- available_files
 
+  # remove readme or directory folders or pictures
+  files_to_use <- files_to_use[!(tolower(files_to_use) %in% "readme.md" |
+                                   file_path_sans_ext(files_to_use) == files_to_use|
+                                   tolower(file_ext(files_to_use)) %in% c("png","jpg","rmd","r"))]
+
   # do not try if we don't have a read me or no files listed
-  if(length(available_files)>0 & length(readme_html)>0){
+  if(length(files_to_use)>0 & length(readme_html)>0){
     files_in_readme <- readme_html %>%
       xml2::read_html() %>%
       rvest::html_node("code") %>%
@@ -91,9 +99,9 @@ tt_load_gh <- function(x, week) {
       base::strsplit("\\n") %>%
       `[[`(1) %>%
       purrr::map_chr(function(x){
-        file_match<-do.call('c',lapply(available_files,grepl,x))
+        file_match<-do.call('c',lapply(files_to_use,grepl,x))
         if(any(file_match)){
-          matched_file <- available_files[file_match]
+          matched_file <- files_to_use[file_match]
         }else{
           matched_file <- NA
         }
@@ -107,8 +115,7 @@ tt_load_gh <- function(x, week) {
     }
   }
 
-  # remove readme or directory paths
-  files_to_use <- files_to_use[ !(files_to_use %in% "readme.md" | file_path_sans_ext(files_to_use) == files_to_use)]
+  message("--- Identified ",length(files_to_use)," files available for download ----")
 
   structure(
     files_to_use,
