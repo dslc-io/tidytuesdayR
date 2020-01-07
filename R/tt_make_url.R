@@ -17,20 +17,28 @@ tt_make_url.date <- function(x) {
   tt_year <- lubridate::year(x)
   tt_formatted_date <- tt_date_format(x)
   tt_folders <- tt_weeks(tt_year)
-  if (!as.character(tt_formatted_date) %in% tt_folders) {
-    stop(paste0(tt_formatted_date, " is not a date that has TidyTuesday data.\n\tDid you mean: ", tt_closest_date(tt_formatted_date, tt_folders), "?"))
+  if (!as.character(tt_formatted_date) %in% tt_folders[["folders"]]) {
+    stop(paste0(tt_formatted_date, " is not a date that has TidyTuesday data.\n\tDid you mean: ", tt_closest_date(tt_formatted_date, tt_folders$folders), "?"))
   }
-  tt_url <- file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data", tt_year, tt_formatted_date)
+
+  file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data", tt_year, tt_formatted_date)
 }
 
 tt_make_url.year <- function(x, week) {
   tt_folders <- tt_weeks(x)
-  if (week > length(tt_folders)) {
+  if (week > nrow(tt_folders[["week_desc"]])) {
     stop(paste0("Only ", length(tt_folders), " TidyTuesday Weeks exist in ", x, ". Please enter a value for week between 1 and ", length(tt_folders)))
   } else if (week < 1) {
-    stop(paste0("Week entry must be a valid positive integer between 1 and ", length(tt_folders), "."))
+    stop(paste0("Week entry must be a valid positive integer between 1 and ", length(tt_folders$week_desc), "."))
   }
-  tt_url <- file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data", x, tt_folders[week])
+
+  tt_date <- tt_folders[["week_desc"]][week,"Date"]
+
+  if (!tt_date %in% tt_folders[["folders"]]) {
+    stop(paste0("Week ", week, " of TidyTuesday for ", x," does not have data available for download from github."))
+  }
+
+  file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data", x, tt_date)
 }
 
 tt_weeks <- function(year) {
@@ -41,13 +49,27 @@ tt_weeks <- function(year) {
       min(as.numeric(tt_year)), " to ", max(as.numeric(tt_year))
     ))
   }
+
   tt_base_url <- file.path("https://github.com/rfordatascience/tidytuesday/tree/master/data", year)
-  tt_folders <- xml2::read_html(tt_base_url) %>%
+  tt_base_html <- xml2::read_html(tt_base_url)
+  tt_folders <- tt_base_html %>%
     rvest::html_nodes(".files") %>%
     rvest::html_nodes(".content") %>%
     rvest::html_nodes("a") %>%
     rvest::html_attr("title")
+
   tt_folders <- tt_folders[valid_date(tt_folders)]
+
+  weekNum <- tt_base_html %>%
+    rvest::html_nodes("table") %>%
+    `[[`(2) %>%
+    rvest::html_table()
+
+  list(
+    week_desc = weekNum,
+    folders = tt_folders
+  )
+
 }
 
 tt_years <- function() {

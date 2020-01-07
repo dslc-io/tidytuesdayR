@@ -29,6 +29,11 @@ test_that("tt_load_gh returns error when incorrect years or week number entries"
   testthat::expect_error(tt_load_gh(2018, 92), "Please enter a value for week between 1")
   testthat::expect_error(tt_load_gh(2017, 92), "TidyTuesday did not exist for")
 })
+# check that error is thrown when requesting data from a week that did not exist for that year
+test_that("tt_load_gh returns tt object when provided proper year and TT week number", {
+  testthat::expect_error(tt_load_gh(2020, 1), "does not have data available for download from github")
+
+})
 
 test_that(
   "tt_load_gh returns error when incorrect years or week number entries",
