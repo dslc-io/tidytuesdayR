@@ -1,7 +1,6 @@
 ---
 title: "TidyTemplate"
-author: "Your Name"
-date: "Date"
+date: {{{call_date}}}
 output: html_output
 ---
 
@@ -27,7 +26,7 @@ library(tidytuesdayR)
 Dowload the weekly data and make available in the `tt` object.
 
 ```{r Load}
-tt <- tt_load("YYYY-MM-DD")
+tt <- tt_load("{{{call_tuesday}}}")
 ```
 
 
