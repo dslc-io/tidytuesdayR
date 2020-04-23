@@ -94,19 +94,12 @@ tt_load_gh <- function(x, week) {
   if(length(files_to_use)>0 & length(readme_html)>0){
     files_in_readme <- readme_html %>%
       xml2::read_html() %>%
-      rvest::html_node("code") %>%
       rvest::html_text() %>%
-      base::strsplit("\\n") %>%
-      `[[`(1) %>%
-      purrr::map_chr(function(x){
-        file_match<-do.call('c',lapply(files_to_use,grepl,x))
-        if(any(file_match)){
-          matched_file <- files_to_use[file_match]
-        }else{
-          matched_file <- NA
-        }
-        return(matched_file)
-      })
+      strsplit("\\s+") %>%
+      do.call('c',.) %>%
+      grep(".+[.].{3}",.,value = TRUE) %>%
+      .[ .%in% files_to_use] %>%
+      unique
 
     files_in_readme<- files_in_readme[!is.na(files_in_readme)]
 

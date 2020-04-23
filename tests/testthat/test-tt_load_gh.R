@@ -120,3 +120,12 @@ test_that("tt_load_gh ignores extra files/diretory paths", {
   expect_equal(tt_obj_2[1:3],c("grand_slam_timeline.csv","grand_slams.csv","player_dob.csv"))
 })
 
+test_that("tt_load_gh finds all the files in the readme", {
+  tt_obj <- tt_load_gh("2020-04-21")
+
+  expect_equal(length(tt_obj),2)
+  expect_equal(tt_obj[1:2],c("gdpr_violations.tsv", "gdpr_text.tsv"))
+
+})
+
+
