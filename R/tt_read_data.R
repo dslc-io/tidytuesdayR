@@ -31,7 +31,7 @@ tt_read_data <- function(tt, x, guess_max = 5000) {
 
 tt_read_data.character <- function(tt, x, guess_max = 5000) {
   if (x %in% attr(tt, ".files")) {
-    url <- paste0(gsub("tree", "blob", file.path(attr(tt, ".url"), x)), "?raw=true")
+    url <- paste0(gsub("/tree/", "/blob/", file.path(attr(tt, ".url"), x)), "?raw=true")
     tt_read_url(url, guess_max = guess_max)
   } else {
     stop(paste0(
@@ -43,7 +43,7 @@ tt_read_data.character <- function(tt, x, guess_max = 5000) {
 
 tt_read_data.numeric <- function(tt, x, guess_max = 5000) {
   if (x > 0 & x <= length(attr(tt, ".files"))) {
-    url <- paste0(gsub("tree", "blob", file.path(attr(tt, ".url"), attr(tt, ".files")[x])), "?raw=true")
+    url <- paste0(gsub("/tree/", "/blob/", file.path(attr(tt, ".url"), attr(tt, ".files")[x])), "?raw=true")
     tt_read_url(url, guess_max = guess_max)
   } else {
     stop(paste0(
