@@ -4,8 +4,14 @@
 \alias{identify_delim}
 \title{Identify potential delimeters of file}
 \usage{
-identify_delim(path, delims = c("\\t", ",", " ", "|", ";"), n = 10,
-  comment = "#", skip = 0, quote = "\\"")
+identify_delim(
+  path,
+  delims = c("\\t", ",", " ", "|", ";"),
+  n = 10,
+  comment = "#",
+  skip = 0,
+  quote = "\\""
+)
 }
 \arguments{
 \item{path}{path to file}

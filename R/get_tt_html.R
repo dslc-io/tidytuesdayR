@@ -1,11 +1,19 @@
-#' @title Get TidyTuesday URL and HTML
-#' @param git_url url to tidytuesday files
-#' @importFrom xml2 read_html
-get_tt_html <- function(git_url) {
-  tt_html <- try(xml2::read_html(git_url), silent = TRUE)
-  if (inherits(tt_html, "try-error")) {
-    stop(tt_html[1])
-  } else {
-    return(tt_html)
-  }
+#' @title Get TidyTuesday Readme and list of files and HTML
+#' @param date date of tidytuesday of interest
+#' @importFrom lubridate year
+tt_compile <- function(date) {
+
+  ttmf <- tt_master_file()
+
+  #list of files
+  files <- ttmf %>%
+    filter(week_date == date) %>%
+    select(data_files, data_type, delim)
+
+  readme <- github_html(file.path("data",year(date),date,"readme.md"))
+
+  list(
+    files = files,
+    readme = readme
+  )
 }

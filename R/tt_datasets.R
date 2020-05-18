@@ -5,21 +5,16 @@
 #' @importFrom purrr set_names map
 #' @export
 tt_available <- function() {
-  tt_year <- tt_years()
-  pastDatasets <- purrr::map(
-    tt_year[-which.max(tt_year)],
-    ~ tt_datasets(.x)
-  ) %>%
-    purrr::set_names(as.character(tt_year[-which.max(tt_year)]))
 
-  currDatasets <- tt_datasets() %>%
-    list() %>%
-    purrr::set_names(as.character(tt_year[which.max(tt_year)]))
+  tt_update_master_file()
 
-  datasets <- c(
-    currDatasets,
-    pastDatasets
-  )[tt_year[order(tt_year, decreasing = TRUE)]]
+  tt_year <- sort(tt_years(),decreasing = TRUE,)
+
+  datasets <- setNames(vector("list", length(tt_year)), tt_year)
+
+  for(year in tt_year){
+    datasets[[as.character(year)]] <- tt_datasets(year)
+  }
 
   structure(datasets,
     class = c("tt_dataset_table_list")
@@ -28,31 +23,20 @@ tt_available <- function() {
 
 #' @title Available datasets
 #' @description list available datasets for that year
-#' @param year numeric entry representing the year of tidytuesday you want the list of datasets for. Leave empty for most recent year.
+#' @param year numeric entry representing the year of tidytuesday you want the list of datasets
+#'  for. Leave empty for most recent year.
 #' @import xml2
 #' @import rvest
 #' @export
 #'
 tt_datasets <- function(year) {
-  if (missing(year)) {
-    url <-
-      "https://github.com/rfordatascience/tidytuesday/blob/master/README.md"
-    table <- 1
-  } else {
-    url <- file.path(
-      "https://github.com/rfordatascience/tidytuesday/tree/master/data", year
-    )
-    table <- 2
-  }
-
-  datasets <- url %>%
-    xml2::read_html() %>%
-    rvest::html_nodes("table") %>%
-    `[`(table)
-
+  readme <- github_html(file.path("data",year,"readme.md"))
+  datasets <- readme %>%
+    html_table() %>%
+    `[`(1)
   structure(
     datasets,
-    ".html" = datasets,
+    .html = readme,
     class = "tt_dataset_table"
   )
 }
@@ -60,27 +44,19 @@ tt_datasets <- function(year) {
 #' @title print utility for tt_dataset_table object
 #' @inheritParams base::print
 #' @param printConsole should output go to the console? TRUE/FALSE
-#' @importFrom purrr walk
 #' @importFrom rstudioapi isAvailable viewer
-#' @importFrom rvest html_table
+#' @importFrom xml2 write_html
 #' @export
 print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
   if (rstudioapi::isAvailable() & !printConsole) {
-    tmpHTML <- setup_doc()
-    x$html %>%
-      as.character() %>%
-      purrr::walk(~ cat(gsub(
-        "href=\"/rfordatascience/tidytuesday/",
-        "href=\"https://github.com/rfordatascience/tidytuesday/",
-        .x
-      ), file = tmpHTML, append = TRUE))
-    cat("</div>", file = tmpHTML, append = TRUE)
-    cat("</body></html>", file = tmpHTML, append = TRUE)
+    tmpHTML <- tempfile(fileext = ".html")
+    readme <- attr(x,".html")
+    write_html(readme, file = tmpHTML)
     rstudioapi::viewer(url = tmpHTML)
   } else {
-    attr(x, ".html") %>%
-      rvest::html_table()
+    data.frame(x)
   }
+  invisible(x)
 }
 
 #' @title print utility for tt_dataset_table_list object
