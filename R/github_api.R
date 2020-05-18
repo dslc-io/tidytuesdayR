@@ -126,7 +126,7 @@ github_sha <-
         URLencode(paste(branch, dirpath, sep = ":"))
       )
 
-    github_GET(base_url, auth = auth)
+    url_response <- github_GET(base_url, auth = auth)
 
     if (url_response$status_code == 200) {
       do.call(

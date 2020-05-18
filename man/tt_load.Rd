@@ -4,7 +4,7 @@
 \alias{tt_load}
 \title{Load TidyTuesday data from Github}
 \usage{
-tt_load(x, week, download_files = "All", ...)
+tt_load(x, week, download_files = "All", ..., auth = github_pat())
 }
 \arguments{
 \item{x}{string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year}
@@ -12,6 +12,8 @@ tt_load(x, week, download_files = "All", ...)
 \item{week}{left empty unless x is a numeric year entry, in which case the week of interest should be entered}
 
 \item{...}{pass methods to the parsing functions. These will be passed to ALL files, so be careful.}
+
+\item{auth}{github Personal Access Token. See PAT section for more information}
 }
 \value{
 tt_data object (list class)
@@ -19,6 +21,15 @@ tt_data object (list class)
 \description{
 Load TidyTuesday data from Github
 }
+\section{PAT}{
+
+
+A Github PAT is a personal Access Token. This allows for signed queries to
+the github api, and increases the limit on the number of requests allowed from
+60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
+to set the PAT.
+}
+
 \examples{
 tt_output <- tt_load("2019-01-15")
 }

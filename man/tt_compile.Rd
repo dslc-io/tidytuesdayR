@@ -4,11 +4,22 @@
 \alias{tt_compile}
 \title{Get TidyTuesday Readme and list of files and HTML}
 \usage{
-tt_compile(date)
+tt_compile(date, auth = github_pat())
 }
 \arguments{
 \item{date}{date of tidytuesday of interest}
+
+\item{auth}{github Personal Access Token. See PAT section for more information}
 }
 \description{
 Get TidyTuesday Readme and list of files and HTML
 }
+\section{PAT}{
+
+
+A Github PAT is a personal Access Token. This allows for signed queries to
+the github api, and increases the limit on the number of requests allowed from
+60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
+to set the PAT.
+}
+

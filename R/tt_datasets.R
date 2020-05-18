@@ -25,15 +25,26 @@ tt_available <- function() {
 #' @description list available datasets for that year
 #' @param year numeric entry representing the year of tidytuesday you want the list of datasets
 #'  for. Leave empty for most recent year.
-#' @import xml2
-#' @import rvest
+#' @param auth github Personal Access Token. See PAT section for more information
+#'
+#' @section PAT:
+#'
+#' A Github PAT is a personal Access Token. This allows for signed queries to
+#' the github api, and increases the limit on the number of requests allowed from
+#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
+#' to set the PAT.
+#'
+#' @importFrom rvest html_table
 #' @export
 #'
-tt_datasets <- function(year) {
-  readme <- github_html(file.path("data",year,"readme.md"))
+tt_datasets <- function(year, auth = github_pat()) {
+
+  readme <- github_html(file.path("data",year,"readme.md"), auth = auth)
+
   datasets <- readme %>%
     html_table() %>%
     `[`(1)
+
   structure(
     datasets,
     .html = readme,
@@ -52,7 +63,7 @@ print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
     tmpHTML <- tempfile(fileext = ".html")
     readme <- attr(x,".html")
     write_html(readme, file = tmpHTML)
-    rstudioapi::viewer(url = tmpHTML)
+    viewer(url = tmpHTML)
   } else {
     data.frame(x)
   }
@@ -67,8 +78,11 @@ print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
 #' @importFrom rvest html_table
 #' @export
 print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
-  if (rstudioapi::isAvailable() & !printConsole) {
+
+  if (isAvailable() & !printConsole) {
+
     tmpHTML <- setup_doc()
+
     cat("<h1>TidyTuesday Datasets</h1>", file = tmpHTML, append = TRUE)
     names(x) %>%
       purrr::map(
@@ -97,7 +111,9 @@ print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
     cat("</div>", file = tmpHTML, append = TRUE)
     cat("</body></html>", file = tmpHTML, append = TRUE)
     rstudioapi::viewer(url = tmpHTML)
+
   } else {
+
     names(x) %>%
       purrr::map(
         function(.x, x) {

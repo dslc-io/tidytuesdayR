@@ -4,6 +4,14 @@
 #'
 #' @param x string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
 #' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
+#' @param auth github Personal Access Token. See PAT section for more information
+#'
+#' @section PAT:
+#'
+#' A Github PAT is a personal Access Token. This allows for signed queries to
+#' the github api, and increases the limit on the number of requests allowed from
+#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
+#' to set the PAT.
 #'
 #' @return tt_gh object. List object with the following entries: readme, files, url
 #' @export
@@ -12,17 +20,17 @@
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' readme(tt_gh)
-tt_load_gh <- function(x, week) {
+tt_load_gh <- function(x, week, auth = github_pat()) {
 
   if (missing(x)) {
     on.exit({
-      print(tt_available())
+      print(tt_available(auth = auth))
     })
     stop("Enter either the year or date of the TidyTuesday Data to extract!")
   }
 
   #Update master file reference
-  tt_update_master_file()
+  tt_update_master_file(auth = auth)
 
   #Check Dates
   tt_date <- tt_check_date(x, week)

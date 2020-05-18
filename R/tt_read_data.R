@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @importFrom readr read_csv read_delim
-#' @import tools
+#' @importFrom tools file_ext
 #' @import readxl
 #'
 #' @family tt_read_data
@@ -18,24 +18,20 @@
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' tt_dataset_1 <- tt_read_data(tt_gh, tt_gh[1])
-tt_read_data <- function(filename, type, delim, dir) {
+tt_read_data <- function(filename, type, delim, dir, ...) {
 
-
-
-
-
-}
-
-tt_read_func <- function(url, guess_max = 5000) {
-  url <- gsub(" ", "%20", url)
-  switch(tools::file_ext(gsub("[?]raw=true", "", tolower(url))),
-    "xls"  = download_read(url, readxl::read_xls, guess_max = guess_max, mode = "wb"),
-    "xlsx" = download_read(url, readxl::read_xlsx, guess_max = guess_max, mode = "wb"),
-    "rds"  = download_read(url, readRDS, mode = "wb"),
-    "rda"  = download_read(url, read_rda, mode = "wb"),
-    download_read(url, readr::read_delim, guess_max = guess_max, progress = FALSE, find_delim = TRUE)
+  read_func <- switch(type,
+    "xls"  = read_data(readxl::read_xls,..., raw = TRUE),
+    "xlsx" = read_data(readxl::read_xlsx,..., raw = TRUE),
+    "rds"  = read_data(readRDS, raw = TRUE),
+    "rda"  = read_data(read_rda, raw = TRUE),
+    read_data(readr::read_delim, progress = FALSE,...)
   )
+
+  read_func(file.path(dir, filename))
+
 }
+
 
 #' @title utility to assist with 'reading' urls that cannot normally be read by file functions
 #'
@@ -47,26 +43,18 @@ tt_read_func <- function(url, guess_max = 5000) {
 #' @param find_delim should the delimeters be found for the file
 #' @importFrom utils download.file
 #'
-download_read <- function(url, func, ..., guess_max, mode = "w", find_delim = FALSE) {
-  temp_file <- tempfile(fileext = paste0(".", tools::file_ext(gsub("[?]raw=true", "",url))))
-  utils::download.file(url, temp_file, quiet = TRUE, mode = mode)
+read_data <- function(func, ..., raw = FALSE) {
 
-  dots <- as.list(substitute(substitute(...)))[-1]
-  func_call <- c(substitute(func), substitute(temp_file), dots)
 
-  if (find_delim) {
-    if (!(!is.null(names(func_call)) &
-      "delim" %in% names(func_call)) &
-      "delim" %in% names(as.list(args(func)))) {
-      func_call$delim <- identify_delim(temp_file)
-    }
+  read_data_txt
+
+  function(path){
+     blob <- github_blob(path, as_raw = raw)
+
+
+
   }
 
-  if("guess_max"%in%names(as.list(args(func)))){
-    func_call$guess_max = guess_max
-  }
-
-  return(eval(as.call(func_call)))
 }
 
 #' @title utility to load RDA with out using assigned name in envir

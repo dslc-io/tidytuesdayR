@@ -5,9 +5,9 @@
 #'
 tt_check_date <- function(x, week) {
   if (valid_date(x)) {
-    tt_make_url.date(x)
+    tt_check_date.date(x)
   } else if (valid_year(x)) {
-    tt_make_url.year(x, week)
+    tt_check_date.year(x, week)
   } else {
     stop("Entries must render to a valid date or year")
   }

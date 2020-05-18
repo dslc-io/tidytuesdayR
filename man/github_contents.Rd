@@ -26,3 +26,11 @@ the github api, and increases the limit on the number of requests allowed from
 to set the PAT.
 }
 
+\examples{
+\dontrun{
+text_csv <- github_contents("data/2020/2020-04-07/tdf_stages.csv")
+tour_de_france_stages <- read_csv(text_csv)
+
+}
+
+}
