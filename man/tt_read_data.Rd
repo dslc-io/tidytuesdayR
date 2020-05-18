@@ -4,7 +4,7 @@
 \alias{tt_read_data}
 \title{Reads in TidyTuesday datasets from Github repo}
 \usage{
-tt_read_data(tt, x, guess_max = 5000)
+tt_read_data(filename, type, delim, dir)
 }
 \arguments{
 \item{tt}{tt_gh object from tt_load_gh function}

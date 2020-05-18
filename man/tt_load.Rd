@@ -4,7 +4,7 @@
 \alias{tt_load}
 \title{Load TidyTuesday data from Github}
 \usage{
-tt_load(x, week, ...)
+tt_load(x, week, download_files = "All", ...)
 }
 \arguments{
 \item{x}{string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year}

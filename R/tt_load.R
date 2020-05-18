@@ -11,12 +11,15 @@
 #'
 #' @examples
 #' tt_output <- tt_load("2019-01-15")
-tt_load <- function(x, week, ...) {
+tt_load <- function(x, week, download_files = "All", ...) {
+
+  # download readme and identify files
   tt <- tt_load_gh(x, week)
-  message("--- Downloading files ---")
-  tt_data <- purrr::map(attr(tt, ".files"), function(x) tt_read_data(tt, x, ... ))
-  names(tt_data) <- tools::file_path_sans_ext(attr(tt, ".files"))
-  message("--- Download complete ---")
+
+  #download files
+  tt_data <- tt_download_data(tt, files = download_files, ... )
+
+  ## return tt_data object
   structure(
     tt_data,
     ".tt" = tt,

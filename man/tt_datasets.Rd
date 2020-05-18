@@ -7,7 +7,8 @@
 tt_datasets(year)
 }
 \arguments{
-\item{year}{numeric entry representing the year of tidytuesday you want the list of datasets for. Leave empty for most recent year.}
+\item{year}{numeric entry representing the year of tidytuesday you want the list of datasets
+for. Leave empty for most recent year.}
 }
 \description{
 list available datasets for that year

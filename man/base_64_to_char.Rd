@@ -2,10 +2,10 @@
 % Please edit documentation in R/github_api.R
 \name{base_64_to_char}
 \alias{base_64_to_char}
-\title{read contents from github}
+\title{read json base64 contents from github}
 \usage{
 base_64_to_char(b64)
 }
 \description{
-provide tools to read and process data using the github api
+provide tool to read and process data using the github api
 }

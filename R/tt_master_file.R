@@ -9,16 +9,11 @@ tt_update_master_file <- function(force = FALSE){
   sha <- sha_df$sha[sha_df$path == "tt_data_type.csv"]
 
   if( is.null(tt_master_file()) || sha != attr(tt_master_file(), ".sha") || force ){
-    tt_master_file(
-      github_contents(
-        "static/tt_data_type.csv",
-        read_func = function(x, ...) {
-          read.csv(text = x,
-                   header = TRUE,
-                   stringsAsFactors = FALSE)
-        }
-      )
-    )
+    file_text <- github_contents("static/tt_data_type.csv")
+    content <- read.csv(text = file_text, header = TRUE, stringsAsFactors = FALSE)
+    attr(content,".sha") <- file_text
+
+    tt_master_file(content)
   }
 }
 

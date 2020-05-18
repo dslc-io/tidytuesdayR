@@ -13,7 +13,7 @@ tt_check_date <- function(x, week) {
   }
 }
 
-tt_make_url.date <- function(x) {
+tt_check_date.date <- function(x) {
   tt_year <- lubridate::year(x)
   tt_formatted_date <- tt_date_format(x)
   tt_folders <- tt_weeks(tt_year)
@@ -30,7 +30,7 @@ tt_make_url.date <- function(x) {
   tt_formatted_date
 }
 
-tt_make_url.year <- function(x, week) {
+tt_check_date.year <- function(x, week) {
   tt_folders <- tt_weeks(x)
   if (week > nrow(tt_folders[["week_desc"]])) {
     stop(paste0("Only ", length(tt_folders), " TidyTuesday Weeks exist in ", x, ". Please enter a value for week between 1 and ", length(tt_folders)))

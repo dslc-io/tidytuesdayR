@@ -32,13 +32,27 @@ tt_load_gh <- function(x, week) {
   # Find Files and extract readme
   tt_compilation <- tt_compile(tt_date)
 
+  n_files <- as.character(nrow(tt_compilation$files))
 
-  message("--- There are ", nrow(tt_compilation$files), " file(s) available in this tidy tuesday ---")
+  are_is <- switch( n_files,
+                    "0" = "are",
+                    "1" = "is",
+                    "are")
+
+  file_s <- switch( n_files,
+                    "0" = "files",
+                    "1" = "file",
+                    "files")
+
+  n_files <- ifelse( n_files == 0, "no", n_files)
+
+  message("--- There ",are_is," ", n_files, " ", file_s," available ---")
 
   structure(
     tt_compilation$files$data_files,
     ".files" = tt_compilation$files,
     ".readme" = tt_compilation$readme,
+    ".date" = tt_date,
     class = "tt"
   )
 }

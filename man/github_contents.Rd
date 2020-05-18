@@ -4,18 +4,25 @@
 \alias{github_contents}
 \title{Read Contents from GitHub}
 \usage{
-github_contents(path, read_func = read.csv, ...)
+github_contents(path, auth = github_pat())
 }
 \arguments{
 \item{path}{Relative path from within the TidyTuesday Repository}
 
-\item{read_func}{Function to parse the text. Defaults to \code{read.csv}}
-
-\item{...}{optional arguments to pass to \code{read_func}}
+\item{auth}{github PAT. See PAT section for more information}
 }
 \value{
-result of read_func on the content
+raw text of the content with the sha as an attribute
 }
 \description{
 Provide tool to read raw data and return as text the raw data using the github api
 }
+\section{PAT}{
+
+
+A Github PAT is a personal Access Token. This allows for signed queries to
+the github api, and increases the limit on the number of requests allowed from
+60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
+to set the PAT.
+}
+
