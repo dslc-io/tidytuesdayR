@@ -14,7 +14,7 @@ print.tt_data <- function(x, ...) {
 #' @importFrom tools file_path_sans_ext
 #' @export
 print.tt <- function(x,...){
-  message("Available datasets in this TidyTuesday:\n\t", paste(attr(x,".files")[[1]], "\n\t", collapse = ""))
+  message("Available datasets in this TidyTuesday:\n\t", paste(attr(x,".files")$data_files, "\n\t", collapse = ""))
   invisible(x)
 }
 

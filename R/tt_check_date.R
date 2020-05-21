@@ -31,20 +31,43 @@ tt_check_date.date <- function(x) {
 }
 
 tt_check_date.year <- function(x, week) {
+
   tt_folders <- tt_weeks(x)
-  if (week > nrow(tt_folders[["week_desc"]])) {
-    stop(paste0("Only ", length(tt_folders), " TidyTuesday Weeks exist in ", x, ". Please enter a value for week between 1 and ", length(tt_folders)))
+
+  if (week > length(tt_folders$week_desc)) {
+    stop(
+      paste0(
+        "Only ",
+        length(tt_folders$week_desc),
+        " TidyTuesday Weeks exist in ",
+        x,
+        ". Please enter a value for week between 1 and ",
+        length(tt_folders$week_desc)
+      )
+    )
   } else if (week < 1) {
-    stop(paste0("Week entry must be a valid positive integer between 1 and ", length(tt_folders$week_desc), "."))
+    stop(paste0(
+      "Week entry must be a valid positive integer between 1 and ",
+      length(tt_folders$week_desc),
+      "."
+    ))
   }
 
-  tt_date <- tt_folders[["week_desc"]][week,"Date"]
+  tt_date <- tt_folders$folders[tt_folders$week_desc == week]
 
   if (!tt_date %in% tt_folders[["folders"]]) {
-    stop(paste0("Week ", week, " of TidyTuesday for ", x," does not have data available for download from github."))
+    stop(
+      paste0(
+        "Week ",
+        week,
+        " of TidyTuesday for ",
+        x,
+        " does not have data available for download from github."
+      )
+    )
   }
 
-  tt_date
+  tt_date_format(tt_date)
 }
 
 
@@ -61,16 +84,12 @@ tt_weeks <- function(year) {
   }
 
   ttmf <- tt_master_file()
-  tt_week <- unique(basename(ttmf$weeks[ttmf$year == year]))
 
-  weekNum <- tt_week %>%
-    as.Date(format = "%Y-%m-%d") %>%
-    `+`(3) %>%  # move to accomodate
-    lubridate::week()
+  tt_week <- unique(ttmf[ttmf$year == year, c("Week","Date")])
 
   list(
-    week_desc = weekNum,
-    folders = tt_week
+    week_desc = tt_week$Week,
+    folders = tt_week$Date
   )
 
 }

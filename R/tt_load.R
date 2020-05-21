@@ -14,12 +14,12 @@
 #'
 #' @return tt_data object (list class)
 #'
-#' @export
-#'
 #' @importFrom purrr map
 #'
 #' @examples
 #' tt_output <- tt_load("2019-01-15")
+#'
+#' @export
 tt_load <- function(x, week, download_files = "All", ..., auth = github_pat()) {
 
   # download readme and identify files

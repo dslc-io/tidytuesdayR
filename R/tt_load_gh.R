@@ -15,7 +15,6 @@
 #'
 #' @return tt_gh object. List object with the following entries: readme, files, url
 #' @export
-#''
 #' @examples
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'

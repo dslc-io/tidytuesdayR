@@ -6,8 +6,6 @@
 #' @export
 tt_available <- function() {
 
-  tt_update_master_file()
-
   tt_year <- sort(tt_years(),decreasing = TRUE,)
 
   datasets <- setNames(vector("list", length(tt_year)), tt_year)
@@ -15,6 +13,8 @@ tt_available <- function() {
   for(year in tt_year){
     datasets[[as.character(year)]] <- tt_datasets(year)
   }
+
+
 
   structure(datasets,
     class = c("tt_dataset_table_list")
@@ -35,19 +35,33 @@ tt_available <- function() {
 #' to set the PAT.
 #'
 #' @importFrom rvest html_table
+#' @importFrom xml2 read_html
 #' @export
-#'
 tt_datasets <- function(year, auth = github_pat()) {
 
-  readme <- github_html(file.path("data",year,"readme.md"), auth = auth)
+  files <- github_sha(file.path("data",year))
 
-  datasets <- readme %>%
+  readme <- grep(pattern = "readme", files$path, value = TRUE, ignore.case = TRUE)
+
+  readme_html <- github_html(file.path("data",year,readme), auth = auth)
+
+  readme_html <- read_html(
+    gsub("\\n","",
+    gsub(
+      x = as.character(readme_html),
+      pattern = "<a href=\\\"(\\d+)(-\\d+-\\d+)(\\/readme.+)*\\\">",
+      replacement = "<a href=\\\"https:\\/\\/github.com\\/rfordatascience\\/tidytuesday\\/tree\\/master\\/data\\/\\1\\/\\1\\2\\\">",
+      perl = TRUE
+    )
+  ))
+
+  datasets <- readme_html %>%
     html_table() %>%
-    `[`(1)
+    `[[`(1)
 
   structure(
     datasets,
-    .html = readme,
+    .html = readme_html,
     class = "tt_dataset_table"
   )
 }

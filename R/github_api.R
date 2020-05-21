@@ -23,7 +23,9 @@
 #'
 github_contents <- function(path, auth = github_pat()) {
     base_url <-
-      file.path("https://api.github.com/repos/rfordatascience/tidytuesday/contents",
+      file.path("https://api.github.com/repos",
+                options("tidytuesdayR.tt_repo"),
+                "contents",
                 path)
 
 
@@ -36,9 +38,9 @@ github_contents <- function(path, auth = github_pat()) {
       attr(content, ".sha") <- json_response$sha
       return(content)
 
-    } else if(url_response$status_code == 403 & url_json$errors$code == "too_large"){
+    } else if(url_response$status_code == 403 & json_response$errors[[1]]$code == "too_large"){
 
-      github_blob(path)
+      github_blob(path, auth = auth)
 
     }else{
       NULL
@@ -76,7 +78,9 @@ github_html <-
            ...,
            auth = github_pat()) {
     base_url <-
-      file.path("https://api.github.com/repos/rfordatascience/tidytuesday/contents",
+      file.path("https://api.github.com/repos",
+                options("tidytuesdayR.tt_repo"),
+                "contents",
                 path)
 
     url_response <-
@@ -120,22 +124,27 @@ github_sha <-
   function(dirpath,
            branch = "master",
            auth = github_pat()) {
+
+    if(dirpath == "."){
+      dirpath <- ""
+    }
+
     base_url <-
       file.path(
-        "https://api.github.com/repos/rfordatascience/tidytuesday/git/trees",
+        "https://api.github.com/repos",
+        options("tidytuesdayR.tt_repo"),
+        "git/trees",
         URLencode(paste(branch, dirpath, sep = ":"))
       )
 
     url_response <- github_GET(base_url, auth = auth)
+    url_json <- GET_json(url_response)
 
     if (url_response$status_code == 200) {
-      do.call(
-        'rbind',
-        lapply(
-          jsonlite::parse_json(rawToChar(url_response$content))$tree,
-          data.frame,
-          stringsAsFactors = FALSE
-        )
+      do.call('rbind',
+              lapply(url_json$tree,
+                     function(x)
+                       data.frame(x[c("path", "sha")], stringsAsFactors = FALSE))
       )
     } else{
       NULL
@@ -172,10 +181,11 @@ github_blob <-
   function(path, as_raw = FALSE, auth = github_pat()){
     dir_sha <- github_sha(dirname(path))
     file_sha <- dir_sha$sha[dir_sha$path == basename(path)]
-    file_ext <- file_ext(path)
 
     base_url <-
-      file.path("https://api.github.com/repos/rfordatascience/tidytuesday/git/blobs",
+      file.path("https://api.github.com/repos",
+                options("tidytuesdayR.tt_repo"),
+                "git/blobs",
                 file_sha)
 
     url_response <-
@@ -224,10 +234,16 @@ GET_json <- function(get_response){
 #'
 #' @return xml_document with github header
 #'
-#' @importFrom xml2 read_html xml_add_sibling
+#' @importFrom xml2 read_html xml_add_sibling html_nodes
 github_page <- function(page_content){
-  header <- read_html("<head><link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\"></head>")
-  xml_add_sibling(header,page_content)
+
+  header <- "<head><link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\"></head>"
+  body <- page_content %>%
+    html_nodes("body") %>%
+    as.character
+
+  read_html(paste(header, body))
+
 }
 
 #' Get the github PAT

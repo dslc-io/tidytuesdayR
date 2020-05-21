@@ -18,7 +18,7 @@ tt_update_master_file <- function(force = FALSE, auth = github_pat()){
   sha_df <- github_sha("static")
   sha <- sha_df$sha[sha_df$path == "tt_data_type.csv"]
 
-  if( is.null(tt_master_file()) || sha != attr(tt_master_file(), ".sha") || force ){
+  if( is.null(TT_MASTER_ENV$TT_MASTER_FILE) || sha != attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha") || force ){
     file_text <- github_contents("static/tt_data_type.csv", auth = auth)
     content <- read.csv(text = file_text, header = TRUE, stringsAsFactors = FALSE)
     attr(content,".sha") <- sha
@@ -38,7 +38,12 @@ tt_master_file <- function(assign = NULL){
   if(!is.null(assign)){
     TT_MASTER_ENV$TT_MASTER_FILE <- assign
   }else{
-    TT_MASTER_ENV$TT_MASTER_FILE
+    ttmf <- TT_MASTER_ENV$TT_MASTER_FILE
+    if(is.null(ttmf)){
+      tt_update_master_file()
+      ttmf <- TT_MASTER_ENV$TT_MASTER_FILE
+    }
+    return(ttmf)
   }
 }
 
