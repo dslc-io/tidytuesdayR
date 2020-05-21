@@ -32,4 +32,5 @@ to set the PAT.
 
 \examples{
 tt_output <- tt_load("2019-01-15")
+
 }
