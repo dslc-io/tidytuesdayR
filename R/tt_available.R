@@ -14,8 +14,6 @@ tt_available <- function() {
     datasets[[as.character(year)]] <- tt_datasets(year)
   }
 
-
-
   structure(datasets,
     class = c("tt_dataset_table_list")
   )
@@ -89,42 +87,36 @@ print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
 #' @param printConsole should output go to the console? TRUE/FALSE
 #' @importFrom purrr walk map
 #' @importFrom rstudioapi isAvailable viewer
-#' @importFrom rvest html_table
+#' @importFrom rvest html_node
+#' @importFrom xml2 read_html write_html
 #' @export
 print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
 
   if (isAvailable() & !printConsole) {
 
-    tmpHTML <- setup_doc()
-
-    cat("<h1>TidyTuesday Datasets</h1>", file = tmpHTML, append = TRUE)
-    names(x) %>%
-      purrr::map(
+    readme <- names(x) %>%
+      purrr::map_chr(
         function(.x, x) {
-          list(html = as.character(attr(x[[.x]], ".html")), year = .x)
+          year_table <- attr(x[[.x]],".html") %>%
+            html_node("table")
+          paste("<h2>",.x,"</h2>",
+                as.character(year_table),
+                "")
         },
         x = x
       ) %>%
-      purrr::walk(
-        ~ cat(
-          paste0(
-            "<h2>",
-            .x$year,
-            "</h2>\n",
-            gsub(
-              "href=\"/rfordatascience/tidytuesday/",
-              "href=\"https://github.com/rfordatascience/tidytuesday/",
-              .x$html
-            )
-          ),
-          file = tmpHTML,
-          append = TRUE
-        )
-      )
+      paste(collapse = "") %>%
+      paste("<h1>TidyTuesday Datasets</h1>",.) %>%
+      paste("<article class='markdown-body entry-content' itemprop='text'>",.,"</article>") %>%
+      read_html() %>%
+      github_page()
 
-    cat("</div>", file = tmpHTML, append = TRUE)
-    cat("</body></html>", file = tmpHTML, append = TRUE)
-    rstudioapi::viewer(url = tmpHTML)
+    tmp_html <- tempfile(fileext = ".html")
+    write_html(readme, file = tmp_html)
+    on.exit(unlink(tmp_html))
+
+    rstudioapi::viewer(url = tmp_html)
+
 
   } else {
 
@@ -132,26 +124,17 @@ print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
       purrr::map(
         function(.x, x) {
           list(
-            table = rvest::html_table(attr(x[[.x]], ".html")), year = .x
+            table = data.frame(unclass(x[[.x]])), year = .x
           )
         },
         x = x
       ) %>%
       purrr::walk(
         function(.x) {
-          cat(paste0("Year: ", .x$year, "\n"))
+          cat(paste0("Year: ", .x$year, "\n\n"))
           print(.x$table)
           cat("\n\n")
         }
       )
   }
-}
-
-setup_doc <- function(tmpHTML = tempfile(fileext = ".html")) {
-  cat("<!DOCTYPE html><html lang=\"en\"><head>
-        <link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">
-        <link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">
-        </head><body>", file = tmpHTML)
-  cat("<div class='repository-content'>", file = tmpHTML, append = TRUE)
-  return(tmpHTML)
 }
