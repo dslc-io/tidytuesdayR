@@ -4,15 +4,17 @@
 \alias{github_blob}
 \title{Read blob Contents from GitHub}
 \usage{
-github_blob(path, as_raw = FALSE, auth = github_pat())
+github_blob(path, as_raw = FALSE, sha = NULL, auth = github_pat())
 }
 \arguments{
 \item{path}{Relative path from within the TidyTuesday Repository to contents,
 usually because it was too large to be read with the contencts api.}
 
-\item{auth}{github PAT. See PAT section for more information}
+\item{as_raw}{optional arguments to pass to \code{read_html}}
 
-\item{raw}{optional arguments to pass to \code{read_html}}
+\item{sha}{sha of object if known in liu of path (usually best to give both for clarity)}
+
+\item{auth}{github PAT. See PAT section for more information}
 }
 \value{
 a raw/character object based on the blob
@@ -32,8 +34,7 @@ to set the PAT.
 \examples{
 \dontrun{
 
-main_readme <- github_html("README.md")
-week_readme <- github_html("data/2020/2020-01-07/readme.md")
+main_readme_blob <- github_blob("README.md", as_raw = TRUE)
 
 }
 

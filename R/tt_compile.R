@@ -15,7 +15,7 @@ tt_compile <- function(date, auth = github_pat()) {
   ttmf <- tt_master_file()
 
   #list of files
-  files <- ttmf[ ttmf$week_date == date, c("data_files","data_type","delim")]
+  files <- ttmf[ ttmf$Date == date, c("data_files","data_type","delim")]
 
   readme <- github_html(file.path("data",year(date),date,"readme.md"), auth = auth)
 

@@ -4,12 +4,16 @@
 \alias{tt_parse_text}
 \title{utility to assist with parsing the text data}
 \usage{
-tt_parse_text(blob, func, ...)
+tt_parse_text(blob, func, delim, progress = FALSE, ...)
 }
 \arguments{
 \item{blob}{raw text data to be parsed}
 
 \item{func}{the function to perform parsing of the file}
+
+\item{delim}{what delimeter to use when parsing}
+
+\item{progress}{should parsing process be shared. Assumed to be FALSE}
 
 \item{...}{args to pass to func}
 }

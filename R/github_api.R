@@ -30,18 +30,18 @@ github_contents <- function(path, auth = github_pat()) {
 
 
     url_response <- github_GET(base_url, auth = auth, type= "application/json")
-    json_response <- GET_json(url_response)
-
 
     if (url_response$status_code == 200) {
+      json_response <- GET_json(url_response)
       content <- base_64_to_char(json_response$content)
       attr(content, ".sha") <- json_response$sha
       return(content)
 
-    } else if(url_response$status_code == 403 & json_response$errors[[1]]$code == "too_large"){
-
-      github_blob(path, auth = auth)
-
+    } else if(url_response$status_code == 403){
+      json_response <- GET_json(url_response)
+      if( json_response$errors[[1]]$code == "too_large"){
+        github_blob(path, auth = auth)
+      }
     }else{
       NULL
     }
@@ -98,8 +98,8 @@ github_html <-
 #'
 #' provide tools to read and process readme's as html using the github api
 #'
-#' @param path Relative path from within the TidyTuesday Repository to contents that can be returned as HTML
-#' @param ... optional arguments to pass to \code{read_html}
+#' @param dirpath Relative path from within the TidyTuesday Repository to folder of contents wanting sha for
+#' @param branch which branch to get sha for. assumed to be master (and usually should be)
 #' @param auth github PAT. See PAT section for more information
 #'
 #' @section PAT:
@@ -114,12 +114,12 @@ github_html <-
 #' @examples
 #' \dontrun{
 #'
-#' main_readme <- github_html("README.md")
-#' week_readme <- github_html("data/2020/2020-01-07/readme.md")
+#' sha <- github_sha("data/2020/2020-01-07")
 #'
 #' }
 #'
 #' @importFrom xml2 read_html
+#' @importFrom utils URLencode
 github_sha <-
   function(dirpath,
            branch = "master",
@@ -138,9 +138,9 @@ github_sha <-
       )
 
     url_response <- github_GET(base_url, auth = auth)
-    url_json <- GET_json(url_response)
 
     if (url_response$status_code == 200) {
+      url_json <- GET_json(url_response)
       do.call('rbind',
               lapply(url_json$tree,
                      function(x)
@@ -157,7 +157,8 @@ github_sha <-
 #'
 #' @param path Relative path from within the TidyTuesday Repository to contents,
 #'  usually because it was too large to be read with the contencts api.
-#' @param raw optional arguments to pass to \code{read_html}
+#' @param as_raw optional arguments to pass to \code{read_html}
+#' @param sha sha of object if known in liu of path (usually best to give both for clarity)
 #' @param auth github PAT. See PAT section for more information
 #'
 #' @section PAT:
@@ -172,21 +173,23 @@ github_sha <-
 #' @examples
 #' \dontrun{
 #'
-#' main_readme <- github_html("README.md")
-#' week_readme <- github_html("data/2020/2020-01-07/readme.md")
+#' main_readme_blob <- github_blob("README.md", as_raw = TRUE)
 #'
 #' }
 #'
 github_blob <-
-  function(path, as_raw = FALSE, auth = github_pat()){
-    dir_sha <- github_sha(dirname(path))
-    file_sha <- dir_sha$sha[dir_sha$path == basename(path)]
+  function(path, as_raw = FALSE, sha = NULL, auth = github_pat()){
+
+    if(is.null(sha)){
+      dir_sha <- github_sha(dirname(path))
+      sha <- dir_sha$sha[dir_sha$path == basename(path)]
+    }
 
     base_url <-
       file.path("https://api.github.com/repos",
                 options("tidytuesdayR.tt_repo"),
                 "git/blobs",
-                file_sha)
+                sha)
 
     url_response <-
       github_GET(base_url, auth = auth, Accept = "application/vnd.github.VERSION.raw")
@@ -197,7 +200,7 @@ github_blob <-
       }else{
         content <- rawToChar(url_response$content)
       }
-      attr(content, ".sha") <- file_sha
+      attr(content, ".sha") <- sha
       return(content)
 
     } else{
@@ -210,7 +213,7 @@ github_blob <-
 #' read json base64 contents from github
 #'
 #' provide tool to read and process data using the github api
-#'
+#' @param b64 base64 character value to be decoded and converted to character value
 #' @importFrom jsonlite base64_dec
 base_64_to_char <- function(b64){
   rawToChar(base64_dec(b64))
@@ -219,7 +222,7 @@ base_64_to_char <- function(b64){
 #' read GET json contents to char
 #'
 #' provide tool to read and process data using the github api from GET command
-#'
+#' @param get_response object of class "response" from GET command. returns JSON value.
 #' @importFrom jsonlite base64_dec
 GET_json <- function(get_response){
   jsonlite::parse_json(rawToChar(get_response$content))
@@ -230,11 +233,12 @@ GET_json <- function(get_response){
 #'
 #' Provide the necessary <head> section to wrap around raw html content read from github.
 #'
-#' @param content html content
+#' @param page_content html content in xml_document class
 #'
 #' @return xml_document with github header
 #'
-#' @importFrom xml2 read_html xml_add_sibling html_nodes
+#' @importFrom xml2 read_html
+#' @importFrom rvest html_nodes
 github_page <- function(page_content){
 
   header <- "<head><link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\"></head>"
@@ -242,7 +246,7 @@ github_page <- function(page_content){
     html_nodes("body") %>%
     as.character
 
-  read_html(paste(header, body))
+  read_html(paste0(header, body))
 
 }
 

@@ -13,6 +13,7 @@
 #' to set the PAT.
 #'
 #' @keywords internal
+#' @importFrom utils read.csv
 tt_update_master_file <- function(force = FALSE, auth = github_pat()){
   # get sha to see if need to update
   sha_df <- github_sha("static")

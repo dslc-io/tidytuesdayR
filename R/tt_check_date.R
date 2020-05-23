@@ -55,7 +55,7 @@ tt_check_date.year <- function(x, week) {
 
   tt_date <- tt_folders$folders[tt_folders$week_desc == week]
 
-  if (!tt_date %in% tt_folders[["folders"]]) {
+  if (!tt_date %in% tt_folders[["folders"]] | !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
     stop(
       paste0(
         "Week ",
@@ -71,7 +71,7 @@ tt_check_date.year <- function(x, week) {
 }
 
 
-
+#' @importFrom stats aggregate na.pass setNames
 tt_weeks <- function(year) {
 
   tt_year <- tt_years()
@@ -85,11 +85,15 @@ tt_weeks <- function(year) {
 
   ttmf <- tt_master_file()
 
-  tt_week <- unique(ttmf[ttmf$year == year, c("Week","Date")])
+  tt_week <- aggregate(data_files ~ Week + Date,
+                       ttmf[ttmf$year == year, ],
+                       FUN = function(x) !anyNA(x),
+                       na.action = na.pass)
 
   list(
     week_desc = tt_week$Week,
-    folders = tt_week$Date
+    folders = tt_week$Date,
+    data = tt_week$data_files
   )
 
 }

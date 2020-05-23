@@ -2,6 +2,7 @@
 #'
 #' @param x string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
 #' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
+#' @param download_files which files to download from repo. defaults and assumes "All" for the week.
 #' @param ... pass methods to the parsing functions. These will be passed to ALL files, so be careful.
 #' @param auth github Personal Access Token. See PAT section for more information
 #'
@@ -17,8 +18,9 @@
 #' @importFrom purrr map
 #'
 #' @examples
+#' \dontrun{
 #' tt_output <- tt_load("2019-01-15")
-#'
+#' }
 #' @export
 tt_load <- function(x, week, download_files = "All", ..., auth = github_pat()) {
 

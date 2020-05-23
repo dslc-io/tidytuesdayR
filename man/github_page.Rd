@@ -7,7 +7,7 @@
 github_page(page_content)
 }
 \arguments{
-\item{content}{html content}
+\item{page_content}{html content in xml_document class}
 }
 \value{
 xml_document with github header

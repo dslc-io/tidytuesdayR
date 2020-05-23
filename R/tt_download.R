@@ -5,6 +5,7 @@
 #' @param tt string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
 #' @param files List the file names to download. Default to asking.
 #' @param ... pass methods to the parsing functions. These will be passed to ALL files, so be careful.
+#' @param branch which branch to be downloading data from. Default and always should be "master".
 #' @param auth github Personal Access Token. See PAT section for more information
 #'
 #' @section PAT:
@@ -21,26 +22,34 @@
 #' @importFrom lubridate year
 #'
 #' @examples
-#' tt_output <- tt_load("2019-01-15")
+#' \dontrun{
+#' tt_output <- tt_load_gh("2019-01-15")
+#' datasets <- tt_download(tt_output, files = "All")
+#' }
 
-tt_download <- function(tt, files = c("All"), ..., auth = github_pat()){
+tt_download <- function(tt, files = c("All"), ..., branch = "master", auth = github_pat()){
 
-  data_files <- attr(tt, ".files")$data_files
+  tt_date <- attr(tt, ".date")
+  tt_year <- year(tt_date)
+  file_info <- attr(tt, ".files")
 
 
   #define which files to download
-  files <- match.arg(files, several.ok = TRUE, choices = c("All", data_files))
+  files <- match.arg(files, several.ok = TRUE, choices = c("All", file_info$data_files))
 
   if("All" %in% files){
-    files <- data_files
+    files <- file_info$data_files
   }
 
   message("--- Starting Download ---")
   cat("\n")
 
+  tt_sha <- github_sha(file.path("data",tt_year,tt_date))
+
   tt_data <- setNames(
     vector("list", length = length(files)),
     files)
+
 
   for(file in files){
     dl_message <- sprintf('\tDownloading file %d of %d: `%s`\n',
@@ -54,10 +63,12 @@ tt_download <- function(tt, files = c("All"), ..., auth = github_pat()){
       tt,
       file,
       ...,
+      sha = tt_sha$sha[tt_sha$path == file],
       auth = auth
       )
   }
 
+  cat("\n")
   message("--- Download complete ---")
 
   names(tt_data) <- tools::file_path_sans_ext(attr(tt, ".files")$data_files)

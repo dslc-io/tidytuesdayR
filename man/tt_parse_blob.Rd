@@ -11,9 +11,7 @@ tt_parse_blob(blob, ..., file_info)
 
 \item{...}{args to pass to func}
 
-\item{func}{the function to perform parsing of the file}
-
-\item{fileinfo}{data.frame of information about the blob being read}
+\item{file_info}{data.frame of information about the blob being read}
 }
 \description{
 general utility to assist with parsing the raw data

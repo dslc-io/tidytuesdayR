@@ -11,6 +11,8 @@ tt_load(x, week, download_files = "All", ..., auth = github_pat())
 
 \item{week}{left empty unless x is a numeric year entry, in which case the week of interest should be entered}
 
+\item{download_files}{which files to download from repo. defaults and assumes "All" for the week.}
+
 \item{...}{pass methods to the parsing functions. These will be passed to ALL files, so be careful.}
 
 \item{auth}{github Personal Access Token. See PAT section for more information}
@@ -31,6 +33,7 @@ to set the PAT.
 }
 
 \examples{
+\dontrun{
 tt_output <- tt_load("2019-01-15")
-
+}
 }

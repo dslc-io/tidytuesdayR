@@ -6,6 +6,9 @@
 \usage{
 base_64_to_char(b64)
 }
+\arguments{
+\item{b64}{base64 character value to be decoded and converted to character value}
+}
 \description{
 provide tool to read and process data using the github api
 }

@@ -1,17 +1,23 @@
 #' @title Show all TidyTuesdays
 #' @description  Show all the available datasets, and corresponding weeks
-#' @importFrom xml2 read_html
-#' @import rvest
-#' @importFrom purrr set_names map
+#' @param auth github Personal Access Token. See PAT section for more information
+#'
+#' @section PAT:
+#'
+#' A Github PAT is a personal Access Token. This allows for signed queries to
+#' the github api, and increases the limit on the number of requests allowed from
+#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
+#' to set the PAT.
+#'
 #' @export
-tt_available <- function() {
+tt_available <- function(auth = github_pat()) {
 
   tt_year <- sort(tt_years(),decreasing = TRUE,)
 
   datasets <- setNames(vector("list", length(tt_year)), tt_year)
 
   for(year in tt_year){
-    datasets[[as.character(year)]] <- tt_datasets(year)
+    datasets[[as.character(year)]] <- tt_datasets(year, auth = auth)
   }
 
   structure(datasets,
@@ -36,6 +42,10 @@ tt_available <- function() {
 #' @importFrom xml2 read_html
 #' @export
 tt_datasets <- function(year, auth = github_pat()) {
+
+  if(!year %in% tt_years()){
+    stop("Invalid `year` provided to list available tidytuesday datasets.\n\tUse one of the following years: ", paste(tt_years(), collapse = ", "), ".")
+  }
 
   files <- github_sha(file.path("data",year))
 
@@ -66,58 +76,39 @@ tt_datasets <- function(year, auth = github_pat()) {
 
 #' @title print utility for tt_dataset_table object
 #' @inheritParams base::print
-#' @param printConsole should output go to the console? TRUE/FALSE
-#' @importFrom rstudioapi isAvailable viewer
-#' @importFrom xml2 write_html
+#' @param interactive is the console interactive
 #' @export
-print.tt_dataset_table <- function(x, ..., printConsole = FALSE) {
-  if (rstudioapi::isAvailable() & !printConsole) {
+print.tt_dataset_table <- function(x, ..., interactive = interactive()) {
+  if(interactive){
     tmpHTML <- tempfile(fileext = ".html")
-    readme <- attr(x,".html")
-    write_html(readme, file = tmpHTML)
-    viewer(url = tmpHTML)
-  } else {
-    data.frame(x)
+    make_tt_dataset_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
+    html_viewer(tmpHTML)
+  }else {
+    print(data.frame(unclass(x)))
   }
   invisible(x)
 }
 
+#' @importFrom xml2 write_html
+make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
+  readme <- attr(x,".html")
+  write_html(readme, file = file)
+  invisible(readme)
+}
+
+
 #' @title print utility for tt_dataset_table_list object
 #' @inheritParams base::print
-#' @param printConsole should output go to the console? TRUE/FALSE
+#' @param interactive is the console interactive
 #' @importFrom purrr walk map
-#' @importFrom rstudioapi isAvailable viewer
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
 #' @export
-print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
+print.tt_dataset_table_list <- function(x, ...,interactive = interactive()) {
 
-  if (isAvailable() & !printConsole) {
-
-    readme <- names(x) %>%
-      purrr::map_chr(
-        function(.x, x) {
-          year_table <- attr(x[[.x]],".html") %>%
-            html_node("table")
-          paste("<h2>",.x,"</h2>",
-                as.character(year_table),
-                "")
-        },
-        x = x
-      ) %>%
-      paste(collapse = "") %>%
-      paste("<h1>TidyTuesday Datasets</h1>",.) %>%
-      paste("<article class='markdown-body entry-content' itemprop='text'>",.,"</article>") %>%
-      read_html() %>%
-      github_page()
-
-    tmp_html <- tempfile(fileext = ".html")
-    write_html(readme, file = tmp_html)
-    on.exit(unlink(tmp_html))
-
-    rstudioapi::viewer(url = tmp_html)
-
-
+  if (interactive) {
+    make_tt_dataset_list_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
+    html_viewer(tmpHTML)
   } else {
 
     names(x) %>%
@@ -137,4 +128,29 @@ print.tt_dataset_table_list <- function(x, ..., printConsole = FALSE) {
         }
       )
   }
+  invisible(x)
+}
+
+make_tt_dataset_list_html <- function(x, file =  tempfile(fileext = ".html")){
+  readme <- names(x) %>%
+    purrr::map_chr(
+      function(.x, x) {
+        year_table <- attr(x[[.x]],".html") %>%
+          html_node("table")
+        paste("<h2>",.x,"</h2>",
+              as.character(year_table),
+              "")
+      },
+      x = x
+    ) %>%
+    paste(collapse = "")
+
+  readme <- readme %>%
+    paste("<article class='markdown-body entry-content' itemprop='text'>",
+          paste("<h1>TidyTuesday Datasets</h1>",readme),"</article>") %>%
+    read_html() %>%
+    github_page()
+
+  write_html(readme, file = file)
+  invisible(readme)
 }

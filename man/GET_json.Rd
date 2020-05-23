@@ -6,6 +6,9 @@
 \usage{
 GET_json(get_response)
 }
+\arguments{
+\item{get_response}{object of class "response" from GET command. returns JSON value.}
+}
 \description{
 provide tool to read and process data using the github api from GET command
 }

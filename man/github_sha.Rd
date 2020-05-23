@@ -7,11 +7,11 @@
 github_sha(dirpath, branch = "master", auth = github_pat())
 }
 \arguments{
+\item{dirpath}{Relative path from within the TidyTuesday Repository to folder of contents wanting sha for}
+
+\item{branch}{which branch to get sha for. assumed to be master (and usually should be)}
+
 \item{auth}{github PAT. See PAT section for more information}
-
-\item{path}{Relative path from within the TidyTuesday Repository to contents that can be returned as HTML}
-
-\item{...}{optional arguments to pass to \code{read_html}}
 }
 \value{
 result data.frame of SHA and other information of directory contents
@@ -31,8 +31,7 @@ to set the PAT.
 \examples{
 \dontrun{
 
-main_readme <- github_html("README.md")
-week_readme <- github_html("data/2020/2020-01-07/readme.md")
+sha <- github_sha("data/2020/2020-01-07")
 
 }
 

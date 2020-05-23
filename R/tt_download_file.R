@@ -24,17 +24,19 @@
 #' @family tt_download_file
 #'
 #' @examples
+#' \dontrun{
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' agencies <- tt_download_file(tt_gh, 1)
 #' launches <- tt_download_file(tt_gh, "launches.csv")
+#' }
 #'
 tt_download_file <- function(tt, x, ..., auth = github_pat()) {
   suppressMessages({
     switch(class(x),
-      "character" = tt_download_file.character(tt, x, guess_max = guess_max ),
-      "numeric" = tt_download_file.numeric(tt, x, guess_max = guess_max ),
-      "integer" = tt_download_file.numeric(tt, x, guess_max = guess_max ),
+      "character" = tt_download_file.character(tt, x, ... ),
+      "numeric" = tt_download_file.numeric(tt, x, ... ),
+      "integer" = tt_download_file.numeric(tt, x, ... ),
       stop(paste("No method for entry of class:", class(x)))
     )
   })
@@ -42,7 +44,7 @@ tt_download_file <- function(tt, x, ..., auth = github_pat()) {
 
 #' @importFrom lubridate year
 #' @importFrom tools file_ext
-tt_download_file.character <- function(tt, x, ..., auth = github_pat()) {
+tt_download_file.character <- function(tt, x, ..., sha = NULL, auth = github_pat()) {
 
   file_info <- attr(tt, ".files")
 
@@ -50,9 +52,9 @@ tt_download_file.character <- function(tt, x, ..., auth = github_pat()) {
 
     tt_date <- attr(tt, ".date")
     tt_year <- year(tt_date)
-    as_raw  <- tools::file_ext(x) %in% c("xlsx","xls","rda","rds")
+    # as_raw  <- tools::file_ext(x) %in% c("xlsx","xls","rda","rds")
 
-    blob <- github_blob(file.path("data",tt_year,tt_date,x), as_raw = as_raw, auth = auth)
+    blob <- github_blob(file.path("data",tt_year,tt_date,x), as_raw = TRUE, sha = sha, auth = auth)
 
     tt_parse_blob(blob, file_info = file_info[file_info$data_file == x,])
 

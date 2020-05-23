@@ -6,7 +6,7 @@
 
 Download all or specific files identified in the tt dataset}
 \usage{
-tt_download(tt, files = c("All"), ..., auth = github_pat())
+tt_download(tt, files = c("All"), ..., branch = "master", auth = github_pat())
 }
 \arguments{
 \item{tt}{string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year}
@@ -14,6 +14,8 @@ tt_download(tt, files = c("All"), ..., auth = github_pat())
 \item{files}{List the file names to download. Default to asking.}
 
 \item{...}{pass methods to the parsing functions. These will be passed to ALL files, so be careful.}
+
+\item{branch}{which branch to be downloading data from. Default and always should be "master".}
 
 \item{auth}{github Personal Access Token. See PAT section for more information}
 }
@@ -35,5 +37,8 @@ to set the PAT.
 }
 
 \examples{
-tt_output <- tt_load("2019-01-15")
+\dontrun{
+tt_output <- tt_load_gh("2019-01-15")
+datasets <- tt_download(tt_output, files = "All")
+}
 }

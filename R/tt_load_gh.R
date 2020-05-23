@@ -16,14 +16,15 @@
 #' @return tt_gh object. List object with the following entries: readme, files, url
 #' @export
 #' @examples
-#' tt_gh <- tt_load_gh("2019-01-15")
-#'
+#' \dontrun{
+#' tt_gh <- tt_load_gh("2019-01-15"
 #' readme(tt_gh)
+#' }
 tt_load_gh <- function(x, week, auth = github_pat()) {
 
   if (missing(x)) {
     on.exit({
-      print(tt_available(auth = auth))
+      tt_available(auth = auth)
     })
     stop("Enter either the year or date of the TidyTuesday Data to extract!")
   }
