@@ -44,7 +44,7 @@ tt_download <- function(tt, files = c("All"), ..., branch = "master", auth = git
   message("--- Starting Download ---")
   cat("\n")
 
-  tt_sha <- github_sha(file.path("data",tt_year,tt_date))
+  tt_sha <- github_sha(file.path("data",tt_year,tt_date), auth = auth)
 
   tt_data <- setNames(
     vector("list", length = length(files)),
