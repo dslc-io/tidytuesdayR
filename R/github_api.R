@@ -258,10 +258,14 @@ github_page <- function(page_content){
 #'
 #' @return PAT as a character.
 github_pat <- function (quiet = TRUE) {
-  pat <- Sys.getenv("GITHUB_PAT")
-  if (nchar(pat)) {
+  pat <- Sys.getenv("GITHUB_PAT", "")
+  token <- Sys.getenv("GITHUB_TOKEN", "")
+  if (nchar(pat) | nchar(pat)) {
     if (!quiet) {
-      message("Using github PAT from envvar GITHUB_PAT")
+      message("Using github PAT from envvar GITHUB_PAT | GITHUB_TOKEN")
+    }
+    if(!nchar(pat)){
+      pat <- token
     }
     return(pat)
   }
