@@ -105,6 +105,8 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
 })
 
 tt_ref_test_that("tt_parse_blob can handle a xls file",{
+
+  check_api()
   xls_blob <- github_blob("data/2019/2019-11-26/PCA_Report_FY17Q3.xls",
                           sha = "e2313e902423c398883c01d3ecdfe77ae1b84862",
                           as_raw = TRUE)
