@@ -17,6 +17,8 @@ cache:
 
 environment:
   USE_RTOOLS: true
+  GITHUB_PAT:
+    secure: 0ZN45U7+LZR36fLVTcHHuGtmpoQl2Rtr/epTN/lppJOToFmYi4k/kvXoT7F0vD8p
 
 build_script:
   - travis-tool.sh install_deps

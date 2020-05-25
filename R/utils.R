@@ -6,6 +6,7 @@
 print.tt_data <- function(x, ...) {
   readme(x)
   message("Available datasets:\n\t", paste(tools::file_path_sans_ext(names(x)), "\n\t", collapse = ""))
+  invisible(x)
 }
 
 #' @title print utility for tt_data objects
@@ -13,35 +14,33 @@ print.tt_data <- function(x, ...) {
 #' @importFrom tools file_path_sans_ext
 #' @export
 print.tt <- function(x,...){
-  message("Available datasets for download:\n\t", paste(attr(x,".files"), "\n\t", collapse = ""))
+  message("Available datasets in this TidyTuesday:\n\t", paste(attr(x,".files")$data_files, "\n\t", collapse = ""))
+  invisible(x)
 }
 
 #' @title Readme HTML maker and Viewer
 #' @param tt tt_data object for printing
-#' @importFrom rstudioapi viewer
+#' @importFrom xml2 write_html
+#' @return NULL
 #' @export
 readme <- function(tt) {
   if ("tt_data" %in% class(tt)) {
     tt <- attr(tt, ".tt")
   }
   if (length(attr(tt, ".readme")) > 0) {
+    write_html(attr(tt, ".readme"), file = tmpHTML <- tempfile(fileext = ".html"))
     # if running in rstudio, print out that
-    if (rstudioapi::isAvailable()) {
-      rstudioapi::viewer(url = tt_make_html(tt))
-    }
+    html_viewer(tmpHTML)
   }
+  invisible(NULL)
 }
 
-tt_make_html <- function(x) {
-  tmpHTML <- tempfile(fileext = ".html")
-  cat(c(
-    "<!DOCTYPE html><html lang=\"en\"><head>",
-    "<link rel=\"dns-prefetch\" href=\"https://github.githubassets.com\">",
-    "<link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\"",
-    "href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\">",
-    "</head><body>"
-  ), file = tmpHTML, sep = " ")
-  cat(attr(x, ".readme"), file = tmpHTML, append = TRUE)
-  cat("</body></html>", file = tmpHTML, append = TRUE)
-  return(tmpHTML)
+#' @importFrom utils browseURL
+#' @importFrom rstudioapi viewer isAvailable
+html_viewer <- function(url){
+  if (isAvailable()) {
+    viewer(url = url)
+  } else{
+    browseURL(url = url)
+  }
 }
