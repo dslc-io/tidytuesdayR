@@ -62,8 +62,8 @@ tt_ref_test_that("tt_read_data can load RDS files just as easily as text files",
 
 
 tt_ref_test_that("read_rda will not arbitrarily assign the object to the current environment",{
-  new_dataset<-read_rda("testfiles/test.rda")
+  new_dataset<-read_rda(testthat::test_path("testfiles/test.rda"))
   expect_false(exists("testdf"))
-  expect_equal(data.frame(x=c(1,2,3),y=c("A","B","C")),
+  expect_equal(data.frame(x=c(1,2,3),y=c("A","B","C"), stringsAsFactors = TRUE),
                new_dataset)
 })
