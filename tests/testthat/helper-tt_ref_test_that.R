@@ -9,3 +9,9 @@ tt_ref_test_that <- function(desc, ...){
   })
   testthat::test_that(desc = desc, ...)
 }
+
+check_api <- function( n = 10){
+  if(rate_limit_check(silent = TRUE) <= n ){
+    skip("Rate Limit Met")
+  }
+}

@@ -1,6 +1,7 @@
 context("Download data using tt")
 
 tt_ref_test_that("tt_read_data only works for numeric,integer, or character entries", {
+  check_api()
   tt_gh_data <- tt_load_gh("2019-01-15")
 
   numericRead <- tt_download_file(tt_gh_data, 1)
@@ -27,6 +28,7 @@ tt_ref_test_that("tt_read_data only works for numeric,integer, or character entr
 })
 
 tt_ref_test_that("tt_read_data informs when selection is out of range/not available", {
+  check_api()
   tt_gh_data <- tt_load_gh("2019-01-15")
 
   expect_error(
@@ -51,6 +53,7 @@ tt_ref_test_that("tt_read_data informs when selection is out of range/not availa
 
 
 tt_ref_test_that("tt_read_data can load RDS files just as easily as text files",{
+  check_api()
   tt_gh_data <- tt_load_gh("2019-01-01")
 
   expect_is(
@@ -62,6 +65,7 @@ tt_ref_test_that("tt_read_data can load RDS files just as easily as text files",
 
 
 tt_ref_test_that("read_rda will not arbitrarily assign the object to the current environment",{
+  check_api()
   new_dataset<-read_rda(testthat::test_path("testfiles/test.rda"))
   expect_false(exists("testdf"))
   expect_equal(data.frame(x=c(1,2,3),y=c("A","B","C"), stringsAsFactors = TRUE),

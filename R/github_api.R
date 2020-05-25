@@ -295,7 +295,75 @@ github_GET <- function(url, auth = github_pat(), ...){
     headers <- add_headers(...)
   }
 
-  GET(url, headers)
+  rate_limit_check()
+
+  if(exists("headers")){
+    get_res <- GET(url, headers)
+  }else{
+    get_res <- GET(url)
+  }
+
+  rate_limit_update(header_to_rate_info(get_res))
+
+  get_res
 
 }
 
+#' The Master List of Files from TidyTuesday
+#'
+#' @keywords internal
+
+TT_GITHUB_ENV <- new.env()
+TT_GITHUB_ENV$RATE_LIMIT <- NULL
+TT_GITHUB_ENV$RATE_REMAINING <- NULL
+TT_GITHUB_ENV$RATE_RESET <- NULL
+
+rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
+
+  if (is.null(rate_info)) {
+    if (!is.null(auth)) {
+      rate_lim <- GET("https://api.github.com/rate_limit",
+                      add_headers(Authorization = paste("token", auth)))
+    } else {
+      rate_lim <- GET("https://api.github.com/rate_limit")
+    }
+    rate_info <- GET_json(rate_lim)$rate
+  }
+
+  TT_GITHUB_ENV$RATE_LIMIT <- rate_info$limit
+  TT_GITHUB_ENV$RATE_REMAINING <- rate_info$remaining
+  TT_GITHUB_ENV$RATE_RESET <- as.POSIXct(rate_info$reset, origin = "1970-01-01")
+
+}
+
+rate_limit_check <- function(n = 10, quiet = TRUE, silent = FALSE){
+
+  if(TT_GITHUB_ENV$RATE_REMAINING == 0 & !silent){
+    stop("Github API Rate Limit hit. You must wait until ",
+         format(TT_GITHUB_ENV$RATE_RESET,
+                "%Y-%m-%d %r %Z"),
+         " to make calls again!")
+  } else if (TT_GITHUB_ENV$RATE_REMAINING <= n & !silent & !quiet){
+    warning(
+      paste0(
+        "Only ",
+        TT_GITHUB_ENV$RATE_REMAINING,
+        " Github queries remaining until ",
+        format(TT_GITHUB_ENV$RATE_RESET,
+               "%Y-%m-%d %r %Z"),
+        "."
+      )
+    )
+  }
+  TT_GITHUB_ENV$RATE_REMAINING
+}
+
+
+header_to_rate_info <- function(res){
+  headers <- res$headers
+  rate_json <- list()
+  rate_json$limit <-  as.numeric(headers$`x-ratelimit-limit`)
+  rate_json$remaining <-  as.numeric(headers$`x-ratelimit-remaining`)
+  rate_json$reset <- as.numeric(headers$`x-ratelimit-reset`)
+  rate_json
+}

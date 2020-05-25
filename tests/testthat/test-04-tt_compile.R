@@ -1,6 +1,7 @@
 context("Compile Files and Readme for the Week ")
 
 tt_ref_test_that("Check that tt_compile lists all files for the date", {
+  check_api()
 
   tt_c <- tt_compile("2019-01-15")
 
@@ -26,6 +27,7 @@ tt_ref_test_that("Check that tt_compile lists all files for the date", {
 })
 
 tt_ref_test_that("Check that tt_compile returns NULL for missing readme's", {
+  check_api()
 
   tt_c <- tt_compile("2018-04-02")
 

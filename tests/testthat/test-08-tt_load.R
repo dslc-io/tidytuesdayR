@@ -7,6 +7,7 @@ on.exit({
 })
 
 tt_ref_test_that("tt_load loads all data available", {
+  check_api()
 
   output <- capture.output({
     tt_obj <- tt_load("2019-01-15")
@@ -27,6 +28,7 @@ tt_ref_test_that("tt_load loads all data available", {
 })
 
 tt_ref_test_that("tt_load loads excel files properly", {
+  check_api()
   output <- capture.output({
     tt_obj <- tt_load("2018-04-02")
 
