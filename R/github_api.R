@@ -309,7 +309,7 @@ github_GET <- function(url, auth = github_pat(), ...){
 
 }
 
-#' The Master List of Files from TidyTuesday
+#' Environment containing state of Github API limits
 #'
 #' @keywords internal
 
