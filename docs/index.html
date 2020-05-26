@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidytuesdayR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -86,14 +86,13 @@
 <a href="#tidytuesdayr-" class="anchor"></a>tidytuesdayR <img src="reference/figures/logo.png" align="right" height="140/">
 </h1></div>
 <p>Ellis Hughes</p>
-<p><a href="https://travis-ci.com/thebioengineer/tidytuesdayR"><img src="https://travis-ci.com/thebioengineer/tidytuesdayR.svg?branch=master" alt="Travis build status"></a> <a href="https://ci.appveyor.com/project/thebioengineer/tidytuesdayR"><img src="https://ci.appveyor.com/api/projects/status/github/thebioengineer/tidytuesdayR?branch=master&amp;svg=true" alt="AppVeyor build status"></a> <a href="https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master"><img src="https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></p>
+<p><a href="https://github.com/thebioengineer/tidytuesdayR/actions"><img src="https://github.com/thebioengineer/tidytuesdayR/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master"><img src="https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></p>
 <p>{tidytuesdayR} has the main goal to make it easy to participate in the weekly <a href="https://github.com/rfordatascience/tidytuesday">#TidyTuesday</a> project. Currently this is done by assisting with the import of data posted on the <a href="https://github.com/rfordatascience">R4DataScience</a> Tidy Tuesday repository.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Currently this package is only available on GitHub:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co">#install.packages("devtools")
-</span>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="co">#install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"thebioengineer/tidytuesdayR"</span>)</pre></div>
 </div>
 <div id="usage" class="section level2">
@@ -104,13 +103,13 @@
 <h3 class="hasAnchor">
 <a href="#tt_load" class="anchor"></a>tt_load()</h3>
 <p>The first and simplest way is to use the ‘tt_load()’ function. This function has accepts two types of inputs to determine which data to grab. It can be a date as a string in the YYYY-MM-DD format like below.</p>
-<div class="sourceCode" id="cb2"><pre class="r">library(tidytuesdayR)
-tt_data </pre></div>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidytuesdayR</span>)
+<span class="no">tt_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tt_load.html">tt_load</a></span>(<span class="st">"2019-01-15"</span>)</pre></div>
 <p>Or the function can accept the year as the first argument, and which week of the year as the second.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">tt_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tt_load.html">tt_load</a></span>(<span class="fl">2019</span>, <span class="kw">week</span><span class="kw">=</span><span class="fl">3</span>)</pre></div>
 <p><code><a href="reference/tt_load.html">tt_load()</a></code> naively downloads <em>all</em> the data that is available and stores them in the resulting <code>tt_data</code> object. To access the data, use the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> or <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> notation and the name of the dataset.</p>
-<div class="sourceCode" id="cb4"><pre class="r">tt_data$agencies
-tt_data[["agencies"]]</pre></div>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">tt_data</span>$<span class="no">agencies</span>
+<span class="no">tt_data</span><span class="kw">[[</span><span class="st">"agencies"</span>]]</pre></div>
 </div>
 <div id="tt_load_gh-and-tt_read_data" class="section level3">
 <h3 class="hasAnchor">
@@ -118,20 +117,20 @@ tt_data[["agencies"]]</pre></div>
 <p>The second method to access the data from the repository is to use the combination of <code><a href="reference/tt_load_gh.html">tt_load_gh()</a></code> and <code>tt_read_data()</code> functions. <code><a href="reference/tt_load_gh.html">tt_load_gh()</a></code> takes similar arguments as <code><a href="reference/tt_load.html">tt_load()</a></code>, in that either the date or a combination of year and week can be entered.</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">tt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tt_load_gh.html">tt_load_gh</a></span>(<span class="st">"2019-01-15"</span>)</pre></div>
 <p>The <code>tt</code> object lists the available files for download. To download the data, use the <code>tt_read_data()</code> function. <code>tt_read_data()</code> expects the first argument to be the <code>tt</code> object. The second argument can be a string indicating the name of the file to download from the repository, or the index in the <code>tt</code> object</p>
-<div class="sourceCode" id="cb6"><pre class="r">agencies % 
-  tt_read_data("agencies.csv")
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">agencies</span> <span class="kw">&lt;-</span> <span class="no">tt</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/tt_download_file.html">tt_download_file</a></span>(<span class="st">"agencies.csv"</span>)
 
-# The first index of the tt object is `agencies.csv`
-# agencies % 
-#   tt_read_data(1)</pre></div>
+<span class="co"># The first index of the tt object is `agencies.csv`</span>
+<span class="co"># agencies &lt;- tt %&gt;% </span>
+<span class="co">#   tt_download_file(1)</span></pre></div>
 </div>
 </div>
 <div id="tidy-tuesday-details" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tidy-tuesday-details" class="anchor"></a>Tidy Tuesday Details</h2>
 <p>The tt_data and tt objects both have a function for showing the readme for that week called <code><a href="reference/readme.html">readme()</a></code>. In addition, the print methods for both objects show the readme in a viewer and the available datasets in the console.</p>
-<div class="sourceCode" id="cb7"><pre class="r">readme(tt_data)
-print(tt_data)</pre></div>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="reference/readme.html">readme</a></span>(<span class="no">tt_data</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">tt_data</span>)</pre></div>
 <pre><code>## Available Datasets:
 ##  agencies 
 ##  launches 
@@ -185,7 +184,7 @@ print(tt_data)</pre></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
