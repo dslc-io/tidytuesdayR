@@ -77,11 +77,11 @@ or the index in the `tt` object
 
 ``` r
 agencies <- tt %>% 
-  tt_read_data("agencies.csv")
+  tt_download_file("agencies.csv")
 
 # The first index of the tt object is `agencies.csv`
 # agencies <- tt %>% 
-#   tt_read_data(1)
+#   tt_download_file(1)
 ```
 
 ## Tidy Tuesday Details
