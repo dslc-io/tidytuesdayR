@@ -54,10 +54,10 @@ tt_data$agencies
 tt_data[["agencies"]]
 ```
 
-### tt\_load\_gh() and tt\_read\_data()
+### tt\_load\_gh() and tt\_download\_file()
 
 The second method to access the data from the repository is to use the
-combination of `tt_load_gh()` and `tt_read_data()` functions.
+combination of `tt_load_gh()` and `tt_download_file()` functions.
 `tt_load_gh()` takes similar arguments as `tt_load()`, in that either
 the date or a combination of year and week can be entered.
 
@@ -66,7 +66,7 @@ tt <- tt_load_gh("2019-01-15")
 ```
 
 The `tt` object lists the available files for download. To download the
-data, use the `tt_read_data()` function. `tt_read_data()` expects the
+data, use the `tt_download_file()` function. `tt_download_file()` expects the
 first argument to be the `tt` object. The second argument can be a
 string indicating the name of the file to download from the repository,
 or the index in the `tt` object
