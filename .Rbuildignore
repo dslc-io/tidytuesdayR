@@ -11,3 +11,4 @@
 ^readme\.md$
 ^pkgdown$
 ^\.github$
+^cran-comments\.md$
