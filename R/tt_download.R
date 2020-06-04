@@ -71,7 +71,7 @@ tt_download <- function(tt, files = c("All"), ..., branch = "master", auth = git
   cat("\n")
   message("--- Download complete ---")
 
-  names(tt_data) <- tools::file_path_sans_ext(attr(tt, ".files")$data_files)
+  names(tt_data) <- tools::file_path_sans_ext(files)
   tt_data
 
 }

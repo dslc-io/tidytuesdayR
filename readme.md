@@ -2,10 +2,6 @@
 
 Ellis Hughes
 
-[![Travis build
-status](https://travis-ci.com/thebioengineer/tidytuesdayR.svg?branch=master)](https://travis-ci.com/thebioengineer/tidytuesdayR)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/thebioengineer/tidytuesdayR?branch=master&svg=true)](https://ci.appveyor.com/project/thebioengineer/tidytuesdayR)
 [![R build status](https://github.com/thebioengineer/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions)
 [![Coverage
 status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
@@ -58,10 +54,10 @@ tt_data$agencies
 tt_data[["agencies"]]
 ```
 
-### tt\_load\_gh() and tt\_read\_data()
+### tt\_load\_gh() and tt\_download\_file()
 
 The second method to access the data from the repository is to use the
-combination of `tt_load_gh()` and `tt_read_data()` functions.
+combination of `tt_load_gh()` and `tt_download_file()` functions.
 `tt_load_gh()` takes similar arguments as `tt_load()`, in that either
 the date or a combination of year and week can be entered.
 
@@ -70,18 +66,18 @@ tt <- tt_load_gh("2019-01-15")
 ```
 
 The `tt` object lists the available files for download. To download the
-data, use the `tt_read_data()` function. `tt_read_data()` expects the
+data, use the `tt_download_file()` function. `tt_download_file()` expects the
 first argument to be the `tt` object. The second argument can be a
 string indicating the name of the file to download from the repository,
 or the index in the `tt` object
 
 ``` r
 agencies <- tt %>% 
-  tt_read_data("agencies.csv")
+  tt_download_file("agencies.csv")
 
 # The first index of the tt object is `agencies.csv`
 # agencies <- tt %>% 
-#   tt_read_data(1)
+#   tt_download_file(1)
 ```
 
 ## Tidy Tuesday Details
