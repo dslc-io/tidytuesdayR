@@ -13,13 +13,11 @@
 #' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
 #' to set the PAT.
 #'
-#' @return tt_gh object. List object with the following entries: readme, files, url
+#' @return a 'tt' object. This contains the files available for the week, readme html, and the date of the tidytuesday.
 #' @export
 #' @examples
-#' \dontrun{
-#' tt_gh <- tt_load_gh("2019-01-15"
+#' tt_gh <- tt_load_gh("2019-01-15")
 #' readme(tt_gh)
-#' }
 tt_load_gh <- function(x, week, auth = github_pat()) {
 
   if (missing(x)) {

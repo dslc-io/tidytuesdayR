@@ -14,7 +14,7 @@ tt_load_gh(x, week, auth = github_pat())
 \item{auth}{github Personal Access Token. See PAT section for more information}
 }
 \value{
-tt_gh object. List object with the following entries: readme, files, url
+a 'tt' object. This contains the files available for the week, readme html, and the date of the tidytuesday.
 }
 \description{
 Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided
@@ -29,8 +29,6 @@ to set the PAT.
 }
 
 \examples{
-\dontrun{
-tt_gh <- tt_load_gh("2019-01-15"
+tt_gh <- tt_load_gh("2019-01-15")
 readme(tt_gh)
-}
 }
