@@ -1,6 +1,6 @@
 Package: tidytuesdayR
 Type: Package
-Title: Access the Weekly TidyTuesday Project Dataset
+Title: Access the Weekly 'TidyTuesday' Project Dataset
 Version: 1.0.0
 Authors@R: 
     c(
@@ -29,11 +29,10 @@ Authors@R:
       )
     )
 Description: 
-  TidyTuesday is a project by the R4DS Online Learning Community in which they 
-  post a weekly dataset onto Github for people to analyze and visualize.
+  TidyTuesday is a project by the 'R4DS Online Learning Community' in which they 
+  post a weekly dataset onto 'GitHub' for people to analyze and visualize.
   This package provides the tools to easily download this data and the 
-  description of the source by simply providing a date-string into the 
-  function `tt_load`.
+  description of the source. The package does this through the 'GitHub' 'API'.
 License: MIT + file LICENSE
 URL: https://github.com/thebioengineer/tidytuesdayR
 BugReports: https://github.com/thebioengineer/tidytuesdayR/issues
