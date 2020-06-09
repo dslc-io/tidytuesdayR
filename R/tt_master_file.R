@@ -14,6 +14,8 @@
 #'
 #' @keywords internal
 #' @importFrom utils read.csv
+#' @noRd
+#'
 tt_update_master_file <- function(force = FALSE, auth = github_pat()){
   # get sha to see if need to update
   sha_df <- github_sha("static")
@@ -35,6 +37,8 @@ tt_update_master_file <- function(force = FALSE, auth = github_pat()){
 #' @param assign value to overwrite the TT_MASTER_ENV$TT_MASTER_FILE contents with
 #'
 #' @keywords internal
+#' @noRd
+#'
 tt_master_file <- function(assign = NULL){
   if(!is.null(assign)){
     TT_MASTER_ENV$TT_MASTER_FILE <- assign
@@ -51,7 +55,8 @@ tt_master_file <- function(assign = NULL){
 #' The Master List of Files from TidyTuesday
 #'
 #' @keywords internal
-
+#' @noRd
+#'
 TT_MASTER_ENV <- new.env()
 TT_MASTER_ENV$TT_MASTER_FILE <- NULL
 
