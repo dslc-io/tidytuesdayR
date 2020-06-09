@@ -24,3 +24,9 @@ the github api, and increases the limit on the number of requests allowed from
 to set the PAT.
 }
 
+\examples{
+
+## if you have a peronal access token saved, this will return that value
+github_pat()
+
+}

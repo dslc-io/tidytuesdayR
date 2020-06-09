@@ -283,7 +283,7 @@ github_page <- function(page_content){
 #'
 #' @return a character vector that is the
 #'
-#' @example
+#' @examples
 #'
 #' ## if you have a peronal access token saved, this will return that value
 #' github_pat()
@@ -312,7 +312,7 @@ github_pat <- function (quiet = TRUE) {
 #' @param ... any additional headers to add
 #'
 #' @return response from GET
-#' @nord
+#' @noRd
 #'
 #' @importFrom httr GET add_headers
 github_GET <- function(url, auth = github_pat(), ...){
