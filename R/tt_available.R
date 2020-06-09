@@ -1,4 +1,4 @@
-#' Listing all available TidyTuesdays
+#' @title Listing all available TidyTuesdays
 #'
 #' @description
 #' The TidyTuesday dataset sources is a constantly growing repository of datasets. Knowing what type of
@@ -22,7 +22,7 @@
 #' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
 #' to set the PAT.
 #'
-#' @name Available
+#' @name available
 #'
 #' @param year numeric entry representing the year of tidytuesday you want the list of datasets
 #'  for. Leave empty for most recent year.
@@ -37,8 +37,6 @@
 #' tt_available()
 #'
 #'
-
-
 
 
 #' @rdname available
