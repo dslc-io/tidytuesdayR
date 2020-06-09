@@ -3,7 +3,6 @@
 S3method(print,tt)
 S3method(print,tt_data)
 S3method(print,tt_dataset_table)
-S3method(print,tt_dataset_table_list)
 export("%>%")
 export(github_pat)
 export(readme)

@@ -1,15 +1,51 @@
-#' @title Show all TidyTuesdays
-#' @description  Show all the available datasets, and corresponding weeks
-#' @param auth github Personal Access Token. See PAT section for more information
+#' Listing all available TidyTuesdays
+#'
+#' @description
+#' The TidyTuesday dataset sources is a constantly growing repository of datasets. Knowing what type of
+#' data is available for each week requires going to the source. However, one of the hallmarks
+#' of 'tidytuesdayR' is that you never have to leave your R console. These functions were created to help maintain this philosophy.
+#'
+#'
+#' @details
+#' To find out the available datasets for a specific year, the user
+#' can use the function `tt_datasets()`. This function will either populate the Viewer or
+#' print to console all the available datasets and the week/date they are associated with.
+#'
+#' To get the whole list of all the datasets ever released by TidyTuesday, the function `tt_available()`
+#' was created. This function will either poplulate the Viewer or print to console all the available
+#' datasets ever made for TidyTuesday.
 #'
 #' @section PAT:
 #'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
+#' A Github PAT is a Personal Access Token. This allows for signed queries to
 #' the github api, and increases the limit on the number of requests allowed from
 #' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
 #' to set the PAT.
 #'
+#' @name Available
+#'
+#' @param year numeric entry representing the year of tidytuesday you want the list of datasets
+#'  for. Leave empty for most recent year.
+#' @param auth github Personal Access Token. See PAT section for more information
+#'
+#' @examples
+#'
+#' ## show data available from 2018
+#' tt_dataset(2018)
+#'
+#' ## show all data available ever
+#' tt_available()
+#'
+#'
+
+
+
+
+#' @rdname available
 #' @export
+#' @return `tt_available()` returns a 'tt_dataset_table_list', which is a list of 'tt_dataset_table'. This class has
+#' special printing methods to show the available datasets.
+#'
 tt_available <- function(auth = github_pat()) {
 
   tt_year <- sort(tt_years(),decreasing = TRUE,)
@@ -25,22 +61,16 @@ tt_available <- function(auth = github_pat()) {
   )
 }
 
-#' @title Available datasets
-#' @description list available datasets for that year
-#' @param year numeric entry representing the year of tidytuesday you want the list of datasets
-#'  for. Leave empty for most recent year.
-#' @param auth github Personal Access Token. See PAT section for more information
-#'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' @rdname available
+#' @export
 #'
 #' @importFrom rvest html_table
 #' @importFrom xml2 read_html
+#'
 #' @export
+#' @return `tt_datasets()` returns a 'tt_dataset_table' object. This class has special printing methods to show the
+#'  available datasets for the year.
+#'
 tt_datasets <- function(year, auth = github_pat()) {
 
   if(!year %in% tt_years()){
@@ -76,10 +106,10 @@ tt_datasets <- function(year, auth = github_pat()) {
 
 #' @title print utility for tt_dataset_table object
 #' @inheritParams base::print
-#' @param interactive is the console interactive
+#' @param is_interactive is the console interactive
 #' @export
-print.tt_dataset_table <- function(x, ..., interactive = interactive()) {
-  if(interactive){
+print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
+  if(is_interactive){
     tmpHTML <- tempfile(fileext = ".html")
     make_tt_dataset_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
     html_viewer(tmpHTML)
@@ -103,7 +133,7 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 #' @importFrom purrr walk map
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
-#' @export
+#'
 print.tt_dataset_table_list <- function(x, ...,interactive = interactive()) {
 
   if (interactive) {
