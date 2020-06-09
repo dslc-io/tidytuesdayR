@@ -2,7 +2,7 @@
 #' @description Given multiple types of inputs, generate
 #' @param x either a string or numeric entry indicating the full date of
 #' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
-#'
+#' @noRd
 tt_check_date <- function(x, week) {
   if (valid_date(x)) {
     tt_check_date.date(x)
