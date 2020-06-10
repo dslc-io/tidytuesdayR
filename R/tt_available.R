@@ -29,12 +29,13 @@
 #' @param auth github Personal Access Token. See PAT section for more information
 #'
 #' @examples
-#'
+#' if(interactive()){
 #' ## show data available from 2018
 #' tt_datasets(2018)
 #'
 #' ## show all data available ever
 #' tt_available()
+#' }
 #'
 #'
 

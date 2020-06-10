@@ -1,0 +1,10 @@
+* using log directory 'F:/Documents/tidytuesdayR/..Rcheck'
+* using R version 4.0.0 (2020-04-24)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: ISO8859-1
+* using option '--as-cran'
+* checking for file './DESCRIPTION' ... ERROR
+Required fields missing or empty:
+  'Author' 'Maintainer'
+* DONE
+Status: 1 ERROR

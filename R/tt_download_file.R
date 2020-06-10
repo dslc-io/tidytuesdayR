@@ -24,11 +24,12 @@
 #' @family tt_download_file
 #'
 #' @examples
+#' if(interactive()){
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' agencies <- tt_download_file(tt_gh, 1)
 #' launches <- tt_download_file(tt_gh, "launches.csv")
-#'
+#' }
 tt_download_file <- function(tt, x, ..., auth = github_pat()) {
   suppressMessages({
     switch(class(x),

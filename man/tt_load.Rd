@@ -33,3 +33,10 @@ the github api, and increases the limit on the number of requests allowed from
 to set the PAT.
 }
 
+\examples{
+if(interactive()){
+tt_output <- tt_load("2019-01-15")
+tt_output
+dat <- tt_output$agencies
+}
+}

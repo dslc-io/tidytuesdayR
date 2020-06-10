@@ -29,7 +29,7 @@ Authors@R:
       )
     )
 Description: 
-  TidyTuesday is a project by the 'R4DS Online Learning Community' in which they 
+  'TidyTuesday' is a project by the 'R4DS Online Learning Community' in which they 
   post a weekly dataset onto 'GitHub' <https://github.com/rfordatascience/tidytuesday> for people to
   analyze and visualize. This package provides the tools to easily download this data and the 
   description of the source. The package does this through the 'GitHub' 'API'.
@@ -46,7 +46,6 @@ Suggests:
     pkgdown,
     tibble,
 Imports:
-    dplyr (>= 0.8.0),
     readxl (>= 1.0.0),
     rvest (>= 0.3.2),
     tools (>= 3.1.0),
