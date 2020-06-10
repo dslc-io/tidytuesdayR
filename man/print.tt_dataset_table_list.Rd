@@ -13,6 +13,9 @@
 
 \item{interactive}{is the console interactive}
 }
+\value{
+used for side effects to show all the available datasets in TidyTuesday
+}
 \description{
 print utility for tt_dataset_table_list object
 }

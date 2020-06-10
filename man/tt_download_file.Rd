@@ -16,7 +16,7 @@ tt_download_file(tt, x, ..., auth = github_pat())
 \item{auth}{github Personal Access Token. See PAT section for more information}
 }
 \value{
-tibble
+tibble containing the contents of the file downloaded from git
 }
 \description{
 Reads in the actual data from the TidyTuesday github
@@ -31,12 +31,10 @@ to set the PAT.
 }
 
 \examples{
-\dontrun{
 tt_gh <- tt_load_gh("2019-01-15")
 
 agencies <- tt_download_file(tt_gh, 1)
 launches <- tt_download_file(tt_gh, "launches.csv")
-}
 
 }
 \concept{tt_download_file}

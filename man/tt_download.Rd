@@ -20,7 +20,7 @@ tt_download(tt, files = c("All"), ..., branch = "master", auth = github_pat())
 \item{auth}{github Personal Access Token. See PAT section for more information}
 }
 \value{
-tt_data object (list class)
+list of tibbles of the files downloaded.
 }
 \description{
 download tt data
@@ -37,8 +37,8 @@ to set the PAT.
 }
 
 \examples{
-\dontrun{
+
 tt_output <- tt_load_gh("2019-01-15")
-datasets <- tt_download(tt_output, files = "All")
-}
+agencies <- tt_download(tt_output, files = "agencies.csv")
+
 }

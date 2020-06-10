@@ -13,14 +13,16 @@
 #' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
 #' to set the PAT.
 #'
-#' @return tt_data object (list class)
+#' @return tt_data object, which contains data that can be accessed via `$`, and the readme for the
+#'  weeks tidytuesday through printing the object or calling `readme()`
 #'
 #' @importFrom purrr map
 #'
-#' @examples
-#' \dontrun{
+#' @example
 #' tt_output <- tt_load("2019-01-15")
-#' }
+#' tt_output
+#' dat <- tt_output$agencies
+#'
 #' @export
 tt_load <- function(x, week, download_files = "All", ..., auth = github_pat()) {
 

@@ -18,6 +18,7 @@
 #' @examples
 #' tt_gh <- tt_load_gh("2019-01-15")
 #' readme(tt_gh)
+#'
 tt_load_gh <- function(x, week, auth = github_pat()) {
 
   if (missing(x)) {

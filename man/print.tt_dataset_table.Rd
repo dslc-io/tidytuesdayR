@@ -13,6 +13,9 @@
 
 \item{is_interactive}{is the console interactive}
 }
+\value{
+used for side effects to show the available datasets for the year.
+}
 \description{
 print utility for tt_dataset_table object
 }

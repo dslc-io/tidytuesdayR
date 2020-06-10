@@ -4,6 +4,7 @@
 #' @param blob raw data to be parsed
 #' @param ... args to pass to func
 #' @param file_info data.frame of information about the blob being read
+#' @noRd
 tt_parse_blob <- function(blob, ..., file_info) {
   switch( tolower(file_info$data_type),
           "xls"  = tt_parse_binary(blob, readxl::read_xls, ..., filename = file_info$data_files),
@@ -23,6 +24,8 @@ tt_parse_blob <- function(blob, ..., file_info) {
 #' @param func the function to perform parsing of the file
 #' @param ... args to pass to func
 #' @param filename the original name of the file
+#' @noRd
+
 tt_parse_binary <- function(blob, func, ... , filename) {
   temp_file <- file.path(tempdir(), filename)
   attr(blob, ".sha") <- NULL
@@ -39,7 +42,7 @@ tt_parse_binary <- function(blob, func, ... , filename) {
 #' @param delim what delimeter to use when parsing
 #' @param progress should parsing process be shared. Assumed to be FALSE
 #' @param ... args to pass to func
-#'
+#' @noRd
 tt_parse_text <- function(blob, func, delim, progress = FALSE, ... ) {
   func(blob, delim = delim, progress = progress, ...)
 }

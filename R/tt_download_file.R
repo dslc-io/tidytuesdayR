@@ -14,7 +14,7 @@
 #' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
 #' to set the PAT.
 #'
-#' @return tibble
+#' @return tibble containing the contents of the file downloaded from git
 #' @export
 #'
 #' @importFrom readr read_csv read_delim
@@ -24,12 +24,10 @@
 #' @family tt_download_file
 #'
 #' @examples
-#' \dontrun{
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' agencies <- tt_download_file(tt_gh, 1)
 #' launches <- tt_download_file(tt_gh, "launches.csv")
-#' }
 #'
 tt_download_file <- function(tt, x, ..., auth = github_pat()) {
   suppressMessages({
@@ -85,7 +83,7 @@ tt_download_file.numeric <- function(tt, x, ...) {
 #' @title utility to load RDA with out using assigned name in envir
 #'
 #' @param path path to RDA file
-#
+#' @noRd
 read_rda <- function(path){
   load_env<-new.env()
   load(path,envir = load_env)

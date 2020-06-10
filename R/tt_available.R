@@ -106,6 +106,7 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @inheritParams base::print
 #' @param is_interactive is the console interactive
 #' @export
+#' @return used for side effects to show the available datasets for the year.
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if(is_interactive){
     tmpHTML <- tempfile(fileext = ".html")
@@ -131,6 +132,8 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 #' @importFrom purrr walk map
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
+#' @export
+#' @return used for side effects to show all the available datasets in TidyTuesday
 #'
 print.tt_dataset_table_list <- function(x, ...,interactive = interactive()) {
 

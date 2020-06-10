@@ -18,7 +18,8 @@ tt_load(x, week, download_files = "All", ..., auth = github_pat())
 \item{auth}{github Personal Access Token. See PAT section for more information}
 }
 \value{
-tt_data object (list class)
+tt_data object, which contains data that can be accessed via `$`, and the readme for the
+ weeks tidytuesday through printing the object or calling `readme()`
 }
 \description{
 Load TidyTuesday data from Github
@@ -32,8 +33,3 @@ the github api, and increases the limit on the number of requests allowed from
 to set the PAT.
 }
 
-\examples{
-\dontrun{
-tt_output <- tt_load("2019-01-15")
-}
-}

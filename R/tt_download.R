@@ -15,18 +15,17 @@
 #' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
 #' to set the PAT.
 #'
-#' @return tt_data object (list class)
+#' @return list of tibbles of the files downloaded.
 #'
 #' @export
 #'
 #' @importFrom lubridate year
 #'
 #' @examples
-#' \dontrun{
+#'
 #' tt_output <- tt_load_gh("2019-01-15")
-#' datasets <- tt_download(tt_output, files = "All")
-#' }
-
+#' agencies <- tt_download(tt_output, files = "agencies.csv")
+#'
 tt_download <- function(tt, files = c("All"), ..., branch = "master", auth = github_pat()){
 
   tt_date <- attr(tt, ".date")
