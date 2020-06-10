@@ -30,8 +30,8 @@ Authors@R:
     )
 Description: 
   TidyTuesday is a project by the 'R4DS Online Learning Community' in which they 
-  post a weekly dataset onto 'GitHub' for people to analyze and visualize.
-  This package provides the tools to easily download this data and the 
+  post a weekly dataset onto 'GitHub' <https://github.com/rfordatascience/tidytuesday> for people to
+  analyze and visualize. This package provides the tools to easily download this data and the 
   description of the source. The package does this through the 'GitHub' 'API'.
 License: MIT + file LICENSE
 URL: https://github.com/thebioengineer/tidytuesdayR
