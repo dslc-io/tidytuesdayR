@@ -58,7 +58,7 @@ readme <- function(tt) {
     tt <- attr(tt, ".tt")
   }
   if (length(attr(tt, ".readme")) > 0) {
-    write_html(attr(tt, ".readme"), file = tmpHTML <- tempfile(fileext = ".html"))
+    xml2::write_html(attr(tt, ".readme"), file = tmpHTML <- tempfile(fileext = ".html"))
     # if running in rstudio, print out that
     html_viewer(tmpHTML)
   }

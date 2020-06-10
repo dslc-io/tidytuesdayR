@@ -22,7 +22,7 @@ tt_ref_test_that("printing tt_datasets returns all the values as a printed data.
   check_api()
   ds <- tt_datasets(2018)
 
-  printed_ds <- capture.output(print(ds, interactive = FALSE))
+  printed_ds <- capture.output(print(ds, is_interactive = FALSE))
   consoleOutput <- capture.output(print(data.frame(unclass(ds), stringsAsFactors=FALSE)))
 
   expect_equal(
@@ -55,7 +55,7 @@ tt_ref_test_that("printing tt_available returns all the values as a printed data
   check_api()
   ds <- tt_available()
 
-  printed_ds <- capture.output(print(ds, interactive = FALSE))
+  printed_ds <- capture.output(print(ds, is_interactive = FALSE))
   consoleOutput <- capture.output(quiet<-lapply(as.list(unclass(ds)), function(x) print(data.frame(unclass(x), stringsAsFactors = FALSE))))
 
   printed_ds <- printed_ds[!(grepl("^Year:", printed_ds) | printed_ds == "")]

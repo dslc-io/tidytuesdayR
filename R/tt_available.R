@@ -31,7 +31,7 @@
 #' @examples
 #'
 #' ## show data available from 2018
-#' tt_dataset(2018)
+#' tt_datasets(2018)
 #'
 #' ## show all data available ever
 #' tt_available()
@@ -128,16 +128,16 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 
 #' @title print utility for tt_dataset_table_list object
 #' @inheritParams base::print
-#' @param interactive is the console interactive
+#' @param is_interactive is the console interactive
 #' @importFrom purrr walk map
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
 #' @export
 #' @return used for side effects to show all the available datasets in TidyTuesday
 #'
-print.tt_dataset_table_list <- function(x, ...,interactive = interactive()) {
+print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
 
-  if (interactive) {
+  if (is_interactive) {
     make_tt_dataset_list_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
     html_viewer(tmpHTML)
   } else {
