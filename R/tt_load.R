@@ -19,10 +19,10 @@
 #' @importFrom purrr map
 #'
 #' @examples
-#' if(interactive()){
+#' \dontrun{
 #' tt_output <- tt_load("2019-01-15")
 #' tt_output
-#' dat <- tt_output$agencies
+#' agencies <- tt_output$agencies
 #' }
 #' @export
 tt_load <- function(x, week, download_files = "All", ..., auth = github_pat()) {

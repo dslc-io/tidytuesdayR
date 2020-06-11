@@ -27,12 +27,13 @@ If there is a readme available, it will try to display the tidytuesday readme.
 }
 \examples{
 
+\dontrun{
+
 tt <- tt_load_gh("2019-01-15")
 print(tt)
-
 
 tt_data <- tt_download(tt, files = "All")
 print(tt_data)
 
-
+}
 }

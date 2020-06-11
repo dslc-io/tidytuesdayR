@@ -16,11 +16,10 @@
 #' @return a 'tt' object. This contains the files available for the week, readme html, and the date of the tidytuesday.
 #' @export
 #' @examples
-#' if(interactive()){
+#' \dontrun{
 #' tt_gh <- tt_load_gh("2019-01-15")
 #' readme(tt_gh)
 #' }
-#'
 tt_load_gh <- function(x, week, auth = github_pat()) {
 
   if (missing(x)) {

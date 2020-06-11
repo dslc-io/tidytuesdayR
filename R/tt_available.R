@@ -29,13 +29,12 @@
 #' @param auth github Personal Access Token. See PAT section for more information
 #'
 #' @examples
-#' if(interactive()){
+#'
 #' ## show data available from 2018
 #' tt_datasets(2018)
 #'
 #' ## show all data available ever
 #' tt_available()
-#' }
 #'
 #'
 
@@ -108,6 +107,11 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @param is_interactive is the console interactive
 #' @export
 #' @return used for side effects to show the available datasets for the year.
+#' @examples
+#'
+#' available_datasets_2018 <- tt_datasets(2018)
+#' print(available_datasets_2018)
+#'
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if(is_interactive){
     tmpHTML <- tempfile(fileext = ".html")
@@ -135,6 +139,10 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 #' @importFrom xml2 read_html write_html
 #' @export
 #' @return used for side effects to show all the available datasets in TidyTuesday
+#' @examples
+#'
+#' available_datasets <- tt_available()
+#' print(available_datasets)
 #'
 print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
 

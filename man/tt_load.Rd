@@ -34,9 +34,9 @@ to set the PAT.
 }
 
 \examples{
-if(interactive()){
+\dontrun{
 tt_output <- tt_load("2019-01-15")
 tt_output
-dat <- tt_output$agencies
+agencies <- tt_output$agencies
 }
 }

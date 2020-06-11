@@ -19,3 +19,9 @@ used for side effects to show the available datasets for the year.
 \description{
 print utility for tt_dataset_table object
 }
+\examples{
+
+available_datasets_2018 <- tt_datasets(2018)
+print(available_datasets_2018)
+
+}

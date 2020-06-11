@@ -47,13 +47,12 @@ to set the PAT.
 }
 
 \examples{
-if(interactive()){
+
 ## show data available from 2018
 tt_datasets(2018)
 
 ## show all data available ever
 tt_available()
-}
 
 
 }
