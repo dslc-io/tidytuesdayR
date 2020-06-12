@@ -15,11 +15,9 @@ This is a resubmission. In this version I have:
 
 * Removed the cases of examples with unexported functions
 
-* I would like to maintain the use of \dontrun in the examples due to rate limiting by GitHub. The functions fail
-gracefully with an informative error message informing the user they are out of calls against the API, but 
-un-authenicated calls are limited to 60 calls an hour from a single IP address. Please let me know if I should
-be using a different wrapper. The purpose of the package is to connect and pull information from GitHub so there can be no
-"toy" examples.
+* I have removed the "\dontrun" from the main functions I expect users to be interacting with. I would
+like to maintain the use of \dontrun in the other examples due to rate limiting of unauthenticated calls 
+by GitHub. Please let me know if that is satisfactory, or you would like to see more!
 
 
 ## Test environments
