@@ -1,5 +1,6 @@
 
-#Provide a wraper to temporarily change location set for tidytuesday reference to preserve consistency
+# Provide a wrapper to temporarily change location set for tidytuesday
+# reference to preserve consistency
 
 tt_ref_test_that <- function(desc, ...){
   ref_repo <- options("tidytuesdayR.tt_repo")
@@ -10,7 +11,7 @@ tt_ref_test_that <- function(desc, ...){
   testthat::test_that(desc = desc, ...)
 }
 
-check_api <- function( n = 10){
+check_api <- function(n = 20){
   if(rate_limit_check(silent = TRUE) <= n ){
     skip("Rate Limit Met")
   }

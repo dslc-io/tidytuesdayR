@@ -4,15 +4,25 @@
 \alias{print.tt_dataset_table_list}
 \title{print utility for tt_dataset_table_list object}
 \usage{
-\method{print}{tt_dataset_table_list}(x, ..., interactive = interactive())
+\method{print}{tt_dataset_table_list}(x, ..., is_interactive = interactive())
 }
 \arguments{
 \item{x}{an object used to select a method.}
 
 \item{...}{further arguments passed to or from other methods.}
 
-\item{interactive}{is the console interactive}
+\item{is_interactive}{is the console interactive}
+}
+\value{
+used for side effects to show all the available datasets in
+TidyTuesday
 }
 \description{
 print utility for tt_dataset_table_list object
+}
+\examples{
+
+available_datasets <- tt_available()
+print(available_datasets)
+
 }

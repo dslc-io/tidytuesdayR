@@ -2,11 +2,14 @@
 
 Ellis Hughes
 
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/tidytuesdayR)](https://CRAN.R-project.org/package=tidytuesdayR)
 [![R build status](https://github.com/thebioengineer/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions)
 [![Coverage
 status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
 
 {tidytuesdayR} has the main goal to make it easy to participate in the
 weekly [\#TidyTuesday](https://github.com/rfordatascience/tidytuesday)

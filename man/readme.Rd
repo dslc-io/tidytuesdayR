@@ -9,6 +9,16 @@ readme(tt)
 \arguments{
 \item{tt}{tt_data object for printing}
 }
+\value{
+Does not return anything. Used to show readme of the downloaded
+ tidytuesday dataset in the Viewer.
+}
 \description{
 Readme HTML maker and Viewer
+}
+\examples{
+\dontrun{
+tt_output <- tt_load_gh("2019-01-15")
+readme(tt_output)
+}
 }

@@ -6,13 +6,18 @@ on.exit({
   options("tidytuesdayR.tt_repo" = ref_repo[[1]])
 })
 
-tt_ref_test_that("tt_load loads all data available", {
+tt_ref_test_that(
+  "tt_load loads all data available", {
   check_api()
 
   output <- capture.output({
     tt_obj <- tt_load("2019-01-15")
-    agencies <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-15/agencies.csv")
-    launches <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-15/launches.csv")
+    agencies <- readr::read_csv(
+      file.path("https://raw.githubusercontent.com/rfordatascience/tidytuesday",
+                "master/data/2019/2019-01-15/agencies.csv"))
+    launches <- readr::read_csv(
+      file.path("https://raw.githubusercontent.com/rfordatascience/tidytuesday",
+                "master/data/2019/2019-01-15/launches.csv"))
   })
 
   expect_equal(

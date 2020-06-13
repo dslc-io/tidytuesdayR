@@ -9,18 +9,22 @@ Download all or specific files identified in the tt dataset}
 tt_download(tt, files = c("All"), ..., branch = "master", auth = github_pat())
 }
 \arguments{
-\item{tt}{string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year}
+\item{tt}{string representation of the date of data to pull, in YYYY-MM-dd
+format, or just numeric entry for year}
 
 \item{files}{List the file names to download. Default to asking.}
 
-\item{...}{pass methods to the parsing functions. These will be passed to ALL files, so be careful.}
+\item{...}{pass methods to the parsing functions. These will be passed to
+ALL files, so be careful.}
 
-\item{branch}{which branch to be downloading data from. Default and always should be "master".}
+\item{branch}{which branch to be downloading data from. Default and always
+should be "master".}
 
-\item{auth}{github Personal Access Token. See PAT section for more information}
+\item{auth}{github Personal Access Token. See PAT section for more
+information}
 }
 \value{
-tt_data object (list class)
+list of tibbles of the files downloaded.
 }
 \description{
 download tt data
@@ -31,14 +35,14 @@ Download all or specific files identified in the tt dataset
 
 
 A Github PAT is a personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed from
-60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-to set the PAT.
+the github api, and increases the limit on the number of requests allowed
+from 60 to 5000. Follow instructions at
+<https://happygitwithr.com/github-pat.html> to set the PAT.
 }
 
 \examples{
 \dontrun{
 tt_output <- tt_load_gh("2019-01-15")
-datasets <- tt_download(tt_output, files = "All")
+agencies <- tt_download(tt_output, files = "agencies.csv")
 }
 }

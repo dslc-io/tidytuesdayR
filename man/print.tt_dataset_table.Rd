@@ -4,15 +4,24 @@
 \alias{print.tt_dataset_table}
 \title{print utility for tt_dataset_table object}
 \usage{
-\method{print}{tt_dataset_table}(x, ..., interactive = interactive())
+\method{print}{tt_dataset_table}(x, ..., is_interactive = interactive())
 }
 \arguments{
 \item{x}{an object used to select a method.}
 
 \item{...}{further arguments passed to or from other methods.}
 
-\item{interactive}{is the console interactive}
+\item{is_interactive}{is the console interactive}
+}
+\value{
+used for side effects to show the available datasets for the year.
 }
 \description{
 print utility for tt_dataset_table object
+}
+\examples{
+
+available_datasets_2018 <- tt_datasets(2018)
+print(available_datasets_2018)
+
 }

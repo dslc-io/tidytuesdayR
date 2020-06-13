@@ -1,8 +1,9 @@
 #' @title given inputs generate valid TidyTuesday URL
 #' @description Given multiple types of inputs, generate
 #' @param x either a string or numeric entry indicating the full date of
-#' @param week left empty unless x is a numeric year entry, in which case the week of interest should be entered
-#'
+#' @param week left empty unless x is a numeric year entry, in which case the
+#' week of interest should be entered
+#' @noRd
 tt_check_date <- function(x, week) {
   if (valid_date(x)) {
     tt_check_date.date(x)
@@ -55,7 +56,8 @@ tt_check_date.year <- function(x, week) {
 
   tt_date <- tt_folders$folders[tt_folders$week_desc == week]
 
-  if (!tt_date %in% tt_folders[["folders"]] | !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
+  if (!tt_date %in% tt_folders[["folders"]] |
+      !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
     stop(
       paste0(
         "Week ",
@@ -73,22 +75,30 @@ tt_check_date.year <- function(x, week) {
 
 #' @importFrom stats aggregate na.pass setNames
 tt_weeks <- function(year) {
-
   tt_year <- tt_years()
 
   if (!as.character(year) %in% tt_year) {
-    stop(paste0(
-      "TidyTuesday did not exist for ", year, ". \n\t TidyTuesday has only existed from ",
-      min(tt_year)), " to ", max(tt_year)
+    stop(
+      paste0(
+        "TidyTuesday did not exist for ",
+        year,
+        ". \n\t TidyTuesday has only existed from ",
+        min(tt_year)
+      ),
+      " to ",
+      max(tt_year)
     )
   }
 
   ttmf <- tt_master_file()
 
-  tt_week <- aggregate(data_files ~ Week + Date,
-                       ttmf[ttmf$year == year, ],
-                       FUN = function(x) !anyNA(x),
-                       na.action = na.pass)
+  tt_week <- aggregate(
+    data_files ~ Week + Date,
+    ttmf[ttmf$year == year,],
+    FUN = function(x)
+      ! anyNA(x),
+    na.action = na.pass
+  )
 
   list(
     week_desc = tt_week$Week,
@@ -117,9 +127,16 @@ valid_year <- function(x) {
 
 #' @importFrom lubridate year month day ymd
 tt_date_format <- function(x) {
-  lubridate::ymd(paste0(lubridate::year(x), "-", lubridate::month(x), "-", lubridate::day(x)))
+  lubridate::ymd(paste0(
+    lubridate::year(x),
+    "-",
+    lubridate::month(x),
+    "-",
+    lubridate::day(x)
+  ))
 }
 
 tt_closest_date <- function(inputdate, availabledates) {
-  availabledates[which.min(abs(difftime(inputdate, availabledates, units = "days")))]
+  availabledates[
+    which.min(abs(difftime(inputdate, availabledates, units = "days")))]
 }

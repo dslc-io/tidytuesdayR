@@ -47,7 +47,9 @@ tt_ref_test_that("print.tt lists all the available files for the weeks tt",{
 
   expect_equal(
     capturedOutput,
-    "Available datasets in this TidyTuesday:\n\tbrexit.csv \n\tcorbyn.csv \n\tdogs.csv \n\teu_balance.csv \n\tpensions.csv \n\ttrade.csv \n\twomen_research.csv \n\t\n"
+    paste0("Available datasets in this TidyTuesday:\n\tbrexit.csv ",
+           "\n\tcorbyn.csv \n\tdogs.csv \n\teu_balance.csv ",
+           "\n\tpensions.csv \n\ttrade.csv \n\twomen_research.csv \n\t\n")
   )
 
 })
