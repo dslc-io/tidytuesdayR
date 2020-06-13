@@ -91,7 +91,7 @@ tt_ref_test_that(
 
 tt_ref_test_that(
   "rate_limit_check returns actual value in environment",{
-  val <- rate_limit_check()
+  val <- rate_limit_check(silent = TRUE)
   expect_equal(val,TT_GITHUB_ENV$RATE_REMAINING)
 })
 

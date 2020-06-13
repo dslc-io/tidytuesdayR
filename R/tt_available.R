@@ -34,13 +34,14 @@
 #' more information
 #'
 #' @examples
+#' # check to make sure there are requests still available
+#' if(rate_limit_check(silent = TRUE) > 10){
+#'  ## show data available from 2018
+#'  tt_datasets(2018)
 #'
-#' ## show data available from 2018
-#' tt_datasets(2018)
-#'
-#' ## show all data available ever
-#' tt_available()
-#'
+#'  ## show all data available ever
+#'  tt_available()
+#' }
 #'
 
 
@@ -128,10 +129,11 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @export
 #' @return used for side effects to show the available datasets for the year.
 #' @examples
-#'
-#' available_datasets_2018 <- tt_datasets(2018)
-#' print(available_datasets_2018)
-#'
+#' # check to make sure there are requests still available
+#' if(rate_limit_check(silent = TRUE) > 10){
+#'  available_datasets_2018 <- tt_datasets(2018)
+#'  print(available_datasets_2018)
+#' }
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if(is_interactive){
     tmpHTML <- tempfile(fileext = ".html")
@@ -161,9 +163,11 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 #' @return used for side effects to show all the available datasets in
 #' TidyTuesday
 #' @examples
-#'
-#' available_datasets <- tt_available()
-#' print(available_datasets)
+#' # check to make sure there are requests still available
+#' if(rate_limit_check(silent = TRUE) > 10){
+#'  available_datasets <- tt_available()
+#'  print(available_datasets)
+#' }
 #'
 print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
 

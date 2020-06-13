@@ -20,8 +20,9 @@ used for side effects to show the available datasets for the year.
 print utility for tt_dataset_table object
 }
 \examples{
-
-available_datasets_2018 <- tt_datasets(2018)
-print(available_datasets_2018)
-
+# check to make sure there are requests still available
+if(rate_limit_check(silent = TRUE) > 10){
+ available_datasets_2018 <- tt_datasets(2018)
+ print(available_datasets_2018)
+}
 }

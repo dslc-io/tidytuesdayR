@@ -21,8 +21,10 @@ TidyTuesday
 print utility for tt_dataset_table_list object
 }
 \examples{
-
-available_datasets <- tt_available()
-print(available_datasets)
+# check to make sure there are requests still available
+if(rate_limit_check(silent = TRUE) > 10){
+ available_datasets <- tt_available()
+ print(available_datasets)
+}
 
 }

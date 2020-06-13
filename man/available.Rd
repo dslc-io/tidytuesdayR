@@ -53,12 +53,13 @@ from 60 to 5000. Follow instructions at
 }
 
 \examples{
+# check to make sure there are requests still available
+if(rate_limit_check(silent = TRUE) > 10){
+ ## show data available from 2018
+ tt_datasets(2018)
 
-## show data available from 2018
-tt_datasets(2018)
-
-## show all data available ever
-tt_available()
-
+ ## show all data available ever
+ tt_available()
+}
 
 }
