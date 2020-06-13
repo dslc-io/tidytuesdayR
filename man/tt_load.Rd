@@ -40,8 +40,14 @@ from 60 to 5000. Follow instructions from
 }
 
 \examples{
+
+# check to make sure there are requests still available
+if(rate_limit_check(silent = TRUE) > 10){
+
 tt_output <- tt_load("2019-01-15")
 tt_output
 agencies <- tt_output$agencies
+
+}
 
 }

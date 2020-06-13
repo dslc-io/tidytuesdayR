@@ -21,9 +21,11 @@
 #'  readme html, and the date of the tidytuesday.
 #' @export
 #' @examples
-#'
-#' tt_gh <- tt_load_gh("2019-01-15")
-#' readme(tt_gh)
+#' # check to make sure there are requests still available
+#' if(rate_limit_check(silent = TRUE) > 10){
+#'  tt_gh <- tt_load_gh("2019-01-15")
+#'  readme(tt_gh)
+#' }
 #'
 tt_load_gh <- function(x, week, auth = github_pat()) {
 
@@ -33,9 +35,6 @@ tt_load_gh <- function(x, week, auth = github_pat()) {
     })
     stop("Enter either the year or date of the TidyTuesday Data to extract!")
   }
-
-  #Update master file reference
-  tt_update_master_file(auth = auth)
 
   #Check Dates
   tt_date <- tt_check_date(x, week)

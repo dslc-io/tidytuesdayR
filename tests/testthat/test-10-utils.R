@@ -39,6 +39,8 @@ tt_ref_test_that("print.tt_data lists the available datasets", {
 })
 
 tt_ref_test_that("print.tt lists all the available files for the weeks tt",{
+  check_api()
+
   tt_obj <- tt_load_gh(2019, week = 16)
 
   capturedOutput <- capture_message({

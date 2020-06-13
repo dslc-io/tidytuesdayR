@@ -327,9 +327,11 @@ github_GET <- function(url, auth = github_pat(), ...){
 #' @noRd
 
 TT_GITHUB_ENV <- new.env()
-TT_GITHUB_ENV$RATE_LIMIT <- NULL
-TT_GITHUB_ENV$RATE_REMAINING <- NULL
-TT_GITHUB_ENV$RATE_RESET <- NULL
+TT_GITHUB_ENV$RATE_LIMIT <- 60
+TT_GITHUB_ENV$RATE_REMAINING <- 0
+TT_GITHUB_ENV$RATE_RESET <- lubridate::today()
+
+#' @importFrom httr GET
 
 rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 
@@ -348,6 +350,25 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
   TT_GITHUB_ENV$RATE_RESET <- as.POSIXct(rate_info$reset, origin = "1970-01-01")
 
 }
+
+#' Get Rate limit left for GitHub Calls
+#'
+#' The GitHub API limits the number of requests that can be sent within an hour.
+#' This function returns the stored rate limits that are remaining.
+#'
+#' @param n number of requests that triggers a warning indicating the user is
+#' close to the limit
+#' @param quiet should the only an error be thrown when the rate limit is zero?
+#' @param silent should no warnings or errors be thrown and only the value
+#' returned?
+#'
+#' @return return the number of calls are remaining as a numeric values
+#' @export
+#'
+#' @examples
+#'
+#' rate_limit_check(silent = TRUE)
+#'
 
 rate_limit_check <- function(n = 10, quiet = TRUE, silent = FALSE){
 
