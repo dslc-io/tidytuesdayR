@@ -331,6 +331,8 @@ TT_GITHUB_ENV$RATE_LIMIT <- 60
 TT_GITHUB_ENV$RATE_REMAINING <- 0
 TT_GITHUB_ENV$RATE_RESET <- lubridate::today()
 
+#' @importFrom httr GET
+
 rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 
   if (is.null(rate_info)) {

@@ -15,9 +15,13 @@ This is a resubmission. In this version I have:
 
 * Removed the cases of examples with unexported functions
 
-* I have removed the "\dontrun" from the main functions I expect users to be interacting with. I would
-like to maintain the use of \dontrun in the other examples due to rate limiting of unauthenticated calls 
-by GitHub. Please let me know if that is satisfactory, or you would like to see more!
+* Added exporting of a function that returns the cached rate limit left.
+
+* I have removed the "\dontrun" from the main functions I expect users to be interacting with. To try to 
+protect the examples from failing, I wrapped them in a rate limit check to make sure there
+were remaining calls to prevent errors. I would like to maintain the use of \dontrun in the 
+other examples due to rate limiting of unauthenticated calls by GitHub. Please let me know 
+if that is satisfactory, or you would like to see more!
 
 
 ## Test environments
