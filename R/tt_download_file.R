@@ -4,22 +4,20 @@
 #'
 #' @param tt tt_gh object from tt_load_gh function
 #' @param x index/name of data object to read in. string or int
-#' @param ... pass methods to the parsing functions. These will be passed to ALL files, so be careful.
-#' @param auth github Personal Access Token. See PAT section for more information
+#' @param ... pass methods to the parsing functions. These will be passed to
+#' ALL files, so be careful.
+#' @param auth github Personal Access Token. See PAT section for more
+#' information
 #'
 #' @section PAT:
 #'
 #' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' the github api, and increases the limit on the number of requests allowed
+#' from 60 to 5000. Follow instructions at
+#' <https://happygitwithr.com/github-pat.html> to set the PAT.
 #'
 #' @return tibble containing the contents of the file downloaded from git
 #' @export
-#'
-#' @importFrom readr read_csv read_delim
-#' @import tools
-#' @import readxl
 #'
 #' @family tt_download_file
 #'
@@ -43,7 +41,12 @@ tt_download_file <- function(tt, x, ..., auth = github_pat()) {
 
 #' @importFrom lubridate year
 #' @importFrom tools file_ext
-tt_download_file.character <- function(tt, x, ..., sha = NULL, auth = github_pat()) {
+tt_download_file.character <-
+  function(tt,
+           x,
+           ...,
+           sha = NULL,
+           auth = github_pat()) {
 
   file_info <- attr(tt, ".files")
 
@@ -51,15 +54,21 @@ tt_download_file.character <- function(tt, x, ..., sha = NULL, auth = github_pat
 
     tt_date <- attr(tt, ".date")
     tt_year <- year(tt_date)
-    # as_raw  <- tools::file_ext(x) %in% c("xlsx","xls","rda","rds")
 
-    blob <- github_blob(file.path("data",tt_year,tt_date,x), as_raw = TRUE, sha = sha, auth = auth)
+    blob <-
+      github_blob(
+        file.path("data", tt_year, tt_date, x),
+        as_raw = TRUE,
+        sha = sha,
+        auth = auth
+      )
 
     tt_parse_blob(blob, file_info = file_info[file_info$data_file == x,])
 
   } else {
     stop(paste0(
-      "That is not an available file for this TidyTuesday week!\nAvailable Datasets:\n",
+      "That is not an available file for this TidyTuesday week!",
+      "\nAvailable Datasets:\n",
       paste(attr(tt, ".files"), "\n\t", collapse = "")
     ))
   }
@@ -71,7 +80,8 @@ tt_download_file.numeric <- function(tt, x, ...) {
     tt_download_file.character(tt, files[x], ...)
   } else {
     stop(paste0(
-      "That is not an available index for the files for this TidyTuesday week!\nAvailable Datasets:\n\t",
+      "That is not an available index for the files for this TidyTuesday week!",
+      "\nAvailable Datasets:\n\t",
       paste0(seq(1, length(files)), ": ", files, "\n\t", collapse = "")
     ))
   }

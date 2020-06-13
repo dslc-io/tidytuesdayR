@@ -44,7 +44,7 @@ Suggests:
     testthat (>= 2.1.0),
     covr,
     pkgdown,
-    tibble,
+    tibble
 Imports:
     readxl (>= 1.0.0),
     rvest (>= 0.3.2),

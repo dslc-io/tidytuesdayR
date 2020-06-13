@@ -21,7 +21,8 @@ tt_ref_test_that("Close dates are suggested if provided date is incorrect", {
   check_api()
   expect_error(
     tt_check_date("2019-04-04"),
-    "2019-04-04 is not a date that has TidyTuesday data.\n\tDid you mean: 2019-04-02?",
+    paste0("2019-04-04 is not a date that has TidyTuesday data.",
+           "\n\tDid you mean: 2019-04-02?"),
     fixed = TRUE
   )
 })

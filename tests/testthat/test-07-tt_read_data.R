@@ -1,6 +1,7 @@
 context("Download data using tt")
 
-tt_ref_test_that("tt_read_data only works for numeric,integer, or character entries", {
+tt_ref_test_that(
+  "tt_read_data only works for numeric,integer, or character entries", {
   check_api()
   tt_gh_data <- tt_load_gh("2019-01-15")
 
@@ -12,7 +13,8 @@ tt_ref_test_that("tt_read_data only works for numeric,integer, or character entr
   integerRead <- tt_download_file(tt_gh_data, 1L)
   characterRead <- tt_download_file(tt_gh_data, "agencies.csv")
 
-  readURL <- read_csv(github_blob("data/2019/2019-01-15/agencies.csv",as_raw = TRUE))
+  readURL <- readr::read_csv(
+    github_blob("data/2019/2019-01-15/agencies.csv",as_raw = TRUE))
 
   expect_equal(numericRead, readURL)
   expect_equal(integerRead, readURL)
@@ -27,7 +29,8 @@ tt_ref_test_that("tt_read_data only works for numeric,integer, or character entr
   )
 })
 
-tt_ref_test_that("tt_read_data informs when selection is out of range/not available", {
+tt_ref_test_that(
+  "tt_read_data informs when selection is out of range/not available", {
   check_api()
   tt_gh_data <- tt_load_gh("2019-01-15")
 
@@ -52,7 +55,8 @@ tt_ref_test_that("tt_read_data informs when selection is out of range/not availa
 })
 
 
-tt_ref_test_that("tt_read_data can load RDS files just as easily as text files",{
+tt_ref_test_that(
+  "tt_read_data can load RDS files just as easily as text files",{
   check_api()
   tt_gh_data <- tt_load_gh("2019-01-01")
 
@@ -64,7 +68,8 @@ tt_ref_test_that("tt_read_data can load RDS files just as easily as text files",
 })
 
 
-tt_ref_test_that("read_rda will not arbitrarily assign the object to the current environment",{
+tt_ref_test_that(
+  "read_rda will not arbitrarily assign the object to the current environment",{
   check_api()
   new_dataset<-read_rda(testthat::test_path("testfiles/test.rda"))
   expect_false(exists("testdf"))

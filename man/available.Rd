@@ -11,39 +11,45 @@ tt_available(auth = github_pat())
 tt_datasets(year, auth = github_pat())
 }
 \arguments{
-\item{auth}{github Personal Access Token. See PAT section for more information}
+\item{auth}{github Personal Access Token. See PAT section for
+more information}
 
-\item{year}{numeric entry representing the year of tidytuesday you want the list of datasets
-for. Leave empty for most recent year.}
+\item{year}{numeric entry representing the year of tidytuesday you want the
+list of datasets for. Leave empty for most recent year.}
 }
 \value{
-`tt_available()` returns a 'tt_dataset_table_list', which is a list of 'tt_dataset_table'. This class has
-special printing methods to show the available datasets.
+`tt_available()` returns a 'tt_dataset_table_list', which is a
+list of 'tt_dataset_table'. This class has special printing methods to show
+the available datasets.
 
-`tt_datasets()` returns a 'tt_dataset_table' object. This class has special printing methods to show the
- available datasets for the year.
+`tt_datasets()` returns a 'tt_dataset_table' object. This class has
+ special printing methods to show the available datasets for the year.
 }
 \description{
-The TidyTuesday dataset sources is a constantly growing repository of datasets. Knowing what type of
-data is available for each week requires going to the source. However, one of the hallmarks
-of 'tidytuesdayR' is that you never have to leave your R console. These functions were created to help maintain this philosophy.
+The TidyTuesday project is a constantly growing repository of data sets.
+Knowing what type of data is available for each week requires going to the
+source. However, one of the hallmarks of 'tidytuesdayR' is that you never
+have to leave your R console. These functions were
+created to help maintain this philosophy.
 }
 \details{
 To find out the available datasets for a specific year, the user
-can use the function `tt_datasets()`. This function will either populate the Viewer or
-print to console all the available datasets and the week/date they are associated with.
+can use the function `tt_datasets()`. This function will either populate the
+Viewer or print to console all the available data sets and the week/date
+they are associated with.
 
-To get the whole list of all the datasets ever released by TidyTuesday, the function `tt_available()`
-was created. This function will either poplulate the Viewer or print to console all the available
-datasets ever made for TidyTuesday.
+To get the whole list of all the data sets ever released by TidyTuesday, the
+function `tt_available()` was created. This function will either populate the
+Viewer or print to console all the available data sets ever made for
+TidyTuesday.
 }
 \section{PAT}{
 
 
 A Github PAT is a Personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed from
-60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-to set the PAT.
+the github api, and increases the limit on the number of requests allowed
+from 60 to 5000. Follow instructions at
+<https://happygitwithr.com/github-pat.html> to set your PAT.
 }
 
 \examples{

@@ -1,8 +1,9 @@
 #' print methods of the tt objects
 #'
-#' In tidytuesdayR there are nice print methods for the objects that were used to download and
-#' store the data from the TidyTuesday repo. They will always print the available datasets/files.
-#' If there is a readme available, it will try to display the tidytuesday readme.
+#' In tidytuesdayR there are nice print methods for the objects that were used
+#' to download and store the data from the TidyTuesday repo. They will always
+#'  print the available datasets/files. If there is a readme available,
+#'  it will try to display the tidytuesday readme.
 #'
 #' @name printing
 #'
@@ -30,7 +31,8 @@
 #'
 print.tt_data <- function(x, ...) {
   readme(x)
-  message("Available datasets:\n\t", paste(tools::file_path_sans_ext(names(x)), "\n\t", collapse = ""))
+  message("Available datasets:\n\t",
+          paste(tools::file_path_sans_ext(names(x)), "\n\t", collapse = ""))
   invisible(x)
 }
 
@@ -40,7 +42,10 @@ print.tt_data <- function(x, ...) {
 #' @return used to show available datasets for the tidytuesday
 #'
 print.tt <- function(x,...){
-  message("Available datasets in this TidyTuesday:\n\t", paste(attr(x,".files")$data_files, "\n\t", collapse = ""))
+  message(
+    "Available datasets in this TidyTuesday:\n\t",
+    paste(attr(x, ".files")$data_files, "\n\t", collapse = "")
+  )
   invisible(x)
 }
 
@@ -49,7 +54,8 @@ print.tt <- function(x,...){
 #' @importFrom xml2 write_html
 #' @return NULL
 #' @export
-#' @return Does not return anything. Used to show readme of the downloaded tidytuesday dataset in the Viewer.
+#' @return Does not return anything. Used to show readme of the downloaded
+#'  tidytuesday dataset in the Viewer.
 #' @examples
 #' \dontrun{
 #' tt_output <- tt_load_gh("2019-01-15")
@@ -60,7 +66,8 @@ readme <- function(tt) {
     tt <- attr(tt, ".tt")
   }
   if (length(attr(tt, ".readme")) > 0) {
-    xml2::write_html(attr(tt, ".readme"), file = tmpHTML <- tempfile(fileext = ".html"))
+    xml2::write_html(attr(tt, ".readme"), file = tmpHTML <-
+                       tempfile(fileext = ".html"))
     # if running in rstudio, print out that
     html_viewer(tmpHTML)
   }

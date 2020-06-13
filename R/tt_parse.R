@@ -4,13 +4,27 @@
 #' @param blob raw data to be parsed
 #' @param ... args to pass to func
 #' @param file_info data.frame of information about the blob being read
+#'
+#' @importFrom readxl read_xls read_xlsx
+#' @importFrom readr read_delim
+#'
 #' @noRd
 tt_parse_blob <- function(blob, ..., file_info) {
-  switch( tolower(file_info$data_type),
-          "xls"  = tt_parse_binary(blob, readxl::read_xls, ..., filename = file_info$data_files),
-          "xlsx" = tt_parse_binary(blob, readxl::read_xlsx, ..., filename = file_info$data_file),
-          "rds"  = tt_parse_binary(blob, readRDS, filename = file_info$data_file),
-          tt_parse_text(blob =blob, func = readr::read_delim, delim = file_info[["delim"]], progress = FALSE, ...)
+  switch(
+    tolower(file_info$data_type),
+    "xls"  = tt_parse_binary(blob, readxl::read_xls, ...,
+                             filename = file_info$data_files),
+    "xlsx" = tt_parse_binary(blob, readxl::read_xlsx, ...,
+                             filename = file_info$data_file),
+    "rds"  = tt_parse_binary(blob, readRDS,
+                             filename = file_info$data_file),
+    tt_parse_text(
+      blob = blob,
+      func = readr::read_delim,
+      delim = file_info[["delim"]],
+      progress = FALSE,
+      ...
+    )
   )
 }
 

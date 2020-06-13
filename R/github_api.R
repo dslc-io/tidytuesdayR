@@ -1,25 +1,17 @@
 #' Read Contents from GitHub
 #'
-#' Provide tool to read raw data and return as text the raw data using the github api
+#' Provide tool to read raw data and return as text the raw data using the
+#' github api
 #'
 #' @param path Relative path from within the TidyTuesday Repository
-#' @param auth github PAT. See PAT section for more information
-#'
-#' @section PAT:
-#'
-#' A Github 'PAT' is a Personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' @param auth github PAT
 #'
 #' @return raw text of the content with the sha as an attribute
 #' @noRd
 #' @examples
-#' \dontrun{
-#' text_csv <- github_contents("data/2020/2020-04-07/tdf_stages.csv")
-#' tour_de_france_stages <- read_csv(text_csv)
 #'
-#' }
+#' text_csv <- github_contents("data/2020/2020-04-07/tdf_stages.csv")
+#' tour_de_france_stages <- readr::read_csv(text_csv)
 #'
 github_contents <- function(path, auth = github_pat()) {
     base_url <-
@@ -51,27 +43,19 @@ github_contents <- function(path, auth = github_pat()) {
 #'
 #' Provide tools to read and process readme's as html using the github api
 #'
-#' @param path Relative path from within the TidyTuesday Repository to contents that can be returned as HTML
+#' @param path Relative path from within the TidyTuesday Repository to contents
+#' that can be returned as HTML
 #' @param ... optional arguments to pass to \code{read_html}
-#' @param auth github PAT. See PAT section for more information
-#'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' @param auth github PAT
 #'
 #' @return result of read_html on the contents
 #' @noRd
 #'
 #' @examples
-#' \dontrun{
 #'
 #' main_readme <- github_html("README.md")
 #' week_readme <- github_html("data/2020/2020-01-07/readme.md")
 #'
-#' }
 #'
 #' @importFrom xml2 read_html
 github_html <-
@@ -85,7 +69,8 @@ github_html <-
                 path)
 
     url_response <-
-      github_GET(base_url, auth = auth, Accept = "application/vnd.github.v3.html")
+      github_GET(base_url, auth = auth,
+                 Accept = "application/vnd.github.v3.html")
 
     if (url_response$status_code == 200) {
       github_page(read_html(x = url_response$content, ...))
@@ -99,26 +84,18 @@ github_html <-
 #'
 #' provide tools to read and process readme's as html using the github api
 #'
-#' @param dirpath Relative path from within the TidyTuesday Repository to folder of contents wanting sha for
-#' @param branch which branch to get sha for. assumed to be master (and usually should be)
+#' @param dirpath Relative path from within the TidyTuesday Repository to
+#' folder of contents wanting sha for
+#' @param branch which branch to get sha for. assumed to be
+#' master (and usually should be)
 #' @param auth github PAT. See PAT section for more information
-#'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
 #'
 #' @return result data.frame of SHA and other information of directory contents
 #' @noRd
 #'
 #' @examples
-#' \dontrun{
 #'
 #' sha <- github_sha("data/2020/2020-01-07")
-#'
-#' }
 #'
 #' @importFrom xml2 read_html
 #' @importFrom utils URLencode
@@ -146,7 +123,10 @@ github_sha <-
       do.call('rbind',
               lapply(url_json$tree,
                      function(x)
-                       data.frame(x[c("path", "sha")], stringsAsFactors = FALSE))
+                       data.frame(
+                         x[c("path", "sha")],
+                         stringsAsFactors = FALSE
+                         ))
       )
     } else{
       NULL
@@ -160,25 +140,16 @@ github_sha <-
 #' @param path Relative path from within the TidyTuesday Repository to contents,
 #'  usually because it was too large to be read with the contencts api.
 #' @param as_raw optional arguments to pass to \code{read_html}
-#' @param sha sha of object if known in liu of path (usually best to give both for clarity)
-#' @param auth github PAT. See PAT section for more information
-#'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' @param sha sha of object if known in liu of path (usually best to give both
+#' for clarity)
+#' @param auth github PAT
 #'
 #' @return a raw/character object based on the blob
 #' @noRd
 #'
 #' @examples
-#' \dontrun{
 #'
 #' main_readme_blob <- github_blob("README.md", as_raw = TRUE)
-#'
-#' }
 #'
 github_blob <-
   function(path, as_raw = FALSE, sha = NULL, auth = github_pat()){
@@ -195,7 +166,8 @@ github_blob <-
                 sha)
 
     url_response <-
-      github_GET(base_url, auth = auth, Accept = "application/vnd.github.VERSION.raw")
+      github_GET(base_url, auth = auth,
+                 Accept = "application/vnd.github.VERSION.raw")
 
     if (url_response$status_code == 200) {
       if(as_raw == TRUE){
@@ -216,7 +188,8 @@ github_blob <-
 #' read json base64 contents from github
 #'
 #' provide tool to read and process data using the github api
-#' @param b64 base64 character value to be decoded and converted to character value
+#' @param b64 base64 character value to be decoded and converted to
+#' character value
 #' @importFrom jsonlite base64_dec
 #'
 #' @return a character vector of the input decoded from base64
@@ -233,7 +206,8 @@ base_64_to_char <- function(b64){
 #' read GET json contents to char
 #'
 #' provide tool to read and process data using the github api from GET command
-#' @param get_response object of class "response" from GET command. returns JSON value.
+#' @param get_response object of class "response" from GET command. returns
+#' JSON value.
 #'
 #' @return a list object if the content json
 #' @noRd
@@ -246,7 +220,8 @@ GET_json <- function(get_response){
 
 #' Create shell for HTML content from github
 #'
-#' Provide the necessary <head> section to wrap around raw html content read from github.
+#' Provide the necessary <head> section to wrap around raw html content read
+#' from github.
 #'
 #' @param page_content html content in xml_document class
 #'
@@ -257,7 +232,11 @@ GET_json <- function(get_response){
 #' @importFrom rvest html_nodes
 github_page <- function(page_content){
 
-  header <- "<head><link crossorigin=\"anonymous\" media=\"all\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\"></head>"
+  header <- paste0("<head><link crossorigin=\"anonymous\" ",
+                  "media=\"all\" rel=\"stylesheet\" ",
+                  "href=\"https://cdnjs.cloudflare.com/ajax/libs/",
+                  "github-markdown-css/3.0.1/github-markdown.min.css\"></head>")
+
   body <- page_content %>%
     html_nodes("body") %>%
     as.character
@@ -268,24 +247,25 @@ github_page <- function(page_content){
 
 #' Return the local user's GitHub Personal Access Token
 #'
-#' Extract the GitHub Personal Access Token (PAT) from the system environment for authenticated requests.
+#' Extract the GitHub Personal Access Token (PAT) from the system environment
+#' for authenticated requests.
 #'
 #' @section PAT:
 #'
 #' A Github 'PAT' is a Personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions <https://happygitwithr.com/github-pat.html>
-#' to set the PAT.
+#' the github api, and increases the limit on the number of requests allowed
+#' rom 60 to 5000. Follow instructions from
+#' <https://happygitwithr.com/github-pat.html> to set the PAT.
 #'
 #' @param quiet Should this be loud? default TRUE.
 #'
 #' @export
 #'
-#' @return a character vector that is the
+#' @return a character vector that is your Personal Access Token, or NULL
 #'
 #' @examples
 #'
-#' ## if you have a peronal access token saved, this will return that value
+#' ## if you have a personal access token saved, this will return that value
 #' github_pat()
 #'
 github_pat <- function (quiet = TRUE) {
@@ -305,7 +285,8 @@ github_pat <- function (quiet = TRUE) {
 
 #' Get for github API
 #'
-#' Extract the github PAT from the system environment for authenticated requests.
+#' Extract the github PAT from the system environment for
+#' authenticated requests.
 #'
 #' @param url URL to GET from
 #' @param auth github PAT

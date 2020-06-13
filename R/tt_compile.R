@@ -12,7 +12,8 @@ tt_compile <- function(date, auth = github_pat()) {
   #list of files
   files <- ttmf[ ttmf$Date == date, c("data_files","data_type","delim")]
 
-  readme <- github_html(file.path("data",year(date),date,"readme.md"), auth = auth)
+  readme <-
+    github_html(file.path("data", year(date), date, "readme.md"), auth = auth)
 
   list(
     files = files,
