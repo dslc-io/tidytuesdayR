@@ -1,0 +1,114 @@
+Hmm ... looks like a package
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./Rd2.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-03>
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2019/12/20 v1.4l Standard LaTeX document class
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/bk10.clo))
+(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/ifthen.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/tools/longtable.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/tools/bm.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/alltt.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/tools/verbatim.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/url/url.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/textcomp.sty))
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/inputenc.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def)
+No file Rd2.aux.
+
+LaTeX Font Warning: Font shape `OML/cmtt/m/n' undefined
+(Font)              using `OML/cmm/m/it' instead
+(Font)              for symbol `textless' on input line 39.
+
+No file Rd2.toc.
+[1{/home/ellis/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (13.52045pt too wide) in paragraph at lines 74--78
+[]\OT1/cmr/m/n/10 To find out the avail-able datasets for a spe-cific year, the
+ user can use the func-tion `tt[]datasets()`.
+[2] (/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/ts1cmtt.fd) [3] [4]
+[5]
+Overfull \hbox (14.27731pt too wide) in paragraph at lines 337--337
+ []\OT1/cmtt/m/n/10 tt_download(tt, files = c("All"), ..., branch = "master", a
+uth = github_pat())[] 
+[6] [7] [8] [9] [10] (./Rd2.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ )
+(see the transcript file for additional information) </home/ellis/.TinyTeX/texm
+f-var/fonts/pk/ljfour/jknappen/ec/tctt1000.600pk> </home/ellis/.TinyTeX/texmf-v
+ar/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></home/ellis/.TinyTeX/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/ellis/.TinyTeX/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbx12.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr12.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsl10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmss12.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmti10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
+t10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.p
+fb>
+Output written on Rd2.pdf (10 pages, 147562 bytes).
+Transcript written on Rd2.log.
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./Rd2.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-03>
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2019/12/20 v1.4l Standard LaTeX document class
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/bk10.clo))
+(/usr/share/R/share/texmf/tex/latex/Rd.sty
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/ifthen.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/tools/longtable.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/tools/bm.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/alltt.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/tools/verbatim.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/url/url.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/textcomp.sty))
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/inputenc.sty)
+(/home/ellis/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def)
+(./Rd2.aux)
+
+LaTeX Font Warning: Font shape `OML/cmtt/m/n' undefined
+(Font)              using `OML/cmm/m/it' instead
+(Font)              for symbol `textless' on input line 39.
+
+(./Rd2.toc [1{/home/ellis/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+}])
+Overfull \hbox (13.52045pt too wide) in paragraph at lines 74--78
+[]\OT1/cmr/m/n/10 To find out the avail-able datasets for a spe-cific year, the
+ user can use the func-tion `tt[]datasets()`.
+[2] (/home/ellis/.TinyTeX/texmf-dist/tex/latex/base/ts1cmtt.fd) [3] [4]
+[5] [6]
+Overfull \hbox (14.27731pt too wide) in paragraph at lines 337--337
+ []\OT1/cmtt/m/n/10 tt_download(tt, files = c("All"), ..., branch = "master", a
+uth = github_pat())[] 
+[7] [8] [9] [10] (./Rd2.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ )
+(see the transcript file for additional information) </home/ellis/.TinyTeX/texm
+f-var/fonts/pk/ljfour/jknappen/ec/tctt1000.600pk> </home/ellis/.TinyTeX/texmf-v
+ar/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></home/ellis/.TinyTeX/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/ellis/.TinyTeX/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbx12.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr12.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsl10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmss12.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmti10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
+t10.pfb></home/ellis/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.p
+fb>
+Output written on Rd2.pdf (10 pages, 148116 bytes).
+Transcript written on Rd2.log.
+Saving output to ‘tidytuesdayR-manual.pdf’ ...
+Done
+You may want to clean up by 'rm -rf /tmp/RtmpxHQShQ/Rd2pdf6d7241efb94f'
