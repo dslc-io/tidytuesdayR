@@ -41,20 +41,15 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
 Depends: R (>= 3.4.0)
-Suggests: 
-    testthat (>= 2.1.0),
-    covr,
-    pkgdown,
-    tibble
-Imports:
-    readxl (>= 1.0.0),
-    rvest (>= 0.3.2),
-    tools (>= 3.1.0),
-    lubridate (>= 1.7.0),
-    purrr (>= 0.2.5),
-    readr (>= 1.0.0),
-    rstudioapi (>= 0.2),
-    xml2 (>= 1.2.0),
-    httr,
-    jsonlite,
-    magrittr
+Suggests: testthat (>= 2.1.0), covr, pkgdown, tibble
+Imports: readxl (>= 1.0.0), rvest (>= 0.3.2), tools (>= 3.1.0),
+        lubridate (>= 1.7.0), purrr (>= 0.2.5), readr (>= 1.0.0),
+        rstudioapi (>= 0.2), xml2 (>= 1.2.0), httr, jsonlite, magrittr
+NeedsCompilation: no
+Packaged: 2020-06-16 05:58:51 UTC; ellis
+Author: Ellis Hughes [aut, cre],
+  Jon Harmon [ctb],
+  Thomas Mock [ctb],
+  R4DS Online Learning Community [dtc]
+Maintainer: Ellis Hughes <ellishughes@live.com>
+Built: R 3.4.4; ; 2020-06-16 05:59:19 UTC; unix
