@@ -135,11 +135,6 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @examples
 #' # check to make sure there are requests still available
 #' if(rate_limit_check(silent = TRUE) > 10){
-<<<<<<< HEAD
-#'  available_datasets_2018 <- tt_datasets(2018)
-#'  print(available_datasets_2018)
-#' }
-=======
 #'
 #'  available_datasets_2018 <- tt_datasets(2018)
 #'  print(available_datasets_2018)
@@ -154,7 +149,6 @@ NULL
 #' @rdname Available_Printing
 #' @export
 
->>>>>>> CRAN-edits-v1
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if(is_interactive){
     tmpHTML <- tempfile(fileext = ".html")
@@ -178,18 +172,6 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
 #' @export
-<<<<<<< HEAD
-#' @return used for side effects to show all the available datasets in
-#' TidyTuesday
-#' @examples
-#' # check to make sure there are requests still available
-#' if(rate_limit_check(silent = TRUE) > 10){
-#'  available_datasets <- tt_available()
-#'  print(available_datasets)
-#' }
-#'
-=======
->>>>>>> CRAN-edits-v1
 print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
 
   if (is_interactive) {
