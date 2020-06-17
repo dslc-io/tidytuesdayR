@@ -34,10 +34,20 @@ from 60 to 5000. Follow instructions from
 }
 
 \examples{
+
 # check to make sure there are requests still available
 if(rate_limit_check(silent = TRUE) > 10){
  tt_gh <- tt_load_gh("2019-01-15")
+
+ ## readme attempts to open the readme for the weekly dataset
  readme(tt_gh)
+
+ agencies <- tt_download(
+    tt_gh,
+    files = "agencies.csv"
+ )
+
+
 }
 
 }

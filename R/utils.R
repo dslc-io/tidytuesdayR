@@ -76,8 +76,10 @@ readme <- function(tt) {
 #' @importFrom utils browseURL
 #' @importFrom rstudioapi viewer isAvailable
 #' @noRd
-html_viewer <- function(url){
-  if (isAvailable()) {
+html_viewer <- function(url, is_interactive = interactive()){
+  if(!is_interactive){
+    invisible(NULL)
+  } else if (isAvailable()) {
     viewer(url = url)
   } else{
     browseURL(url = url)
