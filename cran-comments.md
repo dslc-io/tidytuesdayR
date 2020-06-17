@@ -1,6 +1,8 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
+* Updates the code and examples to prevent web pages from attempting to open in non-interactive mode
+
 * Surrounded the non-English usage, package names, software names and API names in undirected single quotes
 
 * Capitalized the names, sentence beginnings and abbreviations/acronyms in the description text of the DESCRIPTION file
