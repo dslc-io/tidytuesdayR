@@ -397,6 +397,7 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
         rate_lim <- GET("https://api.github.com/rate_limit")
       }
       rate_info <- GET_json(rate_lim)$rate
+      rate_info$remaining = rate_info$remaining - 1 # we have one less than we think
     }
   }
 
@@ -504,8 +505,7 @@ get_connectivity <- function(){
   getOption("tidytuesdayR.tt_internet_connectivity",NA)
 }
 
-
-#' @importFrom jsonlite base64_enc as
+#' @importFrom stats na.omit
 request_error <- function(status_code, message, class = NA) {
   structure(list(message = message,
                  status_code = status_code),

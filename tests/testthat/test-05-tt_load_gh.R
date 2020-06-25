@@ -42,6 +42,8 @@ tt_ref_test_that(
 })
 tt_ref_test_that(
   "tt_load_gh returns error when incorrect years or week number entries",{
+    check_api()
+
     testthat::expect_error(tt_load_gh(2018, 92),
                            "Please enter a value for week between 1")
     testthat::expect_error(tt_load_gh(2017, 92),
