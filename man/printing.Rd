@@ -29,12 +29,12 @@ to download and store the data from the TidyTuesday repo. They will always
 \examples{
 
 \donttest{
-
+if(interactive()){
 tt <- tt_load_gh("2019-01-15")
 print(tt)
 
 tt_data <- tt_download(tt, files = "All")
 print(tt_data)
-
+}
 }
 }
