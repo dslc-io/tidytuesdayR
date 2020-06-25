@@ -125,11 +125,11 @@ tt_ref_test_that(
     output,
     0
     )
-  expect_equal(
+  expect_true(grepl(x =
     message,
-    paste("Github API Rate Limit hit.",
-          "You must wait until 1969-12-31 04:16:40 PM PST to make calls again!\n")
-  )
+    pattern = paste("Github API Rate Limit hit.",
+          "You must wait until")
+  ))
 })
 
 tt_no_internet_test_that("When there is no internet, error -1 is returned",{
