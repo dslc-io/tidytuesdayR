@@ -28,7 +28,7 @@ to download and store the data from the TidyTuesday repo. They will always
 }
 \examples{
 
-\dontrun{
+\donttest{
 
 tt <- tt_load_gh("2019-01-15")
 print(tt)

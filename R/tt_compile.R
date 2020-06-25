@@ -12,8 +12,13 @@ tt_compile <- function(date, auth = github_pat()) {
   #list of files
   files <- ttmf[ ttmf$Date == date, c("data_files","data_type","delim")]
 
-  readme <-
-    github_html(file.path("data", year(date), date, "readme.md"), auth = auth)
+  readme <- try(
+    github_html(file.path("data", year(date), date, "readme.md"), auth = auth),
+    silent = TRUE)
+
+  if(inherits(readme, "try-error")){
+    readme <- NULL
+  }
 
   list(
     files = files,

@@ -23,7 +23,7 @@
 #' @examples
 #'
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(silent = TRUE) > 10){
+#' if(rate_limit_check(quiet = TRUE) > 10){
 #'  tt_gh <- tt_load_gh("2019-01-15")
 #'
 #'  ## readme attempts to open the readme for the weekly dataset
@@ -38,6 +38,20 @@
 #' }
 #'
 tt_load_gh <- function(x, week, auth = github_pat()) {
+
+  ## check internet connectivity and rate limit
+  if (!get_connectivity()) {
+    check_connectivity(rerun = TRUE)
+    if (!get_connectivity()) {
+      message("Warning - No Internet Connectivity")
+      return(NULL)
+    }
+  }
+
+  ## Check Rate Limit
+  if (rate_limit_check() == 0) {
+    return(NULL)
+  }
 
   if (missing(x)) {
     on.exit({

@@ -26,7 +26,7 @@
 #' @importFrom lubridate year
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tt_output <- tt_load_gh("2019-01-15")
 #' agencies <- tt_download(tt_output, files = "agencies.csv")
 #' }
@@ -36,6 +36,21 @@ tt_download <-
            ...,
            branch = "master",
            auth = github_pat()) {
+
+
+  ## check internet connectivity and rate limit
+  if (!get_connectivity()) {
+    check_connectivity(rerun = TRUE)
+    if (!get_connectivity()) {
+      message("Warning - No Internet Connectivity")
+      return(NULL)
+    }
+  }
+
+  ## Check Rate Limit
+  if (rate_limit_check() == 0) {
+    return(NULL)
+  }
 
   tt_date <- attr(tt, ".date")
   tt_year <- year(tt_date)

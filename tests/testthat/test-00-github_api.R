@@ -29,10 +29,12 @@ tt_ref_test_that(
 })
 
 tt_ref_test_that(
-  "github_contents returns NULL on failure", {
+  "github_contents throw informative error on failure", {
   check_api()
-  NULL_contents <- github_contents("static/BAD_ENTRY")
-  expect_equal(NULL_contents, NULL)
+  expect_error(
+    github_contents("static/BAD_ENTRY"),
+    "Response Code 404: Not Found",
+  )
 })
 
 
@@ -40,10 +42,12 @@ tt_ref_test_that(
   "github_html returns contents that can be html as html", {
   check_api()
   README <- github_html("README.md")
-  BADFILE <- github_html("bad_file")
 
   expect_s3_class(README,"xml_document")
-  expect_equal(BADFILE, NULL)
+  expect_error(
+    github_html("bad_file"),
+    "Response Code 404: Not Found",
+  )
 })
 
 tt_ref_test_that(
@@ -56,10 +60,12 @@ tt_ref_test_that(
 })
 
 tt_ref_test_that(
-  "github_sha returns NULL when bad entry",{
+  "github_sha returns error when bad entry",{
   check_api()
-  NULL_SHA <- github_sha("bad_file_path")
-  expect_equal(NULL_SHA, NULL)
+  expect_error(
+    github_sha("bad_file_path"),
+    "Response Code 404: Not Found",
+  )
 })
 
 tt_ref_test_that(
@@ -83,29 +89,66 @@ tt_ref_test_that(
 })
 
 tt_ref_test_that(
-  "github_blob retuns NULL on bad entry",{
+  "github_blob retuns error on bad entry",{
   check_api()
-  NULL_blob <- github_blob("BAD_ENTRY", sha = "BAD_SHA")
-  expect_equal(NULL_blob, NULL)
+  expect_error(
+    github_blob("BAD_ENTRY", sha = "BAD_SHA"),
+    "Response Code 422: The sha parameter must be exactly 40 characters",
+  )
+
 })
 
 tt_ref_test_that(
   "rate_limit_check returns actual value in environment",{
-  val <- rate_limit_check(silent = TRUE)
+  val <- rate_limit_check(quiet = TRUE)
   expect_equal(val,TT_GITHUB_ENV$RATE_REMAINING)
 })
 
 tt_ref_test_that("rate_limit_check throws warning when within n of 0",{
   rate_limit_update(list(limit = 50, remaining = 5, reset = 1000))
   on.exit({rate_limit_update()})
-  expect_warning(rate_limit_check(n = 10, quiet = FALSE))
+  expect_message(rate_limit_check(n = 10, quiet = FALSE))
 })
 
 tt_ref_test_that(
   "rate_limit_check throws error when 0, except when silent = TRUE",{
+
+  options("tidytuesdayR.tt_testing" = TRUE)
   rate_limit_update(list(limit = 50, remaining = 0, reset = 1000))
-  on.exit({rate_limit_update()})
+  on.exit({
+    rate_limit_update()
+    options("tidytuesdayR.tt_testing" = FALSE)
+  })
   expect_error(rate_limit_check(silent = FALSE))
-  output <- try(rate_limit_check(n = 10, silent = TRUE), silent = TRUE)
-  expect_true(!inherits(output,"try-error"))
+  message <- capture_messages({output <- rate_limit_check(n = 10)})
+  expect_equal(
+    output,
+    0
+    )
+  expect_equal(
+    message,
+    paste("Github API Rate Limit hit.",
+          "You must wait until 1969-12-31 04:16:40 PM PST to make calls again!\n")
+  )
+})
+
+tt_no_internet_test_that("When there is no internet, error -1 is returned",{
+
+  expect_error(
+    github_contents("static/BAD_ENTRY"),
+    "Response Code -1: No Internet Connection",
+  )
+  expect_error(
+    github_html("static/BAD_ENTRY"),
+    "Response Code -1: No Internet Connection",
+  )
+  expect_error(
+    github_sha("static/BAD_ENTRY"),
+    "Response Code -1: No Internet Connection",
+  )
+  expect_error(
+    github_blob("bad_path"),
+    "Response Code -1: No Internet Connection"
+  )
+
 })

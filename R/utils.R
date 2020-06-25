@@ -12,7 +12,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #' tt <- tt_load_gh("2019-01-15")
 #' print(tt)
@@ -56,7 +56,7 @@ print.tt <- function(x,...){
 #' @return Does not return anything. Used to show readme of the downloaded
 #'  tidytuesday dataset in the Viewer.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tt_output <- tt_load_gh("2019-01-15")
 #' readme(tt_output)
 #' }

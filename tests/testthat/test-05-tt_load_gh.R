@@ -142,4 +142,11 @@ tt_ref_test_that(
 
 })
 
+tt_no_internet_test_that("When there is no internet, returns NULL",{
 
+  message <- capture_messages(tt_obj <- tt_load_gh("2018-04-02"))
+
+  expect_equal(message, "Warning - No Internet Connectivity\n")
+  expect_true(is.null(tt_obj))
+
+})

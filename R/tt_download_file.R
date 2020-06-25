@@ -22,13 +22,28 @@
 #' @family tt_download_file
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' agencies <- tt_download_file(tt_gh, 1)
 #' launches <- tt_download_file(tt_gh, "launches.csv")
 #' }
 tt_download_file <- function(tt, x, ..., auth = github_pat()) {
+
+  ## check internet connectivity and rate limit
+  if (!get_connectivity()) {
+    check_connectivity(rerun = TRUE)
+    if (!get_connectivity()) {
+      message("Warning - No Internet Connectivity")
+      return(NULL)
+    }
+  }
+
+  ## Check Rate Limit
+  if (rate_limit_check() == 0) {
+    return(NULL)
+  }
+
   suppressMessages({
     switch(class(x),
       "character" = tt_download_file.character(tt, x, ... ),

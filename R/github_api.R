@@ -35,7 +35,7 @@ github_contents <- function(path, auth = github_pat()) {
         github_blob(path, auth = auth)
       }
     }else{
-      NULL
+      stop(tt_gh_error(url_response)$message)
     }
   }
 
@@ -62,6 +62,7 @@ github_html <-
   function(path,
            ...,
            auth = github_pat()) {
+
     base_url <-
       file.path("https://api.github.com/repos",
                 options("tidytuesdayR.tt_repo"),
@@ -75,7 +76,7 @@ github_html <-
     if (url_response$status_code == 200) {
       github_page(read_html(x = url_response$content, ...))
     } else{
-      NULL
+      stop(tt_gh_error(url_response)$message)
     }
   }
 
@@ -129,7 +130,7 @@ github_sha <-
                          ))
       )
     } else{
-      NULL
+      stop(tt_gh_error(url_response)$message)
     }
   }
 
@@ -179,7 +180,7 @@ github_blob <-
       return(content)
 
     } else{
-      NULL
+      stop(tt_gh_error(url_response)$message)
     }
 
   }
@@ -296,6 +297,7 @@ github_pat <- function (quiet = TRUE) {
 #' @noRd
 #'
 #' @importFrom httr GET add_headers
+#' @importFrom jsonlite base64_enc
 github_GET <- function(url, auth = github_pat(), ...){
 
   if(!is.null(auth)){
@@ -307,18 +309,67 @@ github_GET <- function(url, auth = github_pat(), ...){
     headers <- add_headers(...)
   }
 
-  rate_limit_check()
-
-  if(exists("headers")){
-    get_res <- GET(url, headers)
-  }else{
-    get_res <- GET(url)
+  if(!get_connectivity()){
+    return(
+      no_internet_error()
+    )
   }
 
-  rate_limit_update(header_to_rate_info(get_res))
+  rate <- rate_limit_check()
 
-  get_res
+  if(rate != 0){
 
+    if(exists("headers")){
+      get_res <- try(GET(url, headers),silent = TRUE)
+    }else{
+      get_res <- try(GET(url))
+    }
+
+    if(inherits(get_res,"try-error")){
+      check_connectivity(rerun=TRUE)
+      if(!check_connectivity()){
+        return(no_internet_error())
+      }else{
+        ## Unexpected issue
+        stop(attr(get_res,"condition"))
+      }
+    }else{
+      rate_limit_update(header_to_rate_info(get_res))
+      return(get_res)
+    }
+  }else{
+    rate_limit_error()
+  }
+}
+
+tt_gh_error<- function(response){
+ UseMethod("tt_gh_error")
+}
+
+tt_gh_error.response <- function(response, call = sys.call(-2)){
+  structure(
+    list(
+      status = response$status_code,
+      message = paste(
+        paste0("Response Code ",response$status_code,":"),
+        GET_json(response)$message),
+      call = call
+    ),
+    class = c(".tt_gh_error", "condition")
+  )
+}
+
+tt_gh_error.tt_response <- function(response, call = sys.call(-2)){
+  structure(
+    list(
+      status = response$status_code,
+      message = paste(
+        paste0("Response Code ",response$status_code,":"),
+        response$message),
+      call = call
+    ),
+    class = c(".tt_gh_error", "condition")
+  )
 }
 
 #' Environment containing state of Github API limits
@@ -335,19 +386,25 @@ TT_GITHUB_ENV$RATE_RESET <- lubridate::today()
 
 rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 
+  check_connectivity()
+
   if (is.null(rate_info)) {
-    if (!is.null(auth)) {
-      rate_lim <- GET("https://api.github.com/rate_limit",
-                      add_headers(Authorization = paste("token", auth)))
-    } else {
-      rate_lim <- GET("https://api.github.com/rate_limit")
+    if(get_connectivity()){
+      if (!is.null(auth)) {
+        rate_lim <- GET("https://api.github.com/rate_limit",
+                        add_headers(Authorization = paste("token", auth)))
+      } else {
+        rate_lim <- GET("https://api.github.com/rate_limit")
+      }
+      rate_info <- GET_json(rate_lim)$rate
     }
-    rate_info <- GET_json(rate_lim)$rate
   }
 
+  if(get_connectivity()){
   TT_GITHUB_ENV$RATE_LIMIT <- rate_info$limit
   TT_GITHUB_ENV$RATE_REMAINING <- rate_info$remaining
   TT_GITHUB_ENV$RATE_RESET <- as.POSIXct(rate_info$reset, origin = "1970-01-01")
+  }
 
 }
 
@@ -358,27 +415,33 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 #'
 #' @param n number of requests that triggers a warning indicating the user is
 #' close to the limit
-#' @param quiet should the only an error be thrown when the rate limit is zero?
-#' @param silent should no warnings or errors be thrown and only the value
-#' returned?
+#' @param quiet should messages be returned when the rate limit is zero or less than n?
 #'
 #' @return return the number of calls are remaining as a numeric values
 #' @export
 #'
 #' @examples
 #'
-#' rate_limit_check(silent = TRUE)
+#' rate_limit_check()
 #'
 
-rate_limit_check <- function(n = 10, quiet = TRUE, silent = FALSE){
+rate_limit_check <- function(n = 10, quiet = FALSE){
 
-  if(TT_GITHUB_ENV$RATE_REMAINING == 0 & !silent){
-    stop("Github API Rate Limit hit. You must wait until ",
-         format(TT_GITHUB_ENV$RATE_RESET,
-                "%Y-%m-%d %r %Z"),
-         " to make calls again!")
-  } else if (TT_GITHUB_ENV$RATE_REMAINING <= n & !silent & !quiet){
-    warning(
+  if(TT_GITHUB_ENV$RATE_REMAINING == 0 & !quiet){
+
+    if(!getOption("tidytuesdayR.tt_testing", FALSE)){
+      ## double check. No penalty for checking!
+      rate_limit_update()
+    }
+
+    if(TT_GITHUB_ENV$RATE_REMAINING == 0 ){
+      message("Github API Rate Limit hit. You must wait until ",
+           format(TT_GITHUB_ENV$RATE_RESET,
+                  "%Y-%m-%d %r %Z"),
+           " to make calls again!")
+    }
+  } else if (TT_GITHUB_ENV$RATE_REMAINING <= n & !quiet){
+    message(
       paste0(
         "Only ",
         TT_GITHUB_ENV$RATE_REMAINING,
@@ -400,4 +463,68 @@ header_to_rate_info <- function(res){
   rate_json$remaining <-  as.numeric(headers$`x-ratelimit-remaining`)
   rate_json$reset <- as.numeric(headers$`x-ratelimit-reset`)
   rate_json
+}
+
+
+#' Checks Internet Connectivity
+#'
+#' This packages functionality is based on having internet connectivity to github.com. Without access,
+#' most if not all of this package is not useful. This function checks to see if there is
+#' internet connectivity on start of the package.
+#'
+#' @param rerun should internet connectivity check be forced to rerun? (True/FALSE)
+#'
+#' @return This function returns nothing, it is used for the side effects
+#' @noRd
+#'
+#' @examples
+#' check_connectivity()
+#'
+#' @importFrom jsonlite base64_enc
+#' @importFrom httr GET
+
+check_connectivity <- function(rerun = FALSE){
+  internet_connection <- getOption("tidytuesdayR.tt_internet_connectivity",NA)
+
+
+  #if internet connection is not set or is false, lets try again
+  if(!getOption("tidytuesdayR.tt_testing", FALSE)){
+    if(is.na(internet_connection) | !internet_connection | rerun){
+      res <- try(GET("https:/api.github.com"), silent = TRUE)
+      if(inherits(res,"try-error")){
+        options("tidytuesdayR.tt_internet_connectivity" = FALSE)
+      }else{
+        options("tidytuesdayR.tt_internet_connectivity" = TRUE)
+      }
+    }
+  }
+}
+
+get_connectivity <- function(){
+  getOption("tidytuesdayR.tt_internet_connectivity",NA)
+}
+
+
+#' @importFrom jsonlite base64_enc as
+request_error <- function(status_code, message, class = NA) {
+  structure(list(message = message,
+                 status_code = status_code),
+            class = na.omit(c(class, "tt_response")))
+}
+
+#' @importFrom jsonlite base64_enc
+no_internet_error <- function(){
+  request_error(
+  status_code = -1,
+  "No Internet Connection",
+  "tt.gh_connectivityError"
+)}
+
+#' @importFrom jsonlite base64_enc
+rate_limit_error <- function() {
+  request_error(
+    status_code = -2,
+    "RATE LIMIT EXPIRED",
+    "tt.gh_RateLimitError"
+  )
 }
