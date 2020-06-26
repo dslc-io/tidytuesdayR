@@ -21,7 +21,7 @@ for authenticated requests.
 
 A Github 'PAT' is a Personal Access Token. This allows for signed queries to
 the github api, and increases the limit on the number of requests allowed
-rom 60 to 5000. Follow instructions from
+from 60 to 5000. Follow instructions from
 <https://happygitwithr.com/github-pat.html> to set the PAT.
 }
 

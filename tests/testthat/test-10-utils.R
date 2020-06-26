@@ -55,3 +55,39 @@ tt_ref_test_that("print.tt lists all the available files for the weeks tt",{
   )
 
 })
+
+test_that("html_viewer returns NULL when running not in interactive mode",{
+
+  res <- html_viewer("www.google.com", is_interactive = FALSE)
+
+  expect_equal(res, NULL)
+
+})
+
+
+test_that("readme() will attempt to display the contents of the readme attribute",{
+
+  tt_data <- structure(
+    list(
+      value1 = "value1",
+      value2 = "value2"
+    ),
+    .tt = structure(
+      c("value1.csv", "value2.csv"),
+      .files = c("value1.csv", "value2.csv"),
+      .readme = xml2::read_html("<body><p>hello world</p></body>"),
+      class = "tt_gh"
+    ),
+    class = "tt_data"
+  )
+
+  existing_files <- list.files(tempdir())
+  readme(tt_data)
+  readme_html <- setdiff(list.files(tempdir()), existing_files)
+
+  expect_equal(
+    xml2::read_html(file.path(tempdir(),readme_html)),
+    attr(attr(tt_data,".tt"),".readme")
+  )
+
+})

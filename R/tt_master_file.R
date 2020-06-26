@@ -12,11 +12,27 @@
 #'
 tt_update_master_file <-
   function(force = FALSE, auth = github_pat()) {
+
+    ## check internet connectivity and rate limit
+    if (!get_connectivity()) {
+      check_connectivity(rerun = TRUE)
+      if (!get_connectivity()) {
+        message("Warning - No Internet Connectivity")
+        invisible(NULL)
+      }
+    }
+
+    ## Check Rate Limit
+    if (rate_limit_check() == 0) {
+      invisible(NULL)
+    }
+
+
     # get sha to see if need to update
     sha_df <- github_sha("static")
     sha <- sha_df$sha[sha_df$path == "tt_data_type.csv"]
 
-    if (is.null(TT_MASTER_ENV$TT_MASTER_FILE) ||
+    if (nrow(TT_MASTER_ENV$TT_MASTER_FILE) == 0 ||
         sha != attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha") || force) {
       file_text <- github_contents("static/tt_data_type.csv", auth = auth)
       content <-
@@ -44,7 +60,7 @@ tt_master_file <- function(assign = NULL){
     TT_MASTER_ENV$TT_MASTER_FILE <- assign
   }else{
     ttmf <- TT_MASTER_ENV$TT_MASTER_FILE
-    if(is.null(ttmf)){
+    if(nrow(ttmf) == 0){
       tt_update_master_file()
       ttmf <- TT_MASTER_ENV$TT_MASTER_FILE
     }
@@ -58,6 +74,13 @@ tt_master_file <- function(assign = NULL){
 #' @noRd
 #'
 TT_MASTER_ENV <- new.env()
-TT_MASTER_ENV$TT_MASTER_FILE <- NULL
+TT_MASTER_ENV$TT_MASTER_FILE <- data.frame(
+  Week = integer(0),
+  ate = character(0),
+  ear = integer(0),
+  data_files = character(0),
+  data_type = character(0),
+  delim = character(0)
+)
 
 

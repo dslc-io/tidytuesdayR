@@ -32,7 +32,6 @@ Load TidyTuesday data from Github
 }
 \section{PAT}{
 
-
 A Github PAT is a personal Access Token. This allows for signed queries to
 the github api, and increases the limit on the number of requests allowed
 from 60 to 5000. Follow instructions from
@@ -42,7 +41,7 @@ from 60 to 5000. Follow instructions from
 \examples{
 
 # check to make sure there are requests still available
-if(rate_limit_check(silent = TRUE) > 10){
+if(rate_limit_check(quiet = TRUE) > 10){
 
 tt_output <- tt_load("2019-01-15")
 tt_output

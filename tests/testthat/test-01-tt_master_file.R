@@ -4,13 +4,15 @@ tt_ref_test_that(
   "`tt_master_file()` will update the masterfile reference if is null", {
   check_api()
 
-  TT_MASTER_ENV$TT_MASTER_FILE <- NULL
+  TT_MASTER_ENV$TT_MASTER_FILE <- data.frame()
 
-  expect_true(is.null(TT_MASTER_ENV$TT_MASTER_FILE))
+  expect_true(is.data.frame(TT_MASTER_ENV$TT_MASTER_FILE))
+  expect_true(nrow(TT_MASTER_ENV$TT_MASTER_FILE) == 0)
 
   ttmf <- tt_master_file()
 
-  expect_true(!is.null(TT_MASTER_ENV$TT_MASTER_FILE))
+  expect_true(is.data.frame(TT_MASTER_ENV$TT_MASTER_FILE))
+  expect_true(nrow(TT_MASTER_ENV$TT_MASTER_FILE) > 0)
 
 })
 

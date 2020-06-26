@@ -35,7 +35,7 @@
 #'
 #' @examples
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(silent = TRUE) > 10){
+#' if(rate_limit_check(quiet = TRUE) > 10){
 #'  ## show data available from 2018
 #'  tt_datasets(2018)
 #'
@@ -44,12 +44,13 @@
 #' }
 #'
 
+NULL
 
 #' @rdname available
 #' @export
 #' @return `tt_available()` returns a 'tt_dataset_table_list', which is a
 #' list of 'tt_dataset_table'. This class has special printing methods to show
-#' the available datasets.
+#' the available data sets.
 #'
 tt_available <- function(auth = github_pat()) {
 
@@ -123,17 +124,31 @@ tt_datasets <- function(year, auth = github_pat()) {
             class = "tt_dataset_table")
 }
 
-#' @title print utility for tt_dataset_table object
+#' @title Printing Utilities for Listing Available Datasets
+#' @name Available_Printing
+#' @description
+#' printing utilities for showing the available datasets for a specific year or
+#' all time
 #' @inheritParams base::print
-#' @param is_interactive is the console interactive
-#' @export
-#' @return used for side effects to show the available datasets for the year.
+#' @param is_interactive is the console interactive?
+#' @return used for side effects to show the available datasets for the year or for all time.
 #' @examples
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(silent = TRUE) > 10){
+#' if(rate_limit_check(quiet = TRUE) > 10){
+#'
 #'  available_datasets_2018 <- tt_datasets(2018)
 #'  print(available_datasets_2018)
+#'
+#'  all_available_datasets <- tt_available()
+#'  print(all_available_datasets)
+#'
 #' }
+NULL
+
+
+#' @rdname Available_Printing
+#' @export
+
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if(is_interactive){
     tmpHTML <- tempfile(fileext = ".html")
@@ -152,23 +167,11 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
   invisible(readme)
 }
 
-
-#' @title print utility for tt_dataset_table_list object
-#' @inheritParams base::print
-#' @param is_interactive is the console interactive
+#' @rdname Available_Printing
 #' @importFrom purrr walk map
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
 #' @export
-#' @return used for side effects to show all the available datasets in
-#' TidyTuesday
-#' @examples
-#' # check to make sure there are requests still available
-#' if(rate_limit_check(silent = TRUE) > 10){
-#'  available_datasets <- tt_available()
-#'  print(available_datasets)
-#' }
-#'
 print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
 
   if (is_interactive) {

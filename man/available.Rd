@@ -20,7 +20,7 @@ list of datasets for. Leave empty for most recent year.}
 \value{
 `tt_available()` returns a 'tt_dataset_table_list', which is a
 list of 'tt_dataset_table'. This class has special printing methods to show
-the available datasets.
+the available data sets.
 
 `tt_datasets()` returns a 'tt_dataset_table' object. This class has
  special printing methods to show the available datasets for the year.
@@ -54,7 +54,7 @@ from 60 to 5000. Follow instructions at
 
 \examples{
 # check to make sure there are requests still available
-if(rate_limit_check(silent = TRUE) > 10){
+if(rate_limit_check(quiet = TRUE) > 10){
  ## show data available from 2018
  tt_datasets(2018)
 

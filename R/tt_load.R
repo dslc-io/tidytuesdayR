@@ -12,7 +12,6 @@
 #' information
 #'
 #' @section PAT:
-#'
 #' A Github PAT is a personal Access Token. This allows for signed queries to
 #' the github api, and increases the limit on the number of requests allowed
 #' from 60 to 5000. Follow instructions from
@@ -27,7 +26,7 @@
 #' @examples
 #'
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(silent = TRUE) > 10){
+#' if(rate_limit_check(quiet = TRUE) > 10){
 #'
 #' tt_output <- tt_load("2019-01-15")
 #' tt_output
@@ -42,6 +41,20 @@ tt_load <-
            download_files = "All",
            ...,
            auth = github_pat()) {
+
+  ## check internet connectivity and rate limit
+  if (!get_connectivity()) {
+    check_connectivity(rerun = TRUE)
+    if (!get_connectivity()) {
+      message("Warning - No Internet Connectivity")
+      return(NULL)
+    }
+  }
+
+  ## Check Rate Limit
+  if (rate_limit_check() == 0) {
+    return(NULL)
+  }
 
   # download readme and identify files
   tt <- tt_load_gh(x, week, auth = auth)

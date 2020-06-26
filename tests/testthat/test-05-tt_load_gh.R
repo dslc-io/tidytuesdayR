@@ -42,6 +42,8 @@ tt_ref_test_that(
 })
 tt_ref_test_that(
   "tt_load_gh returns error when incorrect years or week number entries",{
+    check_api()
+
     testthat::expect_error(tt_load_gh(2018, 92),
                            "Please enter a value for week between 1")
     testthat::expect_error(tt_load_gh(2017, 92),
@@ -142,4 +144,11 @@ tt_ref_test_that(
 
 })
 
+tt_no_internet_test_that("When there is no internet, returns NULL",{
 
+  message <- capture_messages(tt_obj <- tt_load_gh("2018-04-02"))
+
+  expect_equal(message, "Warning - No Internet Connectivity\n")
+  expect_true(is.null(tt_obj))
+
+})

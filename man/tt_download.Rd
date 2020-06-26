@@ -41,8 +41,10 @@ from 60 to 5000. Follow instructions at
 }
 
 \examples{
-\dontrun{
+\donttest{
+if(interactive()){
 tt_output <- tt_load_gh("2019-01-15")
 agencies <- tt_download(tt_output, files = "agencies.csv")
+}
 }
 }

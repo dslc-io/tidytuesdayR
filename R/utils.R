@@ -12,17 +12,16 @@
 #'
 #' @examples
 #'
-#' \dontrun{
-#'
+#' \donttest{
+#' if(interactive()){
 #' tt <- tt_load_gh("2019-01-15")
 #' print(tt)
 #'
 #' tt_data <- tt_download(tt, files = "All")
 #' print(tt_data)
-#'
 #' }
-
-
+#' }
+NULL
 
 #' @rdname printing
 #' @importFrom tools file_path_sans_ext
@@ -57,7 +56,7 @@ print.tt <- function(x,...){
 #' @return Does not return anything. Used to show readme of the downloaded
 #'  tidytuesday dataset in the Viewer.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tt_output <- tt_load_gh("2019-01-15")
 #' readme(tt_output)
 #' }
@@ -77,8 +76,10 @@ readme <- function(tt) {
 #' @importFrom utils browseURL
 #' @importFrom rstudioapi viewer isAvailable
 #' @noRd
-html_viewer <- function(url){
-  if (isAvailable()) {
+html_viewer <- function(url, is_interactive = interactive()){
+  if(!is_interactive){
+    invisible(NULL)
+  } else if (isAvailable()) {
     viewer(url = url)
   } else{
     browseURL(url = url)
