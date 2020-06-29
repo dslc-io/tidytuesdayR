@@ -20,11 +20,17 @@ Tuesday repository.
 
 ## Installation
 
-Currently this package is only available on GitHub:
+This package is available on CRAN via:
 
 ``` r
-#install.packages("devtools")
-devtools::install_github("thebioengineer/tidytuesdayR")
+install.packages("tidytuesdayR")
+```
+
+To get the latest in-development features, install the development version from GitHub:
+
+``` r
+#install.packages("remotes")
+remotes::install_github("thebioengineer/tidytuesdayR")
 ```
 
 ## Usage
