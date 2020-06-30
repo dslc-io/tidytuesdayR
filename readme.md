@@ -2,11 +2,15 @@
 
 Ellis Hughes
 
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/tidytuesdayR)](https://CRAN.R-project.org/package=tidytuesdayR)
 [![R build status](https://github.com/thebioengineer/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions)
 [![Coverage
 status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
+[![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/tidytuesdayR)](https://cran.r-project.org/package=tidytuesdayR)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
 
 {tidytuesdayR} has the main goal to make it easy to participate in the
 weekly [\#TidyTuesday](https://github.com/rfordatascience/tidytuesday)
@@ -16,11 +20,17 @@ Tuesday repository.
 
 ## Installation
 
-Currently this package is only available on GitHub:
+This package is available on CRAN via:
 
 ``` r
-#install.packages("devtools")
-devtools::install_github("thebioengineer/tidytuesdayR")
+install.packages("tidytuesdayR")
+```
+
+To get the latest in-development features, install the development version from GitHub:
+
+``` r
+#install.packages("remotes")
+remotes::install_github("thebioengineer/tidytuesdayR")
 ```
 
 ## Usage

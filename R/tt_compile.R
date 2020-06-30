@@ -1,15 +1,10 @@
-#' @title Get TidyTuesday Readme and list of files and HTML
+#' @title Get TidyTuesday Readme and list of files and HTML based on the date
 #' @param date date of tidytuesday of interest
-#' @param auth github Personal Access Token. See PAT section for more information
-#'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' @param auth github Personal Access Token
 #'
 #' @importFrom lubridate year
+#' @noRd
+#'
 tt_compile <- function(date, auth = github_pat()) {
 
   ttmf <- tt_master_file()
@@ -17,7 +12,13 @@ tt_compile <- function(date, auth = github_pat()) {
   #list of files
   files <- ttmf[ ttmf$Date == date, c("data_files","data_type","delim")]
 
-  readme <- github_html(file.path("data",year(date),date,"readme.md"), auth = auth)
+  readme <- try(
+    github_html(file.path("data", year(date), date, "readme.md"), auth = auth),
+    silent = TRUE)
+
+  if(inherits(readme, "try-error")){
+    readme <- NULL
+  }
 
   list(
     files = files,

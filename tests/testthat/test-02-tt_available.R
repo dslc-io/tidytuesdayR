@@ -1,6 +1,7 @@
 context("tt_available lists available weeks of tidy tuesday")
 
-tt_ref_test_that("tt_datasets prints to console when rstudio viewer is not available", {
+tt_ref_test_that(
+  "tt_datasets prints to console when rstudio viewer is not available", {
   check_api()
   ds <- tt_datasets(2018)
   consoleOutput <- data.frame(unclass(ds), stringsAsFactors=FALSE)
@@ -10,20 +11,25 @@ tt_ref_test_that("tt_datasets prints to console when rstudio viewer is not avail
   )
 })
 
-tt_ref_test_that("tt_datasets throws errors when asking for invalid years", {
+tt_ref_test_that(
+  "tt_datasets throws errors when asking for invalid years", {
   check_api()
   expect_error(
     tt_datasets(2017),
-    "Invalid `year` provided to list available tidytuesday datasets.\n\tUse one of the following years:"
+    paste0("Invalid `year` provided to list available tidytuesday datasets.",
+           "\n\tUse one of the following years:")
   )
 })
 
-tt_ref_test_that("printing tt_datasets returns all the values as a printed data.frame if not interactive", {
+tt_ref_test_that(
+  paste0("printing tt_datasets returns all the values as a",
+         "printed data.frame if not interactive"), {
   check_api()
   ds <- tt_datasets(2018)
 
-  printed_ds <- capture.output(print(ds, interactive = FALSE))
-  consoleOutput <- capture.output(print(data.frame(unclass(ds), stringsAsFactors=FALSE)))
+  printed_ds <- capture.output(print(ds, is_interactive = FALSE))
+  consoleOutput <-
+    capture.output(print(data.frame(unclass(ds), stringsAsFactors = FALSE)))
 
   expect_equal(
     printed_ds,
@@ -32,7 +38,8 @@ tt_ref_test_that("printing tt_datasets returns all the values as a printed data.
 })
 
 
-tt_ref_test_that("tt_available returns object of with all years data available", {
+tt_ref_test_that(
+  "tt_available returns object of with all years data available", {
   check_api()
   ds <- tt_available()
 
@@ -41,8 +48,12 @@ tt_ref_test_that("tt_available returns object of with all years data available",
 
   ds_content <- as.list(unclass(ds))
 
-  ds_content_data <- lapply(ds_content, function(x) data.frame(unclass(x), stringsAsFactors=FALSE))
-  ds_content_html <- lapply(ds_content, function(x) rvest::html_table(attr(x, ".html"))[[1]])
+  ds_content_data <-
+    lapply(ds_content, function(x)
+      data.frame(unclass(x), stringsAsFactors = FALSE))
+  ds_content_html <-
+    lapply(ds_content, function(x)
+      rvest::html_table(attr(x, ".html"))[[1]])
 
   expect_equivalent(
     ds_content_html,
@@ -51,15 +62,25 @@ tt_ref_test_that("tt_available returns object of with all years data available",
 
 })
 
-tt_ref_test_that("printing tt_available returns all the values as a printed data.frame if not interactive", {
+tt_ref_test_that(
+  paste("printing tt_available returns all the values",
+        "as a printed data.frame if not interactive"), {
   check_api()
   ds <- tt_available()
 
-  printed_ds <- capture.output(print(ds, interactive = FALSE))
-  consoleOutput <- capture.output(quiet<-lapply(as.list(unclass(ds)), function(x) print(data.frame(unclass(x), stringsAsFactors = FALSE))))
+  printed_ds <- capture.output(print(ds, is_interactive = FALSE))
+  consoleOutput <-
+    capture.output(quiet <-
+                     lapply(as.list(unclass(ds)), function(x)
+                       print(
+                         data.frame(unclass(x), stringsAsFactors = FALSE)
+                       )))
 
-  printed_ds <- printed_ds[!(grepl("^Year:", printed_ds) | printed_ds == "")]
-  consoleOutput <- consoleOutput[!(grepl("^Year:", consoleOutput) | consoleOutput == "")]
+  printed_ds <-
+    printed_ds[!(grepl("^Year:", printed_ds) | printed_ds == "")]
+  consoleOutput <-
+    consoleOutput[!(grepl("^Year:", consoleOutput) |
+                      consoleOutput == "")]
 
   expect_equal(
     printed_ds,
@@ -68,7 +89,8 @@ tt_ref_test_that("printing tt_available returns all the values as a printed data
 })
 
 
-tt_ref_test_that("tt_dataset_table and tt_dataset_table_list objects can make html outputs",{
+tt_ref_test_that(
+  "tt_dataset_table and tt_dataset_table_list objects can make html outputs",{
   check_api()
   ds_tl <- tt_available()
   ds_t <- tt_datasets(2019)

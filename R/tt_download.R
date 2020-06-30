@@ -2,32 +2,57 @@
 #'
 #' Download all or specific files identified in the tt dataset
 #'
-#' @param tt string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year
+#' @param tt string representation of the date of data to pull, in YYYY-MM-dd
+#' format, or just numeric entry for year
 #' @param files List the file names to download. Default to asking.
-#' @param ... pass methods to the parsing functions. These will be passed to ALL files, so be careful.
-#' @param branch which branch to be downloading data from. Default and always should be "master".
-#' @param auth github Personal Access Token. See PAT section for more information
+#' @param ... pass methods to the parsing functions. These will be passed to
+#' ALL files, so be careful.
+#' @param branch which branch to be downloading data from. Default and always
+#' should be "master".
+#' @param auth github Personal Access Token. See PAT section for more
+#' information
 #'
 #' @section PAT:
 #'
 #' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed from
-#' 60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-#' to set the PAT.
+#' the github api, and increases the limit on the number of requests allowed
+#' from 60 to 5000. Follow instructions at
+#' <https://happygitwithr.com/github-pat.html> to set the PAT.
 #'
-#' @return tt_data object (list class)
+#' @return list of tibbles of the files downloaded.
 #'
 #' @export
 #'
 #' @importFrom lubridate year
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' if(interactive()){
 #' tt_output <- tt_load_gh("2019-01-15")
-#' datasets <- tt_download(tt_output, files = "All")
+#' agencies <- tt_download(tt_output, files = "agencies.csv")
 #' }
+#' }
+tt_download <-
+  function(tt,
+           files = c("All"),
+           ...,
+           branch = "master",
+           auth = github_pat()) {
 
-tt_download <- function(tt, files = c("All"), ..., branch = "master", auth = github_pat()){
+
+  ## check internet connectivity and rate limit
+  if (!get_connectivity()) {
+    check_connectivity(rerun = TRUE)
+    if (!get_connectivity()) {
+      message("Warning - No Internet Connectivity")
+      return(NULL)
+    }
+  }
+
+  ## Check Rate Limit
+  if (rate_limit_check() == 0) {
+    return(NULL)
+  }
 
   tt_date <- attr(tt, ".date")
   tt_year <- year(tt_date)
@@ -35,7 +60,10 @@ tt_download <- function(tt, files = c("All"), ..., branch = "master", auth = git
 
 
   #define which files to download
-  files <- match.arg(files, several.ok = TRUE, choices = c("All", file_info$data_files))
+  files <-
+    match.arg(files,
+              several.ok = TRUE,
+              choices = c("All", file_info$data_files))
 
   if("All" %in% files){
     files <- file_info$data_files

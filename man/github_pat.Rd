@@ -2,7 +2,7 @@
 % Please edit documentation in R/github_api.R
 \name{github_pat}
 \alias{github_pat}
-\title{Get the github PAT}
+\title{Return the local user's GitHub Personal Access Token}
 \usage{
 github_pat(quiet = TRUE)
 }
@@ -10,8 +10,24 @@ github_pat(quiet = TRUE)
 \item{quiet}{Should this be loud? default TRUE.}
 }
 \value{
-PAT as a character.
+a character vector that is your Personal Access Token, or NULL
 }
 \description{
-Extract the github PAT from the system environment for authenticated requests.
+Extract the GitHub Personal Access Token (PAT) from the system environment
+for authenticated requests.
+}
+\section{PAT}{
+
+
+A Github 'PAT' is a Personal Access Token. This allows for signed queries to
+the github api, and increases the limit on the number of requests allowed
+from 60 to 5000. Follow instructions from
+<https://happygitwithr.com/github-pat.html> to set the PAT.
+}
+
+\examples{
+
+## if you have a personal access token saved, this will return that value
+github_pat()
+
 }
