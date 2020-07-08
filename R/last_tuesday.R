@@ -12,7 +12,7 @@
 #'
 #' @export
 
-last_tuesday <- function(date = today(tz = "America/New_York")) {
+last_tuesday <- function(date = today(tzone = "America/New_York")) {
 
   stopifnot(inherits(date,"Date"))
 

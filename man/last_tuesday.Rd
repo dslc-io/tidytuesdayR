@@ -4,7 +4,7 @@
 \alias{last_tuesday}
 \title{Find the most recent tuesday}
 \usage{
-last_tuesday(date = today(tz = "America/New_York"))
+last_tuesday(date = today(tzone = "America/New_York"))
 }
 \arguments{
 \item{date}{todays date as a date object}
