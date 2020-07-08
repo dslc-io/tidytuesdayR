@@ -6,9 +6,11 @@
 #' @param date date to use as reference for the template.
 #' @importFrom usethis use_template
 #' @importFrom lubridate today
-#' @usage use_tidytemplate(name = "My_Awesome_TidyTuesday_Plot.Rmd")
 #' @examples
-#' \donotrun
+#' \donttest{
+#' if(interactive()){
+#'   use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
+#' }
 #'
 #' @export
 use_tidytemplate <- function(name = NULL, open = interactive(),..., date = today()){

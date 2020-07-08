@@ -5,6 +5,11 @@
 #' @param date todays date as a date object
 #'
 #' @importFrom lubridate wday today
+#' @examples
+#'
+#' last_tuesday() # get last tuesday from todays date
+#' last_tuesday(as.Date("2020-01-01")) # get last tuesday from specified date
+#'
 #' @export
 
 last_tuesday <- function(date = today(tz = "America/New_York")) {

@@ -4,7 +4,7 @@
 \alias{use_tidytemplate}
 \title{Call and open the tidytemplate}
 \usage{
-use_tidytemplate(name = "My_Awesome_TidyTuesday_Plot.Rmd")
+use_tidytemplate(name = NULL, open = interactive(), ..., date = today())
 }
 \arguments{
 \item{name}{name of your tidytuesday analysis file}
@@ -17,8 +17,4 @@ use_tidytemplate(name = "My_Awesome_TidyTuesday_Plot.Rmd")
 }
 \description{
 Use the tidytemplate Rmd for starting your analysis with a leg up for processing
-}
-\examples{
-\donotrun
-
 }
