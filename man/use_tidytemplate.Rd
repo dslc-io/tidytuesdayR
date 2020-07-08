@@ -6,6 +6,19 @@
 \usage{
 use_tidytemplate(name = "My_Awesome_TidyTuesday_Plot.Rmd")
 }
+\arguments{
+\item{name}{name of your tidytuesday analysis file}
+
+\item{open}{should the file be opened after being created}
+
+\item{...}{arguments to be passed to \link[usethis]{use_template}}
+
+\item{date}{date to use as reference for the template.}
+}
 \description{
 Use the tidytemplate Rmd for starting your analysis with a leg up for processing
+}
+\examples{
+\donotrun
+
 }

@@ -9,3 +9,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^readme\.md$
+^pkgdown$
+^\.github$
+^cran-comments\.md$
+^CRAN-RELEASE$
+logo\.png
