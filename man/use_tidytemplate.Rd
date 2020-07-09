@@ -4,7 +4,7 @@
 \alias{use_tidytemplate}
 \title{Call and open the tidytemplate}
 \usage{
-use_tidytemplate(name = NULL, open = interactive(), ..., date = today())
+use_tidytemplate(name = NULL, open = interactive(), ..., refdate = today())
 }
 \arguments{
 \item{name}{name of your tidytuesday analysis file}
@@ -13,8 +13,19 @@ use_tidytemplate(name = NULL, open = interactive(), ..., date = today())
 
 \item{...}{arguments to be passed to \link[usethis]{use_template}}
 
-\item{date}{date to use as reference for the template.}
+\item{refdate}{date to use as reference to determine which 'tidytuesday' to
+use for the template. Either date object or character string in
+YYYY-MM-DD format.}
 }
 \description{
-Use the tidytemplate Rmd for starting your analysis with a leg up for processing
+Use the tidytemplate Rmd for starting your analysis with a
+leg up for processing
+}
+\examples{
+\donttest{
+if(interactive()){
+  use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
+}
+}
+
 }

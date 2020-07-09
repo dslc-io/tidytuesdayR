@@ -7,7 +7,8 @@
 last_tuesday(date = today(tzone = "America/New_York"))
 }
 \arguments{
-\item{date}{todays date as a date object}
+\item{date}{todays date as a date object or character string in
+YYYY-MM-DD format.}
 }
 \description{
 Utility function to assist users in identifying the most recent 'tidytuesday' date
@@ -15,6 +16,6 @@ Utility function to assist users in identifying the most recent 'tidytuesday' da
 \examples{
 
 last_tuesday() # get last tuesday from todays date
-last_tuesday(as.Date("2020-01-01")) # get last tuesday from specified date
+last_tuesday("2020-01-01") # get last tuesday from specified date
 
 }

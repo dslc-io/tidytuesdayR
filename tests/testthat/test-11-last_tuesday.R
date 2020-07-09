@@ -1,5 +1,4 @@
 
-
 test_that("last_tuesday will give you the most recent tuesday", {
 
   ## Look backwards to the last tt
@@ -28,3 +27,18 @@ test_that("last_tuesday will give you the most recent tuesday", {
   )
 })
 
+
+test_that("tt_date will give you the date of the tuesday", {
+
+  ## Look backwards to the last tt
+  refdate1 <- tt_date(2018, week = 1)
+  refdate2 <- tt_date(2019, week = 1)
+  refdate3 <- tt_date(2020, week = 2) # no data available for week 1!
+
+  expect_equal(refdate1,
+               as.Date("2018-04-02"))
+  expect_equal(refdate2,
+               as.Date("2019-01-01"))
+  expect_equal(refdate3,
+               as.Date("2020-01-07"))
+})

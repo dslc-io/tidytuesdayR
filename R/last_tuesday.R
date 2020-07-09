@@ -2,19 +2,22 @@
 #'
 #' Utility function to assist users in identifying the most recent 'tidytuesday' date
 #'
-#' @param date todays date as a date object
+#' @param date todays date as a date object or character string in
+#' YYYY-MM-DD format.
 #'
 #' @importFrom lubridate wday today
 #' @examples
 #'
 #' last_tuesday() # get last tuesday from todays date
-#' last_tuesday(as.Date("2020-01-01")) # get last tuesday from specified date
+#' last_tuesday("2020-01-01") # get last tuesday from specified date
 #'
 #' @export
 
 last_tuesday <- function(date = today(tzone = "America/New_York")) {
 
-  stopifnot(inherits(date,"Date"))
+  stopifnot(inherits(date,"Date") | valid_date(date))
+
+  date <- as.Date(tt_date_format(date))
 
   diff_tuesday <- 3 - lubridate::wday(date)
 
@@ -30,4 +33,8 @@ last_tuesday <- function(date = today(tzone = "America/New_York")) {
   }
 
   return(tuesday)
+}
+
+tt_date <- function(x,week){
+  tt_check_date(year, week)
 }
