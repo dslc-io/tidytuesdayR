@@ -1,4 +1,4 @@
-# tidytuesdayR (development version)
+# tidytuesdayR 1.0.1
 
 * [feature] Provide a template Rmd for users, populated with date and proper `tt_load` call
 
