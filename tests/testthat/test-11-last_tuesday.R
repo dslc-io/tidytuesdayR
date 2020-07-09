@@ -1,5 +1,6 @@
 
-test_that("last_tuesday will give you the most recent tuesday", {
+tt_ref_test_that("last_tuesday will give you the most recent tuesday", {
+  check_api()
 
   ## Look backwards to the last tt
   date_1 <- as.Date("2020-01-01")
@@ -28,7 +29,8 @@ test_that("last_tuesday will give you the most recent tuesday", {
 })
 
 
-test_that("tt_date will give you the date of the tuesday", {
+tt_ref_test_that("tt_date will give you the date of the tuesday", {
+  check_api()
 
   ## Look backwards to the last tt
   refdate1 <- tt_date(2018, week = 1)
