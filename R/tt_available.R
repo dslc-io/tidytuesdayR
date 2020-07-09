@@ -213,8 +213,8 @@ make_tt_dataset_list_html <- function(x, file =  tempfile(fileext = ".html")){
     ) %>%
     paste(collapse = "")
 
-  readme <-  readme %>%
-    paste("<article class='markdown-body entry-content' itemprop='text'>",
+  readme <- paste(
+    "<article class='markdown-body entry-content' itemprop='text'>",
     paste("<h1>TidyTuesday Datasets</h1>", readme),"</article>"  ) %>%
     read_html() %>%
     github_page()
