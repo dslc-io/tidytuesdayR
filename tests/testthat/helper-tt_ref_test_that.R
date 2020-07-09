@@ -36,12 +36,14 @@ tt_ref_encoding <- function(desc, encoding, ...){
   ref_repo <- getOption("tidytuesdayR.tt_repo")
   options("tidytuesdayR.tt_repo" = "thebioengineer/tt_ref")
 
-  ref_local <- Sys.getlocale()
-  quiet <- capture.output(Sys.setlocale(category = "LC_ALL",locale = encoding))
+  ref_local_ctype <- Sys.getlocale(category = "LC_CTYPE")
+  quiet <- capture.output({
+    Sys.setlocale(category = "LC_CTYPE",locale = encoding)
+    })
 
   on.exit({
     options("tidytuesdayR.tt_repo" = ref_repo)
-    reset_local(ref_local)
+    Sys.setlocale("LC_CTYPE",ref_local_ctype)
   })
 
   if(get_connectivity()){
@@ -49,14 +51,3 @@ tt_ref_encoding <- function(desc, encoding, ...){
   }
 
 }
-
-
-reset_local <- function(local_string){
-  categories <- strsplit(local_string,";")[[1]]
-  content <- strsplit(categories,"=")
-  lapply(content,function(x){
-    Sys.setlocale(category = x[[1]], locale = x[[2]])
-  })
-  invisible(local_string)
-}
-
