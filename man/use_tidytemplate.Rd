@@ -7,13 +7,13 @@
 use_tidytemplate(name = NULL, open = interactive(), ..., refdate = today())
 }
 \arguments{
-\item{name}{name of your tidytuesday analysis file}
+\item{name}{name of your TidyTuesday analysis file}
 
 \item{open}{should the file be opened after being created}
 
 \item{...}{arguments to be passed to \link[usethis]{use_template}}
 
-\item{refdate}{date to use as reference to determine which 'tidytuesday' to
+\item{refdate}{date to use as reference to determine which TidyTuesday to
 use for the template. Either date object or character string in
 YYYY-MM-DD format.}
 }

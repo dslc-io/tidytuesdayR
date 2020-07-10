@@ -14,7 +14,7 @@ tt_datasets(year, auth = github_pat())
 \item{auth}{github Personal Access Token. See PAT section for
 more information}
 
-\item{year}{numeric entry representing the year of tidytuesday you want the
+\item{year}{numeric entry representing the year of TidyTuesday you want the
 list of datasets for. Leave empty for most recent year.}
 }
 \value{

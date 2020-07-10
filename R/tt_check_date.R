@@ -1,4 +1,4 @@
-#' @title Get date of Tidytuesday, given the year and week
+#' @title Get date of TidyTuesday, given the year and week
 #' @description Sometimes we don't know the date we want, but we do know the
 #' week. this function provides the ability to pass the year and week we are
 #' interested in to get the correct date

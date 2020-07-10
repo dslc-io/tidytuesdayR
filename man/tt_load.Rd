@@ -24,7 +24,7 @@ information}
 }
 \value{
 tt_data object, which contains data that can be accessed via `$`,
- and the readme for the weeks tidytuesday through printing the object or
+ and the readme for the weeks TidyTuesday through printing the object or
  calling `readme()`
 }
 \description{

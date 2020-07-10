@@ -1,7 +1,7 @@
 #' Get Master List of Files from TidyTuesday
 #'
 #' Import or update dataset from github that records the entire list of objects
-#' from tidytuesday
+#' from TidyTuesday
 #'
 #' @param force force the update to occur even if the SHA matches
 #' @param auth github Personal Access Token.

@@ -3,7 +3,7 @@
 #' In tidytuesdayR there are nice print methods for the objects that were used
 #' to download and store the data from the TidyTuesday repo. They will always
 #'  print the available datasets/files. If there is a readme available,
-#'  it will try to display the tidytuesday readme.
+#'  it will try to display the TidyTuesday readme.
 #'
 #' @name printing
 #'
@@ -38,7 +38,7 @@ print.tt_data <- function(x, ...) {
 #' @rdname printing
 #' @importFrom tools file_path_sans_ext
 #' @export
-#' @return used to show available datasets for the tidytuesday
+#' @return used to show available datasets for the TidyTuesday
 #'
 print.tt <- function(x,...){
   message(
@@ -54,7 +54,7 @@ print.tt <- function(x,...){
 #' @return NULL
 #' @export
 #' @return Does not return anything. Used to show readme of the downloaded
-#'  tidytuesday dataset in the Viewer.
+#'  TidyTuesday dataset in the Viewer.
 #' @examples
 #' \donttest{
 #' tt_output <- tt_load_gh("2019-01-15")

@@ -18,10 +18,10 @@ information}
 }
 \value{
 a 'tt' object. This contains the files available for the week,
- readme html, and the date of the tidytuesday.
+ readme html, and the date of the TidyTuesday.
 }
 \description{
-Pulls the Readme and URLs of the data from the TidyTuesday
+Pulls the readme and URLs of the data from the TidyTuesday
 github folder based on the date provided
 }
 \section{PAT}{

@@ -11,7 +11,7 @@ last_tuesday(date = today(tzone = "America/New_York"))
 YYYY-MM-DD format.}
 }
 \description{
-Utility function to assist users in identifying the most recent 'tidytuesday' date
+Utility function to assist users in identifying the most recent 'TidyTuesday' date
 }
 \examples{
 

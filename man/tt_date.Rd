@@ -2,7 +2,7 @@
 % Please edit documentation in R/tt_check_date.R
 \name{tt_date}
 \alias{tt_date}
-\title{Get date of Tidytuesday, given the year and week}
+\title{Get date of TidyTuesday, given the year and week}
 \usage{
 tt_date(year, week)
 }

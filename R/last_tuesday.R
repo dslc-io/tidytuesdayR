@@ -1,6 +1,6 @@
 #' Find the most recent tuesday
 #'
-#' Utility function to assist users in identifying the most recent 'tidytuesday' date
+#' Utility function to assist users in identifying the most recent 'TidyTuesday' date
 #'
 #' @param date todays date as a date object or character string in
 #' YYYY-MM-DD format.

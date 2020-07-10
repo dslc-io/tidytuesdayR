@@ -82,10 +82,10 @@ print(tt_data)
 
 ### TidyTemplate
 
-As part of the goal of making partcipating in #TidyTuesday easier, {tidytuesdayR} now also provides a template!
+As part of the goal of making participating in #TidyTuesday easier, {tidytuesdayR} now also provides a template!
 To use it, just use the `use_tidytemplate()` function!
 
-By default, the template will assume to be using the most recent tidytuesday.
+By default, the template will assume to be using the most recent TidyTuesday.
 However, you can pass a date object or character string in YYYY-MM-DD format 
 defining a different date you want to use. If you don't recall the exact date, 
 no worries, you can use the `tt_date()` function to calculate and get the date
