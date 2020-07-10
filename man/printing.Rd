@@ -18,13 +18,13 @@
 \value{
 used to show readme and list names of available datasets
 
-used to show available datasets for the tidytuesday
+used to show available datasets for the TidyTuesday
 }
 \description{
 In tidytuesdayR there are nice print methods for the objects that were used
 to download and store the data from the TidyTuesday repo. They will always
  print the available datasets/files. If there is a readme available,
- it will try to display the tidytuesday readme.
+ it will try to display the TidyTuesday readme.
 }
 \examples{
 

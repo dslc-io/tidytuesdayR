@@ -1,6 +1,6 @@
 #' @title  Load TidyTuesday data from Github
 #'
-#' @description Pulls the Readme and URLs of the data from the TidyTuesday
+#' @description Pulls the readme and URLs of the data from the TidyTuesday
 #' github folder based on the date provided
 #'
 #' @param x string representation of the date of data to pull, in
@@ -18,7 +18,7 @@
 #' <https://happygitwithr.com/github-pat.html> to set the PAT.
 #'
 #' @return a 'tt' object. This contains the files available for the week,
-#'  readme html, and the date of the tidytuesday.
+#'  readme html, and the date of the TidyTuesday.
 #' @export
 #' @examples
 #'

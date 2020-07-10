@@ -1,5 +1,5 @@
-#' @title Get TidyTuesday Readme and list of files and HTML based on the date
-#' @param date date of tidytuesday of interest
+#' @title Get TidyTuesday readme and list of files and HTML based on the date
+#' @param date date of TidyTuesday of interest
 #' @param auth github Personal Access Token
 #'
 #' @importFrom lubridate year

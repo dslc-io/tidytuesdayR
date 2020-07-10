@@ -28,7 +28,7 @@
 #'
 #' @name available
 #'
-#' @param year numeric entry representing the year of tidytuesday you want the
+#' @param year numeric entry representing the year of TidyTuesday you want the
 #' list of datasets for. Leave empty for most recent year.
 #' @param auth github Personal Access Token. See PAT section for
 #' more information
@@ -213,9 +213,9 @@ make_tt_dataset_list_html <- function(x, file =  tempfile(fileext = ".html")){
     ) %>%
     paste(collapse = "")
 
-  readme <- readme %>%
-    paste("<article class='markdown-body entry-content' itemprop='text'>",
-          paste("<h1>TidyTuesday Datasets</h1>",readme),"</article>") %>%
+  readme <- paste(
+    "<article class='markdown-body entry-content' itemprop='text'>",
+    paste("<h1>TidyTuesday Datasets</h1>", readme),"</article>"  ) %>%
     read_html() %>%
     github_page()
 

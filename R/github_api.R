@@ -240,7 +240,8 @@ github_page <- function(page_content){
 
   body <- page_content %>%
     html_nodes("body") %>%
-    as.character
+    as.character %>%
+    enc2native()
 
   read_html(paste0(header, body))
 

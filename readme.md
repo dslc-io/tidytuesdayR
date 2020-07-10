@@ -37,9 +37,9 @@ remotes::install_github("thebioengineer/tidytuesdayR")
 
 There are currently two methods to access the data from the respository.
 
-### tt\_load()
+### Load the Data!
 
-The first and simplest way is to use the ‘tt\_load()’ function. This
+The simplest way is to use the ‘tt\_load()’ function. This
 function has accepts two types of inputs to determine which data to
 grab. It can be a date as a string in the YYYY-MM-DD format like below.
 
@@ -64,38 +64,9 @@ tt_data$agencies
 tt_data[["agencies"]]
 ```
 
-### tt\_load\_gh() and tt\_download\_file()
-
-The second method to access the data from the repository is to use the
-combination of `tt_load_gh()` and `tt_download_file()` functions.
-`tt_load_gh()` takes similar arguments as `tt_load()`, in that either
-the date or a combination of year and week can be entered.
-
-``` r
-tt <- tt_load_gh("2019-01-15")
-```
-
-The `tt` object lists the available files for download. To download the
-data, use the `tt_download_file()` function. `tt_download_file()` expects the
-first argument to be the `tt` object. The second argument can be a
-string indicating the name of the file to download from the repository,
-or the index in the `tt` object
-
-``` r
-agencies <- tt %>% 
-  tt_download_file("agencies.csv")
-
-# The first index of the tt object is `agencies.csv`
-# agencies <- tt %>% 
-#   tt_download_file(1)
-```
-
-## Tidy Tuesday Details
-
-The tt\_data and tt objects both have a function for showing the readme
-for that week called `readme()`. In addition, the print methods for both
-objects show the readme in a viewer and the available datasets in the
-console.
+To view the readme, either print the `tt_data` object or use the `readme()`
+function. When you print the `tt_data` object, you also get the available 
+datasets names printed in the console.
 
 ``` r
 readme(tt_data)
@@ -108,6 +79,37 @@ print(tt_data)
 ##  launches 
 ##  
 ```
+
+### TidyTemplate
+
+As part of the goal of making participating in #TidyTuesday easier, {tidytuesdayR} now also provides a template!
+To use it, just use the `use_tidytemplate()` function!
+
+By default, the template will assume to be using the most recent TidyTuesday.
+However, you can pass a date object or character string in YYYY-MM-DD format 
+defining a different date you want to use. If you don't recall the exact date, 
+no worries, you can use the `tt_date()` function to calculate and get the date
+for you!
+
+```r
+## this weeks TidyTuesday!
+tidytuesdayR::use_tidytemplate()
+
+## TidyTuesday from Week 42 of 2019
+tidytuesdayR::use_tidytemplate(refdate = "2019-10-15")
+tidytuesdayR::use_tidytemplate(refdate = tidytuesdayR::tt_date(2019, week = 42))
+
+```
+
+Additionally, by default the template will create the new file in your working 
+directory, using the "YYYY_MM_DD" format per good practices.
+However, if you are so inclined, you can rename it to whatever you wish.
+
+```r
+tidytuesdayR::use_tidytemplate(name = "My Super Great TidyTuesday.Rmd")
+```
+
+
 
 ## Contributing
 

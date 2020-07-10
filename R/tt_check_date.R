@@ -1,3 +1,19 @@
+#' @title Get date of TidyTuesday, given the year and week
+#' @description Sometimes we don't know the date we want, but we do know the
+#' week. this function provides the ability to pass the year and week we are
+#' interested in to get the correct date
+#' @param year what year of TidyTuesday to use
+#' @param week what week of Tidytuesday to use
+#' @examples
+#' \donttest{
+#' if(interactive()){
+#'  tt_date(2019, week = 42)
+#'  }
+#' }
+tt_date <- function(year,week){
+  tt_check_date(year, week)
+}
+
 #' @title given inputs generate valid TidyTuesday URL
 #' @description Given multiple types of inputs, generate
 #' @param x either a string or numeric entry indicating the full date of
