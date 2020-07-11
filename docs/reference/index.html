@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidytuesdayR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -144,81 +144,39 @@
       <tr>
         
         <td>
-          <p><code><a href="base_64_to_char.html">base_64_to_char()</a></code> </p>
+          <p><code><a href="available.html">tt_available()</a></code> <code><a href="available.html">tt_datasets()</a></code> </p>
         </td>
-        <td><p>read json base64 contents from github</p></td>
+        <td><p>Listing all available TidyTuesdays</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="GET_json.html">GET_json()</a></code> </p>
+          <p><code><a href="Available_Printing.html">print(<i>&lt;tt_dataset_table&gt;</i>)</a></code> <code><a href="Available_Printing.html">print(<i>&lt;tt_dataset_table_list&gt;</i>)</a></code> </p>
         </td>
-        <td><p>read GET json contents to char</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="github_blob.html">github_blob()</a></code> </p>
-        </td>
-        <td><p>Read blob Contents from GitHub</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="github_contents.html">github_contents()</a></code> </p>
-        </td>
-        <td><p>Read Contents from GitHub</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="github_GET.html">github_GET()</a></code> </p>
-        </td>
-        <td><p>Get for github API</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="github_html.html">github_html()</a></code> </p>
-        </td>
-        <td><p>Read Contents from GitHub as html</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="github_page.html">github_page()</a></code> </p>
-        </td>
-        <td><p>Create shell for HTML content from github</p></td>
+        <td><p>Printing Utilities for Listing Available Datasets</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="github_pat.html">github_pat()</a></code> </p>
         </td>
-        <td><p>Get the github PAT</p></td>
+        <td><p>Return the local user's GitHub Personal Access Token</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="github_sha.html">github_sha()</a></code> </p>
+          <p><code><a href="last_tuesday.html">last_tuesday()</a></code> </p>
         </td>
-        <td><p>Read Contents from GitHub as html</p></td>
+        <td><p>Find the most recent tuesday</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="print.tt.html">print(<i>&lt;tt&gt;</i>)</a></code> </p>
+          <p><code><a href="printing.html">print(<i>&lt;tt_data&gt;</i>)</a></code> <code><a href="printing.html">print(<i>&lt;tt&gt;</i>)</a></code> </p>
         </td>
-        <td><p>print utility for tt_data objects</p></td>
+        <td><p>print methods of the tt objects</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="print.tt_data.html">print(<i>&lt;tt_data&gt;</i>)</a></code> </p>
+          <p><code><a href="rate_limit_check.html">rate_limit_check()</a></code> </p>
         </td>
-        <td><p>print utility for tt_data objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.tt_dataset_table.html">print(<i>&lt;tt_dataset_table&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>print utility for tt_dataset_table object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.tt_dataset_table_list.html">print(<i>&lt;tt_dataset_table_list&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>print utility for tt_dataset_table_list object</p></td>
+        <td><p>Get Rate limit left for GitHub Calls</p></td>
       </tr><tr>
         
         <td>
@@ -228,33 +186,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="read_rda.html">read_rda()</a></code> </p>
+          <p><code><a href="tt_date.html">tt_date()</a></code> </p>
         </td>
-        <td><p>utility to load RDA with out using assigned name in envir</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tt_available.html">tt_available()</a></code> </p>
-        </td>
-        <td><p>Show all TidyTuesdays</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tt_check_date.html">tt_check_date()</a></code> </p>
-        </td>
-        <td><p>given inputs generate valid TidyTuesday URL</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tt_compile.html">tt_compile()</a></code> </p>
-        </td>
-        <td><p>Get TidyTuesday Readme and list of files and HTML</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tt_datasets.html">tt_datasets()</a></code> </p>
-        </td>
-        <td><p>Available datasets</p></td>
+        <td><p>Get date of TidyTuesday, given the year and week</p></td>
       </tr><tr>
         
         <td>
@@ -284,21 +218,9 @@ Download all or specific files identified in the tt dataset</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="tt_parse_binary.html">tt_parse_binary()</a></code> </p>
+          <p><code><a href="use_tidytemplate.html">use_tidytemplate()</a></code> </p>
         </td>
-        <td><p>utility to assist with parsing the raw binary data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tt_parse_blob.html">tt_parse_blob()</a></code> </p>
-        </td>
-        <td><p>general utility to assist with parsing the raw data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tt_parse_text.html">tt_parse_text()</a></code> </p>
-        </td>
-        <td><p>utility to assist with parsing the text data</p></td>
+        <td><p>Call and open the tidytemplate</p></td>
       </tr>
     </tbody>
     </table>
