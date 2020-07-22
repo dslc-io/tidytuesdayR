@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidytuesdayR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -135,43 +135,59 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year</p></td>
+      <td><p>string representation of the date of data to pull, in YYYY-MM-dd
+format, or just numeric entry for year</p></td>
     </tr>
     <tr>
       <th>week</th>
-      <td><p>left empty unless x is a numeric year entry, in which case the week of interest should be entered</p></td>
+      <td><p>left empty unless x is a numeric year entry, in which case the
+week of interest should be entered</p></td>
     </tr>
     <tr>
       <th>download_files</th>
-      <td><p>which files to download from repo. defaults and assumes "All" for the week.</p></td>
+      <td><p>which files to download from repo. defaults and
+assumes "All" for the week.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>pass methods to the parsing functions. These will be passed to ALL files, so be careful.</p></td>
+      <td><p>pass methods to the parsing functions. These will be passed to
+ALL files, so be careful.</p></td>
     </tr>
     <tr>
       <th>auth</th>
-      <td><p>github Personal Access Token. See PAT section for more information</p></td>
+      <td><p>github Personal Access Token. See PAT section for more
+information</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tt_data object (list class)</p>
+    <p>tt_data object, which contains data that can be accessed via `$`,
+ and the readme for the weeks TidyTuesday through printing the object or
+ calling `readme()`</p>
     <h2 class="hasAnchor" id="pat"><a class="anchor" href="#pat"></a>PAT</h2>
 
     
 
-
 <p>A Github PAT is a personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed from
-60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-to set the PAT.</p>
+the github api, and increases the limit on the number of requests allowed
+from 60 to 5000. Follow instructions from
+&lt;https://happygitwithr.com/github-pat.html&gt; to set the PAT.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'>
+<span class='co'># check to make sure there are requests still available</span>
+<span class='kw'>if</span>(<span class='fu'><a href='rate_limit_check.html'>rate_limit_check</a></span>(<span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&gt;</span> <span class='fl'>10</span>){
+
 <span class='no'>tt_output</span> <span class='kw'>&lt;-</span> <span class='fu'>tt_load</span>(<span class='st'>"2019-01-15"</span>)
-}</div></pre>
+<span class='no'>tt_output</span>
+<span class='no'>agencies</span> <span class='kw'>&lt;-</span> <span class='no'>tt_output</span>$<span class='no'>agencies</span>
+
+}</div><div class='output co'>#&gt; <span class='message'>--- Compiling #TidyTuesday Information for 2019-01-15 ----</span></div><div class='output co'>#&gt; <span class='message'>--- There are 2 files available ---</span></div><div class='output co'>#&gt; <span class='message'>--- Starting Download ---</span></div><div class='output co'>#&gt; 
+#&gt; 	Downloading file 1 of 2: `agencies.csv`
+#&gt; 	Downloading file 2 of 2: `launches.csv`
+#&gt; </div><div class='output co'>#&gt; <span class='message'>--- Download complete ---</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

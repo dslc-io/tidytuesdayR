@@ -47,7 +47,8 @@
 
 
 <meta property="og:title" content="Load TidyTuesday data from Github — tt_load_gh" />
-<meta property="og:description" content="Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided" />
+<meta property="og:description" content="Pulls the readme and URLs of the data from the TidyTuesday
+github folder based on the date provided" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -80,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidytuesdayR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -125,7 +126,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Pulls the Readme and URLs of the data from the TidyTuesday github folder based on the date provided</p>
+    <p>Pulls the readme and URLs of the data from the TidyTuesday
+github folder based on the date provided</p>
     </div>
 
     <pre class="usage"><span class='fu'>tt_load_gh</span>(<span class='no'>x</span>, <span class='no'>week</span>, <span class='kw'>auth</span> <span class='kw'>=</span> <span class='fu'><a href='github_pat.html'>github_pat</a></span>())</pre>
@@ -135,33 +137,54 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>string representation of the date of data to pull, in YYYY-MM-dd format, or just numeric entry for year</p></td>
+      <td><p>string representation of the date of data to pull, in
+YYYY-MM-dd format, or just numeric entry for year</p></td>
     </tr>
     <tr>
       <th>week</th>
-      <td><p>left empty unless x is a numeric year entry, in which case the week of interest should be entered</p></td>
+      <td><p>left empty unless x is a numeric year entry, in which case the
+week of interest should be entered</p></td>
     </tr>
     <tr>
       <th>auth</th>
-      <td><p>github Personal Access Token. See PAT section for more information</p></td>
+      <td><p>github Personal Access Token. See PAT section for more
+information</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tt_gh object. List object with the following entries: readme, files, url</p>
+    <p>a 'tt' object. This contains the files available for the week,
+ readme html, and the date of the TidyTuesday.</p>
     <h2 class="hasAnchor" id="pat"><a class="anchor" href="#pat"></a>PAT</h2>
 
     
 
 
 <p>A Github PAT is a personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed from
-60 to 5000. Follow instructions https://happygitwithr.com/github-pat.html
-to set the PAT.</p>
+the github api, and increases the limit on the number of requests allowed
+from 60 to 5000. Follow instructions from
+&lt;https://happygitwithr.com/github-pat.html&gt; to set the PAT.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'>
+<span class='co'># check to make sure there are requests still available</span>
+<span class='kw'>if</span>(<span class='fu'><a href='rate_limit_check.html'>rate_limit_check</a></span>(<span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&gt;</span> <span class='fl'>10</span>){
+ <span class='no'>tt_gh</span> <span class='kw'>&lt;-</span> <span class='fu'>tt_load_gh</span>(<span class='st'>"2019-01-15"</span>)
+
+ <span class='co'>## readme attempts to open the readme for the weekly dataset</span>
+ <span class='fu'><a href='readme.html'>readme</a></span>(<span class='no'>tt_gh</span>)
+
+ <span class='no'>agencies</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tt_download.html'>tt_download</a></span>(
+    <span class='no'>tt_gh</span>,
+    <span class='kw'>files</span> <span class='kw'>=</span> <span class='st'>"agencies.csv"</span>
+ )
+
+
+}</div><div class='output co'>#&gt; <span class='message'>--- Compiling #TidyTuesday Information for 2019-01-15 ----</span></div><div class='output co'>#&gt; <span class='message'>--- There are 2 files available ---</span></div><div class='output co'>#&gt; <span class='message'>--- Starting Download ---</span></div><div class='output co'>#&gt; 
+#&gt; 	Downloading file 1 of 1: `agencies.csv`
+#&gt; </div><div class='output co'>#&gt; <span class='message'>--- Download complete ---</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

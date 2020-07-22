@@ -88,8 +88,8 @@ To use it, just use the `use_tidytemplate()` function!
 By default, the template will assume to be using the most recent TidyTuesday.
 However, you can pass a date object or character string in YYYY-MM-DD format 
 defining a different date you want to use. If you don't recall the exact date, 
-no worries, you can use the `tt_date()` function to calculate and get the date
-for you!
+no worries, you can use the `tt_available()` function to figure out which date
+and get the date to use!
 
 ```r
 ## this weeks TidyTuesday!
@@ -97,8 +97,6 @@ tidytuesdayR::use_tidytemplate()
 
 ## TidyTuesday from Week 42 of 2019
 tidytuesdayR::use_tidytemplate(refdate = "2019-10-15")
-tidytuesdayR::use_tidytemplate(refdate = tidytuesdayR::tt_date(2019, week = 42))
-
 ```
 
 Additionally, by default the template will create the new file in your working 
