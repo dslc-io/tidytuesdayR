@@ -21,7 +21,12 @@ tt_parse_blob <- function(blob, ..., file_info) {
     tt_parse_text(
       blob = blob,
       func = readr::read_delim,
-      delim = file_info[["delim"]],
+      delim = ifelse(is.na(file_info[["delim"]]),
+                     switch(tolower(file_info$data_type),
+                            csv = ",",
+                            tsv = "\t",
+                            ","),
+                     file_info[["delim"]]),
       progress = FALSE,
       ...
     )
