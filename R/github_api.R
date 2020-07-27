@@ -492,7 +492,7 @@ check_connectivity <- function(rerun = FALSE){
   #if internet connection is not set or is false, lets try again
   if(!getOption("tidytuesdayR.tt_testing", FALSE)){
     if(is.na(internet_connection) | !internet_connection | rerun){
-      res <- try(GET("https:/api.github.com"), silent = TRUE)
+      res <- try(GET("https://api.github.com"), silent = TRUE)
       if(inherits(res,"try-error")){
         options("tidytuesdayR.tt_internet_connectivity" = FALSE)
       }else{
