@@ -95,12 +95,22 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
                              delim = "")
     )
 
-
+  result_text_guess <-
+    tt_parse_blob(
+      blob = "col1,col2\nval1,val2\nval3,val4",
+      file_info = data.frame(
+        data_file = "text.csv",
+        data_type = "csv",
+        delim = NA,
+        stringsAsFactors = FALSE
+      )
+    )
 
   expect_equivalent(result_text_comma,expected_text)
   expect_equivalent(result_text_tab,expected_text)
   expect_equivalent(result_text_special,expected_text)
   expect_equivalent(result_raw_rda,"RAW VALUE")
+  expect_equivalent(result_text_guess,expected_text)
 
 })
 
