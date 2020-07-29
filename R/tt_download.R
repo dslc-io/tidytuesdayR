@@ -2,7 +2,7 @@
 #'
 #' Download all or specific files identified in the tt dataset
 #'
-#' @param tt a `tt` object, output from \link{\code{tt_load_gh}}
+#' @param tt a `tt` object, output from \code{\link{tt_load_gh}}
 #' @param files List the file names to download. Default to asking.
 #' @param ... pass methods to the parsing functions. These will be passed to
 #' ALL files, so be careful.
