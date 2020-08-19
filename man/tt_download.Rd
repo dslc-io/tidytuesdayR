@@ -9,8 +9,7 @@ Download all or specific files identified in the tt dataset}
 tt_download(tt, files = c("All"), ..., branch = "master", auth = github_pat())
 }
 \arguments{
-\item{tt}{string representation of the date of data to pull, in YYYY-MM-dd
-format, or just numeric entry for year}
+\item{tt}{a `tt` object, output from \code{\link{tt_load_gh}}}
 
 \item{files}{List the file names to download. Default to asking.}
 

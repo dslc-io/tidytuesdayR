@@ -80,7 +80,7 @@ tt_download_file.character <-
         auth = auth
       )
 
-    tt_parse_blob(blob, file_info = file_info[file_info$data_file == x,])
+    tt_parse_blob(blob, file_info = file_info[file_info$data_file == x,], ...)
 
   } else {
     stop(paste0(
