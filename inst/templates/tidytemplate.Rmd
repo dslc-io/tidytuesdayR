@@ -23,7 +23,7 @@ library(tidytuesdayR)
 
 # Load the weekly Data
 
-Dowload the weekly data and make available in the `tt` object.
+Download the weekly data and make available in the `tt` object.
 
 ```{r Load}
 
