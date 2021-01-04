@@ -85,3 +85,56 @@ html_viewer <- function(url, is_interactive = interactive()){
     browseURL(url = url)
   }
 }
+
+#' @noRd
+contiguous_weeks <- function(week_vctr){
+  if(length(week_vctr) == 1){
+    text_out <- as.character(week_vctr)
+  }else{
+    is_not_contig <- which(diff(week_vctr) != 1)
+    if(length(is_not_contig) == 0){
+      text_out <- paste0(week_vctr[1], "-",week_vctr[length(week_vctr)])
+    }else{
+      if(is_not_contig[[1]] == 1){
+        text_out <- as.character(week_vctr[1])
+      }else{
+        text_out <- paste0(week_vctr[1], "-",week_vctr[is_not_contig[[1]]])
+      }
+      contig_split <- 1
+      while(contig_split < length(is_not_contig)){
+
+        if( diff(c(is_not_contig[contig_split], is_not_contig[contig_split+1])) == 1){
+          text_out <- paste0(
+            text_out, ", ", week_vctr[is_not_contig[contig_split]+1]
+          )
+        }else{
+          text_out <- paste0(
+            text_out,", ", paste0(week_vctr[is_not_contig[contig_split]+1], "-",week_vctr[is_not_contig[contig_split+1]])
+          )
+        }
+        contig_split %+=% 1
+      }
+
+      if(length(week_vctr) == (is_not_contig[contig_split]+1)){
+        text_out <- paste0(
+          text_out, ", ", week_vctr[length(week_vctr)]
+        )
+      }else{
+        text_out <- paste0(
+          text_out,", ", paste0(week_vctr[is_not_contig[contig_split]+1], "-",week_vctr[length(week_vctr)])
+          )
+      }
+  }}
+  return(text_out)
+}
+
+`%+=%` <- function(x,y, env = parent.frame()){
+  x_name <- as.character(substitute(x))
+  x_new <- x + y
+  assign(
+    x = x_name,
+    value = x_new,
+    envir = env
+    )
+}
+

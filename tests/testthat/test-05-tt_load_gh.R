@@ -45,7 +45,7 @@ tt_ref_test_that(
     check_api()
 
     testthat::expect_error(tt_load_gh(2018, 92),
-                           "Please enter a value for week between 1")
+                           "'92' is not a valid TidyTuesday week entry for")
     testthat::expect_error(tt_load_gh(2017, 92),
                            "TidyTuesday did not exist for")
 })
@@ -66,7 +66,7 @@ tt_ref_test_that(
     check_api()
     expect_error(
       tt_load_gh(2018, 92),
-      "Please enter a value for week between 1"
+      "'92' is not a valid TidyTuesday week entry for"
     )
     expect_error(
       tt_load_gh(2017, 92),
@@ -80,7 +80,7 @@ tt_ref_test_that(
   check_api()
   expect_error(
     tt_load_gh(2018, 92),
-    "Please enter a value for week between 1"
+    "'92' is not a valid TidyTuesday week entry for"
   )
   expect_error(
     tt_load_gh(2017, 92),
@@ -103,7 +103,7 @@ tt_ref_test_that(
   check_api()
   testthat::expect_error(
     tt_load_gh(2019, 0),
-    "Week entry must be a valid positive integer"
+    "Week entry must be a valid positive integer value."
   )
 })
 

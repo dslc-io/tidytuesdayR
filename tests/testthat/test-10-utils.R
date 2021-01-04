@@ -91,3 +91,28 @@ test_that("readme() will attempt to display the contents of the readme attribute
   )
 
 })
+
+
+test_that("contiguous_weeks() will attempt to display the contiguous weeks, collapsing continuous weeks",{
+
+  expect_equal(contiguous_weeks(1),"1")
+
+  expect_equal(contiguous_weeks(c(1,2)),"1-2")
+
+  expect_equal(contiguous_weeks(c(1:5)),"1-5")
+
+  expect_equal(contiguous_weeks(c(1:5, 7)),"1-5, 7")
+
+  expect_equal(contiguous_weeks(c(1:5, 7, 8)),"1-5, 7-8")
+
+  expect_equal(contiguous_weeks(c(1:5, 7, 9)),"1-5, 7, 9")
+
+  expect_equal(contiguous_weeks(c(1:5, 7, 9:11)),"1-5, 7, 9-11")
+
+  expect_equal(contiguous_weeks(c(1:5, 7, 9:11, 15)),"1-5, 7, 9-11, 15")
+
+  expect_equal(contiguous_weeks(c(5, 7, 9:11, 15)),"5, 7, 9-11, 15")
+
+  expect_equal(contiguous_weeks(c(5, 7, 9:11, 15:100)),"5, 7, 9-11, 15-100")
+
+})

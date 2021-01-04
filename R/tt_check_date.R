@@ -51,23 +51,18 @@ tt_check_date.year <- function(x, week) {
 
   tt_folders <- tt_weeks(x)
 
-  if (week > length(tt_folders$week_desc)) {
+  if (!week %in% tt_folders$week_desc & week > 1) {
     stop(
       paste0(
-        "Only ",
-        length(tt_folders$week_desc),
-        " TidyTuesday Weeks exist in ",
-        x,
-        ". Please enter a value for week between 1 and ",
-        length(tt_folders$week_desc)
+        "'",week,"' is not a valid TidyTuesday week entry for ",x,".\n",
+        "Please enter a valid value for week:\n\t",
+        contiguous_weeks(tt_folders$week_desc)
       )
     )
   } else if (week < 1) {
-    stop(paste0(
-      "Week entry must be a valid positive integer between 1 and ",
-      length(tt_folders$week_desc),
-      "."
-    ))
+    stop(
+      "Week entry must be a valid positive integer value."
+    )
   }
 
   tt_date <- tt_folders$folders[tt_folders$week_desc == week]
@@ -156,3 +151,4 @@ tt_closest_date <- function(inputdate, availabledates) {
   availabledates[
     which.min(abs(difftime(inputdate, availabledates, units = "days")))]
 }
+
