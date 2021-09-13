@@ -61,7 +61,7 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
     tt_parse_blob(
       blob = "col1,col2\nval1,val2\nval3,val4",
       file_info = data.frame(
-        data_file = "text.txt",
+        data_files = "text.txt",
         data_type = "txt",
         delim = ",",
         stringsAsFactors = FALSE
@@ -72,7 +72,7 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
     tt_parse_blob(
       "col1\tcol2\nval1\tval2\nval3\tval4",
       file_info = data.frame(
-        data_file = "text.txt",
+        data_files = "text.txt",
         data_type = "txt",
         delim = "\t",
         stringsAsFactors = FALSE
@@ -82,7 +82,7 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
   result_text_special <-
     tt_parse_blob(
       "col1|col2\nval1|val2\nval3|val4",
-      file_info = data.frame(data_file = "text.txt",
+      file_info = data.frame(data_files = "text.txt",
                              data_type = "txt",
                              delim = "|", stringsAsFactors = FALSE)
     )
@@ -90,7 +90,7 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
   result_raw_rda <-
     tt_parse_blob(
       input_raw,
-      file_info = data.frame(data_file = "test_rds.rds",
+      file_info = data.frame(data_files = "test_rds.rds",
                              data_type = "rds",
                              delim = "")
     )
@@ -99,7 +99,7 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw",{
     tt_parse_blob(
       blob = "col1,col2\nval1,val2\nval3,val4",
       file_info = data.frame(
-        data_file = "text.csv",
+        data_files = "text.csv",
         data_type = "csv",
         delim = NA,
         stringsAsFactors = FALSE

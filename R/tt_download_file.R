@@ -67,7 +67,7 @@ tt_download_file.character <-
 
   file_info <- attr(tt, ".files")
 
-  if (x %in% file_info$data_file) {
+  if (x %in% file_info$data_files) {
 
     tt_date <- attr(tt, ".date")
     tt_year <- year(tt_date)
@@ -80,7 +80,7 @@ tt_download_file.character <-
         auth = auth
       )
 
-    tt_parse_blob(blob, file_info = file_info[file_info$data_file == x,], ...)
+    tt_parse_blob(blob, file_info = file_info[file_info$data_files == x,], ...)
 
   } else {
     stop(paste0(
