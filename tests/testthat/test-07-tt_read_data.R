@@ -59,6 +59,7 @@ tt_ref_test_that(
   "tt_read_data can load RDS files just as easily as text files",{
   check_api()
   skip_on_cran()
+
   tt_gh_data <- tt_load_gh("2019-01-01")
 
   expect_is(
