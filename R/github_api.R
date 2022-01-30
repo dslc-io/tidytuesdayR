@@ -337,8 +337,12 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
     }else{
       if(get_res$status_code == 502){
         ## rerun when 502 status code - server error, not tidytuesdayR code error
-        if(times_run < 5){
-          github_GET(url, auth = github_pat(), ..., times_run = times_run + 1)
+        if(times_run < 3){
+          if(rate_limit_check() > 0){
+            github_GET(url, auth = github_pat(), ..., times_run = times_run + 1)
+          }else{
+            rate_limit_error()
+          }
         }else{
           tt_gh_error.response(get_res)
         }
