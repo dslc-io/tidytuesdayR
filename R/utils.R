@@ -57,7 +57,7 @@ print.tt <- function(x,...){
 #'  TidyTuesday dataset in the Viewer.
 #' @examples
 #' \donttest{
-#' if(interactive()){
+#' if(rate_limit_check(quiet = TRUE) > 10 & interactive()){
 #' tt_output <- tt_load_gh("2019-01-15")
 #' readme(tt_output)
 #' }
