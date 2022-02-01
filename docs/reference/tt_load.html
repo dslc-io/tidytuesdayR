@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidytuesdayR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -102,7 +102,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/thebioengineer/tidytuesdayR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -128,7 +128,7 @@
     <p>Load TidyTuesday data from Github</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tt_load</span>(<span class='no'>x</span>, <span class='no'>week</span>, <span class='kw'>download_files</span> <span class='kw'>=</span> <span class='st'>"All"</span>, <span class='no'>...</span>, <span class='kw'>auth</span> <span class='kw'>=</span> <span class='fu'><a href='github_pat.html'>github_pat</a></span>())</pre>
+    <pre class="usage"><span class='fu'>tt_load</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>week</span>, download_files <span class='op'>=</span> <span class='st'>"All"</span>, <span class='va'>...</span>, auth <span class='op'>=</span> <span class='fu'><a href='github_pat.html'>github_pat</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,13 +177,14 @@ from 60 to 5000. Follow instructions from
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># check to make sure there are requests still available</span>
-<span class='kw'>if</span>(<span class='fu'><a href='rate_limit_check.html'>rate_limit_check</a></span>(<span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>&gt;</span> <span class='fl'>10</span>){
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='rate_limit_check.html'>rate_limit_check</a></span><span class='op'>(</span>quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>{</span>
 
-<span class='no'>tt_output</span> <span class='kw'>&lt;-</span> <span class='fu'>tt_load</span>(<span class='st'>"2019-01-15"</span>)
-<span class='no'>tt_output</span>
-<span class='no'>agencies</span> <span class='kw'>&lt;-</span> <span class='no'>tt_output</span>$<span class='no'>agencies</span>
+<span class='va'>tt_output</span> <span class='op'>&lt;-</span> <span class='fu'>tt_load</span><span class='op'>(</span><span class='st'>"2019-01-15"</span><span class='op'>)</span>
+<span class='va'>tt_output</span>
+<span class='va'>agencies</span> <span class='op'>&lt;-</span> <span class='va'>tt_output</span><span class='op'>$</span><span class='va'>agencies</span>
 
-}</div><div class='output co'>#&gt; <span class='message'>--- Compiling #TidyTuesday Information for 2019-01-15 ----</span></div><div class='output co'>#&gt; <span class='message'>--- There are 2 files available ---</span></div><div class='output co'>#&gt; <span class='message'>--- Starting Download ---</span></div><div class='output co'>#&gt; 
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>--- Compiling #TidyTuesday Information for 2019-01-15 ----</span></div><div class='output co'>#&gt; <span class='message'>--- There are 2 files available ---</span></div><div class='output co'>#&gt; <span class='message'>--- Starting Download ---</span></div><div class='output co'>#&gt; 
 #&gt; 	Downloading file 1 of 2: `agencies.csv`
 #&gt; 	Downloading file 2 of 2: `launches.csv`
 #&gt; </div><div class='output co'>#&gt; <span class='message'>--- Download complete ---</span></div><div class='input'>
@@ -203,7 +204,7 @@ from 60 to 5000. Follow instructions from
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

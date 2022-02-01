@@ -1,4 +1,8 @@
-# tidytuesdayR (development version)
+# tidytuesdayR (1.0.2 version)
+
+* [bug fix] During testing it was identified that 502 errors from github servers would cause the code to error out. Now it will retry a few times before giving an error.
+* [bug fix] No internet connection bug on rstudio resolved to due malformed url checks (https).
+* [bug fix] Partial argument matching correction in `tt_download_file.character()`, `tt_parse_blob()`, and in tests. (thanks @mgirlich)
 
 # tidytuesdayR 1.0.1
 
