@@ -13,7 +13,9 @@ tt_ref_test_that <- function(desc, ...){
   }
 }
 
+#' @importFrom testthat skip skip_if_offline
 check_api <- function(n = 30){
+  skip_if_offline("github.com")
   if(rate_limit_check(quiet = TRUE) <= n ){
     skip("Rate Limit Met")
   }
