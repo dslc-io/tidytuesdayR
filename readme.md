@@ -10,6 +10,7 @@ status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/ba
 [![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/tidytuesdayR)](https://cran.r-project.org/package=tidytuesdayR)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![R-CMD-check](https://github.com/thebioengineer/tidytuesdayR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 {tidytuesdayR} has the main goal to make it easy to participate in the
