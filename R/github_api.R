@@ -20,24 +20,9 @@ github_contents <- function(path, auth = github_pat()) {
                 "contents",
                 path)
 
+    github_blob(path, auth = auth)
 
-    url_response <- github_GET(base_url, auth = auth, type= "application/json")
-
-    if (url_response$status_code == 200) {
-      json_response <- GET_json(url_response)
-      content <- base_64_to_char(json_response$content)
-      attr(content, ".sha") <- json_response$sha
-      return(content)
-
-    } else if(url_response$status_code == 403){
-      json_response <- GET_json(url_response)
-      if( json_response$errors[[1]]$code == "too_large"){
-        github_blob(path, auth = auth)
-      }
-    }else{
-      stop(tt_gh_error(url_response)$message)
-    }
-  }
+}
 
 #' Read Contents from GitHub as html
 #'
@@ -158,6 +143,9 @@ github_blob <-
     if(is.null(sha)){
       dir_sha <- github_sha(dirname(path))
       sha <- dir_sha$sha[dir_sha$path == basename(path)]
+      if(identical(sha, character(0))){
+        stop("Response Code 404: Not Found")
+      }
     }
 
     base_url <-
@@ -445,20 +433,32 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 
 rate_limit_check <- function(n = 10, quiet = FALSE){
 
-  if(TT_GITHUB_ENV$RATE_REMAINING == 0 & !quiet){
+  RATE_REMAINING <- TT_GITHUB_ENV$RATE_REMAINING
+
+  if(length(RATE_REMAINING) == 0){
+    if(!getOption("tidytuesdayR.tt_testing", FALSE)){
+      ## double check. No penalty for checking!
+      rate_limit_update()
+    }else{
+      message("Unable to get Github API Rate Limit. Check connectivity and run again.")
+      return(0)
+    }
+  }
+
+  if(RATE_REMAINING == 0 & !quiet){
 
     if(!getOption("tidytuesdayR.tt_testing", FALSE)){
       ## double check. No penalty for checking!
       rate_limit_update()
     }
 
-    if(TT_GITHUB_ENV$RATE_REMAINING == 0 ){
+    if(RATE_REMAINING == 0){
       message("Github API Rate Limit hit. You must wait until ",
            format(TT_GITHUB_ENV$RATE_RESET,
                   "%Y-%m-%d %r %Z"),
            " to make calls again!")
     }
-  } else if (TT_GITHUB_ENV$RATE_REMAINING <= n & !quiet){
+  } else if (RATE_REMAINING <= n & !quiet){
     message(
       paste0(
         "Only ",
@@ -470,7 +470,8 @@ rate_limit_check <- function(n = 10, quiet = FALSE){
       )
     )
   }
-  TT_GITHUB_ENV$RATE_REMAINING
+
+  RATE_REMAINING
 }
 
 

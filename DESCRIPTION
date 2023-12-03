@@ -1,7 +1,7 @@
 Package: tidytuesdayR
 Type: Package
 Title: Access the Weekly 'TidyTuesday' Project Dataset
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: 
     c(
       person(
@@ -45,7 +45,8 @@ Suggests:
     testthat (>= 2.1.0),
     covr,
     pkgdown,
-    tibble
+    tibble,
+    withr
 Imports:
     readxl (>= 1.0.0),
     rvest (>= 0.3.2),

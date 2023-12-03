@@ -16,11 +16,18 @@ tt_ref_test_that <- function(desc, ...){
 #' @importFrom testthat skip skip_if_offline
 check_api <- function(n = 30){
   skip_if_offline("github.com")
+  if (!get_connectivity()) {
+    skip("Connection to Github.com not available")
+  }
   if(rate_limit_check(quiet = TRUE) <= n ){
     skip("Rate Limit Met")
   }
 }
 
+#' @importFrom withr local_options
+local_test_repo <- function(.env = parent.frame()) {
+  withr::local_options("tidytuesdayR.tt_repo" = "thebioengineer/tt_ref")
+}
 
 tt_no_internet_test_that <- function(desc, ...){
   connectivity <- getOption("tidytuesdayR.tt_internet_connectivity")
