@@ -299,7 +299,7 @@ github_pat <- function (quiet = TRUE) {
 #'
 #' @importFrom httr GET add_headers
 #' @importFrom jsonlite base64_enc
-github_GET <- function(url, auth = github_pat(), ...){
+github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
 
   if(!is.null(auth)){
     headers <- add_headers(
@@ -328,15 +328,28 @@ github_GET <- function(url, auth = github_pat(), ...){
 
     if(inherits(get_res,"try-error")){
       check_connectivity(rerun=TRUE)
-      if(!check_connectivity()){
+      if(!get_connectivity()){
         return(no_internet_error())
       }else{
         ## Unexpected issue
         stop(attr(get_res,"condition"))
       }
     }else{
-      rate_limit_update(header_to_rate_info(get_res))
-      return(get_res)
+      if(get_res$status_code == 502){
+        ## rerun when 502 status code - server error, not tidytuesdayR code error
+        if(times_run < 3){
+          if(rate_limit_check() > 0){
+            github_GET(url, auth = github_pat(), ..., times_run = times_run + 1)
+          }else{
+            rate_limit_error()
+          }
+        }else{
+          tt_gh_error.response(get_res)
+        }
+      }else{
+        rate_limit_update(header_to_rate_info(get_res))
+        return(get_res)
+      }
     }
   }else{
     rate_limit_error()
@@ -397,8 +410,11 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
       } else {
         rate_lim <- GET("https://api.github.com/rate_limit")
       }
-      rate_info <- GET_json(rate_lim)$rate
-      rate_info$remaining = rate_info$remaining - 1 # we have one less than we think
+
+      if(rate_lim$status_code == 200){
+        rate_info <- GET_json(rate_lim)$rate
+        rate_info$remaining = rate_info$remaining - 1 # we have one less than we think
+      }
     }
   }
 
