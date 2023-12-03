@@ -16,7 +16,11 @@ tt_ref_test_that(
 tt_ref_test_that(
   paste("github_contents flips to github_blob and",
         "returns contents as text by default when larger than 1MB"), {
+
+
+
   check_api()
+  local_test_repo()
 
   tweets_text <- github_contents("static/tidytuesday_tweets.csv")
 
