@@ -19,6 +19,7 @@ github_contents <- function(path, auth = github_pat()) {
                 options("tidytuesdayR.tt_repo"),
                 "contents",
                 path)
+
     github_blob(path, auth = auth)
 
 }
@@ -142,6 +143,9 @@ github_blob <-
     if(is.null(sha)){
       dir_sha <- github_sha(dirname(path))
       sha <- dir_sha$sha[dir_sha$path == basename(path)]
+      if(identical(sha, character(0))){
+        stop("Response Code 404: Not Found")
+      }
     }
 
     base_url <-
