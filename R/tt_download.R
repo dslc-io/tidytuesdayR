@@ -1,6 +1,6 @@
 #' @title download tt data
 #'
-#' Download all or specific files identified in the tt dataset
+#' @description Download all or specific files identified in the tt dataset
 #'
 #' @param tt a `tt` object, output from \code{\link{tt_load_gh}}
 #' @param files List the file names to download. Default to asking.
