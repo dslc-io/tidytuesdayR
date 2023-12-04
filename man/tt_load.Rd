@@ -41,7 +41,7 @@ from 60 to 5000. Follow instructions from
 \examples{
 
 # check to make sure there are requests still available
-if(rate_limit_check(quiet = TRUE) > 10){
+if(rate_limit_check(quiet = TRUE) > 30){
 
 tt_output <- tt_load("2019-01-15")
 tt_output

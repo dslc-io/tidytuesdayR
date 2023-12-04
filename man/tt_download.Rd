@@ -2,9 +2,7 @@
 % Please edit documentation in R/tt_download.R
 \name{tt_download}
 \alias{tt_download}
-\title{download tt data
-
-Download all or specific files identified in the tt dataset}
+\title{download tt data}
 \usage{
 tt_download(tt, files = c("All"), ..., branch = "master", auth = github_pat())
 }
@@ -26,8 +24,6 @@ information}
 list of tibbles of the files downloaded.
 }
 \description{
-download tt data
-
 Download all or specific files identified in the tt dataset
 }
 \section{PAT}{

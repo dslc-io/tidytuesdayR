@@ -35,7 +35,7 @@
 #'
 #' @examples
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 10){
+#' if(rate_limit_check(quiet = TRUE) > 30){
 #'  ## show data available from 2018
 #'  tt_datasets(2018)
 #'
@@ -134,7 +134,7 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @return used for side effects to show the available datasets for the year or for all time.
 #' @examples
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 10){
+#' if(rate_limit_check(quiet = TRUE) > 30){
 #'
 #'  available_datasets_2018 <- tt_datasets(2018)
 #'  print(available_datasets_2018)

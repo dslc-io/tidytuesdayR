@@ -1,3 +1,6 @@
+# tidytuesdayR (1.0.3 version)
+* [bug fix] Address case where when trying to test
+
 # tidytuesdayR (1.0.2 version)
 
 * [bug fix] During testing it was identified that 502 errors from github servers would cause the code to error out. Now it will retry a few times before giving an error.
