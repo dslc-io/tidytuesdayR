@@ -344,8 +344,13 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
   }
 }
 
-tt_gh_error<- function(response){
- UseMethod("tt_gh_error")
+
+tt_gh_error<- function(response, call = sys.call(-2), ...){
+  if(inherits(response,"tt_response")){
+    tt_gh_error.tt_response(response, call = sys.call(-2), ...)
+  }else if(inherits(response, "response")){
+    tt_gh_error.response(response, call = sys.call(-2), ...)
+  }
 }
 
 tt_gh_error.response <- function(response, call = sys.call(-2)){

@@ -1,4 +1,5 @@
 # tidytuesdayR (1.0.3 version)
+
 * [bug fix] Address case where when trying to test
 
 # tidytuesdayR (1.0.2 version)
