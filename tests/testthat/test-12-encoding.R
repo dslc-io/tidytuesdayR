@@ -1,4 +1,3 @@
-
 tt_ref_encoding(
   encoding = "Korean",
   "Korean: Non-English encodings don't fail reading unicode from github",

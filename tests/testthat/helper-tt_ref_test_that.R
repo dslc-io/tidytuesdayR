@@ -41,22 +41,13 @@ tt_no_internet_test_that <- function(desc, ...){
   testthat::test_that(desc = desc, ...)
 }
 
-tt_ref_encoding <- function(desc, encoding, ...){
-  ref_repo <- getOption("tidytuesdayR.tt_repo")
-  options("tidytuesdayR.tt_repo" = "thebioengineer/tt_ref")
-
-  ref_local_ctype <- Sys.getlocale(category = "LC_CTYPE")
-  quiet <- capture.output({
-    Sys.setlocale(category = "LC_CTYPE",locale = encoding)
-    })
-
-  on.exit({
-    options("tidytuesdayR.tt_repo" = ref_repo)
-    Sys.setlocale("LC_CTYPE",ref_local_ctype)
-  })
-
-  if(get_connectivity()){
-    testthat::test_that(desc = desc, ...)
+tt_ref_encoding <- function(desc, encoding, ...) {
+  if (get_connectivity()) {
+    withr::local_options("tidytuesdayR.tt_repo" = "thebioengineer/tt_ref")
+    expect_warning(
+      withr::local_locale(LC_CTYPE = encoding),
+      "using locale code page other than 65001"
+    )
+    test_that(desc = desc, ...)
   }
-
 }
