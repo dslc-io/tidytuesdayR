@@ -27,14 +27,12 @@ all time
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # check to make sure there are requests still available
-if(rate_limit_check(quiet = TRUE) > 30){
+if (rate_limit_check(quiet = TRUE) > 30) {
+  available_datasets_2018 <- tt_datasets(2018)
+  print(available_datasets_2018)
 
- available_datasets_2018 <- tt_datasets(2018)
- print(available_datasets_2018)
-
- all_available_datasets <- tt_available()
- print(all_available_datasets)
-
+  all_available_datasets <- tt_available()
+  print(all_available_datasets)
 }
 \dontshow{\}) # examplesIf}
 }

@@ -35,15 +35,14 @@
 #'
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 30){
-#'  ## show data available from 2018
-#'  tt_datasets(2018)
+#' if (rate_limit_check(quiet = TRUE) > 30) {
+#'   ## show data available from 2018
+#'   tt_datasets(2018)
 #'
-#'  ## show all data available ever
-#'  tt_available()
+#'   ## show all data available ever
+#'   tt_available()
 #' }
 #'
-
 NULL
 
 #' @rdname available
@@ -53,12 +52,11 @@ NULL
 #' the available data sets.
 #'
 tt_available <- function(auth = github_pat()) {
-
-  tt_year <- sort(tt_years(),decreasing = TRUE,)
+  tt_year <- sort(tt_years(), decreasing = TRUE, )
 
   datasets <- setNames(vector("list", length(tt_year)), tt_year)
 
-  for(year in tt_year){
+  for (year in tt_year) {
     datasets[[as.character(year)]] <- tt_datasets(year, auth = auth)
   }
 
@@ -108,9 +106,11 @@ tt_datasets <- function(year, auth = github_pat()) {
     gsub(
       x = as.character(readme_html),
       pattern = "<a href=\\\"(\\d+)(-\\d+-\\d+)(\\/readme.+)*\\\">",
-      replacement = paste0("<a href=\\\"https:\\/\\/github.com\\/",
-                           "rfordatascience\\/tidytuesday\\/tree\\/master\\/",
-                           "data\\/\\1\\/\\1\\2\\\">"),
+      replacement = paste0(
+        "<a href=\\\"https:\\/\\/github.com\\/",
+        "rfordatascience\\/tidytuesday\\/tree\\/master\\/",
+        "data\\/\\1\\/\\1\\2\\\">"
+      ),
       perl = TRUE
     )
   ))
@@ -120,8 +120,9 @@ tt_datasets <- function(year, auth = github_pat()) {
     `[[`(1)
 
   structure(datasets,
-            .html = readme_html,
-            class = "tt_dataset_table")
+    .html = readme_html,
+    class = "tt_dataset_table"
+  )
 }
 
 #' @title Printing Utilities for Listing Available Datasets
@@ -134,14 +135,12 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @return used for side effects to show the available datasets for the year or for all time.
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 30){
+#' if (rate_limit_check(quiet = TRUE) > 30) {
+#'   available_datasets_2018 <- tt_datasets(2018)
+#'   print(available_datasets_2018)
 #'
-#'  available_datasets_2018 <- tt_datasets(2018)
-#'  print(available_datasets_2018)
-#'
-#'  all_available_datasets <- tt_available()
-#'  print(all_available_datasets)
-#'
+#'   all_available_datasets <- tt_available()
+#'   print(all_available_datasets)
 #' }
 NULL
 
@@ -150,19 +149,19 @@ NULL
 #' @export
 
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
-  if(is_interactive){
+  if (is_interactive) {
     tmpHTML <- tempfile(fileext = ".html")
     make_tt_dataset_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
     html_viewer(tmpHTML)
-  }else {
+  } else {
     print(data.frame(unclass(x)))
   }
   invisible(x)
 }
 
 #' @importFrom xml2 write_html
-make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
-  readme <- attr(x,".html")
+make_tt_dataset_html <- function(x, file = tempfile(fileext = ".html")) {
+  readme <- attr(x, ".html")
   write_html(readme, file = file)
   invisible(readme)
 }
@@ -172,13 +171,11 @@ make_tt_dataset_html <- function(x, file =  tempfile(fileext = ".html")){
 #' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
 #' @export
-print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
-
+print.tt_dataset_table_list <- function(x, ..., is_interactive = interactive()) {
   if (is_interactive) {
     make_tt_dataset_list_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
     html_viewer(tmpHTML)
   } else {
-
     names(x) %>%
       purrr::map(
         function(.x, x) {
@@ -199,15 +196,17 @@ print.tt_dataset_table_list <- function(x, ...,is_interactive = interactive()) {
   invisible(x)
 }
 
-make_tt_dataset_list_html <- function(x, file =  tempfile(fileext = ".html")){
+make_tt_dataset_list_html <- function(x, file = tempfile(fileext = ".html")) {
   readme <- names(x) %>%
     purrr::map_chr(
       function(.x, x) {
-        year_table <- attr(x[[.x]],".html") %>%
+        year_table <- attr(x[[.x]], ".html") %>%
           html_node("table")
-        paste("<h2>",.x,"</h2>",
-              as.character(year_table),
-              "")
+        paste(
+          "<h2>", .x, "</h2>",
+          as.character(year_table),
+          ""
+        )
       },
       x = x
     ) %>%
@@ -215,7 +214,8 @@ make_tt_dataset_list_html <- function(x, file =  tempfile(fileext = ".html")){
 
   readme <- paste(
     "<article class='markdown-body entry-content' itemprop='text'>",
-    paste("<h1>TidyTuesday Datasets</h1>", readme),"</article>"  ) %>%
+    paste("<h1>TidyTuesday Datasets</h1>", readme), "</article>"
+  ) %>%
     read_html() %>%
     github_page()
 

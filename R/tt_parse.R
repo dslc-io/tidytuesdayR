@@ -1,4 +1,3 @@
-
 #' @title general utility to assist with parsing the raw data
 #'
 #' @param blob raw data to be parsed
@@ -10,23 +9,27 @@
 #'
 #' @noRd
 tt_parse_blob <- function(blob, ..., file_info) {
-  switch(
-    tolower(file_info$data_type),
-    "xls"  = tt_parse_binary(blob, readxl::read_xls, ...,
-                             filename = file_info$data_files),
+  switch(tolower(file_info$data_type),
+    "xls" = tt_parse_binary(blob, readxl::read_xls, ...,
+      filename = file_info$data_files
+    ),
     "xlsx" = tt_parse_binary(blob, readxl::read_xlsx, ...,
-                             filename = file_info$data_files),
-    "rds"  = tt_parse_binary(blob, readRDS,
-                             filename = file_info$data_files),
+      filename = file_info$data_files
+    ),
+    "rds" = tt_parse_binary(blob, readRDS,
+      filename = file_info$data_files
+    ),
     tt_parse_text(
       blob = blob,
       func = readr::read_delim,
       delim = ifelse(is.na(file_info[["delim"]]),
-                     switch(tolower(file_info$data_type),
-                            csv = ",",
-                            tsv = "\t",
-                            ","),
-                     file_info[["delim"]]),
+        switch(tolower(file_info$data_type),
+          csv = ",",
+          tsv = "\t",
+          ","
+        ),
+        file_info[["delim"]]
+      ),
       progress = FALSE,
       ...
     )
@@ -45,7 +48,7 @@ tt_parse_blob <- function(blob, ..., file_info) {
 #' @param filename the original name of the file
 #' @noRd
 
-tt_parse_binary <- function(blob, func, ... , filename) {
+tt_parse_binary <- function(blob, func, ..., filename) {
   temp_file <- file.path(tempdir(), filename)
   attr(blob, ".sha") <- NULL
   writeBin(blob, temp_file)
@@ -62,6 +65,6 @@ tt_parse_binary <- function(blob, func, ... , filename) {
 #' @param progress should parsing process be shared. Assumed to be FALSE
 #' @param ... args to pass to func
 #' @noRd
-tt_parse_text <- function(blob, func, delim, progress = FALSE, ... ) {
+tt_parse_text <- function(blob, func, delim, progress = FALSE, ...) {
   func(blob, delim = delim, progress = progress, ...)
 }

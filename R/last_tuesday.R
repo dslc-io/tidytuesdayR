@@ -12,7 +12,7 @@
 #'
 #' @export
 last_tuesday <- function(date = today(tzone = "America/New_York")) {
-  stopifnot(inherits(date,"Date") | valid_date(date))
+  stopifnot(inherits(date, "Date") | valid_date(date))
   date <- as.Date(tt_date_format(date))
   diff_tuesday <- subtract_tuesday(date)
   tuesday <- date + diff_tuesday
@@ -37,6 +37,6 @@ subtract_tuesday <- function(date) {
   diff_tuesday
 }
 
-tt_date <- function(x,week){
+tt_date <- function(x, week) {
   tt_check_date(year, week)
 }

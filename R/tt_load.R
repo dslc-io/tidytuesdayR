@@ -25,7 +25,7 @@
 #'
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 30){
+#' if (rate_limit_check(quiet = TRUE) > 30) {
 #'   tt_output <- tt_load("2019-01-15")
 #'   tt_output
 #'   agencies <- tt_output$agencies
@@ -37,7 +37,6 @@ tt_load <- function(x,
                     download_files = "All",
                     ...,
                     auth = github_pat()) {
-
   ## check internet connectivity and rate limit
   if (!get_connectivity()) {
     check_connectivity(rerun = TRUE)
@@ -55,8 +54,8 @@ tt_load <- function(x,
   # download readme and identify files
   tt <- tt_load_gh(x, week, auth = auth)
 
-  #download files
-  tt_data <- tt_download(tt, files = download_files, ... , auth = auth)
+  # download files
+  tt_data <- tt_download(tt, files = download_files, ..., auth = auth)
 
   ## return tt_data object
   structure(
@@ -65,4 +64,3 @@ tt_load <- function(x,
     class = "tt_data"
   )
 }
-

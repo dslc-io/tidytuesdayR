@@ -7,7 +7,8 @@ tt_ref_encoding(
     res <- nrow(data.frame(unclass(tt_data)))
     expect_true(!inherits(tt_data, "try-error"))
     expect_equal(res, 52)
-  })
+  }
+)
 
 tt_ref_encoding(
   encoding = "Japanese",
@@ -18,7 +19,8 @@ tt_ref_encoding(
     res <- nrow(data.frame(unclass(tt_data)))
     expect_true(!inherits(tt_data, "try-error"))
     expect_equal(res, 52)
-  })
+  }
+)
 
 tt_ref_encoding(
   encoding = "Russian",
@@ -29,4 +31,5 @@ tt_ref_encoding(
     res <- nrow(data.frame(unclass(tt_data)))
     expect_true(!inherits(tt_data, "try-error"))
     expect_equal(res, 52)
-  })
+  }
+)

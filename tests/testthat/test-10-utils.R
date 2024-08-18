@@ -38,35 +38,33 @@ tt_ref_test_that("print.tt_data lists the available datasets", {
   )
 })
 
-tt_ref_test_that("print.tt lists all the available files for the weeks tt",{
+tt_ref_test_that("print.tt lists all the available files for the weeks tt", {
   check_api()
 
   tt_obj <- tt_load_gh(2019, week = 16)
 
   capturedOutput <- capture_message({
     print(tt_obj)
-    })$message
+  })$message
 
   expect_equal(
     capturedOutput,
-    paste0("Available datasets in this TidyTuesday:\n\tbrexit.csv ",
-           "\n\tcorbyn.csv \n\tdogs.csv \n\teu_balance.csv ",
-           "\n\tpensions.csv \n\ttrade.csv \n\twomen_research.csv \n\t\n")
+    paste0(
+      "Available datasets in this TidyTuesday:\n\tbrexit.csv ",
+      "\n\tcorbyn.csv \n\tdogs.csv \n\teu_balance.csv ",
+      "\n\tpensions.csv \n\ttrade.csv \n\twomen_research.csv \n\t\n"
+    )
   )
-
 })
 
-test_that("html_viewer returns NULL when running not in interactive mode",{
-
+test_that("html_viewer returns NULL when running not in interactive mode", {
   res <- html_viewer("www.google.com", is_interactive = FALSE)
 
   expect_equal(res, NULL)
-
 })
 
 
-test_that("readme() will attempt to display the contents of the readme attribute",{
-
+test_that("readme() will attempt to display the contents of the readme attribute", {
   tt_data <- structure(
     list(
       value1 = "value1",
@@ -86,33 +84,30 @@ test_that("readme() will attempt to display the contents of the readme attribute
   readme_html <- setdiff(list.files(tempdir()), existing_files)
 
   expect_equal(
-    xml2::read_html(file.path(tempdir(),readme_html)),
-    attr(attr(tt_data,".tt"),".readme")
+    xml2::read_html(file.path(tempdir(), readme_html)),
+    attr(attr(tt_data, ".tt"), ".readme")
   )
-
 })
 
 
-test_that("contiguous_weeks() will attempt to display the contiguous weeks, collapsing continuous weeks",{
+test_that("contiguous_weeks() will attempt to display the contiguous weeks, collapsing continuous weeks", {
+  expect_equal(contiguous_weeks(1), "1")
 
-  expect_equal(contiguous_weeks(1),"1")
+  expect_equal(contiguous_weeks(c(1, 2)), "1-2")
 
-  expect_equal(contiguous_weeks(c(1,2)),"1-2")
+  expect_equal(contiguous_weeks(c(1:5)), "1-5")
 
-  expect_equal(contiguous_weeks(c(1:5)),"1-5")
+  expect_equal(contiguous_weeks(c(1:5, 7)), "1-5, 7")
 
-  expect_equal(contiguous_weeks(c(1:5, 7)),"1-5, 7")
+  expect_equal(contiguous_weeks(c(1:5, 7, 8)), "1-5, 7-8")
 
-  expect_equal(contiguous_weeks(c(1:5, 7, 8)),"1-5, 7-8")
+  expect_equal(contiguous_weeks(c(1:5, 7, 9)), "1-5, 7, 9")
 
-  expect_equal(contiguous_weeks(c(1:5, 7, 9)),"1-5, 7, 9")
+  expect_equal(contiguous_weeks(c(1:5, 7, 9:11)), "1-5, 7, 9-11")
 
-  expect_equal(contiguous_weeks(c(1:5, 7, 9:11)),"1-5, 7, 9-11")
+  expect_equal(contiguous_weeks(c(1:5, 7, 9:11, 15)), "1-5, 7, 9-11, 15")
 
-  expect_equal(contiguous_weeks(c(1:5, 7, 9:11, 15)),"1-5, 7, 9-11, 15")
+  expect_equal(contiguous_weeks(c(5, 7, 9:11, 15)), "5, 7, 9-11, 15")
 
-  expect_equal(contiguous_weeks(c(5, 7, 9:11, 15)),"5, 7, 9-11, 15")
-
-  expect_equal(contiguous_weeks(c(5, 7, 9:11, 15:100)),"5, 7, 9-11, 15-100")
-
+  expect_equal(contiguous_weeks(c(5, 7, 9:11, 15:100)), "5, 7, 9-11, 15-100")
 })

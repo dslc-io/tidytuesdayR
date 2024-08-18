@@ -13,7 +13,7 @@ close to the limit}
 \item{quiet}{should messages be returned when the rate limit is zero or less than n?}
 }
 \value{
-return the number of calls are remaining as a numeric values
+The number of remaining calls.
 }
 \description{
 The GitHub API limits the number of requests that can be sent within an hour.
