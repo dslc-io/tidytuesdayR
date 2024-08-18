@@ -33,7 +33,7 @@
 #' @param auth github Personal Access Token. See PAT section for
 #' more information
 #'
-#' @examples
+#' @examplesIf interactive()
 #' # check to make sure there are requests still available
 #' if(rate_limit_check(quiet = TRUE) > 30){
 #'  ## show data available from 2018
@@ -132,7 +132,7 @@ tt_datasets <- function(year, auth = github_pat()) {
 #' @inheritParams base::print
 #' @param is_interactive is the console interactive?
 #' @return used for side effects to show the available datasets for the year or for all time.
-#' @examples
+#' @examplesIf interactive()
 #' # check to make sure there are requests still available
 #' if(rate_limit_check(quiet = TRUE) > 30){
 #'

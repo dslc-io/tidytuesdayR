@@ -25,6 +25,7 @@ printing utilities for showing the available datasets for a specific year or
 all time
 }
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # check to make sure there are requests still available
 if(rate_limit_check(quiet = TRUE) > 30){
 
@@ -35,4 +36,5 @@ if(rate_limit_check(quiet = TRUE) > 30){
  print(all_available_datasets)
 
 }
+\dontshow{\}) # examplesIf}
 }

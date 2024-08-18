@@ -23,24 +23,20 @@
 #'
 #' @importFrom purrr map
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' # check to make sure there are requests still available
 #' if(rate_limit_check(quiet = TRUE) > 30){
-#'
-#' tt_output <- tt_load("2019-01-15")
-#' tt_output
-#' agencies <- tt_output$agencies
-#'
+#'   tt_output <- tt_load("2019-01-15")
+#'   tt_output
+#'   agencies <- tt_output$agencies
 #' }
 #'
 #' @export
-tt_load <-
-  function(x,
-           week,
-           download_files = "All",
-           ...,
-           auth = github_pat()) {
+tt_load <- function(x,
+                    week,
+                    download_files = "All",
+                    ...,
+                    auth = github_pat()) {
 
   ## check internet connectivity and rate limit
   if (!get_connectivity()) {

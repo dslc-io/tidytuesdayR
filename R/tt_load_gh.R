@@ -20,23 +20,18 @@
 #' @return a 'tt' object. This contains the files available for the week,
 #'  readme html, and the date of the TidyTuesday.
 #' @export
-#' @examples
-#'
+#' @examplesIf interactive()
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 30 & interactive()){
-#'  tt_gh <- tt_load_gh("2019-01-15")
+#' if (rate_limit_check(quiet = TRUE) > 30 & interactive()) {
+#'   tt_gh <- tt_load_gh("2019-01-15")
+#'   ## readme attempts to open the readme for the weekly dataset
+#'   readme(tt_gh)
 #'
-#'  ## readme attempts to open the readme for the weekly dataset
-#'  readme(tt_gh)
-#'
-#'  agencies <- tt_download(
+#'   agencies <- tt_download(
 #'     tt_gh,
 #'     files = "agencies.csv"
-#'  )
-#'
-#'
+#'   )
 #' }
-#'
 tt_load_gh <- function(x, week, auth = github_pat()) {
 
   ## check internet connectivity and rate limit

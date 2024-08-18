@@ -8,11 +8,9 @@
 #'
 #' @return raw text of the content with the sha as an attribute
 #' @noRd
-#' @examples
-#'
+#' @examplesIf interactive()
 #' text_csv <- github_contents("data/2020/2020-04-07/tdf_stages.csv")
 #' tour_de_france_stages <- readr::read_csv(text_csv)
-#'
 github_contents <- function(path, auth = github_pat()) {
     base_url <-
       file.path("https://api.github.com/repos",
@@ -36,11 +34,9 @@ github_contents <- function(path, auth = github_pat()) {
 #' @return result of read_html on the contents
 #' @noRd
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' main_readme <- github_html("README.md")
 #' week_readme <- github_html("data/2020/2020-01-07/readme.md")
-#'
 #'
 #' @importFrom xml2 read_html
 github_html <-
@@ -79,8 +75,7 @@ github_html <-
 #' @return result data.frame of SHA and other information of directory contents
 #' @noRd
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' sha <- github_sha("data/2020/2020-01-07")
 #'
 #' @importFrom xml2 read_html
@@ -133,10 +128,8 @@ github_sha <-
 #' @return a raw/character object based on the blob
 #' @noRd
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' main_readme_blob <- github_blob("README.md", as_raw = TRUE)
-#'
 github_blob <-
   function(path, as_raw = FALSE, sha = NULL, auth = github_pat()){
 
@@ -187,7 +180,6 @@ github_blob <-
 #' @examples
 #' # Returns the value "Hello World"
 #' base_64_to_char("SGVsbG8gV29ybGQ=")
-#'
 base_64_to_char <- function(b64){
   rawToChar(base64_dec(b64))
 }
@@ -242,10 +234,10 @@ github_page <- function(page_content){
 #'
 #' @section PAT:
 #'
-#' A Github 'PAT' is a Personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed
-#' from 60 to 5000. Follow instructions from
-#' <https://happygitwithr.com/github-pat.html> to set the PAT.
+#'   A Github 'PAT' is a Personal Access Token. This allows for signed queries
+#'   to the github api, and increases the limit on the number of requests
+#'   allowed from 60 to 5000. Follow instructions from
+#'   <https://happygitwithr.com/github-pat.html> to set the PAT.
 #'
 #' @param quiet Should this be loud? default TRUE.
 #'
@@ -254,19 +246,13 @@ github_page <- function(page_content){
 #' @return a character vector that is your Personal Access Token, or NULL
 #'
 #' @examples
-#'
-#' ## if you have a personal access token saved, this will return that value
+#' ## if you have a personal access token saved, this will return that value.
 #' github_pat()
-#'
-github_pat <- function (quiet = TRUE) {
-  pat <- Sys.getenv("GITHUB_PAT", "")
-  token <- Sys.getenv("GITHUB_TOKEN", "")
-  if (nchar(pat) | nchar(pat)) {
+github_pat <- function(quiet = TRUE) {
+  pat <- Sys.getenv("GITHUB_PAT", "") %||% Sys.getenv("GITHUB_TOKEN", "")
+  if (nchar(pat)) {
     if (!quiet) {
       message("Using github PAT from envvar GITHUB_PAT | GITHUB_TOKEN")
-    }
-    if(!nchar(pat)){
-      pat <- token
     }
     return(pat)
   }
@@ -314,8 +300,8 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
       get_res <- try(GET(url))
     }
 
-    if(inherits(get_res,"try-error")){
-      check_connectivity(rerun=TRUE)
+    if (inherits(get_res, "try-error")) {
+      check_connectivity(rerun = TRUE)
       if(!get_connectivity()){
         return(no_internet_error())
       }else{
@@ -344,10 +330,11 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
   }
 }
 
-tt_gh_error<- function(response){
+tt_gh_error <- function(response){
  UseMethod("tt_gh_error")
 }
 
+#' @export
 tt_gh_error.response <- function(response, call = sys.call(-2)){
   structure(
     list(
@@ -361,6 +348,7 @@ tt_gh_error.response <- function(response, call = sys.call(-2)){
   )
 }
 
+#' @export
 tt_gh_error.tt_response <- function(response, call = sys.call(-2)){
   structure(
     list(
@@ -426,11 +414,8 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 #' @return return the number of calls are remaining as a numeric values
 #' @export
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' rate_limit_check()
-#'
-
 rate_limit_check <- function(n = 10, quiet = FALSE){
 
   RATE_REMAINING <- TT_GITHUB_ENV$RATE_REMAINING
@@ -501,7 +486,6 @@ header_to_rate_info <- function(res){
 #'
 #' @importFrom jsonlite base64_enc
 #' @importFrom httr GET
-
 check_connectivity <- function(rerun = FALSE){
   internet_connection <- getOption("tidytuesdayR.tt_internet_connectivity",NA)
 

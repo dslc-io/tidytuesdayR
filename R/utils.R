@@ -10,24 +10,18 @@
 #' @inheritParams base::print
 #' @param x a tt_data or tt object
 #'
-#' @examples
-#'
-#' \donttest{
-#' if(interactive()){
+#' @examplesIf interactive()
 #' tt <- tt_load_gh("2019-01-15")
 #' print(tt)
 #'
 #' tt_data <- tt_download(tt, files = "All")
 #' print(tt_data)
-#' }
-#' }
 NULL
 
 #' @rdname printing
 #' @importFrom tools file_path_sans_ext
 #' @export
 #' @return used to show readme and list names of available datasets
-#'
 print.tt_data <- function(x, ...) {
   readme(x)
   message("Available datasets:\n\t",
@@ -39,7 +33,6 @@ print.tt_data <- function(x, ...) {
 #' @importFrom tools file_path_sans_ext
 #' @export
 #' @return used to show available datasets for the TidyTuesday
-#'
 print.tt <- function(x,...){
   message(
     "Available datasets in this TidyTuesday:\n\t",
@@ -55,12 +48,10 @@ print.tt <- function(x,...){
 #' @export
 #' @return Does not return anything. Used to show readme of the downloaded
 #'  TidyTuesday dataset in the Viewer.
-#' @examples
-#' \donttest{
-#' if(rate_limit_check(quiet = TRUE) > 30 & interactive()){
-#' tt_output <- tt_load_gh("2019-01-15")
-#' readme(tt_output)
-#' }
+#' @examplesIf interactive()
+#' if (rate_limit_check(quiet = TRUE) > 30) {
+#'   tt_output <- tt_load_gh("2019-01-15")
+#'   readme(tt_output)
 #' }
 readme <- function(tt) {
   if ("tt_data" %in% class(tt)) {

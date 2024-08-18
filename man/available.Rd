@@ -53,6 +53,7 @@ from 60 to 5000. Follow instructions at
 }
 
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # check to make sure there are requests still available
 if(rate_limit_check(quiet = TRUE) > 30){
  ## show data available from 2018
@@ -61,5 +62,5 @@ if(rate_limit_check(quiet = TRUE) > 30){
  ## show all data available ever
  tt_available()
 }
-
+\dontshow{\}) # examplesIf}
 }

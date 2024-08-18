@@ -17,9 +17,7 @@ week. this function provides the ability to pass the year and week we are
 interested in to get the correct date
 }
 \examples{
-\donttest{
-if(interactive()){
- tt_date(2019, week = 42)
- }
-}
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+tt_date(2019, week = 42)
+\dontshow{\}) # examplesIf}
 }

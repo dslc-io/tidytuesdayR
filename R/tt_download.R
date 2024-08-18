@@ -24,19 +24,14 @@
 #'
 #' @importFrom lubridate year
 #'
-#' @examples
-#' \donttest{
-#' if(interactive()){
+#' @examplesIf interactive()
 #' tt_output <- tt_load_gh("2019-01-15")
 #' agencies <- tt_download(tt_output, files = "agencies.csv")
-#' }
-#' }
-tt_download <-
-  function(tt,
-           files = c("All"),
-           ...,
-           branch = "master",
-           auth = github_pat()) {
+tt_download <- function(tt,
+                        files = c("All"),
+                        ...,
+                        branch = "master",
+                        auth = github_pat()) {
 
 
   ## check internet connectivity and rate limit

@@ -34,20 +34,17 @@ from 60 to 5000. Follow instructions from
 }
 
 \examples{
-
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # check to make sure there are requests still available
-if(rate_limit_check(quiet = TRUE) > 30 & interactive()){
- tt_gh <- tt_load_gh("2019-01-15")
+if (rate_limit_check(quiet = TRUE) > 30 & interactive()) {
+  tt_gh <- tt_load_gh("2019-01-15")
+  ## readme attempts to open the readme for the weekly dataset
+  readme(tt_gh)
 
- ## readme attempts to open the readme for the weekly dataset
- readme(tt_gh)
-
- agencies <- tt_download(
+  agencies <- tt_download(
     tt_gh,
     files = "agencies.csv"
- )
-
-
+  )
 }
-
+\dontshow{\}) # examplesIf}
 }

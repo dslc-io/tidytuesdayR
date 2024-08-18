@@ -9,20 +9,14 @@
 #' YYYY-MM-DD format.
 #' @importFrom usethis use_template
 #' @importFrom lubridate today
-#' @examples
-#' \donttest{
-#' if(interactive()){
-#'   use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
-#' }
-#' }
+#' @examplesIf interactive()
+#' use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
 #'
 #' @export
-use_tidytemplate <-
-  function(name = NULL,
-           open = interactive(),
-           ...,
-           refdate = today()) {
-
+use_tidytemplate <- function(name = NULL,
+                             open = interactive(),
+                             ...,
+                             refdate = today()) {
   stopifnot(inherits(refdate,"Date") | valid_date(refdate))
   last_tt <- last_tuesday(refdate)
 

@@ -20,7 +20,7 @@ The GitHub API limits the number of requests that can be sent within an hour.
 This function returns the stored rate limits that are remaining.
 }
 \examples{
-
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 rate_limit_check()
-
+\dontshow{\}) # examplesIf}
 }

@@ -4,12 +4,8 @@
 #' interested in to get the correct date
 #' @param year what year of TidyTuesday to use
 #' @param week what week of Tidytuesday to use
-#' @examples
-#' \donttest{
-#' if(interactive()){
-#'  tt_date(2019, week = 42)
-#'  }
-#' }
+#' @examplesIf interactive()
+#' tt_date(2019, week = 42)
 tt_date <- function(year,week){
   tt_check_date(year, week)
 }
