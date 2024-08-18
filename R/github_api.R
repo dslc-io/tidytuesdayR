@@ -330,7 +330,7 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
   }
 }
 
-tt_gh_error <- function(response){
+tt_gh_error <- function(response, call) {
  UseMethod("tt_gh_error")
 }
 
