@@ -1,10 +1,16 @@
-context("Download data using tt")
-
 tt_ref_test_that(
-  "tt_read_data only works for numeric,integer, or character entries",
+  "tt_read_data only works for numeric, integer, or character entries",
   {
     check_api()
-    tt_gh_data <- tt_load_gh("2019-01-15")
+    expect_message(
+      {
+        expect_message(
+          {tt_gh_data <- tt_load_gh("2019-01-15")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 2 files"
+    )
 
     numericRead <- tt_download_file(tt_gh_data, 1)
     integerRead <- tt_download_file(tt_gh_data, 1L)
@@ -15,7 +21,8 @@ tt_ref_test_that(
     characterRead <- tt_download_file(tt_gh_data, "agencies.csv")
 
     readURL <- readr::read_csv(
-      github_blob("data/2019/2019-01-15/agencies.csv", as_raw = TRUE)
+      github_blob("data/2019/2019-01-15/agencies.csv", as_raw = TRUE),
+      show_col_types = FALSE
     )
 
     expect_equal(numericRead, readURL)
@@ -36,7 +43,15 @@ tt_ref_test_that(
   "tt_read_data informs when selection is out of range/not available",
   {
     check_api()
-    tt_gh_data <- tt_load_gh("2019-01-15")
+    expect_message(
+      {
+        expect_message(
+          {tt_gh_data <- tt_load_gh("2019-01-15")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 2 files"
+    )
 
     expect_error(
       {
@@ -66,9 +81,17 @@ tt_ref_test_that(
     check_api()
     skip_on_cran()
 
-    tt_gh_data <- tt_load_gh("2019-01-01")
+    expect_message(
+      {
+        expect_message(
+          {tt_gh_data <- tt_load_gh("2019-01-01")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 2 files"
+    )
 
-    expect_is(
+    expect_s3_class(
       tt_download_file(tt_gh_data, 2),
       c("tbl_df", "tbl", "data.frame")
     )

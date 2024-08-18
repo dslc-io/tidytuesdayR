@@ -1,5 +1,3 @@
-context("tt_master_file API")
-
 tt_ref_test_that(
   "`tt_master_file()` will update the masterfile reference if is null",
   {

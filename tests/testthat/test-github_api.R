@@ -1,5 +1,3 @@
-context("Github API")
-
 tt_ref_test_that(
   "github_contents returns contents as text",
   {
@@ -7,13 +5,14 @@ tt_ref_test_that(
 
     license_text <- github_contents("LICENSE")
 
-    expect_is(license_text, "character")
-    expect_equivalent(
+    expect_type(license_text, "character")
+    expect_equal(
       substr(license_text, 0, 76),
       paste(
         "MIT License\n\nCopyright (c)",
         "2018 R for Data Science online learning community"
-      )
+      ),
+      ignore_attr = TRUE
     )
   }
 )
@@ -29,14 +28,15 @@ tt_ref_test_that(
 
     tweets_text <- github_contents("static/tidytuesday_tweets.csv")
 
-    expect_is(tweets_text, "character")
+    expect_type(tweets_text, "character")
     expect_true(object.size(tweets_text) > 1000000)
-    expect_equivalent(
+    expect_equal(
       substr(tweets_text, 0, 84),
       paste0(
         "\"user_id\",\"status_id\",\"created_at\",\"screen_name\",",
         "\"text\",\"pic1\",\"pic2\",\"pic3\",\"pic4\"\n"
-      )
+      ),
+      ignore_attr = TRUE
     )
   }
 )
@@ -73,7 +73,7 @@ tt_ref_test_that(
     check_api()
     SHA <- github_sha("static")
 
-    expect_is(SHA, "data.frame")
+    expect_s3_class(SHA, "data.frame")
     expect_equal(colnames(SHA), c("path", "sha"))
   }
 )
@@ -96,22 +96,24 @@ tt_ref_test_that(
     license_text <- github_blob("LICENSE")
     license_raw <- github_blob("LICENSE", as_raw = TRUE)
 
-    expect_is(license_text, "character")
-    expect_equivalent(
+    expect_type(license_text, "character")
+    expect_equal(
       substr(license_text, 0, 76),
       paste(
         "MIT License\n\nCopyright (c)",
         "2018 R for Data Science online learning community"
-      )
+      ),
+      ignore_attr = TRUE
     )
 
-    expect_is(license_raw, "raw")
-    expect_equivalent(
+    expect_type(license_raw, "raw")
+    expect_equal(
       license_raw[1:76],
       charToRaw(paste(
         "MIT License\n\nCopyright (c)",
         "2018 R for Data Science online learning community"
-      ))
+      )),
+      ignore_attr = TRUE
     )
   }
 )
@@ -143,33 +145,19 @@ tt_ref_test_that("rate_limit_check throws warning when within n of 0", {
   expect_message(rate_limit_check(n = 10, quiet = FALSE))
 })
 
-tt_ref_test_that(
-  "rate_limit_check throws error when 0, except when silent = TRUE",
-  {
-    options("tidytuesdayR.tt_testing" = TRUE)
-    rate_limit_update(list(limit = 50, remaining = 0, reset = 1000))
-    on.exit({
-      rate_limit_update()
-      options("tidytuesdayR.tt_testing" = FALSE)
-    })
-    expect_error(rate_limit_check(silent = FALSE))
-    message <- capture_messages({
-      output <- rate_limit_check(n = 10)
-    })
-    expect_equal(
-      output,
-      0
-    )
-    expect_true(grepl(
-      x =
-        message,
-      pattern = paste(
-        "Github API Rate Limit hit.",
-        "You must wait until"
-      )
-    ))
-  }
-)
+tt_ref_test_that("rate_limit_check throws error when 0, except when quiet = TRUE", {
+  withr::local_options(
+    "tidytuesdayR.tt_testing" = TRUE
+  )
+  on.exit({
+    rate_limit_update()
+  }, add = TRUE)
+  rate_limit_update(list(limit = 50, remaining = 0, reset = 1000))
+  expect_error(
+    rate_limit_check(quiet = FALSE),
+    "Github API Rate Limit hit. You must wait until"
+  )
+})
 
 tt_no_internet_test_that("When there is no internet, error -1 is returned", {
   expect_error(

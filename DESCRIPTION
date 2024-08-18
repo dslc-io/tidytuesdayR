@@ -36,8 +36,9 @@ Imports:
 Suggests: 
     covr,
     pkgdown,
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     tibble,
     withr
 Encoding: UTF-8
 RoxygenNote: 7.3.2
+Config/testthat/edition: 3

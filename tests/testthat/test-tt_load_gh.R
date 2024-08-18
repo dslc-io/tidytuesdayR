@@ -1,18 +1,18 @@
-context("Load all information from Github")
-
-ref_repo <- options("tidytuesdayR.tt_repo")
-options("tidytuesdayR.tt_repo" = "thebioengineer/tt_ref")
-on.exit({
-  options("tidytuesdayR.tt_repo" = ref_repo[[1]])
-})
-
 # check that correct data are returned
 tt_ref_test_that(
   "tt_load_gh returns tt object when provided proper date",
   {
     check_api()
 
-    tt <- tt_load_gh("2019-01-15")
+    expect_message(
+      {
+        expect_message(
+          {tt <- tt_load_gh("2019-01-15")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 2 files"
+    )
 
     testthat::expect_s3_class(tt, "tt")
     testthat::expect_equal(
@@ -27,7 +27,15 @@ tt_ref_test_that(
   "tt_load_gh returns tt object when provided proper year and TT week number",
   {
     check_api()
-    tt <- tt_load_gh(2019, 3)
+    expect_message(
+      {
+        expect_message(
+          {tt <- tt_load_gh(2019, 3)},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 2 files"
+    )
 
     testthat::expect_s3_class(tt, "tt")
     testthat::expect_equal(
@@ -139,7 +147,15 @@ tt_ref_test_that(
   "Returns simple list of object when no readme.md available",
   {
     check_api()
-    tt <- tt_load_gh("2018-04-09")
+    expect_message(
+      {
+        expect_message(
+          {tt <- tt_load_gh("2018-04-09")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There is 1 file"
+    )
     expect_s3_class(tt, "tt")
     expect_true(length(attr(tt, ".readme")) == 0) # object should not exist
   }
@@ -149,8 +165,24 @@ tt_ref_test_that(
   "tt_load_gh ignores extra files/diretory paths",
   {
     check_api()
-    tt_obj <- tt_load_gh("2019-04-02")
-    tt_obj_2 <- tt_load_gh("2019-04-09")
+    expect_message(
+      {
+        expect_message(
+          {tt_obj <- tt_load_gh("2019-04-02")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There is 1 file"
+    )
+    expect_message(
+      {
+        expect_message(
+          {tt_obj_2 <- tt_load_gh("2019-04-09")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 3 files"
+    )
 
     expect_equal(length(tt_obj), 1)
     expect_equal(tt_obj[1], "bike_traffic.csv")
@@ -171,7 +203,15 @@ tt_ref_test_that(
   "tt_load_gh finds all the files in the readme",
   {
     check_api()
-    tt_obj <- tt_load_gh("2020-04-21")
+    expect_message(
+      {
+        expect_message(
+          {tt_obj <- tt_load_gh("2020-04-21")},
+          "Compiling #TidyTuesday"
+        )
+      },
+      "There are 2 files"
+    )
 
     expect_equal(length(tt_obj), 2)
     expect_equal(tt_obj[1:2], c("gdpr_text.tsv", "gdpr_violations.tsv"))

@@ -1,5 +1,3 @@
-context("Compile Files and Readme for the Week ")
-
 tt_ref_test_that("Check that tt_compile lists all files for the date", {
   check_api()
 

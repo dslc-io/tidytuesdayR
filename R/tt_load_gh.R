@@ -22,7 +22,7 @@
 #' @export
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
-#' if (rate_limit_check(quiet = TRUE) > 30 & interactive()) {
+#' if (rate_limit_check(quiet = TRUE) > 30) {
 #'   tt_gh <- tt_load_gh("2019-01-15")
 #'   ## readme attempts to open the readme for the weekly dataset
 #'   readme(tt_gh)
@@ -44,7 +44,7 @@ tt_load_gh <- function(x, week, auth = github_pat()) {
 
   ## Check Rate Limit
   if (rate_limit_check() == 0) {
-    return(NULL)
+    return(NULL) # nocov
   }
 
   if (missing(x)) {

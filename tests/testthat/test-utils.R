@@ -41,7 +41,15 @@ tt_ref_test_that("print.tt_data lists the available datasets", {
 tt_ref_test_that("print.tt lists all the available files for the weeks tt", {
   check_api()
 
-  tt_obj <- tt_load_gh(2019, week = 16)
+  expect_message(
+    {
+      expect_message(
+        {tt_obj <- tt_load_gh(2019, week = 16)},
+        "Compiling #TidyTuesday"
+      )
+    },
+    "There are 7 files"
+  )
 
   capturedOutput <- capture_message({
     print(tt_obj)

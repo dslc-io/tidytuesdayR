@@ -420,7 +420,7 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()) {
 rate_limit_check <- function(n = 10, quiet = FALSE) {
   RATE_REMAINING <- TT_GITHUB_ENV$RATE_REMAINING
 
-  if (length(RATE_REMAINING) == 0) {
+  if (!length(RATE_REMAINING)) {
     if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
       ## double check. No penalty for checking!
       rate_limit_update()
@@ -430,14 +430,14 @@ rate_limit_check <- function(n = 10, quiet = FALSE) {
     }
   }
 
-  if (RATE_REMAINING == 0 & !quiet) {
+  if (!RATE_REMAINING && !quiet) {
     if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
       ## double check. No penalty for checking!
       rate_limit_update()
     }
 
-    if (RATE_REMAINING == 0) {
-      message(
+    if (!RATE_REMAINING) {
+      stop(
         "Github API Rate Limit hit. You must wait until ",
         format(
           TT_GITHUB_ENV$RATE_RESET,
@@ -446,7 +446,7 @@ rate_limit_check <- function(n = 10, quiet = FALSE) {
         " to make calls again!"
       )
     }
-  } else if (RATE_REMAINING <= n & !quiet) {
+  } else if (RATE_REMAINING <= n && !quiet) {
     message(
       paste0(
         "Only ",

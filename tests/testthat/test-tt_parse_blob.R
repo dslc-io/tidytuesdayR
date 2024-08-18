@@ -1,25 +1,26 @@
-context("parsing blob/text")
-
 test_that("`tt_parse_text` can parse text", {
   result_comma <-
     tt_parse_text(
       "col1,col2\nval1,val2\nval3,val4",
       func = readr::read_delim,
-      delim = ","
+      delim = ",",
+      show_col_types = FALSE
     )
 
   result_tab <-
     tt_parse_text(
       "col1\tcol2\nval1\tval2\nval3\tval4",
       func = readr::read_delim,
-      delim = "\t"
+      delim = "\t",
+      show_col_types = FALSE
     )
 
   result_special <-
     tt_parse_text(
       "col1|col2\nval1|val2\nval3|val4",
       func = readr::read_delim,
-      delim = "|"
+      delim = "|",
+      show_col_types = FALSE
     )
 
   expected <- tibble::tribble(
@@ -28,10 +29,9 @@ test_that("`tt_parse_text` can parse text", {
     "val3", "val4"
   )
 
-
-  expect_equivalent(result_comma, expected)
-  expect_equivalent(result_tab, expected)
-  expect_equivalent(result_special, expected)
+  expect_equal(result_comma, expected)
+  expect_equal(result_tab, expected)
+  expect_equal(result_special, expected)
 })
 
 
@@ -66,7 +66,8 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw", {
         data_type = "txt",
         delim = ",",
         stringsAsFactors = FALSE
-      )
+      ),
+      show_col_types = FALSE
     )
 
   result_text_tab <-
@@ -77,7 +78,8 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw", {
         data_type = "txt",
         delim = "\t",
         stringsAsFactors = FALSE
-      )
+      ),
+      show_col_types = FALSE
     )
 
   result_text_special <-
@@ -87,7 +89,8 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw", {
         data_files = "text.txt",
         data_type = "txt",
         delim = "|", stringsAsFactors = FALSE
-      )
+      ),
+      show_col_types = FALSE
     )
 
   result_raw_rda <-
@@ -108,14 +111,15 @@ test_that("`tt_parse_blob` can figure out how to handle text or raw", {
         data_type = "csv",
         delim = NA,
         stringsAsFactors = FALSE
-      )
+      ),
+      show_col_types = FALSE
     )
 
-  expect_equivalent(result_text_comma, expected_text)
-  expect_equivalent(result_text_tab, expected_text)
-  expect_equivalent(result_text_special, expected_text)
-  expect_equivalent(result_raw_rda, "RAW VALUE")
-  expect_equivalent(result_text_guess, expected_text)
+  expect_equal(result_text_comma, expected_text)
+  expect_equal(result_text_tab, expected_text)
+  expect_equal(result_text_special, expected_text)
+  expect_equal(result_raw_rda, "RAW VALUE")
+  expect_equal(result_text_guess, expected_text)
 })
 
 tt_ref_test_that("tt_parse_blob can handle a xls file", {

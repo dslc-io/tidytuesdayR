@@ -1,5 +1,3 @@
-context("Checking supplied date/week")
-
 tt_ref_test_that("valid dates work", {
   check_api()
   tt_date <- tt_check_date("2019-04-02")

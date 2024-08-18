@@ -46,7 +46,7 @@ tt_check_date.date <- function(x) {
 tt_check_date.year <- function(x, week) {
   tt_folders <- tt_weeks(x)
 
-  if (!week %in% tt_folders$week_desc & week > 1) {
+  if (!week %in% tt_folders$week_desc && week > 1) {
     stop(
       paste0(
         "'", week, "' is not a valid TidyTuesday week entry for ", x, ".\n",

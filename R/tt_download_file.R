@@ -84,7 +84,7 @@ tt_download_file.character <- function(tt,
 
 tt_download_file.numeric <- function(tt, x, ...) {
   files <- attr(tt, ".files")$data_files
-  if (x > 0 & x <= length(files)) {
+  if (x > 0 && x <= length(files)) {
     tt_download_file.character(tt, files[x], ...)
   } else {
     stop(paste0(
@@ -94,9 +94,6 @@ tt_download_file.numeric <- function(tt, x, ...) {
     ))
   }
 }
-
-
-
 
 
 #' @title utility to load RDA with out using assigned name in envir
