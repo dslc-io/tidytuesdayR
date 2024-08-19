@@ -12,19 +12,16 @@ tt_ref_test_that(
   }
 )
 
-tt_ref_test_that(
-  paste0(
-    "printing tt_datasets returns all the values as a",
-    "printed data.frame if not interactive"
-  ),
-  {
-    check_api()
-    ds <- tt_datasets(2018)
-    expect_snapshot({
-      print(ds, is_interactive = FALSE)
-    })
-  }
-)
+test_that("printing tt_datasets returns all the values as a printed data.frame if not interactive", {
+  ds <- structure(
+    data.frame(a = 1:2, b = 3:4),
+    .html = "the_html",
+    class = "tt_dataset_table"
+  )
+  expect_snapshot({
+    print(ds, is_interactive = FALSE)
+  })
+})
 
 tt_ref_test_that(
   "tt_available returns object of with all years data available",
@@ -54,24 +51,19 @@ tt_ref_test_that(
   }
 )
 
-tt_ref_test_that(
-  paste(
-    "printing tt_available returns all the values",
-    "as a printed data.frame if not interactive"
-  ),
-  {
-    check_api()
-    ds <- tt_available()
+test_that("printing tt_available returns all the values as a printed data.frame if not interactive", {
+    ds <- structure(
+      list(test_year = data.frame(a = 1:2, b = 3:4)),
+      class = c("tt_dataset_table_list")
+    )
     expect_snapshot({
       print(ds, is_interactive = FALSE)
     })
   }
 )
 
-
 tt_ref_test_that(
-  "tt_dataset_table and tt_dataset_table_list objects can make html outputs",
-  {
+  "tt_dataset_table and tt_dataset_table_list objects can make html outputs", {
     check_api()
     ds_tl <- tt_available()
     ds_t <- tt_datasets(2019)
@@ -94,3 +86,30 @@ tt_ref_test_that(
     )
   }
 )
+
+test_that("save_tt_object saves an html file", {
+  expect_true(
+    grepl("html$", {save_tt_object("", function(x, file) x)})
+  )
+})
+
+test_that("tt_dataset_table and tt_dataset_table_list objects print through html_viewer when interactive", {
+  local_mocked_bindings(
+    html_viewer = function(url) {
+      message(url)
+    },
+    save_tt_object = function(x, fn) {
+      "tmpfile_path"
+    }
+  )
+  ds <- structure("", class = "tt_dataset_table")
+  expect_message(
+    {print(ds, is_interactive = TRUE)},
+    "tmpfile_path"
+  )
+  ds <- structure("", class = "tt_dataset_table_list")
+  expect_message(
+    {print(ds, is_interactive = TRUE)},
+    "tmpfile_path"
+  )
+})

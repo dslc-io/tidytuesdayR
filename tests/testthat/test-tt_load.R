@@ -70,3 +70,11 @@ tt_no_internet_test_that("When there is no internet, returns NULL", {
   )
   expect_null(tt_obj)
 })
+
+test_that("tt_load returns NULL when rate limit is exceeded", {
+  local_mocked_bindings(
+    get_connectivity = function() TRUE,
+    rate_limit_check = function() 0
+  )
+  expect_null(tt_load("2018-04-02"))
+})

@@ -147,11 +147,9 @@ NULL
 
 #' @rdname Available_Printing
 #' @export
-
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if (is_interactive) {
-    tmpHTML <- tempfile(fileext = ".html")
-    make_tt_dataset_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
+    tmpHTML <- save_tt_object(x, fn = make_tt_dataset_html)
     html_viewer(tmpHTML)
   } else {
     print(data.frame(unclass(x)))
@@ -166,6 +164,12 @@ make_tt_dataset_html <- function(x, file = tempfile(fileext = ".html")) {
   invisible(readme)
 }
 
+save_tt_object <- function(x, fn) {
+  tmpHTML <- tempfile(fileext = ".html")
+  fn(x, file = tmpHTML)
+  return(tmpHTML)
+}
+
 #' @rdname Available_Printing
 #' @importFrom purrr walk map
 #' @importFrom rvest html_node
@@ -173,7 +177,7 @@ make_tt_dataset_html <- function(x, file = tempfile(fileext = ".html")) {
 #' @export
 print.tt_dataset_table_list <- function(x, ..., is_interactive = interactive()) {
   if (is_interactive) {
-    make_tt_dataset_list_html(x, file = tmpHTML <- tempfile(fileext = ".html"))
+    tmpHTML <- save_tt_object(x, fn = make_tt_dataset_list_html)
     html_viewer(tmpHTML)
   } else {
     names(x) %>%

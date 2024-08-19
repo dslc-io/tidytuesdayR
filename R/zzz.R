@@ -1,3 +1,6 @@
+# covr doesn't understand that this is tested in `test-zzz.R`.
+#
+# nocov start
 .onLoad <- function(libname, pkgname) {
   options("tidytuesdayR.tt_repo" = "rfordatascience/tidytuesday")
   options("tidytuesdayR.tt_testing" = FALSE)
@@ -19,3 +22,4 @@
     )
   }
 }
+# nocov end
