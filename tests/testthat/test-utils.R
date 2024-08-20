@@ -28,14 +28,11 @@ tt_ref_test_that("print.tt_data lists the available datasets", {
     class = "tt_data"
   )
 
-  capturedOutput <- capture_message({
-    print(tt_data)
+  expect_snapshot({
+    test_result <- print(tt_data)
   })
 
-  testthat::expect_equal(
-    capturedOutput$message,
-    "Available datasets:\n\tvalue1 \n\tvalue2 \n\t\n"
-  )
+  expect_identical(test_result, tt_data)
 })
 
 tt_ref_test_that("print.tt lists all the available files for the weeks tt", {
@@ -51,24 +48,45 @@ tt_ref_test_that("print.tt lists all the available files for the weeks tt", {
     "There are 7 files"
   )
 
-  capturedOutput <- capture_message({
-    print(tt_obj)
-  })$message
+  expect_snapshot({
+    test_result <- print(tt_obj)
+  })
 
-  expect_equal(
-    capturedOutput,
-    paste0(
-      "Available datasets in this TidyTuesday:\n\tbrexit.csv ",
-      "\n\tcorbyn.csv \n\tdogs.csv \n\teu_balance.csv ",
-      "\n\tpensions.csv \n\ttrade.csv \n\twomen_research.csv \n\t\n"
-    )
-  )
+  expect_identical(test_result, tt_obj)
 })
 
 test_that("html_viewer returns NULL when running not in interactive mode", {
   res <- html_viewer("www.google.com", is_interactive = FALSE)
 
   expect_equal(res, NULL)
+})
+
+test_that("html_viewer works in interactive mode", {
+  local_mocked_bindings(
+    isAvailable = function() {
+      return(TRUE)
+    },
+    viewer = function(url) {
+      return("viewer")
+    },
+    browse_url = function(url) {
+      return("browse_url")
+    }
+  )
+  expect_equal(
+    html_viewer("www.google.com", is_interactive = TRUE),
+    "viewer"
+  )
+
+  local_mocked_bindings(
+    isAvailable = function() {
+      return(FALSE)
+    }
+  )
+  expect_equal(
+    html_viewer("www.google.com", is_interactive = TRUE),
+    "browse_url"
+  )
 })
 
 

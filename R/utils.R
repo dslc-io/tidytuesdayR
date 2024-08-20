@@ -68,7 +68,6 @@ readme <- function(tt) {
   invisible(NULL)
 }
 
-#' @importFrom utils browseURL
 #' @importFrom rstudioapi viewer isAvailable
 #' @noRd
 html_viewer <- function(url, is_interactive = interactive()) {
@@ -77,8 +76,14 @@ html_viewer <- function(url, is_interactive = interactive()) {
   } else if (isAvailable()) {
     viewer(url = url)
   } else {
-    browseURL(url = url)
+    browse_url(url = url)
   }
+}
+
+# For mocking in tests.
+#' @importFrom utils browseURL
+browse_url <- function(url) {
+  browseURL(url = url) # nocov
 }
 
 #' @noRd

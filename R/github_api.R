@@ -281,7 +281,7 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1) {
       Authorization = paste("token", auth)
     )
   } else {
-    headers <- add_headers(...)
+    headers <- add_headers(...) # nocov
   }
 
   if (!get_connectivity()) {
@@ -296,10 +296,10 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1) {
     if (exists("headers")) {
       get_res <- try(GET(url, headers), silent = TRUE)
     } else {
-      get_res <- try(GET(url))
+      get_res <- try(GET(url)) # nocov
     }
 
-    if (inherits(get_res, "try-error")) {
+    if (inherits(get_res, "try-error")) { # nocov start
       check_connectivity(rerun = TRUE)
       if (!get_connectivity()) {
         return(no_internet_error())
@@ -326,7 +326,7 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1) {
     }
   } else {
     rate_limit_error()
-  }
+  } # nocov end
 }
 
 tt_gh_error <- function(response, call) {
@@ -386,7 +386,7 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()) {
           add_headers(Authorization = paste("token", auth))
         )
       } else {
-        rate_lim <- GET("https://api.github.com/rate_limit")
+        rate_lim <- GET("https://api.github.com/rate_limit") # nocov
       }
 
       if (rate_lim$status_code == 200) {
@@ -420,7 +420,7 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()) {
 rate_limit_check <- function(n = 10, quiet = FALSE) {
   RATE_REMAINING <- TT_GITHUB_ENV$RATE_REMAINING
 
-  if (!length(RATE_REMAINING)) {
+  if (!length(RATE_REMAINING)) { # nocov start
     if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
       ## double check. No penalty for checking!
       rate_limit_update()
@@ -428,12 +428,12 @@ rate_limit_check <- function(n = 10, quiet = FALSE) {
       message("Unable to get Github API Rate Limit. Check connectivity and run again.")
       return(0)
     }
-  }
+  } # nocov end
 
   if (!RATE_REMAINING && !quiet) {
     if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
       ## double check. No penalty for checking!
-      rate_limit_update()
+      rate_limit_update() # nocov
     }
 
     if (!RATE_REMAINING) {
@@ -497,12 +497,12 @@ check_connectivity <- function(rerun = FALSE) {
   # if internet connection is not set or is false, lets try again
   if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
     if (is.na(internet_connection) | !internet_connection | rerun) {
-      res <- try(GET("https://api.github.com"), silent = TRUE)
+      res <- try(GET("https://api.github.com"), silent = TRUE) # nocov start
       if (inherits(res, "try-error")) {
         options("tidytuesdayR.tt_internet_connectivity" = FALSE)
       } else {
         options("tidytuesdayR.tt_internet_connectivity" = TRUE)
-      }
+      } # nocov end
     }
   }
 }
@@ -532,10 +532,10 @@ no_internet_error <- function() {
 }
 
 #' @importFrom jsonlite base64_enc
-rate_limit_error <- function() {
+rate_limit_error <- function() { # nocov start
   request_error(
     status_code = -2,
     "RATE LIMIT EXPIRED",
     "tt.gh_RateLimitError"
   )
-}
+} # nocov end

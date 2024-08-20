@@ -12,7 +12,7 @@
 #'
 tt_update_master_file <- function(force = FALSE, auth = github_pat()) {
     ## check internet connectivity and rate limit
-    if (!get_connectivity()) {
+    if (!get_connectivity()) { # nocov start
       check_connectivity(rerun = TRUE)
       if (!get_connectivity()) {
         message("Warning - No Internet Connectivity")
@@ -23,8 +23,7 @@ tt_update_master_file <- function(force = FALSE, auth = github_pat()) {
     ## Check Rate Limit
     if (rate_limit_check() == 0) {
       invisible(NULL)
-    }
-
+    } # nocov end
 
     # get sha to see if need to update
     sha_df <- github_sha("static")

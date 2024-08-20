@@ -177,3 +177,27 @@ tt_no_internet_test_that("When there is no internet, error -1 is returned", {
     "Response Code -1: No Internet Connection"
   )
 })
+
+test_that("base_64_to_char works", {
+  expect_identical(base_64_to_char("SGVsbG8gV29ybGQ="), "Hello World")
+})
+
+test_that("github_pat messages when not quiet", {
+  withr::local_envvar(GITHUB_PAT = "pat")
+  expect_message(github_pat(quiet = FALSE), "Using github PAT")
+})
+
+test_that("github_pat returns NULL when no PAT available", {
+  old_PAT <- Sys.getenv("GITHUB_PAT")
+  if (length(old_PAT)) {
+    withr::defer(Sys.setenv(GITHUB_PAT = old_PAT))
+    Sys.unsetenv("GITHUB_PAT")
+  }
+  old_TOKEN <- Sys.getenv("GITHUB_TOKEN")
+  if (length(old_TOKEN)) {
+    withr::defer(Sys.setenv(GITHUB_TOKEN = old_TOKEN))
+    Sys.unsetenv("GITHUB_TOKEN")
+  }
+
+  expect_null(github_pat())
+})
