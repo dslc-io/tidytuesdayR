@@ -13,14 +13,14 @@ close to the limit}
 \item{quiet}{should messages be returned when the rate limit is zero or less than n?}
 }
 \value{
-return the number of calls are remaining as a numeric values
+The number of remaining calls.
 }
 \description{
 The GitHub API limits the number of requests that can be sent within an hour.
 This function returns the stored rate limits that are remaining.
 }
 \examples{
-
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 rate_limit_check()
-
+\dontshow{\}) # examplesIf}
 }

@@ -27,14 +27,11 @@ to download and store the data from the TidyTuesday repo. They will always
  it will try to display the TidyTuesday readme.
 }
 \examples{
-
-\donttest{
-if(interactive()){
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 tt <- tt_load_gh("2019-01-15")
 print(tt)
 
 tt_data <- tt_download(tt, files = "All")
 print(tt_data)
-}
-}
+\dontshow{\}) # examplesIf}
 }

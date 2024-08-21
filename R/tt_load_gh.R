@@ -20,25 +20,19 @@
 #' @return a 'tt' object. This contains the files available for the week,
 #'  readme html, and the date of the TidyTuesday.
 #' @export
-#' @examples
-#'
+#' @examplesIf interactive()
 #' # check to make sure there are requests still available
-#' if(rate_limit_check(quiet = TRUE) > 30 & interactive()){
-#'  tt_gh <- tt_load_gh("2019-01-15")
+#' if (rate_limit_check(quiet = TRUE) > 30) {
+#'   tt_gh <- tt_load_gh("2019-01-15")
+#'   ## readme attempts to open the readme for the weekly dataset
+#'   readme(tt_gh)
 #'
-#'  ## readme attempts to open the readme for the weekly dataset
-#'  readme(tt_gh)
-#'
-#'  agencies <- tt_download(
+#'   agencies <- tt_download(
 #'     tt_gh,
 #'     files = "agencies.csv"
-#'  )
-#'
-#'
+#'   )
 #' }
-#'
 tt_load_gh <- function(x, week, auth = github_pat()) {
-
   ## check internet connectivity and rate limit
   if (!get_connectivity()) {
     check_connectivity(rerun = TRUE)
@@ -50,7 +44,7 @@ tt_load_gh <- function(x, week, auth = github_pat()) {
 
   ## Check Rate Limit
   if (rate_limit_check() == 0) {
-    return(NULL)
+    return(NULL) # nocov
   }
 
   if (missing(x)) {
@@ -60,29 +54,31 @@ tt_load_gh <- function(x, week, auth = github_pat()) {
     stop("Enter either the year or date of the TidyTuesday Data to extract!")
   }
 
-  #Check Dates
+  # Check Dates
   tt_date <- tt_check_date(x, week)
 
-  message("--- Compiling #TidyTuesday Information for ",tt_date," ----")
+  message("--- Compiling #TidyTuesday Information for ", tt_date, " ----")
 
   # Find Files and extract readme
   tt_compilation <- tt_compile(tt_date)
 
   n_files <- as.character(nrow(tt_compilation$files))
 
-  are_is <- switch( n_files,
-                    "0" = "are",
-                    "1" = "is",
-                    "are")
+  are_is <- switch(n_files,
+    "0" = "are",
+    "1" = "is",
+    "are"
+  )
 
-  file_s <- switch( n_files,
-                    "0" = "files",
-                    "1" = "file",
-                    "files")
+  file_s <- switch(n_files,
+    "0" = "files",
+    "1" = "file",
+    "files"
+  )
 
-  n_files <- ifelse( n_files == 0, "no", n_files)
+  n_files <- ifelse(n_files == 0, "no", n_files)
 
-  message("--- There ",are_is," ", n_files, " ", file_s," available ---")
+  message("--- There ", are_is, " ", n_files, " ", file_s, " available ---")
 
   structure(
     tt_compilation$files$data_files,

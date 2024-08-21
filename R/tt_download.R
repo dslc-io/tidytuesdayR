@@ -24,21 +24,14 @@
 #'
 #' @importFrom lubridate year
 #'
-#' @examples
-#' \donttest{
-#' if(interactive()){
+#' @examplesIf interactive()
 #' tt_output <- tt_load_gh("2019-01-15")
 #' agencies <- tt_download(tt_output, files = "agencies.csv")
-#' }
-#' }
-tt_download <-
-  function(tt,
-           files = c("All"),
-           ...,
-           branch = "master",
-           auth = github_pat()) {
-
-
+tt_download <- function(tt,
+                        files = c("All"),
+                        ...,
+                        branch = "master",
+                        auth = github_pat()) {
   ## check internet connectivity and rate limit
   if (!get_connectivity()) {
     check_connectivity(rerun = TRUE)
@@ -58,31 +51,35 @@ tt_download <-
   file_info <- attr(tt, ".files")
 
 
-  #define which files to download
+  # define which files to download
   files <-
     match.arg(files,
-              several.ok = TRUE,
-              choices = c("All", file_info$data_files))
+      several.ok = TRUE,
+      choices = c("All", file_info$data_files)
+    )
 
-  if("All" %in% files){
+  if ("All" %in% files) {
     files <- file_info$data_files
   }
 
   message("--- Starting Download ---")
   cat("\n")
 
-  tt_sha <- github_sha(file.path("data",tt_year,tt_date), auth = auth)
+  tt_sha <- github_sha(file.path("data", tt_year, tt_date), auth = auth)
 
   tt_data <- setNames(
     vector("list", length = length(files)),
-    files)
+    files
+  )
 
 
-  for(file in files){
-    dl_message <- sprintf('\tDownloading file %d of %d: `%s`\n',
-                          which(files == file),
-                          length(files),
-                          file)
+  for (file in files) {
+    dl_message <- sprintf(
+      "\tDownloading file %d of %d: `%s`\n",
+      which(files == file),
+      length(files),
+      file
+    )
 
     cat(dl_message)
 
@@ -92,7 +89,7 @@ tt_download <-
       ...,
       sha = tt_sha$sha[tt_sha$path == file],
       auth = auth
-      )
+    )
   }
 
   cat("\n")
@@ -100,6 +97,4 @@ tt_download <-
 
   names(tt_data) <- tools::file_path_sans_ext(files)
   tt_data
-
 }
-

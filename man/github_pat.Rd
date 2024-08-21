@@ -19,15 +19,13 @@ for authenticated requests.
 \section{PAT}{
 
 
-A Github 'PAT' is a Personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed
-from 60 to 5000. Follow instructions from
-<https://happygitwithr.com/github-pat.html> to set the PAT.
+  A Github 'PAT' is a Personal Access Token. This allows for signed queries
+  to the github api, and increases the limit on the number of requests
+  allowed from 60 to 5000. Follow instructions from
+  <https://happygitwithr.com/github-pat.html> to set the PAT.
 }
 
 \examples{
-
-## if you have a personal access token saved, this will return that value
+## if you have a personal access token saved, this will return that value.
 github_pat()
-
 }

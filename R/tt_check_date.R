@@ -4,13 +4,9 @@
 #' interested in to get the correct date
 #' @param year what year of TidyTuesday to use
 #' @param week what week of Tidytuesday to use
-#' @examples
-#' \donttest{
-#' if(interactive()){
-#'  tt_date(2019, week = 42)
-#'  }
-#' }
-tt_date <- function(year,week){
+#' @examplesIf interactive()
+#' tt_date(2019, week = 42)
+tt_date <- function(year, week) {
   tt_check_date(year, week)
 }
 
@@ -48,13 +44,12 @@ tt_check_date.date <- function(x) {
 }
 
 tt_check_date.year <- function(x, week) {
-
   tt_folders <- tt_weeks(x)
 
-  if (!week %in% tt_folders$week_desc & week > 1) {
+  if (!week %in% tt_folders$week_desc && week > 1) {
     stop(
       paste0(
-        "'",week,"' is not a valid TidyTuesday week entry for ",x,".\n",
+        "'", week, "' is not a valid TidyTuesday week entry for ", x, ".\n",
         "Please enter a valid value for week:\n\t",
         contiguous_weeks(tt_folders$week_desc)
       )
@@ -68,7 +63,7 @@ tt_check_date.year <- function(x, week) {
   tt_date <- tt_folders$folders[tt_folders$week_desc == week]
 
   if (!tt_date %in% tt_folders[["folders"]] |
-      !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
+    !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
     stop(
       paste0(
         "Week ",
@@ -105,9 +100,10 @@ tt_weeks <- function(year) {
 
   tt_week <- aggregate(
     data_files ~ Week + Date,
-    ttmf[ttmf$year == year,],
-    FUN = function(x)
-      ! anyNA(x),
+    ttmf[ttmf$year == year, ],
+    FUN = function(x) {
+      !anyNA(x)
+    },
     na.action = na.pass
   )
 
@@ -116,7 +112,6 @@ tt_weeks <- function(year) {
     folders = tt_week$Date,
     data = tt_week$data_files
   )
-
 }
 
 tt_years <- function() {
@@ -149,6 +144,6 @@ tt_date_format <- function(x) {
 
 tt_closest_date <- function(inputdate, availabledates) {
   availabledates[
-    which.min(abs(difftime(inputdate, availabledates, units = "days")))]
+    which.min(abs(difftime(inputdate, availabledates, units = "days")))
+  ]
 }
-

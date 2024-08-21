@@ -21,17 +21,12 @@
 #'
 #' @family tt_download_file
 #'
-#' @examples
-#' \donttest{
-#' if(interactive()){
+#' @examplesIf interactive()
 #' tt_gh <- tt_load_gh("2019-01-15")
 #'
 #' agencies <- tt_download_file(tt_gh, 1)
 #' launches <- tt_download_file(tt_gh, "launches.csv")
-#' }
-#' }
 tt_download_file <- function(tt, x, ..., auth = github_pat()) {
-
   ## check internet connectivity and rate limit
   if (!get_connectivity()) {
     check_connectivity(rerun = TRUE)
@@ -48,9 +43,9 @@ tt_download_file <- function(tt, x, ..., auth = github_pat()) {
 
   suppressMessages({
     switch(class(x),
-      "character" = tt_download_file.character(tt, x, ... ),
-      "numeric" = tt_download_file.numeric(tt, x, ... ),
-      "integer" = tt_download_file.numeric(tt, x, ... ),
+      "character" = tt_download_file.character(tt, x, ...),
+      "numeric" = tt_download_file.numeric(tt, x, ...),
+      "integer" = tt_download_file.numeric(tt, x, ...),
       stop(paste("No method for entry of class:", class(x)))
     )
   })
@@ -58,42 +53,38 @@ tt_download_file <- function(tt, x, ..., auth = github_pat()) {
 
 #' @importFrom lubridate year
 #' @importFrom tools file_ext
-tt_download_file.character <-
-  function(tt,
-           x,
-           ...,
-           sha = NULL,
-           auth = github_pat()) {
+tt_download_file.character <- function(tt,
+                                       x,
+                                       ...,
+                                       sha = NULL,
+                                       auth = github_pat()) {
+    file_info <- attr(tt, ".files")
 
-  file_info <- attr(tt, ".files")
+    if (x %in% file_info$data_files) {
+      tt_date <- attr(tt, ".date")
+      tt_year <- year(tt_date)
 
-  if (x %in% file_info$data_files) {
+      blob <-
+        github_blob(
+          file.path("data", tt_year, tt_date, x),
+          as_raw = TRUE,
+          sha = sha,
+          auth = auth
+        )
 
-    tt_date <- attr(tt, ".date")
-    tt_year <- year(tt_date)
-
-    blob <-
-      github_blob(
-        file.path("data", tt_year, tt_date, x),
-        as_raw = TRUE,
-        sha = sha,
-        auth = auth
-      )
-
-    tt_parse_blob(blob, file_info = file_info[file_info$data_files == x,], ...)
-
-  } else {
-    stop(paste0(
-      "That is not an available file for this TidyTuesday week!",
-      "\nAvailable Datasets:\n",
-      paste(attr(tt, ".files"), "\n\t", collapse = "")
-    ))
+      tt_parse_blob(blob, file_info = file_info[file_info$data_files == x, ], ...)
+    } else {
+      stop(paste0(
+        "That is not an available file for this TidyTuesday week!",
+        "\nAvailable Datasets:\n",
+        paste(attr(tt, ".files"), "\n\t", collapse = "")
+      ))
+    }
   }
-}
 
 tt_download_file.numeric <- function(tt, x, ...) {
   files <- attr(tt, ".files")$data_files
-  if (x > 0 & x <= length(files)) {
+  if (x > 0 && x <= length(files)) {
     tt_download_file.character(tt, files[x], ...)
   } else {
     stop(paste0(
@@ -105,15 +96,12 @@ tt_download_file.numeric <- function(tt, x, ...) {
 }
 
 
-
-
-
 #' @title utility to load RDA with out using assigned name in envir
 #'
 #' @param path path to RDA file
 #' @noRd
-read_rda <- function(path){
-  load_env<-new.env()
-  load(path,envir = load_env)
-  load_env[[ ls(load_env)[1] ]]
+read_rda <- function(path) {
+  load_env <- new.env()
+  load(path, envir = load_env)
+  load_env[[ls(load_env)[1]]]
 }

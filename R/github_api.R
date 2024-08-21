@@ -8,20 +8,18 @@
 #'
 #' @return raw text of the content with the sha as an attribute
 #' @noRd
-#' @examples
-#'
+#' @examplesIf interactive()
 #' text_csv <- github_contents("data/2020/2020-04-07/tdf_stages.csv")
 #' tour_de_france_stages <- readr::read_csv(text_csv)
-#'
 github_contents <- function(path, auth = github_pat()) {
-    base_url <-
-      file.path("https://api.github.com/repos",
-                options("tidytuesdayR.tt_repo"),
-                "contents",
-                path)
+  base_url <- file.path(
+    "https://api.github.com/repos",
+    options("tidytuesdayR.tt_repo"),
+    "contents",
+    path
+  )
 
-    github_blob(path, auth = auth)
-
+  github_blob(path, auth = auth)
 }
 
 #' Read Contents from GitHub as html
@@ -36,31 +34,30 @@ github_contents <- function(path, auth = github_pat()) {
 #' @return result of read_html on the contents
 #' @noRd
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' main_readme <- github_html("README.md")
 #' week_readme <- github_html("data/2020/2020-01-07/readme.md")
 #'
-#'
 #' @importFrom xml2 read_html
-github_html <-
-  function(path,
-           ...,
-           auth = github_pat()) {
+github_html <- function(path,
+                        ...,
+                        auth = github_pat()) {
+    base_url <- file.path(
+      "https://api.github.com/repos",
+      options("tidytuesdayR.tt_repo"),
+      "contents",
+      path
+    )
 
-    base_url <-
-      file.path("https://api.github.com/repos",
-                options("tidytuesdayR.tt_repo"),
-                "contents",
-                path)
-
-    url_response <-
-      github_GET(base_url, auth = auth,
-                 Accept = "application/vnd.github.v3.html")
+    url_response <- github_GET(
+      base_url,
+      auth = auth,
+      Accept = "application/vnd.github.v3.html"
+    )
 
     if (url_response$status_code == 200) {
       github_page(read_html(x = url_response$content, ...))
-    } else{
+    } else {
       stop(tt_gh_error(url_response)$message)
     }
   }
@@ -79,42 +76,42 @@ github_html <-
 #' @return result data.frame of SHA and other information of directory contents
 #' @noRd
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' sha <- github_sha("data/2020/2020-01-07")
 #'
 #' @importFrom xml2 read_html
 #' @importFrom utils URLencode
-github_sha <-
-  function(dirpath,
-           branch = "master",
-           auth = github_pat()) {
-
-    if(dirpath == "."){
+github_sha <- function(dirpath,
+                       branch = "master",
+                       auth = github_pat()) {
+    if (dirpath == ".") {
       dirpath <- ""
     }
 
-    base_url <-
-      file.path(
-        "https://api.github.com/repos",
-        options("tidytuesdayR.tt_repo"),
-        "git/trees",
-        URLencode(paste(branch, dirpath, sep = ":"))
-      )
+    base_url <- file.path(
+      "https://api.github.com/repos",
+      options("tidytuesdayR.tt_repo"),
+      "git/trees",
+      URLencode(paste(branch, dirpath, sep = ":"))
+    )
 
     url_response <- github_GET(base_url, auth = auth)
 
     if (url_response$status_code == 200) {
       url_json <- GET_json(url_response)
-      do.call('rbind',
-              lapply(url_json$tree,
-                     function(x)
-                       data.frame(
-                         x[c("path", "sha")],
-                         stringsAsFactors = FALSE
-                         ))
+      do.call(
+        "rbind",
+        lapply(
+          url_json$tree,
+          function(x) {
+            data.frame(
+              x[c("path", "sha")],
+              stringsAsFactors = FALSE
+            )
+          }
+        )
       )
-    } else{
+    } else {
       stop(tt_gh_error(url_response)$message)
     }
   }
@@ -133,44 +130,41 @@ github_sha <-
 #' @return a raw/character object based on the blob
 #' @noRd
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' main_readme_blob <- github_blob("README.md", as_raw = TRUE)
-#'
-github_blob <-
-  function(path, as_raw = FALSE, sha = NULL, auth = github_pat()){
-
-    if(is.null(sha)){
+github_blob <- function(path, as_raw = FALSE, sha = NULL, auth = github_pat()) {
+    if (is.null(sha)) {
       dir_sha <- github_sha(dirname(path))
       sha <- dir_sha$sha[dir_sha$path == basename(path)]
-      if(identical(sha, character(0))){
+      if (identical(sha, character(0))) {
         stop("Response Code 404: Not Found")
       }
     }
 
-    base_url <-
-      file.path("https://api.github.com/repos",
-                options("tidytuesdayR.tt_repo"),
-                "git/blobs",
-                sha)
+    base_url <- file.path(
+      "https://api.github.com/repos",
+      options("tidytuesdayR.tt_repo"),
+      "git/blobs",
+      sha
+    )
 
-    url_response <-
-      github_GET(base_url, auth = auth,
-                 Accept = "application/vnd.github.VERSION.raw")
+    url_response <- github_GET(
+      base_url,
+      auth = auth,
+      Accept = "application/vnd.github.VERSION.raw"
+    )
 
     if (url_response$status_code == 200) {
-      if(as_raw == TRUE){
+      if (as_raw == TRUE) {
         content <- url_response$content
-      }else{
+      } else {
         content <- rawToChar(url_response$content)
       }
       attr(content, ".sha") <- sha
       return(content)
-
-    } else{
+    } else {
       stop(tt_gh_error(url_response)$message)
     }
-
   }
 
 
@@ -187,8 +181,7 @@ github_blob <-
 #' @examples
 #' # Returns the value "Hello World"
 #' base_64_to_char("SGVsbG8gV29ybGQ=")
-#'
-base_64_to_char <- function(b64){
+base_64_to_char <- function(b64) {
   rawToChar(base64_dec(b64))
 }
 
@@ -202,7 +195,7 @@ base_64_to_char <- function(b64){
 #' @noRd
 #'
 #' @importFrom jsonlite parse_json
-GET_json <- function(get_response){
+GET_json <- function(get_response) {
   jsonlite::parse_json(rawToChar(get_response$content))
 }
 
@@ -219,20 +212,20 @@ GET_json <- function(get_response){
 #'
 #' @importFrom xml2 read_html
 #' @importFrom rvest html_nodes
-github_page <- function(page_content){
-
-  header <- paste0("<head><link crossorigin=\"anonymous\" ",
-                  "media=\"all\" rel=\"stylesheet\" ",
-                  "href=\"https://cdnjs.cloudflare.com/ajax/libs/",
-                  "github-markdown-css/3.0.1/github-markdown.min.css\"></head>")
+github_page <- function(page_content) {
+  header <- paste0(
+    "<head><link crossorigin=\"anonymous\" ",
+    "media=\"all\" rel=\"stylesheet\" ",
+    "href=\"https://cdnjs.cloudflare.com/ajax/libs/",
+    "github-markdown-css/3.0.1/github-markdown.min.css\"></head>"
+  )
 
   body <- page_content %>%
     html_nodes("body") %>%
-    as.character %>%
+    as.character() %>%
     enc2native()
 
   read_html(paste0(header, body))
-
 }
 
 #' Return the local user's GitHub Personal Access Token
@@ -242,10 +235,10 @@ github_page <- function(page_content){
 #'
 #' @section PAT:
 #'
-#' A Github 'PAT' is a Personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed
-#' from 60 to 5000. Follow instructions from
-#' <https://happygitwithr.com/github-pat.html> to set the PAT.
+#'   A Github 'PAT' is a Personal Access Token. This allows for signed queries
+#'   to the github api, and increases the limit on the number of requests
+#'   allowed from 60 to 5000. Follow instructions from
+#'   <https://happygitwithr.com/github-pat.html> to set the PAT.
 #'
 #' @param quiet Should this be loud? default TRUE.
 #'
@@ -254,19 +247,13 @@ github_page <- function(page_content){
 #' @return a character vector that is your Personal Access Token, or NULL
 #'
 #' @examples
-#'
-#' ## if you have a personal access token saved, this will return that value
+#' ## if you have a personal access token saved, this will return that value.
 #' github_pat()
-#'
-github_pat <- function (quiet = TRUE) {
-  pat <- Sys.getenv("GITHUB_PAT", "")
-  token <- Sys.getenv("GITHUB_TOKEN", "")
-  if (nchar(pat) | nchar(pat)) {
+github_pat <- function(quiet = TRUE) {
+  pat <- Sys.getenv("GITHUB_PAT", "") %||% Sys.getenv("GITHUB_TOKEN", "")
+  if (nchar(pat)) {
     if (!quiet) {
       message("Using github PAT from envvar GITHUB_PAT | GITHUB_TOKEN")
-    }
-    if(!nchar(pat)){
-      pat <- token
     }
     return(pat)
   }
@@ -287,18 +274,17 @@ github_pat <- function (quiet = TRUE) {
 #'
 #' @importFrom httr GET add_headers
 #' @importFrom jsonlite base64_enc
-github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
-
-  if(!is.null(auth)){
+github_GET <- function(url, auth = github_pat(), ..., times_run = 1) {
+  if (!is.null(auth)) {
     headers <- add_headers(
       ...,
       Authorization = paste("token", auth)
     )
-  }else{
-    headers <- add_headers(...)
+  } else {
+    headers <- add_headers(...) # nocov
   }
 
-  if(!get_connectivity()){
+  if (!get_connectivity()) {
     return(
       no_internet_error()
     )
@@ -306,68 +292,71 @@ github_GET <- function(url, auth = github_pat(), ..., times_run = 1){
 
   rate <- rate_limit_check()
 
-  if(rate != 0){
-
-    if(exists("headers")){
-      get_res <- try(GET(url, headers),silent = TRUE)
-    }else{
-      get_res <- try(GET(url))
+  if (rate != 0) {
+    if (exists("headers")) {
+      get_res <- try(GET(url, headers), silent = TRUE)
+    } else {
+      get_res <- try(GET(url)) # nocov
     }
 
-    if(inherits(get_res,"try-error")){
-      check_connectivity(rerun=TRUE)
-      if(!get_connectivity()){
+    if (inherits(get_res, "try-error")) { # nocov start
+      check_connectivity(rerun = TRUE)
+      if (!get_connectivity()) {
         return(no_internet_error())
-      }else{
+      } else {
         ## Unexpected issue
-        stop(attr(get_res,"condition"))
+        stop(attr(get_res, "condition"))
       }
-    }else{
-      if(get_res$status_code == 502){
+    } else {
+      if (get_res$status_code == 502) {
         ## rerun when 502 status code - server error, not tidytuesdayR code error
-        if(times_run < 3){
-          if(rate_limit_check() > 0){
+        if (times_run < 3) {
+          if (rate_limit_check() > 0) {
             github_GET(url, auth = github_pat(), ..., times_run = times_run + 1)
-          }else{
+          } else {
             rate_limit_error()
           }
-        }else{
+        } else {
           tt_gh_error.response(get_res)
         }
-      }else{
+      } else {
         rate_limit_update(header_to_rate_info(get_res))
         return(get_res)
       }
     }
-  }else{
+  } else {
     rate_limit_error()
-  }
+  } # nocov end
 }
 
-tt_gh_error<- function(response){
- UseMethod("tt_gh_error")
+tt_gh_error <- function(response, call) {
+  UseMethod("tt_gh_error")
 }
 
-tt_gh_error.response <- function(response, call = sys.call(-2)){
+#' @export
+tt_gh_error.response <- function(response, call = sys.call(-2)) {
   structure(
     list(
       status = response$status_code,
       message = paste(
-        paste0("Response Code ",response$status_code,":"),
-        GET_json(response)$message),
+        paste0("Response Code ", response$status_code, ":"),
+        GET_json(response)$message
+      ),
       call = call
     ),
     class = c(".tt_gh_error", "condition")
   )
 }
 
-tt_gh_error.tt_response <- function(response, call = sys.call(-2)){
+#' @export
+tt_gh_error.tt_response <- function(response, call = sys.call(-2)) {
   structure(
     list(
       status = response$status_code,
       message = paste(
-        paste0("Response Code ",response$status_code,":"),
-        response$message),
+        paste0("Response Code ", response$status_code, ":"),
+        response$message
+      ),
       call = call
     ),
     class = c(".tt_gh_error", "condition")
@@ -386,32 +375,32 @@ TT_GITHUB_ENV$RATE_RESET <- lubridate::today()
 
 #' @importFrom httr GET
 
-rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
-
+rate_limit_update <- function(rate_info = NULL, auth = github_pat()) {
   check_connectivity()
 
   if (is.null(rate_info)) {
-    if(get_connectivity()){
+    if (get_connectivity()) {
       if (!is.null(auth)) {
-        rate_lim <- GET("https://api.github.com/rate_limit",
-                        add_headers(Authorization = paste("token", auth)))
+        rate_lim <- GET(
+          "https://api.github.com/rate_limit",
+          add_headers(Authorization = paste("token", auth))
+        )
       } else {
-        rate_lim <- GET("https://api.github.com/rate_limit")
+        rate_lim <- GET("https://api.github.com/rate_limit") # nocov
       }
 
-      if(rate_lim$status_code == 200){
+      if (rate_lim$status_code == 200) {
         rate_info <- GET_json(rate_lim)$rate
-        rate_info$remaining = rate_info$remaining - 1 # we have one less than we think
+        rate_info$remaining <- rate_info$remaining - 1 # we have one less than we think
       }
     }
   }
 
-  if(get_connectivity()){
-  TT_GITHUB_ENV$RATE_LIMIT <- rate_info$limit
-  TT_GITHUB_ENV$RATE_REMAINING <- rate_info$remaining
-  TT_GITHUB_ENV$RATE_RESET <- as.POSIXct(rate_info$reset, origin = "1970-01-01")
+  if (get_connectivity()) {
+    TT_GITHUB_ENV$RATE_LIMIT <- rate_info$limit
+    TT_GITHUB_ENV$RATE_REMAINING <- rate_info$remaining
+    TT_GITHUB_ENV$RATE_RESET <- as.POSIXct(rate_info$reset, origin = "1970-01-01")
   }
-
 }
 
 #' Get Rate limit left for GitHub Calls
@@ -423,49 +412,50 @@ rate_limit_update <- function(rate_info = NULL, auth = github_pat()){
 #' close to the limit
 #' @param quiet should messages be returned when the rate limit is zero or less than n?
 #'
-#' @return return the number of calls are remaining as a numeric values
+#' @return The number of remaining calls.
 #' @export
 #'
-#' @examples
-#'
+#' @examplesIf interactive()
 #' rate_limit_check()
-#'
-
-rate_limit_check <- function(n = 10, quiet = FALSE){
-
+rate_limit_check <- function(n = 10, quiet = FALSE) {
   RATE_REMAINING <- TT_GITHUB_ENV$RATE_REMAINING
 
-  if(length(RATE_REMAINING) == 0){
-    if(!getOption("tidytuesdayR.tt_testing", FALSE)){
+  if (!length(RATE_REMAINING)) { # nocov start
+    if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
       ## double check. No penalty for checking!
       rate_limit_update()
-    }else{
+    } else {
       message("Unable to get Github API Rate Limit. Check connectivity and run again.")
       return(0)
     }
-  }
+  } # nocov end
 
-  if(RATE_REMAINING == 0 & !quiet){
-
-    if(!getOption("tidytuesdayR.tt_testing", FALSE)){
+  if (!RATE_REMAINING && !quiet) {
+    if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
       ## double check. No penalty for checking!
-      rate_limit_update()
+      rate_limit_update() # nocov
     }
 
-    if(RATE_REMAINING == 0){
-      message("Github API Rate Limit hit. You must wait until ",
-           format(TT_GITHUB_ENV$RATE_RESET,
-                  "%Y-%m-%d %r %Z"),
-           " to make calls again!")
+    if (!RATE_REMAINING) {
+      stop(
+        "Github API Rate Limit hit. You must wait until ",
+        format(
+          TT_GITHUB_ENV$RATE_RESET,
+          "%Y-%m-%d %r %Z"
+        ),
+        " to make calls again!"
+      )
     }
-  } else if (RATE_REMAINING <= n & !quiet){
+  } else if (RATE_REMAINING <= n && !quiet) {
     message(
       paste0(
         "Only ",
         TT_GITHUB_ENV$RATE_REMAINING,
         " Github queries remaining until ",
-        format(TT_GITHUB_ENV$RATE_RESET,
-               "%Y-%m-%d %r %Z"),
+        format(
+          TT_GITHUB_ENV$RATE_RESET,
+          "%Y-%m-%d %r %Z"
+        ),
         "."
       )
     )
@@ -475,11 +465,11 @@ rate_limit_check <- function(n = 10, quiet = FALSE){
 }
 
 
-header_to_rate_info <- function(res){
+header_to_rate_info <- function(res) {
   headers <- res$headers
   rate_json <- list()
-  rate_json$limit <-  as.numeric(headers$`x-ratelimit-limit`)
-  rate_json$remaining <-  as.numeric(headers$`x-ratelimit-remaining`)
+  rate_json$limit <- as.numeric(headers$`x-ratelimit-limit`)
+  rate_json$remaining <- as.numeric(headers$`x-ratelimit-remaining`)
   rate_json$reset <- as.numeric(headers$`x-ratelimit-reset`)
   rate_json
 }
@@ -501,48 +491,51 @@ header_to_rate_info <- function(res){
 #'
 #' @importFrom jsonlite base64_enc
 #' @importFrom httr GET
+check_connectivity <- function(rerun = FALSE) {
+  internet_connection <- getOption("tidytuesdayR.tt_internet_connectivity", NA)
 
-check_connectivity <- function(rerun = FALSE){
-  internet_connection <- getOption("tidytuesdayR.tt_internet_connectivity",NA)
-
-
-  #if internet connection is not set or is false, lets try again
-  if(!getOption("tidytuesdayR.tt_testing", FALSE)){
-    if(is.na(internet_connection) | !internet_connection | rerun){
-      res <- try(GET("https://api.github.com"), silent = TRUE)
-      if(inherits(res,"try-error")){
+  # if internet connection is not set or is false, lets try again
+  if (!getOption("tidytuesdayR.tt_testing", FALSE)) {
+    if (is.na(internet_connection) | !internet_connection | rerun) {
+      res <- try(GET("https://api.github.com"), silent = TRUE) # nocov start
+      if (inherits(res, "try-error")) {
         options("tidytuesdayR.tt_internet_connectivity" = FALSE)
-      }else{
+      } else {
         options("tidytuesdayR.tt_internet_connectivity" = TRUE)
-      }
+      } # nocov end
     }
   }
 }
 
-get_connectivity <- function(){
-  getOption("tidytuesdayR.tt_internet_connectivity",NA)
+get_connectivity <- function() {
+  getOption("tidytuesdayR.tt_internet_connectivity", NA)
 }
 
 #' @importFrom stats na.omit
 request_error <- function(status_code, message, class = NA) {
-  structure(list(message = message,
-                 status_code = status_code),
-            class = na.omit(c(class, "tt_response")))
+  structure(
+    list(
+      message = message,
+      status_code = status_code
+    ),
+    class = na.omit(c(class, "tt_response"))
+  )
 }
 
 #' @importFrom jsonlite base64_enc
-no_internet_error <- function(){
+no_internet_error <- function() {
   request_error(
-  status_code = -1,
-  "No Internet Connection",
-  "tt.gh_connectivityError"
-)}
+    status_code = -1,
+    "No Internet Connection",
+    "tt.gh_connectivityError"
+  )
+}
 
 #' @importFrom jsonlite base64_enc
-rate_limit_error <- function() {
+rate_limit_error <- function() { # nocov start
   request_error(
     status_code = -2,
     "RATE LIMIT EXPIRED",
     "tt.gh_RateLimitError"
   )
-}
+} # nocov end

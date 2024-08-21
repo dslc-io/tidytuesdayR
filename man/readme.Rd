@@ -17,10 +17,10 @@ Does not return anything. Used to show readme of the downloaded
 Readme HTML maker and Viewer
 }
 \examples{
-\donttest{
-if(rate_limit_check(quiet = TRUE) > 30 & interactive()){
-tt_output <- tt_load_gh("2019-01-15")
-readme(tt_output)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+if (rate_limit_check(quiet = TRUE) > 30) {
+  tt_output <- tt_load_gh("2019-01-15")
+  readme(tt_output)
 }
-}
+\dontshow{\}) # examplesIf}
 }

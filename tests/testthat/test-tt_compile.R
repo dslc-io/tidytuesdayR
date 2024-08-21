@@ -1,5 +1,3 @@
-context("Compile Files and Readme for the Week ")
-
 tt_ref_test_that("Check that tt_compile lists all files for the date", {
   check_api()
 
@@ -7,23 +5,22 @@ tt_ref_test_that("Check that tt_compile lists all files for the date", {
 
   expect_equal(
     tt_c$files$data_files,
-    c("agencies.csv","launches.csv")
+    c("agencies.csv", "launches.csv")
   )
 
   expect_equal(
     tt_c$files$data_type,
-    c("csv","csv")
+    c("csv", "csv")
   )
 
   expect_equal(
     tt_c$files$delim,
-    c(",",",")
+    c(",", ",")
   )
 
   expect_true(
     !is.null(tt_c$readme)
   )
-
 })
 
 tt_ref_test_that("Check that tt_compile returns NULL for missing readme's", {
@@ -45,5 +42,4 @@ tt_ref_test_that("Check that tt_compile returns NULL for missing readme's", {
   expect_true(
     is.null(tt_c$readme)
   )
-
 })
