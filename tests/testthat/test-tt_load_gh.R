@@ -1,226 +1,174 @@
-# check that correct data are returned
-tt_ref_test_that(
-  "tt_load_gh returns tt object when provided proper date",
-  {
-    check_api()
+test_that("tt_compile lists all files for the date", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  tt_c <- tt_compile("2019-01-15")
+  expect_equal(
+    tt_c$files$data_files,
+    c("agencies.csv", "launches.csv")
+  )
+  expect_equal(
+    tt_c$files$data_type,
+    c("csv", "csv")
+  )
+  expect_equal(
+    tt_c$files$delim,
+    c(",", ",")
+  )
+  expect_true(
+    !is.null(tt_c$readme)
+  )
+})
 
-    expect_message(
-      {
-        expect_message(
-          {tt <- tt_load_gh("2019-01-15")},
-          "Compiling #TidyTuesday"
-        )
-      },
-      "There are 2 files"
-    )
+test_that("tt_compile returns NULL for missing readme's", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_warning(
+    {tt_c <- tt_compile("2018-04-02")},
+    "No readme found",
+    class = "tt-warning-no_readme"
+  )
 
-    testthat::expect_s3_class(tt, "tt")
-    testthat::expect_equal(
-      attr(tt, ".files")$data_files,
-      c("agencies.csv", "launches.csv")
-    )
-  }
-)
+  expect_equal(
+    tt_c$files$data_files,
+    "us_avg_tuition.xlsx"
+  )
+  expect_equal(
+    tt_c$files$data_type,
+    "xlsx"
+  )
+  expect_true(
+    is.na(tt_c$files$delim)
+  )
+  expect_true(
+    is.null(tt_c$readme)
+  )
+})
 
-# check that correct data are returned
-tt_ref_test_that(
-  "tt_load_gh returns tt object when provided proper year and TT week number",
-  {
-    check_api()
-    expect_message(
-      {
-        expect_message(
-          {tt <- tt_load_gh(2019, 3)},
-          "Compiling #TidyTuesday"
-        )
-      },
-      "There are 2 files"
-    )
-
-    testthat::expect_s3_class(tt, "tt")
-    testthat::expect_equal(
-      attr(tt, ".files")$data_files,
-      c("agencies.csv", "launches.csv")
-    )
-  }
-)
-
-
-# check that errors are returned
-tt_ref_test_that(
-  "tt_load_gh returns error when incorrect date",
-  {
-    check_api()
-    nullout <- capture.output({
-      testthat::expect_error(
-        tt_load_gh("2019-01-16"),
-        "is not a date that has TidyTuesday data"
+test_that("tt_load_gh returns tt object when provided proper date", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_message(
+    {
+      expect_message(
+        {tt <- tt_load_gh("2019-01-15")},
+        "Compiling #TidyTuesday"
       )
-    })
-  }
-)
-tt_ref_test_that(
-  "tt_load_gh returns error when incorrect years or week number entries",
-  {
-    check_api()
+    },
+    "There are 2 files"
+  )
+  expect_s3_class(tt, "tt")
+  expect_equal(
+    attr(tt, ".files")$data_files,
+    c("agencies.csv", "launches.csv")
+  )
+})
 
-    testthat::expect_error(
-      tt_load_gh(2018, 92),
-      "'92' is not a valid TidyTuesday week entry for"
-    )
-    testthat::expect_error(
-      tt_load_gh(2017, 92),
-      "TidyTuesday did not exist for"
-    )
-  }
-)
-# check that error is thrown when requesting data from a week that did not
-# exist for that year
-tt_ref_test_that(
-  "tt_load_gh returns tt object when provided proper year and TT week number",
-  {
-    check_api()
-    testthat::expect_error(
-      tt_load_gh(2020, 1),
-      "does not have data available for download from github"
-    )
-  }
-)
-
-tt_ref_test_that(
-  "tt_load_gh returns error when incorrect years or week number entries",
-  {
-    check_api()
-    expect_error(
-      tt_load_gh(2018, 92),
-      "'92' is not a valid TidyTuesday week entry for"
-    )
-    expect_error(
-      tt_load_gh(2017, 92),
-      "TidyTuesday did not exist for"
-    )
-  }
-)
-
-tt_ref_test_that(
-  "tt_load_gh returns error when incorrect years or week number entries",
-  {
-    check_api()
-    expect_error(
-      tt_load_gh(2018, 92),
-      "'92' is not a valid TidyTuesday week entry for"
-    )
-    expect_error(
-      tt_load_gh(2017, 92),
-      "TidyTuesday did not exist for"
-    )
-  }
-)
-
-tt_ref_test_that(
-  "tt_load_gh returns error when nothing is entered",
-  {
-    check_api()
-    expect_error(
-      tt_load_gh(),
-      "Enter either the year or date of the TidyTuesday Data"
-    )
-  }
-)
-
-tt_ref_test_that(
-  paste(
-    "tt_load_gh returns error when week is not",
-    "a valid entry between 1 and n weeks"
-  ),
-  {
-    check_api()
-    testthat::expect_error(
-      tt_load_gh(2019, 0),
-      "Week entry must be a valid positive integer value."
-    )
-  }
-)
-
-# test driven dev, new feature to add
-tt_ref_test_that(
-  "Returns simple list of object when no readme.md available",
-  {
-    check_api()
-    expect_message(
-      {
-        expect_message(
-          {tt <- tt_load_gh("2018-04-09")},
-          "Compiling #TidyTuesday"
-        )
-      },
-      "There is 1 file"
-    )
-    expect_s3_class(tt, "tt")
-    expect_true(length(attr(tt, ".readme")) == 0) # object should not exist
-  }
-)
-
-tt_ref_test_that(
-  "tt_load_gh ignores extra files/diretory paths",
-  {
-    check_api()
-    expect_message(
-      {
-        expect_message(
-          {tt_obj <- tt_load_gh("2019-04-02")},
-          "Compiling #TidyTuesday"
-        )
-      },
-      "There is 1 file"
-    )
-    expect_message(
-      {
-        expect_message(
-          {tt_obj_2 <- tt_load_gh("2019-04-09")},
-          "Compiling #TidyTuesday"
-        )
-      },
-      "There are 3 files"
-    )
-
-    expect_equal(length(tt_obj), 1)
-    expect_equal(tt_obj[1], "bike_traffic.csv")
-
-    expect_equal(length(tt_obj_2), 3)
-    expect_equal(
-      tt_obj_2[1:3],
-      c(
-        "grand_slam_timeline.csv",
-        "grand_slams.csv",
-        "player_dob.csv"
+test_that("tt_load_gh returns tt object when provided proper year and TT week number", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_message(
+    {
+      expect_message(
+        {tt <- tt_load_gh(2019, 3)},
+        "Compiling #TidyTuesday"
       )
+    },
+    "There are 2 files"
+  )
+  expect_s3_class(tt, "tt")
+  expect_equal(
+    attr(tt, ".files")$data_files,
+    c("agencies.csv", "launches.csv")
+  )
+})
+
+test_that("tt_load_gh errors when incorrect date", {
+  local_tt_master_file()
+  expect_error(
+    tt_load_gh("2019-01-16"),
+    class = "tt-error-invalid_date"
+  )
+})
+
+test_that("tt_load_gh returns list of object when no readme.md available", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_message(
+    {
+      expect_message(
+        {
+          expect_warning(
+            {tt <- tt_load_gh("2018-04-09")},
+            class = "tt-warning-no_readme"
+          )
+        },
+        "Compiling #TidyTuesday"
+      )
+    },
+    "There is 1 file"
+  )
+  expect_s3_class(tt, "tt")
+  expect_true(length(attr(tt, ".readme")) == 0) # object should not exist
+})
+
+test_that("tt_load_gh ignores extra files/diretory paths", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_message(
+    {
+      expect_message(
+        {tt_obj <- tt_load_gh("2019-04-02")},
+        "Compiling #TidyTuesday"
+      )
+    },
+    "There is 1 file"
+  )
+  expect_equal(length(tt_obj), 1)
+  expect_equal(tt_obj[1], "bike_traffic.csv")
+
+  expect_message(
+    {
+      expect_message(
+        {tt_obj_2 <- tt_load_gh("2019-04-09")},
+        "Compiling #TidyTuesday"
+      )
+    },
+    "There are 3 files"
+  )
+  expect_equal(length(tt_obj_2), 3)
+  expect_equal(
+    tt_obj_2[1:3],
+    c(
+      "grand_slam_timeline.csv",
+      "grand_slams.csv",
+      "player_dob.csv"
     )
-  }
-)
+  )
+})
 
-tt_ref_test_that(
-  "tt_load_gh finds all the files in the readme",
-  {
-    check_api()
-    expect_message(
-      {
-        expect_message(
-          {tt_obj <- tt_load_gh("2020-04-21")},
-          "Compiling #TidyTuesday"
-        )
-      },
-      "There are 2 files"
-    )
+test_that("tt_load_gh works with tsvs", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_message(
+    {
+      expect_message(
+        {tt_obj <- tt_load_gh("2020-04-21")},
+        "Compiling #TidyTuesday"
+      )
+    },
+    "There are 2 files"
+  )
 
-    expect_equal(length(tt_obj), 2)
-    expect_equal(tt_obj[1:2], c("gdpr_text.tsv", "gdpr_violations.tsv"))
-  }
-)
+  expect_equal(length(tt_obj), 2)
+  expect_equal(tt_obj[1:2], c("gdpr_text.tsv", "gdpr_violations.tsv"))
+})
 
-tt_no_internet_test_that("When there is no internet, returns NULL", {
-  message <- capture_messages(tt_obj <- tt_load_gh("2018-04-02"))
-
-  expect_equal(message, "Warning - No Internet Connectivity\n")
-  expect_true(is.null(tt_obj))
+test_that("print.tt lists all the available files for the weeks tt", {
+  local_tt_master_file()
+  local_tt_week_readme_html()
+  expect_message(expect_message({tt <- tt_load_gh("2019-01-15")}))
+  expect_snapshot({
+    test_result <- print(tt)
+  })
+  expect_identical(test_result, tt)
 })

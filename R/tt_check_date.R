@@ -5,11 +5,11 @@
 #' to get the correct date
 #'
 #' @inheritParams gh_get
+#' @inheritParams shared-params
 #' @param year What year of TidyTuesday to use
-#' @param week What week of Tidytuesday to use
 #' @examplesIf interactive()
 #' tt_date(2019, week = 42)
-tt_date <- function(year, week, auth = gh::gh_token()) {
+tt_date <- function(year, week = NULL, auth = gh::gh_token()) {
   tt_check_date(year, week, auth = auth)
 }
 
@@ -18,12 +18,16 @@ tt_date <- function(year, week, auth = gh::gh_token()) {
 #' Given multiple types of inputs, generate a valid TidyTuesday URL.
 #'
 #' @inheritParams gh_get
-#' @param x either a string or numeric entry indicating the full date of the
-#'   dataset.
-#' @param week left empty unless x is a numeric year entry, in which case the
-#'   week of interest should be entered
+#' @inheritParams shared-params
 #' @keywords internal
-tt_check_date <- function(x, week, auth = gh::gh_token()) {
+tt_check_date <- function(x, week = NULL, auth = gh::gh_token()) {
+  if (missing(x)) {
+    cli::cli_abort(
+      "Provide either the year & week or the date of the TidyTuesday dataset.",
+      class = "tt-error-invalid_date"
+    )
+  }
+
   if (valid_date(x)) {
     tt_check_date.date(x, auth = auth)
   } else if (valid_year(x)) {
@@ -125,10 +129,9 @@ tt_years <- function(auth = gh::gh_token()) {
   unique(tt_master_file(auth = auth)$year)
 }
 
-#' @importFrom lubridate as_date is.Date
 valid_date <- function(x) {
   suppressWarnings({
-    !is.na(lubridate::as_date(as.character(x))) | lubridate::is.Date(x)
+    lubridate::is.Date(x) || !is.na(lubridate::as_date(as.character(x)))
   })
 }
 
@@ -138,7 +141,6 @@ valid_year <- function(x) {
   })
 }
 
-#' @importFrom lubridate year month day ymd
 tt_date_format <- function(x) {
   lubridate::ymd(paste0(
     lubridate::year(x),

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="file" class="md" data-path="data/2019/2019-04-02/readme.md"><article class="markdown-body entry-content container-lg" itemprop="text"><div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Seattle Bike Counters</h1>
+<a id="user-content-seattle-bike-counters" class="anchor" aria-label="Permalink: Seattle Bike Counters" href="#seattle-bike-counters"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">"Seattle Department of Transportation has 12 bike counters (four of which also count pedestrians) located on neighborhood greenways, multi-use trails, at the Fremont  Bridge and on SW Spokane Street. The counters are helping us create a ridership baseline in 2014 that can be used to assess future years and make sure our investments are helping us to reach our goal of quadrupling ridership by 2030. Read our <a href="http://www.seattle.gov/transportation/document-library/citywide-plans/modal-plans/bicycle-master-plan" rel="nofollow">Bicycle Master Plan</a> to learn more about what Seattle is doing to create a citywide bicycle network."</p>
+<p dir="auto">The Seattle Times recently covered <a href="https://www.seattletimes.com/seattle-news/transportation/what-we-can-learn-from-seattles-bike-counter-data/" rel="nofollow">What we can learn from Seattle's bike-counter data</a>. They have some elegant data-visualizations there!</p>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Get the Data!</h1>
+<a id="user-content-get-the-data" class="anchor" aria-label="Permalink: Get the Data!" href="#get-the-data"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content='bike_traffic &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-02/bike_traffic.csv")'><pre class="notranslate"><code>bike_traffic &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-02/bike_traffic.csv")
+</code></pre></div>
+<div class="markdown-heading" dir="auto">
+<h3 class="heading-element" dir="auto">Data Dictionary</h3>
+<a id="user-content-data-dictionary" class="anchor" aria-label="Permalink: Data Dictionary" href="#data-dictionary"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">date</td>
+<td align="left">date (mdy hms am/pm)</td>
+<td align="left">Date of data upload</td>
+</tr>
+<tr>
+<td align="left">crossing</td>
+<td align="left">character</td>
+<td align="left">The Street crossing/intersection</td>
+</tr>
+<tr>
+<td align="left">direction</td>
+<td align="left">character</td>
+<td align="left">North/South/East/West - varies by crossing</td>
+</tr>
+<tr>
+<td align="left">bike_count</td>
+<td align="left">double</td>
+<td align="left">Number of bikes counted for each hour window</td>
+</tr>
+<tr>
+<td align="left">ped_count</td>
+<td align="left">double</td>
+<td align="left">Number of pedestrians counted for each hour window</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table></article></div></body></html>

@@ -1,21 +1,10 @@
-#' @title  Load TidyTuesday data from Github
+#' Load TidyTuesday data from Github
 #'
-#' @description Pulls the readme and URLs of the data from the TidyTuesday
+#' Pulls the readme and URLs of the data from the TidyTuesday
 #' github folder based on the date provided
 #'
-#' @param x string representation of the date of data to pull, in
-#' YYYY-MM-dd format, or just numeric entry for year
-#' @param week left empty unless x is a numeric year entry, in which case the
-#'  week of interest should be entered
-#' @param auth github Personal Access Token. See PAT section for more
-#' information
-#'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed
-#' from 60 to 5000. Follow instructions from
-#' <https://happygitwithr.com/github-pat.html> to set the PAT.
+#' @inheritParams gh_get
+#' @inheritParams shared-params
 #'
 #' @return a 'tt' object. This contains the files available for the week,
 #'  readme html, and the date of the TidyTuesday.
@@ -32,53 +21,19 @@
 #'     files = "agencies.csv"
 #'   )
 #' }
-tt_load_gh <- function(x, week, auth = github_pat()) {
-  ## check internet connectivity and rate limit
-  if (!get_connectivity()) {
-    check_connectivity(rerun = TRUE)
-    if (!get_connectivity()) {
-      message("Warning - No Internet Connectivity")
-      return(NULL)
-    }
-  }
+tt_load_gh <- function(x, week = NULL, auth = gh::gh_token()) {
+  # Need the date before we start messaging.
+  tt_date <- tt_check_date(x, week, auth = auth)
 
-  ## Check Rate Limit
-  if (rate_limit_check() == 0) {
-    return(NULL) # nocov
-  }
+  cli::cli_inform(
+    "---- Compiling #TidyTuesday Information for {tt_date} ----"
+  )
 
-  if (missing(x)) {
-    on.exit({
-      tt_available(auth = auth)
-    })
-    stop("Enter either the year or date of the TidyTuesday Data to extract!")
-  }
-
-  # Check Dates
-  tt_date <- tt_check_date(x, week)
-
-  message("--- Compiling #TidyTuesday Information for ", tt_date, " ----")
-
-  # Find Files and extract readme
   tt_compilation <- tt_compile(tt_date)
-
-  n_files <- as.character(nrow(tt_compilation$files))
-
-  are_is <- switch(n_files,
-    "0" = "are",
-    "1" = "is",
-    "are"
+  n_files <- NROW(tt_compilation$files)
+  cli::cli_inform(
+    "--- There {cli::qty(n_files)} {?are/is/are} {n_files} file{?s} available ---"
   )
-
-  file_s <- switch(n_files,
-    "0" = "files",
-    "1" = "file",
-    "files"
-  )
-
-  n_files <- ifelse(n_files == 0, "no", n_files)
-
-  message("--- There ", are_is, " ", n_files, " ", file_s, " available ---")
 
   structure(
     tt_compilation$files$data_files,
@@ -87,4 +42,42 @@ tt_load_gh <- function(x, week, auth = github_pat()) {
     ".date" = tt_date,
     class = "tt"
   )
+}
+
+#' Get TidyTuesday readme and list of files and HTML based on the date
+#'
+#' @inheritParams gh_get
+#' @param date date of TidyTuesday of interest
+#'
+#' @keywords internal
+tt_compile <- function(date, auth = gh::gh_token()) {
+  files <- tt_week_data_files(date, auth = auth)
+  readme <- tt_week_readme_html(date, auth = auth)
+  list(
+    files = files,
+    readme = readme
+  )
+}
+
+tt_week_data_files <- function(date, auth = gh::gh_token()) {
+  ttmf <- tt_master_file()
+  ttmf[ttmf$Date == date, c("data_files", "data_type", "delim")]
+}
+
+tt_week_readme_html <- function(date, auth = gh::gh_token()) {
+  gh_get_readme_html(
+    file.path("data", lubridate::year(date), date),
+    auth = auth
+  )
+}
+
+#' @rdname printing
+#' @export
+#' @return `x`, invisibly.
+print.tt <- function(x, ...) {
+  message(
+    "Available datasets in this TidyTuesday:\n\t",
+    paste(attr(x, ".files")$data_files, "\n\t", collapse = "")
+  )
+  invisible(x)
 }

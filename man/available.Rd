@@ -11,19 +11,16 @@ tt_available(auth = gh::gh_token())
 tt_datasets(year, auth = gh::gh_token())
 }
 \arguments{
-\item{auth}{github Personal Access Token. See PAT section for
-more information}
-
 \item{year}{numeric entry representing the year of TidyTuesday you want the
 list of datasets for. Leave empty for most recent year.}
 }
 \value{
-`tt_available()` returns a 'tt_dataset_table_list', which is a
+\code{tt_available()} returns a 'tt_dataset_table_list', which is a
 list of 'tt_dataset_table'. This class has special printing methods to show
 the available data sets.
 
-`tt_datasets()` returns a 'tt_dataset_table' object. This class has
- special printing methods to show the available datasets for the year.
+\code{tt_datasets()} returns a 'tt_dataset_table' object. This class has
+special printing methods to show the available datasets for the year.
 }
 \description{
 The TidyTuesday project is a constantly growing repository of data sets.
@@ -34,12 +31,12 @@ created to help maintain this philosophy.
 }
 \details{
 To find out the available datasets for a specific year, the user
-can use the function `tt_datasets()`. This function will either populate the
+can use the function \code{tt_datasets()}. This function will either populate the
 Viewer or print to console all the available data sets and the week/date
 they are associated with.
 
 To get the whole list of all the data sets ever released by TidyTuesday, the
-function `tt_available()` was created. This function will either populate the
+function \code{tt_available()} was created. This function will either populate the
 Viewer or print to console all the available data sets ever made for
 TidyTuesday.
 }
@@ -49,7 +46,7 @@ TidyTuesday.
 A Github PAT is a Personal Access Token. This allows for signed queries to
 the github api, and increases the limit on the number of requests allowed
 from 60 to 5000. Follow instructions at
-<https://happygitwithr.com/github-pat.html> to set your PAT.
+\url{https://happygitwithr.com/github-pat.html} to set your PAT.
 }
 
 \examples{

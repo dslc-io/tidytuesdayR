@@ -11,7 +11,7 @@ readme(tt)
 }
 \value{
 Null, invisibly. Used to show readme of the downloaded TidyTuesday
-  dataset in the Viewer.
+dataset in the Viewer.
 }
 \description{
 Readme HTML maker and Viewer

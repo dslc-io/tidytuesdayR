@@ -1,6 +1,4 @@
-tt_ref_test_that("last_tuesday will give you the most recent tuesday", {
-  check_api()
-
+test_that("last_tuesday will give you the most recent tuesday", {
   ## Look backwards to the last tt
   date_1 <- as.Date("2020-01-01")
   last_tuesday_1 <- last_tuesday(date_1)
@@ -27,25 +25,15 @@ tt_ref_test_that("last_tuesday will give you the most recent tuesday", {
   )
 })
 
-
-tt_ref_test_that("tt_date will give you the date of the tuesday", {
-  check_api()
-
-  ## Look backwards to the last tt
-  refdate1 <- tt_date(2018, week = 1)
-  refdate2 <- tt_date(2019, week = 1)
-  refdate3 <- tt_date(2020, week = 2) # no data available for week 1!
-
-  expect_equal(
-    refdate1,
-    as.Date("2018-04-02")
+test_that("last_tuesday errors with bad dates", {
+  expect_error(
+    {last_tuesday("blue")},
+    "cannot be coerced",
+    class = "tt-error-invalid_date"
   )
-  expect_equal(
-    refdate2,
-    as.Date("2019-01-01")
-  )
-  expect_equal(
-    refdate3,
-    as.Date("2020-01-07")
+  expect_error(
+    {last_tuesday(1)},
+    "cannot be coerced",
+    class = "tt-error-invalid_date"
   )
 })

@@ -8,8 +8,6 @@ should_update_tt_master_file(force = FALSE, auth = gh::gh_token())
 }
 \arguments{
 \item{force}{force the update to occur even if the SHA matches}
-
-\item{auth}{A GitHub token see [gh::gh_token()] for more details.}
 }
 \value{
 Boolean indicating whether the master file should be updated.

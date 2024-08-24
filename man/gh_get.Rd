@@ -9,12 +9,10 @@ gh_get(path, auth = gh::gh_token(), ...)
 \arguments{
 \item{path}{Path within the rfordatascience/tidytuesday repo.}
 
-\item{auth}{A GitHub token see [gh::gh_token()] for more details.}
-
-\item{...}{Additional parameters passed to [gh::gh()].}
+\item{...}{Additional parameters passed to \code{\link[gh:gh]{gh::gh()}}.}
 }
 \value{
-The GitHub response as parsed by [gh::gh()].
+The GitHub response as parsed by \code{\link[gh:gh]{gh::gh()}}.
 }
 \description{
 Get data from the tt github repo.

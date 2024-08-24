@@ -2,36 +2,26 @@
 % Please edit documentation in R/tt_download_file.R
 \name{tt_download_file}
 \alias{tt_download_file}
-\title{Reads in TidyTuesday datasets from Github repo}
+\title{Download a TidyTuesday dataset file}
 \usage{
-tt_download_file(tt, x, ..., auth = github_pat())
+tt_download_file(tt, x, ..., auth = gh::gh_token())
 }
 \arguments{
-\item{tt}{tt_gh object from tt_load_gh function}
+\item{tt}{A \code{tt} object, output from \code{\link[=tt_load_gh]{tt_load_gh()}}.}
 
-\item{x}{index or name of data object to read in. string or int}
+\item{x}{Index or name of file to download.}
 
-\item{...}{pass methods to the parsing functions. These will be passed to
-ALL files, so be careful.}
+\item{...}{Additional parameters to pass to the parsing functions. Note:
+These arguments will be passed for all filetypes.}
 
-\item{auth}{github Personal Access Token. See PAT section for more
-information}
+\item{auth}{A GitHub token. See \code{\link[gh:gh_token]{gh::gh_token()}} for more details.}
 }
 \value{
 tibble containing the contents of the file downloaded from git
 }
 \description{
-Reads in the actual data from the TidyTuesday github
+Download an actual data file from the TidyTuesday github repository.
 }
-\section{PAT}{
-
-
-A Github PAT is a personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed
-from 60 to 5000. Follow instructions at
-<https://happygitwithr.com/github-pat.html> to set the PAT.
-}
-
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 tt_gh <- tt_load_gh("2019-01-15")

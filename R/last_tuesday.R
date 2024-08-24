@@ -12,7 +12,12 @@
 #'
 #' @export
 last_tuesday <- function(date = today(tzone = "America/New_York")) {
-  stopifnot(inherits(date, "Date") | valid_date(date))
+  if (!valid_date(date)) {
+    cli::cli_abort(
+      "{.val {date}} cannot be coerced to a {.cls Date}.",
+      class = "tt-error-invalid_date"
+    )
+  }
   date <- as.Date(tt_date_format(date))
   diff_tuesday <- subtract_tuesday(date)
   tuesday <- date + diff_tuesday
@@ -35,8 +40,4 @@ subtract_tuesday <- function(date) {
     diff_tuesday <- diff_tuesday + 7
   }
   diff_tuesday
-}
-
-tt_date <- function(x, week) {
-  tt_check_date(year, week)
 }

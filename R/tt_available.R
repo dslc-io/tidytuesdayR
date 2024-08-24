@@ -30,8 +30,6 @@
 #'
 #' @param year numeric entry representing the year of TidyTuesday you want the
 #' list of datasets for. Leave empty for most recent year.
-#' @param auth github Personal Access Token. See PAT section for
-#' more information
 #'
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
@@ -46,6 +44,7 @@
 NULL
 
 #' @rdname available
+#' @inheritParams gh_get
 #' @export
 #' @return `tt_available()` returns a 'tt_dataset_table_list', which is a
 #' list of 'tt_dataset_table'. This class has special printing methods to show
@@ -65,8 +64,13 @@ tt_available <- function(auth = gh::gh_token()) {
 #'  special printing methods to show the available datasets for the year.
 tt_datasets <- function(year, auth = gh::gh_token()) {
   tt_check_year(year, auth = auth)
+
+  ##############################################################################
+  ## This portion changes if the dataset tables move, but it doesn't make sense
+  ## to abstract it into a separate function.
   readme_html <- gh_get_readme_html(file.path("data", year), auth = auth)
   datasets <- rvest::html_table(readme_html)[[1]]
+  ##############################################################################
 
   structure(datasets,
     .html = readme_html,

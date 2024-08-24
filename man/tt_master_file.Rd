@@ -8,8 +8,6 @@ tt_master_file(force = FALSE, auth = gh::gh_token())
 }
 \arguments{
 \item{force}{force the update to occur even if the SHA matches}
-
-\item{auth}{A GitHub token see [gh::gh_token()] for more details.}
 }
 \value{
 The tt master file, updated if necessary.

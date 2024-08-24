@@ -27,7 +27,7 @@ test_that("tt_available returns object with all years data available", {
       2019:2020
     },
     gh_get_readme_html = function(...) {
-      xml2::read_html(test_path("fixtures", "year_readme.html"))
+      xml2::read_html(test_path("fixtures", "readme2020.html"))
     }
   )
   ds <- tt_available()
@@ -67,7 +67,7 @@ test_that("tt_dataset_table and tt_dataset_table_list objects can make html outp
       2019:2020
     },
     gh_get_readme_html = function(...) {
-      xml2::read_html(test_path("fixtures", "year_readme.html"))
+      xml2::read_html(test_path("fixtures", "readme2020.html"))
     }
   )
   ds_tl <- tt_available()

@@ -1,72 +1,14 @@
-tt_data <- structure(
-  list(
-    value1 = "value1",
-    value2 = "value2"
-  ),
-  .tt = structure(
-    c("value1.csv", "value2.csv"),
-    .files = c("value1.csv", "value2.csv"),
-    .readme = NULL,
-    class = "tt_gh"
-  ),
-  class = "tt_data"
-)
-
-tt_ref_test_that("print.tt_data lists the available datasets", {
-  tt_data <- structure(
-    list(
-      value1 = "value1",
-      value2 = "value2"
-    ),
-    .tt = structure(
-      c("value1.csv", "value2.csv"),
-      .files = c("value1.csv", "value2.csv"),
-      .url = "fake_url",
-      .readme = NULL,
-      class = "tt_gh"
-    ),
-    class = "tt_data"
-  )
-
-  expect_snapshot({
-    test_result <- print(tt_data)
-  })
-
-  expect_identical(test_result, tt_data)
-})
-
-tt_ref_test_that("print.tt lists all the available files for the weeks tt", {
-  check_api()
-
-  expect_message(
-    {
-      expect_message(
-        {tt_obj <- tt_load_gh(2019, week = 16)},
-        "Compiling #TidyTuesday"
-      )
-    },
-    "There are 7 files"
-  )
-
-  expect_snapshot({
-    test_result <- print(tt_obj)
-  })
-
-  expect_identical(test_result, tt_obj)
-})
-
 test_that("html_viewer returns NULL when running not in interactive mode", {
   res <- html_viewer("www.google.com", is_interactive = FALSE)
-
   expect_equal(res, NULL)
 })
 
 test_that("html_viewer works in interactive mode", {
   local_mocked_bindings(
-    isAvailable = function() {
+    rstudio_is_available = function() {
       return(TRUE)
     },
-    viewer = function(url) {
+    rstudio_viewer = function(url) {
       return("viewer")
     },
     browse_url = function(url) {
@@ -79,7 +21,7 @@ test_that("html_viewer works in interactive mode", {
   )
 
   local_mocked_bindings(
-    isAvailable = function() {
+    rstudio_is_available = function() {
       return(FALSE)
     }
   )

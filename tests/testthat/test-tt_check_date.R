@@ -52,6 +52,15 @@ test_that("invalid entries are flagged", {
   )
 })
 
+test_that("tt_check_year checks years", {
+  local_tt_master_file()
+  expect_error(
+    tt_check_year(2015),
+    "did not exist",
+    class = "tt-error-invalid_year"
+  )
+})
+
 test_that("tt_date also works", {
   # This is mostly just a wrapper around tt_check_date(), so most tests are
   # handled above.
@@ -63,11 +72,11 @@ test_that("tt_date also works", {
   expect_equal(tt_date_2, as.Date("2019-04-02"))
 })
 
-test_that("tt_check_year checks years", {
+test_that("tt_check_date errors informatively with no args", {
   local_tt_master_file()
   expect_error(
-    tt_check_year(2015),
-    "did not exist",
-    class = "tt-error-invalid_year"
+    {tt_check_date()},
+    "Provide either",
+    class = "tt-error-invalid_date"
   )
 })

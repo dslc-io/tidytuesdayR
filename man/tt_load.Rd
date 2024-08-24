@@ -4,47 +4,35 @@
 \alias{tt_load}
 \title{Load TidyTuesday data from Github}
 \usage{
-tt_load(x, week, download_files = "All", ..., auth = github_pat())
+tt_load(x, week = NULL, files = "All", ..., auth = gh::gh_token())
 }
 \arguments{
-\item{x}{string representation of the date of data to pull, in YYYY-MM-dd
-format, or just numeric entry for year}
+\item{x}{The date of data to pull (in "YYYY-MM-dd" format), or the four-digit
+year as a number.}
 
-\item{week}{left empty unless x is a numeric year entry, in which case the
-week of interest should be entered}
+\item{week}{Which week number to use within a given year. Only used when \code{x}
+is a valid year.}
 
-\item{download_files}{which files to download from repo. defaults and
-assumes "All" for the week.}
+\item{files}{Which file names to download. Default "All" downloads all files
+for the specified week.}
 
-\item{...}{pass methods to the parsing functions. These will be passed to
-ALL files, so be careful.}
+\item{...}{Additional parameters to pass to the parsing functions. Note:
+These arguments will be passed for all filetypes.}
 
-\item{auth}{github Personal Access Token. See PAT section for more
-information}
+\item{auth}{A GitHub token. See \code{\link[gh:gh_token]{gh::gh_token()}} for more details.}
 }
 \value{
-tt_data object, which contains data that can be accessed via `$`,
- and the readme for the weeks TidyTuesday through printing the object or
- calling `readme()`
+\code{tt_data} object, which contains data that can be accessed via \code{$},
+and the readme for the week's TidyTuesday, which can be viewed by printing
+the object or calling \code{\link[=readme]{readme()}}.
 }
 \description{
 Load TidyTuesday data from Github
 }
-\section{PAT}{
-
-A Github PAT is a personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed
-from 60 to 5000. Follow instructions from
-<https://happygitwithr.com/github-pat.html> to set the PAT.
-}
-
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# check to make sure there are requests still available
-if (rate_limit_check(quiet = TRUE) > 30) {
-  tt_output <- tt_load("2019-01-15")
-  tt_output
-  agencies <- tt_output$agencies
-}
+tt_output <- tt_load("2019-01-15")
+tt_output
+agencies <- tt_output$agencies
 \dontshow{\}) # examplesIf}
 }

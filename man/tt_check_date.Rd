@@ -4,16 +4,16 @@
 \alias{tt_check_date}
 \title{Generate valid TidyTuesday URL}
 \usage{
-tt_check_date(x, week, auth = gh::gh_token())
+tt_check_date(x, week = NULL, auth = gh::gh_token())
 }
 \arguments{
-\item{x}{either a string or numeric entry indicating the full date of the
-dataset.}
+\item{x}{The date of data to pull (in "YYYY-MM-dd" format), or the four-digit
+year as a number.}
 
-\item{week}{left empty unless x is a numeric year entry, in which case the
-week of interest should be entered}
+\item{week}{Which week number to use within a given year. Only used when \code{x}
+is a valid year.}
 
-\item{auth}{A GitHub token see [gh::gh_token()] for more details.}
+\item{auth}{A GitHub token. See \code{\link[gh:gh_token]{gh::gh_token()}} for more details.}
 }
 \description{
 Given multiple types of inputs, generate a valid TidyTuesday URL.

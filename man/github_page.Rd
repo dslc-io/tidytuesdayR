@@ -13,7 +13,7 @@ github_page(page_content)
 xml_document with github header
 }
 \description{
-Provide the necessary <head> section to wrap around raw html content read
+Provide the necessary \if{html}{\out{<head>}} section to wrap around raw html content read
 from github. This is only actually used locally for printing, and may not be
 necessary anymore.
 }
