@@ -6,9 +6,9 @@
 \alias{tt_datasets}
 \title{Listing all available TidyTuesdays}
 \usage{
-tt_available(auth = github_pat())
+tt_available(auth = gh::gh_token())
 
-tt_datasets(year, auth = github_pat())
+tt_datasets(year, auth = gh::gh_token())
 }
 \arguments{
 \item{auth}{github Personal Access Token. See PAT section for

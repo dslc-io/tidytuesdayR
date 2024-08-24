@@ -10,8 +10,8 @@ readme(tt)
 \item{tt}{tt_data object for printing}
 }
 \value{
-Does not return anything. Used to show readme of the downloaded
- TidyTuesday dataset in the Viewer.
+Null, invisibly. Used to show readme of the downloaded TidyTuesday
+  dataset in the Viewer.
 }
 \description{
 Readme HTML maker and Viewer

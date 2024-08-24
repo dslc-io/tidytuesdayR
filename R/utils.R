@@ -43,13 +43,13 @@ print.tt <- function(x, ...) {
   invisible(x)
 }
 
-#' @title Readme HTML maker and Viewer
+#' Readme HTML maker and Viewer
+#'
 #' @param tt tt_data object for printing
-#' @importFrom xml2 write_html
-#' @return NULL
+#'
+#' @return Null, invisibly. Used to show readme of the downloaded TidyTuesday
+#'   dataset in the Viewer.
 #' @export
-#' @return Does not return anything. Used to show readme of the downloaded
-#'  TidyTuesday dataset in the Viewer.
 #' @examplesIf interactive()
 #' if (rate_limit_check(quiet = TRUE) > 30) {
 #'   tt_output <- tt_load_gh("2019-01-15")
@@ -68,25 +68,21 @@ readme <- function(tt) {
   invisible(NULL)
 }
 
-#' @importFrom rstudioapi viewer isAvailable
-#' @noRd
 html_viewer <- function(url, is_interactive = interactive()) {
   if (!is_interactive) {
     invisible(NULL)
-  } else if (isAvailable()) {
-    viewer(url = url)
+  } else if (rstudioapi::isAvailable()) {
+    rstudioapi::viewer(url = url)
   } else {
     browse_url(url = url)
   }
 }
 
 # For mocking in tests.
-#' @importFrom utils browseURL
 browse_url <- function(url) {
-  browseURL(url = url) # nocov
+  utils::browseURL(url = url) # nocov
 }
 
-#' @noRd
 contiguous_weeks <- function(week_vctr) {
   if (length(week_vctr) == 1) {
     text_out <- as.character(week_vctr)

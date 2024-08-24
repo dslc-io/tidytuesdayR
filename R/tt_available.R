@@ -51,73 +51,22 @@ NULL
 #' list of 'tt_dataset_table'. This class has special printing methods to show
 #' the available data sets.
 #'
-tt_available <- function(auth = github_pat()) {
-  tt_year <- sort(tt_years(), decreasing = TRUE, )
-
-  datasets <- setNames(vector("list", length(tt_year)), tt_year)
-
-  for (year in tt_year) {
-    datasets[[as.character(year)]] <- tt_datasets(year, auth = auth)
-  }
-
-  structure(datasets,
-    class = c("tt_dataset_table_list")
-  )
+tt_available <- function(auth = gh::gh_token()) {
+  tt_year <- sort(tt_years(auth = auth), decreasing = TRUE, )
+  names(tt_year) <- tt_year
+  datasets <- purrr::map(tt_year, ~ tt_datasets(.x, auth = auth))
+  structure(datasets, class = c("tt_dataset_table_list"))
 }
 
 #' @rdname available
 #' @export
 #'
-#' @importFrom rvest html_table
-#' @importFrom xml2 read_html
-#'
-#' @export
 #' @return `tt_datasets()` returns a 'tt_dataset_table' object. This class has
 #'  special printing methods to show the available datasets for the year.
-#'
-tt_datasets <- function(year, auth = github_pat()) {
-  if (!year %in% tt_years()) {
-    stop(
-      paste0(
-        "Invalid `year` provided to list available tidytuesday datasets.",
-        "\n\tUse one of the following years: ",
-        paste(tt_years(), collapse = ", "),
-        "."
-      )
-    )
-  }
-
-  files <- github_sha(file.path("data", year))
-
-  readme <-
-    grep(
-      pattern = "readme",
-      files$path,
-      value = TRUE,
-      ignore.case = TRUE
-    )
-
-  readme_html <-
-    github_html(file.path("data", year, readme), auth = auth)
-
-  readme_html <- read_html(gsub(
-    "\\n",
-    "",
-    gsub(
-      x = as.character(readme_html),
-      pattern = "<a href=\\\"(\\d+)(-\\d+-\\d+)(\\/readme.+)*\\\">",
-      replacement = paste0(
-        "<a href=\\\"https:\\/\\/github.com\\/",
-        "rfordatascience\\/tidytuesday\\/tree\\/master\\/",
-        "data\\/\\1\\/\\1\\2\\\">"
-      ),
-      perl = TRUE
-    )
-  ))
-
-  datasets <- readme_html %>%
-    html_table() %>%
-    `[[`(1)
+tt_datasets <- function(year, auth = gh::gh_token()) {
+  tt_check_year(year, auth = auth)
+  readme_html <- gh_get_readme_html(file.path("data", year), auth = auth)
+  datasets <- rvest::html_table(readme_html)[[1]]
 
   structure(datasets,
     .html = readme_html,
@@ -157,10 +106,9 @@ print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   invisible(x)
 }
 
-#' @importFrom xml2 write_html
 make_tt_dataset_html <- function(x, file = tempfile(fileext = ".html")) {
   readme <- attr(x, ".html")
-  write_html(readme, file = file)
+  xml2::write_html(readme, file = file)
   invisible(readme)
 }
 
@@ -172,7 +120,6 @@ save_tt_object <- function(x, fn) {
 
 #' @rdname Available_Printing
 #' @importFrom purrr walk map
-#' @importFrom rvest html_node
 #' @importFrom xml2 read_html write_html
 #' @export
 print.tt_dataset_table_list <- function(x, ..., is_interactive = interactive()) {
@@ -205,7 +152,7 @@ make_tt_dataset_list_html <- function(x, file = tempfile(fileext = ".html")) {
     purrr::map_chr(
       function(.x, x) {
         year_table <- attr(x[[.x]], ".html") %>%
-          html_node("table")
+          rvest::html_element("table")
         paste(
           "<h2>", .x, "</h2>",
           as.character(year_table),
@@ -220,9 +167,35 @@ make_tt_dataset_list_html <- function(x, file = tempfile(fileext = ".html")) {
     "<article class='markdown-body entry-content' itemprop='text'>",
     paste("<h1>TidyTuesday Datasets</h1>", readme), "</article>"
   ) %>%
-    read_html() %>%
+    xml2::read_html() %>%
     github_page()
 
-  write_html(readme, file = file)
+  xml2::write_html(readme, file = file)
   invisible(readme)
+}
+
+#' Create shell for HTML content from github
+#'
+#' Provide the necessary <head> section to wrap around raw html content read
+#' from github. This is only actually used locally for printing, and may not be
+#' necessary anymore.
+#'
+#' @param page_content html content in xml_document class
+#'
+#' @return xml_document with github header
+#' @keywords internal
+github_page <- function(page_content) {
+  header <- paste0(
+    "<head><link crossorigin=\"anonymous\" ",
+    "media=\"all\" rel=\"stylesheet\" ",
+    "href=\"https://cdnjs.cloudflare.com/ajax/libs/",
+    "github-markdown-css/3.0.1/github-markdown.min.css\"></head>"
+  )
+
+  body <- page_content %>%
+    rvest::html_elements("body") %>%
+    as.character() %>%
+    enc2native()
+
+  xml2::read_html(paste0(header, body))
 }

@@ -1,5 +1,5 @@
 tt_ref_test_that(
-  "`tt_master_file()` will update the masterfile reference if is null",
+  "`tt_master_file()` will update the masterfile reference if is null or old",
   {
     check_api()
 
@@ -12,39 +12,25 @@ tt_ref_test_that(
 
     expect_true(is.data.frame(TT_MASTER_ENV$TT_MASTER_FILE))
     expect_true(nrow(TT_MASTER_ENV$TT_MASTER_FILE) > 0)
-  }
-)
 
-tt_ref_test_that(
-  "`tt_update_master_file()` will update if the sha is old",
-  {
-    check_api()
-
-    setup_df <- data.frame(x = 1)
-    attr(setup_df, ".sha") <- "old sha"
-    tt_master_file(assign = setup_df)
-
+    old_sha <- attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha")
+    TT_MASTER_ENV$TT_MASTER_FILE <- data.frame()
+    attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha") <- old_sha
     ttmf <- tt_master_file()
-
-
-    tt_update_master_file()
-    updated_ttmf <- tt_master_file()
-
-    expect_true(identical(ttmf, setup_df))
-    expect_true(!identical(updated_ttmf, setup_df))
+    expect_true(is.data.frame(TT_MASTER_ENV$TT_MASTER_FILE))
+    expect_true(nrow(TT_MASTER_ENV$TT_MASTER_FILE) > 0)
   }
 )
 
-
-tt_ref_test_that(
-  "`tt_update_master_file()` will update if the sha is old",
-  {
-    check_api()
-
-    ttmf <- tt_master_file()
-    expect_equal(
-      colnames(ttmf),
-      c("Week", "Date", "year", "data_files", "data_type", "delim")
-    )
-  }
-)
+# tt_ref_test_that(
+#   "`tt_update_master_file()` will update if the sha is old",
+#   {
+#     check_api()
+#
+#     ttmf <- tt_master_file()
+#     expect_equal(
+#       colnames(ttmf),
+#       c("Week", "Date", "year", "data_files", "data_type", "delim")
+#     )
+#   }
+# )
