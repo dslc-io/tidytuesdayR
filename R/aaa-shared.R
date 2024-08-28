@@ -10,6 +10,7 @@
 #'   is a valid year.
 #' @param x The date of data to pull (in "YYYY-MM-dd" format), or the four-digit
 #'   year as a number.
+#' @param year What year of TidyTuesday to use
 #'
 #' @name shared-params
 #' @keywords internal

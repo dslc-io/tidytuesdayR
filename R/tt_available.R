@@ -19,17 +19,7 @@
 #' Viewer or print to console all the available data sets ever made for
 #' TidyTuesday.
 #'
-#' @section PAT:
-#'
-#' A Github PAT is a Personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed
-#' from 60 to 5000. Follow instructions at
-#' <https://happygitwithr.com/github-pat.html> to set your PAT.
-#'
-#' @name available
-#'
-#' @param year numeric entry representing the year of TidyTuesday you want the
-#' list of datasets for. Leave empty for most recent year.
+#' @name tt_available
 #'
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
@@ -43,13 +33,12 @@
 #'
 NULL
 
-#' @rdname available
-#' @inheritParams gh_get
+#' @rdname tt_available
+#' @inheritParams shared-params
 #' @export
-#' @return `tt_available()` returns a 'tt_dataset_table_list', which is a
-#' list of 'tt_dataset_table'. This class has special printing methods to show
+#' @return `tt_available()` returns a `tt_dataset_table_list`, which is a
+#' list of `tt_dataset_table`. This class has special printing methods to show
 #' the available data sets.
-#'
 tt_available <- function(auth = gh::gh_token()) {
   tt_year <- sort(tt_years(auth = auth), decreasing = TRUE, )
   names(tt_year) <- tt_year
@@ -57,10 +46,10 @@ tt_available <- function(auth = gh::gh_token()) {
   structure(datasets, class = c("tt_dataset_table_list"))
 }
 
-#' @rdname available
+#' @rdname tt_available
+#' @inheritParams shared-params
 #' @export
-#'
-#' @return `tt_datasets()` returns a 'tt_dataset_table' object. This class has
+#' @return `tt_datasets()` returns a `tt_dataset_table` object. This class has
 #'  special printing methods to show the available datasets for the year.
 tt_datasets <- function(year, auth = gh::gh_token()) {
   tt_check_year(year, auth = auth)
@@ -78,14 +67,14 @@ tt_datasets <- function(year, auth = gh::gh_token()) {
   )
 }
 
-#' @title Printing Utilities for Listing Available Datasets
-#' @name Available_Printing
-#' @description
+#' Printing Utilities for Listing Available Datasets
+#'
 #' printing utilities for showing the available datasets for a specific year or
 #' all time
 #' @inheritParams base::print
-#' @param is_interactive is the console interactive?
-#' @return used for side effects to show the available datasets for the year or for all time.
+#' @param is_interactive Whether the function is being used interactively.
+#' @return `x`, invisibly
+#' @name tt_print
 #' @examplesIf interactive()
 #' # check to make sure there are requests still available
 #' if (rate_limit_check(quiet = TRUE) > 30) {
@@ -97,8 +86,7 @@ tt_datasets <- function(year, auth = gh::gh_token()) {
 #' }
 NULL
 
-
-#' @rdname Available_Printing
+#' @rdname tt_print
 #' @export
 print.tt_dataset_table <- function(x, ..., is_interactive = interactive()) {
   if (is_interactive) {
@@ -122,9 +110,7 @@ save_tt_object <- function(x, fn) {
   return(tmpHTML)
 }
 
-#' @rdname Available_Printing
-#' @importFrom purrr walk map
-#' @importFrom xml2 read_html write_html
+#' @rdname tt_print
 #' @export
 print.tt_dataset_table_list <- function(x, ..., is_interactive = interactive()) {
   if (is_interactive) {

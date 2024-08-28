@@ -6,7 +6,6 @@
 #'
 #' @inheritParams gh_get
 #' @inheritParams shared-params
-#' @param year What year of TidyTuesday to use
 #' @examplesIf interactive()
 #' tt_date(2019, week = 42)
 tt_date <- function(year, week = NULL, auth = gh::gh_token()) {

@@ -16,6 +16,8 @@ is a valid year.}
 
 \item{x}{The date of data to pull (in "YYYY-MM-dd" format), or the four-digit
 year as a number.}
+
+\item{year}{What year of TidyTuesday to use}
 }
 \description{
 Reused parameter definitions are gathered here for easier editing.
