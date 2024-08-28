@@ -1,4 +1,5 @@
 test_that("Korean: Non-English encodings don't fail reading unicode from github", {
+  skip_if_not(grepl("Windows", osVersion))
   local_encoding("Korean")
   local_tt_master_file()
   local_tt_datasets()
@@ -8,6 +9,7 @@ test_that("Korean: Non-English encodings don't fail reading unicode from github"
 })
 
 test_that("Japanese: Non-English encodings don't fail reading unicode from github", {
+  skip_if_not(grepl("Windows", osVersion))
   local_encoding("Japanese")
   local_tt_master_file()
   local_tt_datasets()
@@ -17,6 +19,7 @@ test_that("Japanese: Non-English encodings don't fail reading unicode from githu
 })
 
 test_that("Russian: Non-English encodings don't fail reading unicode from github", {
+  skip_if_not(grepl("Windows", osVersion))
   local_encoding("Russian")
   local_tt_master_file()
   local_tt_datasets()
