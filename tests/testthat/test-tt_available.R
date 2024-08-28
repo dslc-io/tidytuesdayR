@@ -5,7 +5,9 @@ test_that("tt_datasets throws errors when asking for invalid years", {
     }
   )
   expect_error(
-    {tt_datasets(2017)},
+    {
+      tt_datasets(2017)
+    },
     class = "tt-error-invalid_year"
   )
 })
@@ -58,8 +60,7 @@ test_that("printing tt_available returns all the values as a printed data.frame 
   expect_snapshot({
     print(ds, is_interactive = FALSE)
   })
-}
-)
+})
 
 test_that("tt_dataset_table and tt_dataset_table_list objects can make html outputs", {
   local_tt_mocked_bindings(
@@ -93,7 +94,9 @@ test_that("tt_dataset_table and tt_dataset_table_list objects can make html outp
 
 test_that("save_tt_object saves an html file", {
   expect_true(
-    grepl("html$", {save_tt_object("", function(x, file) x)})
+    grepl("html$", {
+      save_tt_object("", function(x, file) x)
+    })
   )
 })
 
@@ -108,12 +111,16 @@ test_that("tt_dataset_table and tt_dataset_table_list objects print through html
   )
   ds <- structure("", class = "tt_dataset_table")
   expect_message(
-    {print(ds, is_interactive = TRUE)},
+    {
+      print(ds, is_interactive = TRUE)
+    },
     "tmpfile_path"
   )
   ds <- structure("", class = "tt_dataset_table_list")
   expect_message(
-    {print(ds, is_interactive = TRUE)},
+    {
+      print(ds, is_interactive = TRUE)
+    },
     "tmpfile_path"
   )
 })

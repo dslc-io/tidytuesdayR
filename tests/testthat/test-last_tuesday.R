@@ -27,12 +27,16 @@ test_that("last_tuesday will give you the most recent tuesday", {
 
 test_that("last_tuesday errors with bad dates", {
   expect_error(
-    {last_tuesday("blue")},
+    {
+      last_tuesday("blue")
+    },
     "cannot be coerced",
     class = "tt-error-invalid_date"
   )
   expect_error(
-    {last_tuesday(1)},
+    {
+      last_tuesday(1)
+    },
     "cannot be coerced",
     class = "tt-error-invalid_date"
   )

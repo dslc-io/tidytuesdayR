@@ -75,7 +75,9 @@ test_that("tt_date also works", {
 test_that("tt_check_date errors informatively with no args", {
   local_tt_master_file()
   expect_error(
-    {tt_check_date()},
+    {
+      tt_check_date()
+    },
     "Provide either",
     class = "tt-error-invalid_date"
   )

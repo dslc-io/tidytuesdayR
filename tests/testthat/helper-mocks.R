@@ -88,8 +88,7 @@ local_gh_get_csv_data_type <- function(.env = parent.frame()) {
             readRDS(test_path("fixtures", "tt_data_type_response.rds"))
           )
         )
-      }
-      else {
+      } else {
         cli::cli_abort("Test broken.")
       }
     },
@@ -99,7 +98,9 @@ local_gh_get_csv_data_type <- function(.env = parent.frame()) {
 
 local_readme <- function(.env = parent.frame()) {
   local_tt_mocked_bindings(
-    readme = function(tt) return(NULL),
+    readme = function(tt) {
+      return(NULL)
+    },
     .env = .env
   )
 }

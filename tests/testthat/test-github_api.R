@@ -5,11 +5,15 @@ test_that("gh_get_sha_in_folder gets sha for a file in a folder", {
     }
   )
   expect_equal(
-    {gh_get_sha_in_folder("static", "tt_data_type.csv")},
+    {
+      gh_get_sha_in_folder("static", "tt_data_type.csv")
+    },
     "5b7d51181d18d1af90caedd4e008509722612efb"
   )
   expect_equal(
-    {gh_get_sha_in_folder("static", "tt_logo.png")},
+    {
+      gh_get_sha_in_folder("static", "tt_logo.png")
+    },
     "61ab36921f82e35c621c2c4086c38b177bc89ea1"
   )
 })
@@ -53,7 +57,9 @@ test_that("gh_get_readme_html warns when no readme found", {
     }
   )
   expect_warning(
-    {expect_null(gh_get_readme_html("data/2018/2018-04-02"))},
+    {
+      expect_null(gh_get_readme_html("data/2018/2018-04-02"))
+    },
     "No readme found",
     class = "tt-warning-no_readme"
   )
@@ -61,7 +67,9 @@ test_that("gh_get_readme_html warns when no readme found", {
 
 test_that("gh_extract_text errors with empty response", {
   expect_error(
-    {gh_extract_text(list())},
+    {
+      gh_extract_text(list())
+    },
     "No content found",
     class = "tt-error-bad_gh_response"
   )
@@ -69,7 +77,9 @@ test_that("gh_extract_text errors with empty response", {
 
 test_that("gh_extract_html errors with empty response", {
   expect_error(
-    {gh_extract_html(list())},
+    {
+      gh_extract_html(list())
+    },
     "No html found",
     class = "tt-error-bad_gh_response"
   )
@@ -77,12 +87,16 @@ test_that("gh_extract_html errors with empty response", {
 
 test_that("gh_extract_sha_in_folder errors for missing file", {
   expect_error(
-    {gh_extract_sha_in_folder(list(), "missing_file_name")},
+    {
+      gh_extract_sha_in_folder(list(), "missing_file_name")
+    },
     "Found no",
     class = "tt-error-file_not_found"
   )
   expect_error(
-    {gh_extract_sha_in_folder(list(list(name = "found_file_name")), "missing_file_name")},
+    {
+      gh_extract_sha_in_folder(list(list(name = "found_file_name")), "missing_file_name")
+    },
     "Found 1 file",
     class = "tt-error-file_not_found"
   )

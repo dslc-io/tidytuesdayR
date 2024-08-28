@@ -55,11 +55,11 @@ tt_download_file_raw <- function(tt_date, target) {
 
 tt_parse_download <- function(gh_response, ..., data_type, delim = NA) {
   switch(data_type,
-         "rds" = return(tt_parse_rds(gh_response, ...)), # nocov 3 examples
-         "xls" = return(tt_parse_excel(gh_response, ...)), # nocov 0 examples
-         "xlsx" = return(tt_parse_excel(gh_response, ...)),
-         "vgz" = return(tt_parse_vgz(gh_response, ...)), # nocov 12 examples
-         "zip" = rlang::abort("We cannot parse zip files without more information") # nocov 3 examples
+    "rds" = return(tt_parse_rds(gh_response, ...)), # nocov 3 examples
+    "xls" = return(tt_parse_excel(gh_response, ...)), # nocov 0 examples
+    "xlsx" = return(tt_parse_excel(gh_response, ...)),
+    "vgz" = return(tt_parse_vgz(gh_response, ...)), # nocov 12 examples
+    "zip" = rlang::abort("We cannot parse zip files without more information") # nocov 3 examples
   )
   file_content <- gh_extract_text(gh_response)
   delim <- tt_guess_delim(delim, data_type)

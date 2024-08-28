@@ -23,7 +23,9 @@ test_that("tt_compile returns NULL for missing readme's", {
   local_tt_master_file()
   local_tt_week_readme_html()
   expect_warning(
-    {tt_c <- tt_compile("2018-04-02")},
+    {
+      tt_c <- tt_compile("2018-04-02")
+    },
     "No readme found",
     class = "tt-warning-no_readme"
   )
@@ -50,7 +52,9 @@ test_that("tt_load_gh returns tt object when provided proper date", {
   expect_message(
     {
       expect_message(
-        {tt <- tt_load_gh("2019-01-15")},
+        {
+          tt <- tt_load_gh("2019-01-15")
+        },
         "Compiling #TidyTuesday"
       )
     },
@@ -69,7 +73,9 @@ test_that("tt_load_gh returns tt object when provided proper year and TT week nu
   expect_message(
     {
       expect_message(
-        {tt <- tt_load_gh(2019, 3)},
+        {
+          tt <- tt_load_gh(2019, 3)
+        },
         "Compiling #TidyTuesday"
       )
     },
@@ -98,7 +104,9 @@ test_that("tt_load_gh returns list of object when no readme.md available", {
       expect_message(
         {
           expect_warning(
-            {tt <- tt_load_gh("2018-04-09")},
+            {
+              tt <- tt_load_gh("2018-04-09")
+            },
             class = "tt-warning-no_readme"
           )
         },
@@ -117,7 +125,9 @@ test_that("tt_load_gh ignores extra files/diretory paths", {
   expect_message(
     {
       expect_message(
-        {tt_obj <- tt_load_gh("2019-04-02")},
+        {
+          tt_obj <- tt_load_gh("2019-04-02")
+        },
         "Compiling #TidyTuesday"
       )
     },
@@ -129,7 +139,9 @@ test_that("tt_load_gh ignores extra files/diretory paths", {
   expect_message(
     {
       expect_message(
-        {tt_obj_2 <- tt_load_gh("2019-04-09")},
+        {
+          tt_obj_2 <- tt_load_gh("2019-04-09")
+        },
         "Compiling #TidyTuesday"
       )
     },
@@ -152,7 +164,9 @@ test_that("tt_load_gh works with tsvs", {
   expect_message(
     {
       expect_message(
-        {tt_obj <- tt_load_gh("2020-04-21")},
+        {
+          tt_obj <- tt_load_gh("2020-04-21")
+        },
         "Compiling #TidyTuesday"
       )
     },
@@ -166,7 +180,9 @@ test_that("tt_load_gh works with tsvs", {
 test_that("print.tt lists all the available files for the weeks tt", {
   local_tt_master_file()
   local_tt_week_readme_html()
-  expect_message(expect_message({tt <- tt_load_gh("2019-01-15")}))
+  expect_message(expect_message({
+    tt <- tt_load_gh("2019-01-15")
+  }))
   expect_snapshot({
     test_result <- print(tt)
   })
