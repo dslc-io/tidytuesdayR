@@ -3,8 +3,9 @@ Package: tidytuesdayR
 Title: Access the Weekly 'TidyTuesday' Project Dataset
 Version: 1.0.3.9000
 Authors@R: c(
-    person("Ellis", "Hughes", , "ellishughes@live.com", role = c("aut", "cre")),
-    person("Jon", "Harmon", , "jonthegeek@gmail.com", role = "ctb"),
+    person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4781-4346")),
+    person("Ellis", "Hughes", , "ellishughes@live.com", role = "aut"),
     person("Thomas", "Mock", , "j.thomasmock@gmail.com", role = "ctb"),
     person("Data Science Learning Community", , , "tidytuesday@dslc.io", role = "dtc")
   )
