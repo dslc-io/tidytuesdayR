@@ -6,7 +6,7 @@ Ellis Hughes
 [![CRAN status](https://www.r-pkg.org/badges/version/tidytuesdayR)](https://CRAN.R-project.org/package=tidytuesdayR)
 [![R build status](https://github.com/thebioengineer/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions)
 [![Coverage
-status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
+status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://app.codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
 [![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/tidytuesdayR)](https://cran.r-project.org/package=tidytuesdayR)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
