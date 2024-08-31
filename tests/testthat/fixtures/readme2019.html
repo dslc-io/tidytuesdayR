@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="file" class="md" data-path="data/2019/readme.md"><article class="markdown-body entry-content container-lg" itemprop="text"><p dir="auto"><a target="_blank" rel="noopener noreferrer" href="static/tt_logo.png"><img src="static/tt_logo.png" alt="" style="max-width: 100%;"></a></p>
+<div class="markdown-heading" dir="auto">
+<h2 class="heading-element" dir="auto">A weekly social data project in R</h2>
+<a id="user-content-a-weekly-social-data-project-in-r" class="anchor" aria-label="Permalink: A weekly social data project in R" href="#a-weekly-social-data-project-in-r"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">A weekly data project aimed at the R ecosystem. As this project was borne out of the <code>R4DS Online Learning Community</code> and the <code>R for Data Science</code> textbook, an emphasis was placed on understanding how to summarize and arrange data to make meaningful charts with <code>ggplot2</code>, <code>tidyr</code>, <code>dplyr</code>, and other tools in the <code>tidyverse</code> ecosystem. However, any code-based methodology is welcome - just please remember to share the code used to generate the results.</p>
+<hr>
+<p dir="auto">Join the <code>R4DS Online Learning Community</code> in the weekly <code>#TidyTuesday</code> event! Every week we post a raw dataset, a chart or article related to that dataset, and ask you to explore the data. While the dataset will be "tamed", it will not always be tidy! As such you might need to apply various <code>R for Data Science</code> techniques to wrangle the data into a true tidy format. The goal of <code>TidyTuesday</code> is to apply your R skills, get feedback, explore other's work, and connect with the greater <code>#RStats</code> community! As such we encourage everyone of all skills to participate!</p>
+<p dir="auto">We will have many sources of data and want to emphasize that <strong>no causation</strong> is implied. There are various moderating variables that affect all data, many of which might not have been captured in these datasets. As such, our guidelines are to use the data provided to practice your data tidying and plotting techniques. Participants are invited to consider for themselves what nuancing factors might underlie these relationships.</p>
+<p dir="auto">The intent of Tidy Tuesday is to provide a safe and supportive forum for individuals to practice their <strong>wrangling</strong> and <strong>data visualization</strong> skills independent of drawing conclusions. While we understand that the two are related, the focus of this practice is purely on building skills with real-world data.</p>
+<p dir="auto">All data will be posted on the data sets page on Monday. It will include the link to the original article (for context) and to the data set.</p>
+<p dir="auto">We welcome all newcomers, enthusiasts, and experts to participate, but be mindful of a few things:</p>
+<ol dir="auto">
+<li>The data set comes from the source article or the source that the article credits. Be mindful that the data is what it is and Tidy Tuesday is designed to help you practice <strong>data visualization</strong> and <strong>basic data wrangling</strong> in R.</li>
+<li>Again, the data is what it is! You are welcome to explore beyond the provided dataset, but the data is provided as a "toy" dataset to practice techniques on.</li>
+<li>This is NOT about criticizing the original article or graph. Real people made the graphs, collected or acquired the data! Focus on the provided dataset, learning, and improving your techniques in R.</li>
+<li>This is NOT about criticizing or tearing down your fellow <code>#RStats</code> practitioners or their code! Be supportive and kind to each other! Like other's posts and help promote the <code>#RStats</code> community!</li>
+<li>Use the hashtag #TidyTuesday on Twitter if you create your own version and would like to share it.</li>
+<li>Include a picture of the visualisation when you post to Twitter.</li>
+<li>Include a copy of the code used to create your visualization when you post to Twitter. Comment your code wherever possible to help yourself and others understand your process!</li>
+<li>Focus on improving your craft, even if you end up with something simple!</li>
+<li>Give credit to the original data source whenever possible.</li>
+</ol>
+<hr>
+<div class="markdown-heading" dir="auto">
+<h2 class="heading-element" dir="auto">Submitting Datasets</h2>
+<a id="user-content-submitting-datasets" class="anchor" aria-label="Permalink: Submitting Datasets" href="#submitting-datasets"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">Want to submit an interesting dataset? Please open an <a href="https://github.com/rfordatascience/tidytuesday/issues">Issue</a> and post a link to the article (or blogpost, etc) using the data, then we can discuss adding it to a future TidyTuesday Event!</p>
+<hr>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">DataSets</h1>
+<a id="user-content-datasets" class="anchor" aria-label="Permalink: DataSets" href="#datasets"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="markdown-heading" dir="auto">
+<h2 class="heading-element" dir="auto"><a href="/data/2018">2018</a></h2>
+<a id="user-content-2018" class="anchor" aria-label="Permalink: 2018" href="#2018"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="markdown-heading" dir="auto">
+<h2 class="heading-element" dir="auto"><a href="/data/2019">2019</a></h2>
+<a id="user-content-2019" class="anchor" aria-label="Permalink: 2019" href="#2019"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="center">Week</th>
+<th align="center">Date</th>
+<th align="left">Data</th>
+<th align="left">Source</th>
+<th align="left">Article</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center"><code>2019-01-01</code></td>
+<td align="left"><a href="2019-01-01">#Rstats &amp; #TidyTuesday Tweets</a></td>
+<td align="left"><a href="https://rtweet.info/" rel="nofollow"><code>rtweet</code></a></td>
+<td align="left"><a href="https://stackoverflow.blog/2017/10/10/impressive-growth-r/" rel="nofollow">stackoverflow.blog</a></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"><code>2019-01-08</code></td>
+<td align="left"><a href="2019-01-08">TV's Golden Age</a></td>
+<td align="left"><a href="https://www.imdb.com/" rel="nofollow">IMDb</a></td>
+<td align="left"><a href="https://www.economist.com/graphic-detail/2018/11/24/tvs-golden-age-is-real" rel="nofollow">The Economist</a></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"><code>2019-01-15</code></td>
+<td align="left"><a href="2019-01-15">Space Launches</a></td>
+<td align="left"><a href="http://www.planet4589.org/space/lvdb/index.html" rel="nofollow">JSR Launch Vehicle Database</a></td>
+<td align="left"><a href="https://economist.com/graphic-detail/2018/10/18/the-space-race-is-dominated-by-new-contenders" rel="nofollow">The Economist</a></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center"><code>2019-01-22</code></td>
+<td align="left"><a href="2019-01-22">Incarceration Trends</a></td>
+<td align="left"><a href="https://github.com/vera-institute/incarceration_trends">Vera Institute</a></td>
+<td align="left"><a href="https://github.com/vera-institute/incarceration_trends">Vera Institute</a></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center"><code>2019-01-29</code></td>
+<td align="left"><a href="2019-01-29">Dairy production &amp; Consumption</a></td>
+<td align="left"><a href="https://www.ers.usda.gov/data-products/dairy-data/" rel="nofollow">USDA</a></td>
+<td align="left"><a href="https://www.npr.org/2019/01/09/683339929/nobody-is-moving-our-cheese-american-surplus-reaches-record-high" rel="nofollow">NPR</a></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center"><code>2019-02-05</code></td>
+<td align="left"><a href="2019-02-05">House Price Index &amp; Mortgage Rates</a></td>
+<td align="left">
+<a href="http://www.freddiemac.com/research/indices/house-price-index.html" rel="nofollow">FreddieMac</a> &amp; <a href="http://www.freddiemac.com/pmms/" rel="nofollow">FreddieMac</a>
+</td>
+<td align="left"><a href="http://fortune.com/2014/06/24/american-housing-the-good-the-bad-and-the-ugly-in-6-charts/" rel="nofollow">Fortune</a></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center"><code>2019-02-12</code></td>
+<td align="left"><a href="2019-02-12">Federal R&amp;D Spending</a></td>
+<td align="left"><a href="https://www.aaas.org/programs/r-d-budget-and-policy/historical-rd-data" rel="nofollow">AAAS</a></td>
+<td align="left"><a href="https://dotearth.blogs.nytimes.com/2014/11/02/panels-latest-warming-warning-misses-global-slumber-party-on-energy-research/" rel="nofollow">New York Times</a></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center"><code>2019-02-19</code></td>
+<td align="left"><a href="2019-02-19">US PhD's Awarded</a></td>
+<td align="left"><a href="https://ncses.nsf.gov/pubs/nsf19301/data" rel="nofollow">NSF</a></td>
+<td align="left"><a href="https://twitter.com/EpiEllie/status/1096876638632140805" rel="nofollow"><code>#epibookclub</code></a></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center"><code>2019-02-26</code></td>
+<td align="left"><a href="2019-02-26">French Train Delays</a></td>
+<td align="left"><a href="https://ressources.data.sncf.com/explore/dataset/regularite-mensuelle-tgv-aqst/information/?sort=nombre_de_trains_annules&amp;q=gare&amp;dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJzcGxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJleHRlcm5lcyIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNhNmQ4NTQifV0sInhBeGlzIjoicGVyaW9kZSIsIm1heHBvaW50cyI6IiIsInRpbWVzY2FsZSI6Im1vbnRoIiwic29ydCI6IiIsImNvbmZpZyI6eyJkYXRhc2V0IjoicmVndWxhcml0ZS1tZW5zdWVsbGUtdGd2LWFxc3QiLCJvcHRpb25zIjp7InNvcnQiOiJub21icmVfZGVfdHJhaW5zX2FubnVsZXMifX19XSwidGltZXNjYWxlIjoiIiwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZX0%3D" rel="nofollow">SNCF</a></td>
+<td align="left"><a href="https://today.rtl.lu/news/luxembourg/1306023.html" rel="nofollow">RTL - Today</a></td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center"><code>2019-03-05</code></td>
+<td align="left"><a href="2019-03-05">Women in the Workplace</a></td>
+<td align="left">
+<a href="https://www.census.gov/data/tables/time-series/demo/industry-occupation/median-earnings.html" rel="nofollow">Census Bureau</a> &amp; <a href="https://www.bls.gov/opub/ted/2012/ted_20121123.htm" rel="nofollow">Bureau of Labor</a>
+</td>
+<td align="left"><a href="https://www.census.gov/library/stories/2018/05/gender-pay-gap-in-finance-sales.html" rel="nofollow">Census Bureau</a></td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center"><code>2019-03-12</code></td>
+<td align="left"><a href="2019-03-12">Board Games</a></td>
+<td align="left"><a href="https://boardgamegeek.com/" rel="nofollow">Board Game Geeks</a></td>
+<td align="left"><a href="https://fivethirtyeight.com/features/designing-the-best-board-game-on-the-planet/" rel="nofollow">fivethirtyeight</a></td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center"><code>2019-03-19</code></td>
+<td align="left"><a href="2019-03-19">Stanford Open Policing Project</a></td>
+<td align="left">
+<a href="https://openpolicing.stanford.edu/data/" rel="nofollow">Stanford Open Policing Project</a> <br><a href="https://github.com/5harad/openpolicing">SOPP - arXiv:1706.05678</a>
+</td>
+<td align="left"><a href="https://arxiv.org/abs/1706.05678" rel="nofollow">SOPP - arXiv:1706.05678</a></td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center"><code>2019-03-26</code></td>
+<td align="left"><a href="2019-03-26">Seattle Pet Names</a></td>
+<td align="left"><a href="https://data.seattle.gov/Community/Seattle-Pet-Licenses/jguv-t9rb" rel="nofollow">seattle.gov</a></td>
+<td align="left"><a href="https://seattle.curbed.com/2019/1/2/18165658/seattle-popular-pet-names-2018" rel="nofollow">Curbed Seattle</a></td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center"><code>2019-04-02</code></td>
+<td align="left"><a href="2019-04-02">Seattle Bike Traffic</a></td>
+<td align="left"><a href="http://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters" rel="nofollow">seattle.gov</a></td>
+<td align="left"><a href="https://www.seattletimes.com/seattle-news/transportation/what-we-can-learn-from-seattles-bike-counter-data/" rel="nofollow">Seattle Times</a></td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center"><code>2019-04-09</code></td>
+<td align="left"><a href="2019-04-09">Tennis Grand Slam Champions</a></td>
+<td align="left"><a href="https://en.wikipedia.org/wiki/List_of_Grand_Slam_women%27s_singles_champions" rel="nofollow">Wikipedia</a></td>
+<td align="left"><a href="https://ig.ft.com/sites/visual-history-of-womens-tennis/" rel="nofollow">Financial Times</a></td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center"><code>2019-04-16</code></td>
+<td align="left"><a href="2019-04-16">The Economist Data Viz Mistakes</a></td>
+<td align="left"><a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368" rel="nofollow">The Economist</a></td>
+<td align="left"><a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368" rel="nofollow">The Economist</a></td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="center"><code>2019-04-23</code></td>
+<td align="left"><a href="2019-04-23">Anime Data</a></td>
+<td align="left"><a href="https://www.kaggle.com/aludosan/myanimelist-anime-dataset-as-20190204" rel="nofollow">MyAnimeList</a></td>
+<td align="left"><a href="https://myanimelist.net/topanime.php?type=bypopularity" rel="nofollow">MyAnimeList</a></td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center"><code>2019-04-30</code></td>
+<td align="left"><a href="2019-04-30">Chicago Bird Collisions</a></td>
+<td align="left"><a href="https://datadryad.org/resource/doi:10.5061/dryad.8rr0498" rel="nofollow">Winger et al, 2019</a></td>
+<td align="left"><a href="https://royalsocietypublishing.org/doi/10.1098/rspb.2019.0364#d3e550" rel="nofollow">Winger et al, 2019</a></td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="center"><code>2019-05-07</code></td>
+<td align="left"><a href="2019-05-07">Global Student to Teacher Ratios</a></td>
+<td align="left"><a href="http://data.uis.unesco.org/index.aspx?queryid=180" rel="nofollow">UNESCO</a></td>
+<td align="left"><a href="http://www.centerforpubliceducation.org/research/class-size-and-student-achievement" rel="nofollow">Center for Public Education</a></td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="center"><code>2019-05-14</code></td>
+<td align="left"><a href="2019-05-14">Nobel Prize Winners</a></td>
+<td align="left"><a href="https://www.kaggle.com/nobelfoundation/nobel-laureates" rel="nofollow">Kaggle</a></td>
+<td align="left"><a href="https://www.economist.com/graphic-detail/2016/10/03/greying-of-the-nobel-laureates" rel="nofollow">The Economist</a></td>
+</tr>
+<tr>
+<td align="center">21</td>
+<td align="center"><code>2019-05-21</code></td>
+<td align="left"><a href="2019-05-21">Global Plastic Waste</a></td>
+<td align="left"><a href="https://ourworldindata.org/plastic-pollution" rel="nofollow">Our World In Data</a></td>
+<td align="left"><a href="https://ourworldindata.org/plastic-pollution" rel="nofollow">Our World in Data</a></td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="center"><code>2019-05-28</code></td>
+<td align="left"><a href="2019-05-28">Wine Ratings</a></td>
+<td align="left"><a href="https://www.kaggle.com/zynicide/wine-reviews" rel="nofollow">Kaggle</a></td>
+<td align="left"><a href="https://www.vivino.com/wine-news/how-much-does-a-good-bottle-of-wine-cost" rel="nofollow">Vivino</a></td>
+</tr>
+<tr>
+<td align="center">23</td>
+<td align="center"><code>2019-06-04</code></td>
+<td align="left"><a href="2019-06-04">Ramen Ratings</a></td>
+<td align="left"><a href="https://www.theramenrater.com/resources-2/the-list/" rel="nofollow">TheRamenRater.com</a></td>
+<td align="left"><a href="https://www.foodrepublic.com/2014/12/02/theres-a-website-that-has-rated-1518-bowls-of-instant-ramen/" rel="nofollow">Food Republic</a></td>
+</tr>
+<tr>
+<td align="center">24</td>
+<td align="center"><code>2019-06-11</code></td>
+<td align="left"><a href="2019-06-11">Meteorites</a></td>
+<td align="left"><a href="https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data" rel="nofollow">NASA</a></td>
+<td align="left"><a href="https://www.theguardian.com/news/datablog/interactive/2013/feb/15/meteorite-fall-map" rel="nofollow">The Guardian - Meteorite map</a></td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="center"><code>2019-06-18</code></td>
+<td align="left"><a href="2019-06-18">Christmas Bird Counts</a></td>
+<td align="left"><a href="https://www.birdscanada.org/index.jsp" rel="nofollow">Bird Studies Canada</a></td>
+<td align="left"><a href="https://sharleenw.rbind.io/post/hamilton_cbc_part_1/hamilton-christmas-bird-count-part-1/" rel="nofollow">Hamilton Christmas Bird Count</a></td>
+</tr>
+<tr>
+<td align="center">26</td>
+<td align="center"><code>2019-06-25</code></td>
+<td align="left"><a href="2019-06-25">Global UFO Sightings</a></td>
+<td align="left"><a href="http://www.nuforc.org/" rel="nofollow">NUFORC</a></td>
+<td align="left"><a href="https://www.kaggle.com/jonathanbouchet/e-t-phone-home-but-mostly-after-8-00pm" rel="nofollow">Example Plots</a></td>
+</tr>
+<tr>
+<td align="center">27</td>
+<td align="center"><code>2019-07-02</code></td>
+<td align="left"><a href="2019-07-02">Media Franchise Revenues</a></td>
+<td align="left"><a href="https://en.wikipedia.org/wiki/List_of_highest-grossing_media_franchises" rel="nofollow">Wikipedia</a></td>
+<td align="left"><a href="https://www.reddit.com/r/dataisbeautiful/comments/c53540/highest_grossing_media_franchises_oc/" rel="nofollow">reddit/dataisbeautiful post</a></td>
+</tr>
+<tr>
+<td align="center">28</td>
+<td align="center"><code>2019-07-09</code></td>
+<td align="left"><a href="2019-07-09">Women's World Cup</a></td>
+<td align="left"><a href="https://data.world/sportsvizsunday/womens-world-cup-data" rel="nofollow">data.world</a></td>
+<td align="left"><a href="https://en.wikipedia.org/wiki/FIFA_Women%27s_World_Cup" rel="nofollow">Wikipedia</a></td>
+</tr>
+<tr>
+<td align="center">29</td>
+<td align="center"><code>2019-07-16</code></td>
+<td align="left"><a href="2019-07-16">R4DS Membership</a></td>
+<td align="left"><a href="https://join.slack.com/t/rfordatascience/shared_invite/enQtMzA1Nzk1MjIzNDczLTY0OTVlMzM3ZTU5ZjA3NWE5ZDkxOGVmNjRjODQ2YmRjMzg4NWQxMDAxZTcwNzViZTczOThiNzBhYWJhZDM2ZTU" rel="nofollow">R4DS Slack</a></td>
+<td align="left"><a href="https://t.co/wNexiphbr5" rel="nofollow">R4DS useR Presentation</a></td>
+</tr>
+<tr>
+<td align="center">30</td>
+<td align="center"><code>2019-07-23</code></td>
+<td align="left"><a href="2019-07-23">Wildlife Strikes</a></td>
+<td align="left"><a href="https://wildlife.faa.gov/" rel="nofollow">FAA</a></td>
+<td align="left"><a href="https://www.faa.gov/airports/airport_safety/wildlife/media/Wildlife-Strike-Report-1990-2017.pdf" rel="nofollow">FAA</a></td>
+</tr>
+<tr>
+<td align="center">31</td>
+<td align="center"><code>2019-07-30</code></td>
+<td align="left"><a href="2019-07-30">Video Games</a></td>
+<td align="left"><a href="https://steamspy.com/year/" rel="nofollow">Steam Spy</a></td>
+<td align="left"><a href="https://cruiseofdimensionality.home.blog/2019/07/24/pc-video-games-we-still-play/" rel="nofollow">Liza Wood</a></td>
+</tr>
+<tr>
+<td align="center">32</td>
+<td align="center"><code>2019-08-06</code></td>
+<td align="left"><a href="2019-08-06">Bob Ross paintings</a></td>
+<td align="left"><a href="https://github.com/fivethirtyeight/data/tree/master/bob-ross">FiveThirtyEight</a></td>
+<td align="left"><a href="https://fivethirtyeight.com/features/a-statistical-analysis-of-the-work-of-bob-ross/" rel="nofollow">FiveThirtyEight</a></td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="center"><code>2019-08-13</code></td>
+<td align="left"><a href="2019-08-13">Roman Emperors</a></td>
+<td align="left">
+<a href="https://en.wikipedia.org/wiki/List_of_Roman_emperors" rel="nofollow">Wikipedia</a> / <a href="https://github.com/zonination/emperors/blob/master/README.md">Zonination</a>
+</td>
+<td align="left"><a href="https://www.reddit.com/r/dataisbeautiful/comments/8tzfgz/roman_emperors_by_year_oc/" rel="nofollow">reddit.com/r/dataisbeautiful</a></td>
+</tr>
+<tr>
+<td align="center">34</td>
+<td align="center"><code>2019-08-20</code></td>
+<td align="left"><a href="2019-08-20">Nuclear Explosions</a></td>
+<td align="left"><a href="https://github.com/data-is-plural/nuclear-explosions/blob/master/documents/sipri-report-original.pdf">SIPRI</a></td>
+<td align="left"><a href="https://ourworldindata.org/nuclear-weapons" rel="nofollow">Our World in Data</a></td>
+</tr>
+<tr>
+<td align="center">35</td>
+<td align="center"><code>2019-08-27</code></td>
+<td align="left"><a href="2019-08-27">Simpsons Guest Stars</a></td>
+<td align="left"><a href="https://github.com/data-is-plural/nuclear-explosions/blob/master/documents/sipri-report-original.pdf">Wikipedia</a></td>
+<td align="left"><a href="https://en.wikipedia.org/wiki/List_of_The_Simpsons_guest_stars" rel="nofollow">Wikipedia</a></td>
+</tr>
+<tr>
+<td align="center">36</td>
+<td align="center"><code>2019-09-03</code></td>
+<td align="left"><a href="2019-09-03">Moore's Law</a></td>
+<td align="left"><a href="https://en.wikipedia.org/wiki/Transistor_count" rel="nofollow">Wikipedia</a></td>
+<td align="left"><a href="https://ourworldindata.org/technological-progress" rel="nofollow">Wikipedia</a></td>
+</tr>
+<tr>
+<td align="center">37</td>
+<td align="center"><code>2019-09-10</code></td>
+<td align="left"><a href="2019-09-10">Amusement Park Injuries</a></td>
+<td align="left">
+<a href="https://data.world/amillerbernd/texas-amusement-park-accidents/workspace/file?filename=Amusement-Park-Injuries-xlsxCleaned.xls" rel="nofollow">Data.world</a> &amp; <a href="https://saferparksdata.org/" rel="nofollow">Saferparks</a>
+</td>
+<td align="left"><a href="https://saferparksdata.org/" rel="nofollow">Saferparks</a></td>
+</tr>
+<tr>
+<td align="center">38</td>
+<td align="center"><code>2019-09-17</code></td>
+<td align="left"><a href="2019-09-17">National Park Visits</a></td>
+<td align="left"><a href="https://data.world/inform8n/us-national-parks-visitation-1904-2016-with-boundaries" rel="nofollow">Data.world</a></td>
+<td align="left"><a href="https://fivethirtyeight.com/features/the-national-parks-have-never-been-more-popular/" rel="nofollow"><code>fivethirtyeight</code> article</a></td>
+</tr>
+<tr>
+<td align="center">39</td>
+<td align="center"><code>2019-09-24</code></td>
+<td align="left"><a href="2019-09-24">School Diversity</a></td>
+<td align="left"><a href="https://nces.ed.gov/ccd/pubschuniv.asp" rel="nofollow">NCES</a></td>
+<td align="left"><a href="https://www.washingtonpost.com/graphics/2019/local/school-diversity-data/" rel="nofollow"><code>Washington Post</code> article</a></td>
+</tr>
+<tr>
+<td align="center">40</td>
+<td align="center"><code>2019-10-01</code></td>
+<td align="left"><a href="2019-10-01">All the Pizza</a></td>
+<td align="left">
+<a href="https://twitter.com/jaredlander/status/1178122846419193858?s=20" rel="nofollow">Jared Lander &amp; Ludmila Janda</a>, <a href="https://github.com/tylerjrichards/Barstool_Pizza">Tyler Richards</a>, <a href="https://www.kaggle.com/datafiniti/pizza-restaurants-and-the-pizza-they-sell" rel="nofollow">DataFiniti</a>
+</td>
+<td align="left"><a href="https://towardsdatascience.com/adventures-in-barstools-pizza-data-9b8ae6bb6cd1" rel="nofollow">Tyler Richards on TWD</a></td>
+</tr>
+<tr>
+<td align="center">41</td>
+<td align="center"><code>2019-10-08</code></td>
+<td align="left"><a href="2019-10-08">Powerlifting</a></td>
+<td align="left"><a href="https://www.openpowerlifting.org/data" rel="nofollow">OpenPowerlifting.org</a></td>
+<td align="left"><a href="https://oziolor.wordpress.com/2018/05/19/part-i-getting-old-you-can-still-lift/" rel="nofollow">Elias Oziolor</a></td>
+</tr>
+<tr>
+<td align="center">42</td>
+<td align="center"><code>2019-10-15</code></td>
+<td align="left"><a href="2019-10-15">Car Fuel Economy</a></td>
+<td align="left"><a href="https://www.fueleconomy.gov/feg/download.shtml" rel="nofollow">EPA</a></td>
+<td align="left"><a href="https://thebioengineer.github.io/thebioengineer.github.io/2019/09/10/big-mtcars/" rel="nofollow">Ellis Hughes</a></td>
+</tr>
+<tr>
+<td align="center">43</td>
+<td align="center"><code>2019-10-22</code></td>
+<td align="left"><a href="2019-10-22">Horror movie ratings</a></td>
+<td align="left"><a href="https://www.kaggle.com/PromptCloudHQ/imdb-horror-movie-dataset" rel="nofollow">IMDB</a></td>
+<td align="left"><a href="https://stephenfollows.com/what-the-data-says-about-producing-low-budget-horror-films/" rel="nofollow">Stephen Follows</a></td>
+</tr>
+<tr>
+<td align="center">44</td>
+<td align="center"><code>2019-10-29</code></td>
+<td align="left"><a href="2019-10-29">NYC Squirrel Census</a></td>
+<td align="left"><a href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw" rel="nofollow">Squirrel Census</a></td>
+<td align="left"><a href="https://www.citylab.com/life/2019/06/squirrel-census-results-population-central-park-nyc/592162/" rel="nofollow">CityLab</a></td>
+</tr>
+<tr>
+<td align="center">45</td>
+<td align="center"><code>2019-11-05</code></td>
+<td align="left"><a href="2019-11-05">Bike &amp; Walk Commutes</a></td>
+<td align="left"><a href="https://www.census.gov/library/publications/2014/acs/acs-25.html?#" rel="nofollow">ACS</a></td>
+<td align="left"><a href="https://www.census.gov/library/publications/2014/acs/acs-25.html?#" rel="nofollow">ACS</a></td>
+</tr>
+<tr>
+<td align="center">46</td>
+<td align="center"><code>2019-11-12</code></td>
+<td align="left"><a href="2019-11-12">CRAN Code</a></td>
+<td align="left"><a href="https://cran.r-project.org/src/contrib/" rel="nofollow">CRAN</a></td>
+<td align="left"><a href="https://www.pmassicotte.com/post/analyzing-the-programming-languages-used-in-r-packages/" rel="nofollow">Phillip Massicotte</a></td>
+</tr>
+<tr>
+<td align="center">47</td>
+<td align="center"><code>2019-11-19</code></td>
+<td align="left"><a href="2019-11-19">NZ Bird of the Year</a></td>
+<td align="left"><a href="https://www.forestandbird.org.nz/" rel="nofollow">New Zealand Forest and Bird Org</a></td>
+<td align="left">
+<a href="https://www.dragonfly.co.nz/news/2019-11-12-boty.html" rel="nofollow">Dragonfly Data Science</a> &amp; <a href="https://twitter.com/nmoorenz" rel="nofollow">Nathan Moore</a>
+</td>
+</tr>
+<tr>
+<td align="center">48</td>
+<td align="center"><code>2019-11-26</code></td>
+<td align="left"><a href="2019-11-26">Student Loan Debt</a></td>
+<td align="left"><a href="https://studentaid.ed.gov/sa/about/data-center/student/default" rel="nofollow">Department of Education</a></td>
+<td align="left"><a href="https://www.dignityanddebt.org/projects/student-debt-racial-disparities/" rel="nofollow">Dignity and Debt</a></td>
+</tr>
+<tr>
+<td align="center">49</td>
+<td align="center"><code>2019-12-03</code></td>
+<td align="left"><a href="2019-12-03">Philly Parking Tickets</a></td>
+<td align="left"><a href="https://www.opendataphilly.org/dataset/parking-violations" rel="nofollow">Open Data Philly</a></td>
+<td align="left"><a href="https://www.nbcphiladelphia.com/news/local/Nearly-6-Million-Philadelphia-Parking-Authority-Tickets-Are-on-the-Rise-Since-2016-565438131.html" rel="nofollow">NBC Philadelphia</a></td>
+</tr>
+<tr>
+<td align="center">50</td>
+<td align="center"><code>2019-12-10</code></td>
+<td align="left"><a href="2019-12-10">Replicating plots in R</a></td>
+<td align="left"><a href="https://simplystatistics.org/2019/08/28/you-can-replicate-almost-any-plot-with-ggplot2/" rel="nofollow">Simply Statistics</a></td>
+<td align="left"><a href="https://simplystatistics.org/2019/08/28/you-can-replicate-almost-any-plot-with-ggplot2/" rel="nofollow">Rafael Irizarry</a></td>
+</tr>
+<tr>
+<td align="center">51</td>
+<td align="center"><code>2019-12-17</code></td>
+<td align="left"><a href="2019-12-17">Adoptable dogs</a></td>
+<td align="left"><a href="https://github.com/the-pudding/data/blob/master/dog-shelters/README.md">Petfinder</a></td>
+<td align="left"><a href="https://pudding.cool/2019/10/shelters/" rel="nofollow">The Pudding</a></td>
+</tr>
+<tr>
+<td align="center">52</td>
+<td align="center"><code>2019-12-24</code></td>
+<td align="left"><a href="2019-12-24">Christmas Songs</a></td>
+<td align="left"><a href="https://www.kaggle.com/sharkbait1223/billboard-top-100-christmas-carol-dataset" rel="nofollow">Billboard Top 100</a></td>
+<td align="left"><a href="https://adashofdata.com/2014/12/21/how-christmas-songs-have-evolved-over-time/" rel="nofollow">A Dash of Data</a></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><hr>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Useful links</h1>
+<a id="user-content-useful-links" class="anchor" aria-label="Permalink: Useful links" href="#useful-links"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th>Link</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://www.rfordatasci.com" rel="nofollow">Link</a></td>
+<td>The R4DS Online Learning Community Website</td>
+</tr>
+<tr>
+<td><a href="http://r4ds.had.co.nz/" rel="nofollow">Link</a></td>
+<td>The R for Data Science textbook</td>
+</tr>
+<tr>
+<td><a href="https://carbon.now.sh/" rel="nofollow">Link</a></td>
+<td>Carbon for sharing beautiful code pics</td>
+</tr>
+<tr>
+<td><a href="https://github.com/MilesMcBain/gistfo">Link</a></td>
+<td>Post gist to Carbon from RStudio</td>
+</tr>
+<tr>
+<td><a href="https://github.com/yonicd/carbonate">Link</a></td>
+<td>Post to Carbon from RStudio</td>
+</tr>
+<tr>
+<td><a href="https://github.com/join">Link</a></td>
+<td>Join GitHub!</td>
+</tr>
+<tr>
+<td><a href="https://guides.github.com/activities/hello-world/">Link</a></td>
+<td>Basics of GitHub</td>
+</tr>
+<tr>
+<td><a href="https://happygitwithr.com/" rel="nofollow">Link</a></td>
+<td>Learn how to use GitHub with R</td>
+</tr>
+<tr>
+<td><a href="http://ggplot2.tidyverse.org/reference/ggsave.html" rel="nofollow">Link</a></td>
+<td>Save high-rez <code>ggplot2</code> images</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Useful data sources</h1>
+<a id="user-content-useful-data-sources" class="anchor" aria-label="Permalink: Useful data sources" href="#useful-data-sources"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th>Link</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit#gid=0" rel="nofollow">Link</a></td>
+<td>Data is Plural collection</td>
+</tr>
+<tr>
+<td><a href="https://github.com/BuzzFeedNews/everything/blob/master/README.md">Link</a></td>
+<td>BuzzFeedNews GitHub</td>
+</tr>
+<tr>
+<td><a href="https://github.com/theeconomist/">Link</a></td>
+<td>The Economist GitHub</td>
+</tr>
+<tr>
+<td><a href="https://cran.r-project.org/web/packages/fivethirtyeight/fivethirtyeight.pdf" rel="nofollow">Link</a></td>
+<td>The <code>fivethirtyeight</code> data package</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TheUpshot">Link</a></td>
+<td>The Upshot by NY Times</td>
+</tr>
+<tr>
+<td><a href="https://github.com/baltimore-sun-data">Link</a></td>
+<td>The Baltimore Sun Data Desk</td>
+</tr>
+<tr>
+<td><a href="https://github.com/datadesk">Link</a></td>
+<td>The LA Times Data Desk</td>
+</tr>
+<tr>
+<td><a href="https://github.com/OpenNewsLabs/news-graphics-team">Link</a></td>
+<td>Open News Labs</td>
+</tr>
+<tr>
+<td><a href="https://t.co/BMvJO2dT1o" rel="nofollow">Link</a></td>
+<td>BBC Data Journalism team</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><hr>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Data Viz/Science Books</h1>
+<a id="user-content-data-vizscience-books" class="anchor" aria-label="Permalink: Data Viz/Science Books" href="#data-vizscience-books"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">Only books available freely online are sourced here. Feel free to add to the list</p>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th>Link</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://serialmentor.com/dataviz/" rel="nofollow">Link</a></td>
+<td>Fundamentals of Data Viz by Claus Wilke</td>
+</tr>
+<tr>
+<td><a href="https://bookdown.org/rdpeng/artofdatascience/" rel="nofollow">Link</a></td>
+<td>The Art of Data Science by Roger D. Peng &amp; Elizabeth Matsui</td>
+</tr>
+<tr>
+<td><a href="https://www.tidytextmining.com/" rel="nofollow">Link</a></td>
+<td>Tidy Text Mining by Julia Silge &amp; David Robinson</td>
+</tr>
+<tr>
+<td><a href="https://geocompr.robinlovelace.net/" rel="nofollow">Link</a></td>
+<td>Geocomputation with R by Robin Lovelace, Jakub Nowosad, Jannes Muenchow</td>
+</tr>
+<tr>
+<td><a href="https://socviz.co/index.html#preface" rel="nofollow">Link</a></td>
+<td>Data Visualization by Kieran Healy</td>
+</tr>
+<tr>
+<td><a href="http://www.cookbook-r.com/Graphs/" rel="nofollow">Link</a></td>
+<td>
+<code>ggplot2</code> cookbook by Winston Chang</td>
+</tr>
+<tr>
+<td><a href="https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535" rel="nofollow">Link</a></td>
+<td>BBC Data Journalism team</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table></article></div></body></html>

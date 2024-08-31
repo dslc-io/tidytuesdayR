@@ -3,75 +3,37 @@
 #' Import or update dataset from github that records the entire list of objects
 #' from TidyTuesday
 #'
+#' @inheritParams gh_get
 #' @param force force the update to occur even if the SHA matches
-#' @param auth github Personal Access Token.
 #'
+#' @return The tt master file, updated if necessary.
 #' @keywords internal
-#' @importFrom utils read.csv
-#' @noRd
-#'
-tt_update_master_file <- function(force = FALSE, auth = github_pat()) {
-    ## check internet connectivity and rate limit
-    if (!get_connectivity()) { # nocov start
-      check_connectivity(rerun = TRUE)
-      if (!get_connectivity()) {
-        message("Warning - No Internet Connectivity")
-        invisible(NULL)
-      }
-    }
-
-    ## Check Rate Limit
-    if (rate_limit_check() == 0) {
-      invisible(NULL)
-    } # nocov end
-
-    # get sha to see if need to update
-    sha_df <- github_sha("static")
-    sha <- sha_df$sha[sha_df$path == "tt_data_type.csv"]
-
-    if (nrow(TT_MASTER_ENV$TT_MASTER_FILE) == 0 ||
-      sha != attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha") || force) {
-      file_text <- github_contents("static/tt_data_type.csv", auth = auth)
-      content <-
-        read.csv(
-          text = file_text,
-          header = TRUE,
-          stringsAsFactors = FALSE
-        )
-      attr(content, ".sha") <- sha
-
-      tt_master_file(content)
-    }
+tt_master_file <- function(force = FALSE, auth = gh::gh_token()) {
+  if (should_update_tt_master_file(force, auth)) {
+    content <- gh_get_csv("static/tt_data_type.csv")
+    TT_MASTER_ENV$TT_MASTER_FILE <- content
   }
-
-#' Get Master List of Files from Local Environment
-#'
-#' return or update tt master file
-#'
-#' @param assign value to overwrite the TT_MASTER_ENV$TT_MASTER_FILE contents
-#' with this value
-#'
-#' @keywords internal
-#' @noRd
-#'
-tt_master_file <- function(assign = NULL) {
-  if (!is.null(assign)) {
-    TT_MASTER_ENV$TT_MASTER_FILE <- assign
-  } else {
-    ttmf <- TT_MASTER_ENV$TT_MASTER_FILE
-    if (nrow(ttmf) == 0) {
-      tt_update_master_file()
-      ttmf <- TT_MASTER_ENV$TT_MASTER_FILE
-    }
-    return(ttmf)
-  }
+  return(TT_MASTER_ENV$TT_MASTER_FILE)
 }
 
-#' The Master List of Files from TidyTuesday
+#' Decide whether to update the master file
 #'
+#' @inheritParams tt_master_file
+#'
+#' @return Boolean indicating whether the master file should be updated.
 #' @keywords internal
-#' @noRd
-#'
+should_update_tt_master_file <- function(force = FALSE, auth = gh::gh_token()) {
+  force ||
+    !nrow(TT_MASTER_ENV$TT_MASTER_FILE) ||
+    is.null(attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha")) ||
+    gh_get_sha_in_folder(
+      "static",
+      "tt_data_type.csv",
+      auth = auth
+    ) != attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha")
+}
+
+# The Master List of Files from TidyTuesday
 TT_MASTER_ENV <- new.env()
 TT_MASTER_ENV$TT_MASTER_FILE <- data.frame(
   Week = integer(0),

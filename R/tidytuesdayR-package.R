@@ -2,6 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom rlang %||%
+#' @importFrom glue glue
 ## usethis namespace: end
 NULL

@@ -2,42 +2,33 @@
 % Please edit documentation in R/tt_download.R
 \name{tt_download}
 \alias{tt_download}
-\title{download tt data}
+\title{Download TidyTuesday data}
 \usage{
-tt_download(tt, files = c("All"), ..., branch = "master", auth = github_pat())
+tt_download(tt, files = "All", ..., auth = gh::gh_token())
 }
 \arguments{
-\item{tt}{a `tt` object, output from \code{\link{tt_load_gh}}}
+\item{tt}{A \code{tt} object, output from \code{\link[=tt_load_gh]{tt_load_gh()}}.}
 
-\item{files}{List the file names to download. Default to asking.}
+\item{files}{Which file names to download. Default "All" downloads all files
+for the specified week.}
 
-\item{...}{pass methods to the parsing functions. These will be passed to
-ALL files, so be careful.}
+\item{...}{Additional parameters to pass to the parsing functions. Note:
+These arguments will be passed for all filetypes.}
 
-\item{branch}{which branch to be downloading data from. Default and always
-should be "master".}
-
-\item{auth}{github Personal Access Token. See PAT section for more
-information}
+\item{auth}{A GitHub token. See \code{\link[gh:gh_token]{gh::gh_token()}} for more details.}
 }
 \value{
-list of tibbles of the files downloaded.
+A list of tibbles from the downloaded files.
 }
 \description{
-Download all or specific files identified in the tt dataset
+Download all or specific files identified in a TidyTuesday dataset.
 }
-\section{PAT}{
-
-
-A Github PAT is a personal Access Token. This allows for signed queries to
-the github api, and increases the limit on the number of requests allowed
-from 60 to 5000. Follow instructions at
-<https://happygitwithr.com/github-pat.html> to set the PAT.
-}
-
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Get the list of files for a week.
 tt_output <- tt_load_gh("2019-01-15")
+
+# Download a specific file.
 agencies <- tt_download(tt_output, files = "agencies.csv")
 \dontshow{\}) # examplesIf}
 }

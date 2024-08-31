@@ -7,7 +7,7 @@
 last_tuesday(date = today(tzone = "America/New_York"))
 }
 \arguments{
-\item{date}{A date as a date object or character string in `YYYY-MM-DD`
+\item{date}{A date as a date object or character string in \code{YYYY-MM-DD}
 format. Defaults to today's date.}
 }
 \description{

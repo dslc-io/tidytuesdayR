@@ -1,35 +1,29 @@
-tt_ref_encoding(
-  encoding = "Korean",
-  "Korean: Non-English encodings don't fail reading unicode from github",
-  {
-    check_api()
-    tt_data <- try(tt_datasets("2019"), silent = TRUE)
-    res <- nrow(data.frame(unclass(tt_data)))
-    expect_true(!inherits(tt_data, "try-error"))
-    expect_equal(res, 52)
-  }
-)
+test_that("Korean: Non-English encodings don't fail reading unicode from github", {
+  skip_if_not(.Platform$OS.type == "windows")
+  local_encoding("Korean")
+  local_tt_master_file()
+  local_tt_datasets()
+  tt_data <- tt_datasets("2019")
+  res <- nrow(data.frame(unclass(tt_data)))
+  expect_equal(res, 52)
+})
 
-tt_ref_encoding(
-  encoding = "Japanese",
-  "Japanese: Non-English encodings don't fail reading unicode from github",
-  {
-    check_api()
-    tt_data <- try(tt_datasets("2019"), silent = TRUE)
-    res <- nrow(data.frame(unclass(tt_data)))
-    expect_true(!inherits(tt_data, "try-error"))
-    expect_equal(res, 52)
-  }
-)
+test_that("Japanese: Non-English encodings don't fail reading unicode from github", {
+  skip_if_not(.Platform$OS.type == "windows")
+  local_encoding("Japanese")
+  local_tt_master_file()
+  local_tt_datasets()
+  tt_data <- tt_datasets("2019")
+  res <- nrow(data.frame(unclass(tt_data)))
+  expect_equal(res, 52)
+})
 
-tt_ref_encoding(
-  encoding = "Russian",
-  "Russian: Non-English encodings don't fail reading unicode from github",
-  {
-    check_api()
-    tt_data <- try(tt_datasets("2019"), silent = TRUE)
-    res <- nrow(data.frame(unclass(tt_data)))
-    expect_true(!inherits(tt_data, "try-error"))
-    expect_equal(res, 52)
-  }
-)
+test_that("Russian: Non-English encodings don't fail reading unicode from github", {
+  skip_if_not(.Platform$OS.type == "windows")
+  local_encoding("Russian")
+  local_tt_master_file()
+  local_tt_datasets()
+  tt_data <- tt_datasets("2019")
+  res <- nrow(data.frame(unclass(tt_data)))
+  expect_equal(res, 52)
+})

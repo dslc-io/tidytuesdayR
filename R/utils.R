@@ -18,38 +18,13 @@
 #' print(tt_data)
 NULL
 
-#' @rdname printing
-#' @importFrom tools file_path_sans_ext
-#' @export
-#' @return used to show readme and list names of available datasets
-print.tt_data <- function(x, ...) {
-  readme(x)
-  message(
-    "Available datasets:\n\t",
-    paste(tools::file_path_sans_ext(names(x)), "\n\t", collapse = "")
-  )
-  invisible(x)
-}
-
-#' @rdname printing
-#' @importFrom tools file_path_sans_ext
-#' @export
-#' @return used to show available datasets for the TidyTuesday
-print.tt <- function(x, ...) {
-  message(
-    "Available datasets in this TidyTuesday:\n\t",
-    paste(attr(x, ".files")$data_files, "\n\t", collapse = "")
-  )
-  invisible(x)
-}
-
-#' @title Readme HTML maker and Viewer
+#' Readme HTML maker and Viewer
+#'
 #' @param tt tt_data object for printing
-#' @importFrom xml2 write_html
-#' @return NULL
+#'
+#' @return Null, invisibly. Used to show readme of the downloaded TidyTuesday
+#'   dataset in the Viewer.
 #' @export
-#' @return Does not return anything. Used to show readme of the downloaded
-#'  TidyTuesday dataset in the Viewer.
 #' @examplesIf interactive()
 #' if (rate_limit_check(quiet = TRUE) > 30) {
 #'   tt_output <- tt_load_gh("2019-01-15")
@@ -68,25 +43,29 @@ readme <- function(tt) {
   invisible(NULL)
 }
 
-#' @importFrom rstudioapi viewer isAvailable
-#' @noRd
 html_viewer <- function(url, is_interactive = interactive()) {
   if (!is_interactive) {
     invisible(NULL)
-  } else if (isAvailable()) {
-    viewer(url = url)
+  } else if (rstudio_is_available()) {
+    rstudio_viewer(url = url)
   } else {
     browse_url(url = url)
   }
 }
 
-# For mocking in tests.
-#' @importFrom utils browseURL
-browse_url <- function(url) {
-  browseURL(url = url) # nocov
+rstudio_is_available <- function() {
+  rlang::is_installed("rstudioapi") && rstudioapi::isAvailable()
 }
 
-#' @noRd
+# For mocking in tests.
+browse_url <- function(url) {
+  utils::browseURL(url = url) # nocov
+}
+
+rstudio_viewer <- function(url) {
+  rstudioapi::viewer(url = url)
+}
+
 contiguous_weeks <- function(week_vctr) {
   if (length(week_vctr) == 1) {
     text_out <- as.character(week_vctr)

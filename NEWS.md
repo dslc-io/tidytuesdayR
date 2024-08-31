@@ -1,10 +1,16 @@
-# tidytuesdayR (1.0.3 version)
-* [bug fix] Address case where when trying to test
+# tidytuesdayR (development version)
 
-# tidytuesdayR (1.0.2 version)
+* [maintenance] tidytuesdayR now uses the {gh} package to manage all interactions with the GitHub API. This should make the package more stable and easier to maintain. (@jonthegeek, #78)
+
+
+# tidytuesdayR 1.0.3
+
+* [bug fix] Address case where rate limit hit when trying to test
+
+# tidytuesdayR 1.0.2
 
 * [bug fix] During testing it was identified that 502 errors from github servers would cause the code to error out. Now it will retry a few times before giving an error.
-* [bug fix] No internet connection bug on rstudio resolved to due malformed url checks (https).
+* [bug fix] No internet connection bug on rstudio resolved due to malformed url checks (https).
 * [bug fix] Partial argument matching correction in `tt_download_file.character()`, `tt_parse_blob()`, and in tests. (thanks @mgirlich)
 
 # tidytuesdayR 1.0.1

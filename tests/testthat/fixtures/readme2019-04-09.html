@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="file" class="md" data-path="data/2019/2019-04-09/readme.md"><article class="markdown-body entry-content container-lg" itemprop="text"><div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Tennis Grand Slams</h1>
+<a id="user-content-tennis-grand-slams" class="anchor" aria-label="Permalink: Tennis Grand Slams" href="#tennis-grand-slams"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">A few exciting Tennis-related datasets this week, all of which come courtesy of Wikipedia! "All records are based on data from the Association of Tennis Professionals (ATP), the International Tennis Federation (ITF), and the official websites of the four Grand Slam tournaments." - Wikipedia</p>
+<p dir="auto">"The Open Era is the current era of professional tennis. It began in 1968 when the Grand Slam tournaments allowed professional players to compete with amateurs, ending the division that had persisted since the dawn of the sport in the 19th century." - Wikipedia</p>
+<p dir="auto">"The Grand Slam tournaments, also called majors, are the four most important annual tennis events. They offer the most ranking points, prize money, public and media attention, the greatest strength and size of field, and greater number of "best of" sets for men. The Grand Slam itinerary consists of the Australian Open in mid January, the French Open around late May through early June, Wimbledon in June-July, and the US Open in August-September. Each tournament is played over a two-week period. The Australian and United States tournaments are played on hard courts, the French on clay, and Wimbledon on grass." - Wikipedia</p>
+<p dir="auto">The court surface could be an interesting additional piece of data that I have left out, you could add it in with some clever <code>case_when()</code> calls.</p>
+<p dir="auto">I have tamed the datasets pretty thoroughly but there are several ways you could combine, summarize, or otherwise plot the data for this week. I have a spoiler/hint at the bottom if you get stuck with combining! I also left my relatively rough cleaning and data collection .rmd in, and have uploaded it.</p>
+<div class="markdown-heading" dir="auto">
+<h3 class="heading-element" dir="auto">DISCLAIMER</h3>
+<a id="user-content-disclaimer" class="anchor" aria-label="Permalink: DISCLAIMER" href="#disclaimer"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">The Grand Slam tournaments happen in a rough 2-week timeframe as mentioned above, however I was unable to find a nice dataset that covered the specific day of both the men's and women's finals. As such I have used a static date that estimates the date of the championship match, and likely has an error of a few days for each tournament. However, this is still useful for determining the <em>approximate</em> age of the player at each tournament.</p>
+<div class="markdown-heading" dir="auto">
+<h2 class="heading-element" dir="auto"><em>Data Sources:</em></h2>
+<a id="user-content-data-sources" class="anchor" aria-label="Permalink: Data Sources:" href="#data-sources"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto"><a href="https://en.wikipedia.org/wiki/Tennis_performance_timeline_comparison_(women)" rel="nofollow">Women's Timeline</a><br><a href="https://en.wikipedia.org/wiki/Tennis_performance_timeline_comparison_(men)" rel="nofollow">Men's Timeline</a><br><a href="https://en.wikipedia.org/wiki/List_of_Grand_Slam_singles_champions_in_Open_Era_with_age_of_first_title" rel="nofollow">Date of Birth/First Title</a><br><a href="https://en.wikipedia.org/wiki/List_of_Grand_Slam_women%27s_singles_champions" rel="nofollow">Women's Singles Champs</a><br><a href="https://en.wikipedia.org/wiki/List_of_Grand_Slam_men%27s_singles_champions" rel="nofollow">Men's Singles Champs</a></p>
+<div class="markdown-heading" dir="auto">
+<h2 class="heading-element" dir="auto">Article</h2>
+<a id="user-content-article" class="anchor" aria-label="Permalink: Article" href="#article"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">The <a href="https://ig.ft.com/sites/visual-history-of-womens-tennis/" rel="nofollow">Financial Times Article</a> has lots of great inspiration plots, but uses different datasets. Specifically the author used match wins vs tournament wins and tennis rankings over time rather than tournament placing. The author <a href="https://twitter.com/jburnmurdoch/status/777828932959756289" rel="nofollow">John Burn-Murdoch</a> is a great follow for DataViz and visual storytelling resources, including R and D3.</p>
+<p dir="auto">Additionally a <a href="https://gist.github.com/johnburnmurdoch/bd20db77b2582031604ccd1bdc4be582">gist</a> and <a href="https://twitter.com/jburnmurdoch/status/1101955617533685760" rel="nofollow">Tweet</a> from John Burn-Murdoch goes through the process of collecting some men's tennis data, and then how he iterated across several plots. It's worth taking a look at for either code-inspiration for this week or as a general example of plot iteration for publication.</p>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Get the Data!</h1>
+<a id="user-content-get-the-data" class="anchor" aria-label="Permalink: Get the Data!" href="#get-the-data"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content='player_dob &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-09/player_dob.csv")
+
+grand_slams &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-09/grand_slams.csv")
+
+grand_slam_timeline &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-09/grand_slam_timeline.csv")'><pre class="notranslate"><code>player_dob &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-09/player_dob.csv")
+
+grand_slams &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-09/grand_slams.csv")
+
+grand_slam_timeline &lt;- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-04-09/grand_slam_timeline.csv")
+</code></pre></div>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">Data Dictionaries</h1>
+<a id="user-content-data-dictionaries" class="anchor" aria-label="Permalink: Data Dictionaries" href="#data-dictionaries"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<ul dir="auto">
+<li><code>grand_slam_timeline</code></li>
+</ul>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">player</td>
+<td align="left">character</td>
+<td align="left">Player Name</td>
+</tr>
+<tr>
+<td align="left">year</td>
+<td align="left">integer</td>
+<td align="left">Tournament Year</td>
+</tr>
+<tr>
+<td align="left">tournament</td>
+<td align="left">character</td>
+<td align="left">Tournament name</td>
+</tr>
+<tr>
+<td align="left">outcome</td>
+<td align="left">character</td>
+<td align="left">Outcome - where player was eliminated, was absent, or won - there are some NAs</td>
+</tr>
+<tr>
+<td align="left">gender</td>
+<td align="left">character</td>
+<td align="left">Male/Female for this dataset</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><ul dir="auto">
+<li><code>grand_slams</code></li>
+</ul>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">year</td>
+<td align="left">integer</td>
+<td align="left">Tournament Year</td>
+</tr>
+<tr>
+<td align="left">grand_slam</td>
+<td align="left">character</td>
+<td align="left">Tournament name</td>
+</tr>
+<tr>
+<td align="left">name</td>
+<td align="left">character</td>
+<td align="left">Player Name</td>
+</tr>
+<tr>
+<td align="left">rolling_win_count</td>
+<td align="left">integer</td>
+<td align="left">Rolling win = cumulative sum of wins across time/player</td>
+</tr>
+<tr>
+<td align="left">tournament_date</td>
+<td align="left">date</td>
+<td align="left">
+<strong>Approximate</strong> Tournament Date (ymd)</td>
+</tr>
+<tr>
+<td align="left">gender</td>
+<td align="left">character</td>
+<td align="left">Male/Female for this dataset</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><ul dir="auto">
+<li><code>player_dob</code></li>
+</ul>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">name</td>
+<td align="left">character</td>
+<td align="left">Player name</td>
+</tr>
+<tr>
+<td align="left">grand_slam</td>
+<td align="left">character</td>
+<td align="left">Tournament for first major title win</td>
+</tr>
+<tr>
+<td align="left">date_of_birth</td>
+<td align="left">date</td>
+<td align="left">date of birth (ymd)</td>
+</tr>
+<tr>
+<td align="left">date_of_first_title</td>
+<td align="left">date</td>
+<td align="left">date of first major title win (ymd)</td>
+</tr>
+<tr>
+<td align="left">age</td>
+<td align="left">double</td>
+<td align="left">Age in days</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><div class="markdown-heading" dir="auto">
+<h3 class="heading-element" dir="auto">Spoiler</h3>
+<a id="user-content-spoiler" class="anchor" aria-label="Permalink: Spoiler" href="#spoiler"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">To get the tournament performance at age rather than simply across time we need to <code>join</code> the Date of Birth dataset with the grandslam dataset.</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content='age_slams_comb &lt;- left_join(grand_slams, player_dob, by = c("name")) %&gt;% 
+  mutate(age = tournament_date - date_of_birth) %&gt;% # needs to be datetime
+  group_by(name, age, gender) %&gt;% 
+  summarize(counts = n()) %&gt;% 
+  group_by(name) %&gt;% 
+  mutate(total_wins = cumsum(counts)) %&gt;% 
+  arrange(desc(total_wins))
+
+# test plot
+age_slams_comb %&gt;% 
+  ggplot(aes(x = age, y = total_wins, group = name)) +
+  geom_point() +
+  geom_step() +
+  facet_wrap(~gender)'><pre lang="{r}" class="notranslate"><code>age_slams_comb &lt;- left_join(grand_slams, player_dob, by = c("name")) %&gt;% 
+  mutate(age = tournament_date - date_of_birth) %&gt;% # needs to be datetime
+  group_by(name, age, gender) %&gt;% 
+  summarize(counts = n()) %&gt;% 
+  group_by(name) %&gt;% 
+  mutate(total_wins = cumsum(counts)) %&gt;% 
+  arrange(desc(total_wins))
+
+# test plot
+age_slams_comb %&gt;% 
+  ggplot(aes(x = age, y = total_wins, group = name)) +
+  geom_point() +
+  geom_step() +
+  facet_wrap(~gender)
+</code></pre></div>
+</article></div></body></html>

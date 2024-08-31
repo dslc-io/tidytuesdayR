@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="file" class="md" data-path="data/2020/2020-04-21/readme.md"><article class="markdown-body entry-content container-lg" itemprop="text"><p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/3d57703c1ba358bdef96517316c557eca22344effb1694ae3c5bf214fdd6e60f/68747470733a2f2f776f726470726573732e736d6172746c6f6f6b2e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031382f30312f676470722e706e67"><img src="https://camo.githubusercontent.com/3d57703c1ba358bdef96517316c557eca22344effb1694ae3c5bf214fdd6e60f/68747470733a2f2f776f726470726573732e736d6172746c6f6f6b2e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031382f30312f676470722e706e67" alt="Keep calm and comply with GDPR" data-canonical-src="https://wordpress.smartlook.com/wp-content/uploads/2018/01/gdpr.png" style="max-width: 100%;"></a></p>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto">GDPR Fines</h1>
+<a id="user-content-gdpr-fines" class="anchor" aria-label="Permalink: GDPR Fines" href="#gdpr-fines"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<p dir="auto">h/t to <a href="https://twitter.com/hrbrmstr/status/1247476867621421061?s=20" rel="nofollow">Bob Rudis</a> for sharing the data source, and to <a href="https://blog.rmhogervorst.nl/blog/2020/04/08/scraping-gdpr-fines/" rel="nofollow">Roel Hogervorst</a> for the guide to scraping this data. He provided the bulk of the scraping code, and I added bit of additional data cleaning. The data this week comes from <a href="https://www.privacyaffairs.com/gdpr-fines/" rel="nofollow">Privacy Affairs</a>.</p>
+<p dir="auto">I have also included all the raw text (<code>gdpr_text.tsv</code>) for the actual GDPR legal documents, in case someone was interested in parsing through them or using them along with the violations.</p>
+<p dir="auto">Per <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" rel="nofollow">Wikipedia</a> GDPR is:</p>
+<blockquote>
+<p dir="auto">The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA). It also addresses the transfer of personal data outside the EU and EEA areas. The GDPR aims primarily to give control to individuals over their personal data and to simplify the regulatory environment for international business by unifying the regulation within the EU.[1] Superseding the Data Protection Directive 95/46/EC, the regulation contains provisions and requirements related to the processing of personal data of individuals (formally called data subjects in the GDPR) who reside in the EEA, and applies to any enterprise—regardless of its location and the data subjects' citizenship or residence—that is processing the personal information of data subjects inside the EEA.</p>
+</blockquote>
+<div class="markdown-heading" dir="auto">
+<h3 class="heading-element" dir="auto">Get the data here</h3>
+<a id="user-content-get-the-data-here" class="anchor" aria-label="Permalink: Get the data here" href="#get-the-data-here"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="# Get the Data
+
+gdpr_violations &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_violations.tsv')
+gdpr_text &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_text.tsv')
+
+# Or read in with tidytuesdayR package (https://github.com/thebioengineer/tidytuesdayR)
+# PLEASE NOTE TO USE 2020 DATA YOU NEED TO USE the tidytuesdayR version after Jan 2020.
+
+# Either ISO-8601 date or year/week works!
+
+# Install via devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;)
+
+tuesdata &lt;- tidytuesdayR::tt_load('2020-04-21')
+tuesdata &lt;- tidytuesdayR::tt_load(2020, week = 17)
+
+
+gdpr_violations &lt;- tuesdata$gdpr_violations"><pre lang="{r}" class="notranslate"><code># Get the Data
+
+gdpr_violations &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_violations.tsv')
+gdpr_text &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_text.tsv')
+
+# Or read in with tidytuesdayR package (https://github.com/thebioengineer/tidytuesdayR)
+# PLEASE NOTE TO USE 2020 DATA YOU NEED TO USE the tidytuesdayR version after Jan 2020.
+
+# Either ISO-8601 date or year/week works!
+
+# Install via devtools::install_github("thebioengineer/tidytuesdayR")
+
+tuesdata &lt;- tidytuesdayR::tt_load('2020-04-21')
+tuesdata &lt;- tidytuesdayR::tt_load(2020, week = 17)
+
+
+gdpr_violations &lt;- tuesdata$gdpr_violations
+</code></pre></div>
+<div class="markdown-heading" dir="auto">
+<h3 class="heading-element" dir="auto">Data Dictionary</h3>
+<a id="user-content-data-dictionary" class="anchor" aria-label="Permalink: Data Dictionary" href="#data-dictionary"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto"><code>gdpr_violations.tsv</code></h1>
+<a id="user-content-gdpr_violationstsv" class="anchor" aria-label="Permalink: gdpr_violations.tsv" href="#gdpr_violationstsv"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">id</td>
+<td align="left">integer</td>
+<td align="left">Idetifier for fine/violation</td>
+</tr>
+<tr>
+<td align="left">picture</td>
+<td align="left">character</td>
+<td align="left">SVG image of violation country flag</td>
+</tr>
+<tr>
+<td align="left">name</td>
+<td align="left">character</td>
+<td align="left">Name of country where violation was enforced</td>
+</tr>
+<tr>
+<td align="left">price</td>
+<td align="left">integer</td>
+<td align="left">Fine price in Euros (€)</td>
+</tr>
+<tr>
+<td align="left">authority</td>
+<td align="left">character</td>
+<td align="left">Authority that enacted the violation</td>
+</tr>
+<tr>
+<td align="left">date</td>
+<td align="left">character</td>
+<td align="left">Date of violation</td>
+</tr>
+<tr>
+<td align="left">controller</td>
+<td align="left">character</td>
+<td align="left">Controller of data - the violator</td>
+</tr>
+<tr>
+<td align="left">article_violated</td>
+<td align="left">character</td>
+<td align="left">Specific GDPR Article violated (see the <code>gdpr_text.tsv</code> data for specifics)</td>
+</tr>
+<tr>
+<td align="left">type</td>
+<td align="left">character</td>
+<td align="left">Type of violation</td>
+</tr>
+<tr>
+<td align="left">source</td>
+<td align="left">character</td>
+<td align="left">Original source (URL) of fine data</td>
+</tr>
+<tr>
+<td align="left">summary</td>
+<td align="left">character</td>
+<td align="left">Summary of violation</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><div class="markdown-heading" dir="auto">
+<h1 class="heading-element" dir="auto"><code>gdpr_text.tsv</code></h1>
+<a id="user-content-gdpr_texttsv" class="anchor" aria-label="Permalink: gdpr_text.tsv" href="#gdpr_texttsv"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<markdown-accessiblity-table><table>
+<thead><tr>
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">chapter</td>
+<td align="left">double</td>
+<td align="left">GDPR Chapter Number</td>
+</tr>
+<tr>
+<td align="left">chapter_title</td>
+<td align="left">character</td>
+<td align="left">Chapter title</td>
+</tr>
+<tr>
+<td align="left">article</td>
+<td align="left">double</td>
+<td align="left">GDPR Article number</td>
+</tr>
+<tr>
+<td align="left">article_title</td>
+<td align="left">character</td>
+<td align="left">Article title</td>
+</tr>
+<tr>
+<td align="left">sub_article</td>
+<td align="left">double</td>
+<td align="left">Sub article number</td>
+</tr>
+<tr>
+<td align="left">gdpr_text</td>
+<td align="left">character</td>
+<td align="left">Raw text of article/subarticle</td>
+</tr>
+<tr>
+<td align="left">href</td>
+<td align="left">character</td>
+<td align="left">URL to the raw text itself</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table><div class="markdown-heading" dir="auto">
+<h3 class="heading-element" dir="auto">Cleaning Script</h3>
+<a id="user-content-cleaning-script" class="anchor" aria-label="Permalink: Cleaning Script" href="#cleaning-script"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>
+</div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="library(tidyverse)
+library(rvest)
+
+# Note the following code was adapted from
+# https://blog.rmhogervorst.nl/blog/2020/04/08/scraping-gdpr-fines/
+
+link &lt;- &quot;https://www.privacyaffairs.com/gdpr-fines/&quot;
+page &lt;- read_html(link)
+
+
+temp &lt;- page %&gt;% html_nodes(&quot;script&quot;) %&gt;% 
+  .[9] %&gt;% 
+  rvest::html_text() 
+
+ends &lt;- str_locate_all(temp, &quot;\\]&quot;)
+starts &lt;- str_locate_all(temp, &quot;\\[&quot;)
+
+table1 &lt;- temp %&gt;% 
+  stringr::str_sub(start = starts[[1]][1,2], end = ends[[1]][1,1]) %&gt;% 
+  str_remove_all(&quot;\\\n&quot;) %&gt;% 
+  str_remove_all(&quot;\\\r&quot;) %&gt;%
+  jsonlite::fromJSON() %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(summary = str_remove_all(summary,&quot;&lt;p&gt;|&lt;/p&gt;|\n&quot;))
+
+
+table2 &lt;- temp %&gt;% 
+  stringr::str_sub(start = starts[[1]][2,2], end = ends[[1]][2,1]) %&gt;% 
+  str_remove_all(&quot;\\\n&quot;) %&gt;% 
+  str_remove_all(&quot;\\\r&quot;) %&gt;%  
+  jsonlite::fromJSON() %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(summary = str_remove_all(summary,&quot;&lt;p&gt;|&lt;/p&gt;|\n&quot;))
+
+
+all_df &lt;- bind_rows(table1, table2) %&gt;% 
+  janitor::clean_names() %&gt;%
+  mutate(
+    authority = str_remove(authority, &quot;\t&quot;),
+    article_violated = str_remove(article_violated, '&lt;a href=&quot;https://www.privacy-regulation.eu/en/32.htm&quot;&gt;') %&gt;% 
+           str_remove('&lt;/a&gt;'),
+    article_violated = str_replace_all(article_violated, &quot;, Art&quot;, &quot;|Art&quot;),
+    type = str_remove(type, '&lt;a href=&quot;https://www.privacy-regulation.eu/en/32.htm&quot;&gt;') %&gt;% 
+      str_remove('&lt;/a&gt;')
+           )
+
+# most frequent articles violated
+all_df %&gt;% 
+  separate_rows(article_violated, sep = &quot;\\|&quot;) %&gt;% 
+  count(article_violated, sort = T)
+
+all_df %&gt;% 
+  write_tsv(&quot;2020/2020-04-21/gdpr_violations.tsv&quot;)
+
+
+# Getting the actual article text -----------------------------------------
+
+raw_article &lt;- &quot;https://gdpr-info.eu/&quot; %&gt;% 
+  read_html()
+
+# Get all the urls for specific articles/chapters
+gdpr_href &lt;- raw_article %&gt;% 
+  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;% 
+  html_nodes(&quot;a&quot;) %&gt;% 
+  html_attr(&quot;href&quot;)
+
+# pull the titles as well
+gdpr_titles &lt;- raw_article %&gt;% 
+  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;% 
+  html_nodes(&quot;a&quot;) %&gt;% 
+  html_attr(&quot;data-title&quot;)
+
+# pull the numbers of article/chapters
+gdpr_numbers &lt;- raw_article %&gt;% 
+  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;% 
+  html_nodes(&quot;a&quot;) %&gt;% 
+  html_text()
+
+# put it all into a df
+gdpr_df &lt;- tibble(
+  article = gdpr_numbers,
+  title = str_trim(gdpr_titles),
+  href = gdpr_href
+) 
+
+# Tidy up the data, create chapters vs articles
+clean_gdpr &lt;- gdpr_df %&gt;% 
+  mutate(chapter = if_else(str_length(article) &gt; 3, article, NA_character_),
+         chapter_title = if_else(str_length(article) &gt; 3, title, NA_character_)) %&gt;% 
+  fill(chapter, chapter_title) %&gt;% 
+  filter(!str_detect(article, &quot;Chapter&quot;)) %&gt;% 
+  mutate(article = as.double(article)) %&gt;% 
+  filter(!is.na(article)) %&gt;% 
+  select(starts_with(&quot;chapter&quot;), article, article_title = title, href)
+
+clean_gdpr
+
+# LONG running outcome
+# Get all the raw html from each of the urls for each article
+all_articles &lt;- clean_gdpr %&gt;% 
+  mutate(raw_html = map(href, read_html))
+
+# function to take raw html and turn it into text for that specific article
+get_gdpr_text &lt;- function(html_in){
+  
+  test_var &lt;- html_in %&gt;% 
+    html_node(&quot;.entry-content&quot;) %&gt;% 
+    html_nodes(&quot;ol&quot;) %&gt;% 
+    html_text()
+  
+  if (length(test_var) == 0){
+   text &lt;- html_in %&gt;%
+     html_node(&quot;.entry-content &gt; p&quot;) %&gt;% 
+     html_text() %&gt;% 
+     str_remove(&quot;^[:digit:]&quot;) 
+  } else {
+    text &lt;- html_in %&gt;% 
+      html_node(&quot;.entry-content&quot;) %&gt;% 
+      html_nodes(&quot;ol&quot;) %&gt;% 
+      html_text() %&gt;% 
+      .[[1]] %&gt;% 
+      str_replace_all(&quot;;\n&quot;, &quot;\t&quot;) %&gt;% 
+      str_replace_all(&quot;:\n&quot;, &quot;\t&quot;) %&gt;% 
+      str_split(&quot;\n&quot;) %&gt;% 
+      .[[1]] %&gt;% 
+      .[. != &quot;&quot;] %&gt;% 
+      str_replace_all(&quot;\t&quot;, &quot;\n&quot;) %&gt;% 
+      str_remove(&quot;^[:digit:]&quot;)
+  }
+  
+  
+  text
+    
+}
+
+# Test
+get_gdpr_text(read_html(&quot;http://gdpr-info.eu/art-2-gdpr/&quot;))
+
+# unnest the list column of text
+clean_articles &lt;- all_articles %&gt;% 
+  mutate(gdpr_text = map(raw_html, get_gdpr_text)) %&gt;% 
+  unnest_longer(gdpr_text)
+
+# final dataframe
+final_articles &lt;- clean_articles %&gt;% 
+  group_by(article) %&gt;% 
+  mutate(sub_article = row_number()) %&gt;% 
+  relocate(sub_article, .after = &quot;article_title&quot;) %&gt;% 
+  relocate(gdpr_text, .after = &quot;sub_article&quot;) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(chapter = str_extract(chapter, &quot;[:digit:]+&quot;)) %&gt;% 
+  mutate_at(vars(chapter, article, sub_article), as.double) %&gt;% 
+  select(-raw_html)
+
+final_articles %&gt;% view()
+
+write_tsv(final_articles, &quot;2020/2020-04-21/gdpr_text.tsv&quot;)
+"><pre lang="{r}" class="notranslate"><code>library(tidyverse)
+library(rvest)
+
+# Note the following code was adapted from
+# https://blog.rmhogervorst.nl/blog/2020/04/08/scraping-gdpr-fines/
+
+link &lt;- "https://www.privacyaffairs.com/gdpr-fines/"
+page &lt;- read_html(link)
+
+
+temp &lt;- page %&gt;% html_nodes("script") %&gt;% 
+  .[9] %&gt;% 
+  rvest::html_text() 
+
+ends &lt;- str_locate_all(temp, "\\]")
+starts &lt;- str_locate_all(temp, "\\[")
+
+table1 &lt;- temp %&gt;% 
+  stringr::str_sub(start = starts[[1]][1,2], end = ends[[1]][1,1]) %&gt;% 
+  str_remove_all("\\\n") %&gt;% 
+  str_remove_all("\\\r") %&gt;%
+  jsonlite::fromJSON() %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(summary = str_remove_all(summary,"&lt;p&gt;|&lt;/p&gt;|\n"))
+
+
+table2 &lt;- temp %&gt;% 
+  stringr::str_sub(start = starts[[1]][2,2], end = ends[[1]][2,1]) %&gt;% 
+  str_remove_all("\\\n") %&gt;% 
+  str_remove_all("\\\r") %&gt;%  
+  jsonlite::fromJSON() %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(summary = str_remove_all(summary,"&lt;p&gt;|&lt;/p&gt;|\n"))
+
+
+all_df &lt;- bind_rows(table1, table2) %&gt;% 
+  janitor::clean_names() %&gt;%
+  mutate(
+    authority = str_remove(authority, "\t"),
+    article_violated = str_remove(article_violated, '&lt;a href="https://www.privacy-regulation.eu/en/32.htm"&gt;') %&gt;% 
+           str_remove('&lt;/a&gt;'),
+    article_violated = str_replace_all(article_violated, ", Art", "|Art"),
+    type = str_remove(type, '&lt;a href="https://www.privacy-regulation.eu/en/32.htm"&gt;') %&gt;% 
+      str_remove('&lt;/a&gt;')
+           )
+
+# most frequent articles violated
+all_df %&gt;% 
+  separate_rows(article_violated, sep = "\\|") %&gt;% 
+  count(article_violated, sort = T)
+
+all_df %&gt;% 
+  write_tsv("2020/2020-04-21/gdpr_violations.tsv")
+
+
+# Getting the actual article text -----------------------------------------
+
+raw_article &lt;- "https://gdpr-info.eu/" %&gt;% 
+  read_html()
+
+# Get all the urls for specific articles/chapters
+gdpr_href &lt;- raw_article %&gt;% 
+  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;% 
+  html_nodes("a") %&gt;% 
+  html_attr("href")
+
+# pull the titles as well
+gdpr_titles &lt;- raw_article %&gt;% 
+  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;% 
+  html_nodes("a") %&gt;% 
+  html_attr("data-title")
+
+# pull the numbers of article/chapters
+gdpr_numbers &lt;- raw_article %&gt;% 
+  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;% 
+  html_nodes("a") %&gt;% 
+  html_text()
+
+# put it all into a df
+gdpr_df &lt;- tibble(
+  article = gdpr_numbers,
+  title = str_trim(gdpr_titles),
+  href = gdpr_href
+) 
+
+# Tidy up the data, create chapters vs articles
+clean_gdpr &lt;- gdpr_df %&gt;% 
+  mutate(chapter = if_else(str_length(article) &gt; 3, article, NA_character_),
+         chapter_title = if_else(str_length(article) &gt; 3, title, NA_character_)) %&gt;% 
+  fill(chapter, chapter_title) %&gt;% 
+  filter(!str_detect(article, "Chapter")) %&gt;% 
+  mutate(article = as.double(article)) %&gt;% 
+  filter(!is.na(article)) %&gt;% 
+  select(starts_with("chapter"), article, article_title = title, href)
+
+clean_gdpr
+
+# LONG running outcome
+# Get all the raw html from each of the urls for each article
+all_articles &lt;- clean_gdpr %&gt;% 
+  mutate(raw_html = map(href, read_html))
+
+# function to take raw html and turn it into text for that specific article
+get_gdpr_text &lt;- function(html_in){
+  
+  test_var &lt;- html_in %&gt;% 
+    html_node(".entry-content") %&gt;% 
+    html_nodes("ol") %&gt;% 
+    html_text()
+  
+  if (length(test_var) == 0){
+   text &lt;- html_in %&gt;%
+     html_node(".entry-content &gt; p") %&gt;% 
+     html_text() %&gt;% 
+     str_remove("^[:digit:]") 
+  } else {
+    text &lt;- html_in %&gt;% 
+      html_node(".entry-content") %&gt;% 
+      html_nodes("ol") %&gt;% 
+      html_text() %&gt;% 
+      .[[1]] %&gt;% 
+      str_replace_all(";\n", "\t") %&gt;% 
+      str_replace_all(":\n", "\t") %&gt;% 
+      str_split("\n") %&gt;% 
+      .[[1]] %&gt;% 
+      .[. != ""] %&gt;% 
+      str_replace_all("\t", "\n") %&gt;% 
+      str_remove("^[:digit:]")
+  }
+  
+  
+  text
+    
+}
+
+# Test
+get_gdpr_text(read_html("http://gdpr-info.eu/art-2-gdpr/"))
+
+# unnest the list column of text
+clean_articles &lt;- all_articles %&gt;% 
+  mutate(gdpr_text = map(raw_html, get_gdpr_text)) %&gt;% 
+  unnest_longer(gdpr_text)
+
+# final dataframe
+final_articles &lt;- clean_articles %&gt;% 
+  group_by(article) %&gt;% 
+  mutate(sub_article = row_number()) %&gt;% 
+  relocate(sub_article, .after = "article_title") %&gt;% 
+  relocate(gdpr_text, .after = "sub_article") %&gt;% 
+  ungroup() %&gt;% 
+  mutate(chapter = str_extract(chapter, "[:digit:]+")) %&gt;% 
+  mutate_at(vars(chapter, article, sub_article), as.double) %&gt;% 
+  select(-raw_html)
+
+final_articles %&gt;% view()
+
+write_tsv(final_articles, "2020/2020-04-21/gdpr_text.tsv")
+
+</code></pre></div>
+</article></div></body></html>

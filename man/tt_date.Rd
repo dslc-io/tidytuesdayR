@@ -4,17 +4,20 @@
 \alias{tt_date}
 \title{Get date of TidyTuesday, given the year and week}
 \usage{
-tt_date(year, week)
+tt_date(year, week = NULL, auth = gh::gh_token())
 }
 \arguments{
-\item{year}{what year of TidyTuesday to use}
+\item{year}{What year of TidyTuesday to use}
 
-\item{week}{what week of Tidytuesday to use}
+\item{week}{Which week number to use within a given year. Only used when \code{x}
+is a valid year.}
+
+\item{auth}{A GitHub token. See \code{\link[gh:gh_token]{gh::gh_token()}} for more details.}
 }
 \description{
-Sometimes we don't know the date we want, but we do know the
-week. this function provides the ability to pass the year and week we are
-interested in to get the correct date
+Sometimes we don't know the date we want, but we do know the week. This
+function provides the ability to pass the year and week we are interested in
+to get the correct date
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

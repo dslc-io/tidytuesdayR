@@ -1,100 +1,58 @@
-#' @title download tt data
+#' Download TidyTuesday data
 #'
-#' @description Download all or specific files identified in the tt dataset
+#' Download all or specific files identified in a TidyTuesday dataset.
 #'
-#' @param tt a `tt` object, output from \code{\link{tt_load_gh}}
-#' @param files List the file names to download. Default to asking.
-#' @param ... pass methods to the parsing functions. These will be passed to
-#' ALL files, so be careful.
-#' @param branch which branch to be downloading data from. Default and always
-#' should be "master".
-#' @param auth github Personal Access Token. See PAT section for more
-#' information
+#' @inheritParams shared-params
+#' @inheritParams tt_download_file
 #'
-#' @section PAT:
-#'
-#' A Github PAT is a personal Access Token. This allows for signed queries to
-#' the github api, and increases the limit on the number of requests allowed
-#' from 60 to 5000. Follow instructions at
-#' <https://happygitwithr.com/github-pat.html> to set the PAT.
-#'
-#' @return list of tibbles of the files downloaded.
+#' @return A list of tibbles from the downloaded files.
 #'
 #' @export
-#'
-#' @importFrom lubridate year
-#'
 #' @examplesIf interactive()
+#' # Get the list of files for a week.
 #' tt_output <- tt_load_gh("2019-01-15")
+#'
+#' # Download a specific file.
 #' agencies <- tt_download(tt_output, files = "agencies.csv")
 tt_download <- function(tt,
-                        files = c("All"),
+                        files = "All",
                         ...,
-                        branch = "master",
-                        auth = github_pat()) {
-  ## check internet connectivity and rate limit
-  if (!get_connectivity()) {
-    check_connectivity(rerun = TRUE)
-    if (!get_connectivity()) {
-      message("Warning - No Internet Connectivity")
-      return(NULL)
-    }
-  }
-
-  ## Check Rate Limit
-  if (rate_limit_check() == 0) {
-    return(NULL)
-  }
-
-  tt_date <- attr(tt, ".date")
-  tt_year <- year(tt_date)
-  file_info <- attr(tt, ".files")
-
-
-  # define which files to download
-  files <-
-    match.arg(files,
-      several.ok = TRUE,
-      choices = c("All", file_info$data_files)
+                        auth = gh::gh_token()) {
+  files <- tt_check_files(tt, files)
+  cli::cli_h1("Downloading files")
+  files_len <- length(files)
+  tt_data <- purrr::imap(files, function(file, file_n) {
+    cli::cli_inform(
+      c(" " = "{file_n} of {files_len}: {.val {file}}"),
+      class = "tt-message-download"
     )
+    tt_download_file(tt, file, ..., auth = auth)
+  })
+  names(tt_data) <- tools::file_path_sans_ext(files)
+  return(tt_data)
+}
 
-  if ("All" %in% files) {
-    files <- file_info$data_files
-  }
-
-  message("--- Starting Download ---")
-  cat("\n")
-
-  tt_sha <- github_sha(file.path("data", tt_year, tt_date), auth = auth)
-
-  tt_data <- setNames(
-    vector("list", length = length(files)),
-    files
+tt_check_files <- function(tt, files, call = rlang::caller_env()) {
+  all_files <- attr(tt, ".files")$data_files
+  files <- rlang::try_fetch(
+    {
+      files <- match.arg(
+        files,
+        choices = c("All", all_files),
+        several.ok = TRUE
+      )
+    },
+    error = function(cnd) {
+      cli::cli_abort(
+        "{.arg files} must be one or more of {.or {.val {all_files}}}, or {.val All}.",
+        class = "tt-error-bad_file",
+        call = call
+      )
+    }
   )
 
-
-  for (file in files) {
-    dl_message <- sprintf(
-      "\tDownloading file %d of %d: `%s`\n",
-      which(files == file),
-      length(files),
-      file
-    )
-
-    cat(dl_message)
-
-    tt_data[[file]] <- tt_download_file(
-      tt,
-      file,
-      ...,
-      sha = tt_sha$sha[tt_sha$path == file],
-      auth = auth
-    )
+  if ("All" %in% files) {
+    files <- all_files
   }
-
-  cat("\n")
-  message("--- Download complete ---")
-
-  names(tt_data) <- tools::file_path_sans_ext(files)
-  tt_data
+  return(files)
 }
