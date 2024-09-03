@@ -4,13 +4,13 @@ Ellis Hughes
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/tidytuesdayR)](https://CRAN.R-project.org/package=tidytuesdayR)
-[![R build status](https://github.com/thebioengineer/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions)
+[![R build status](https://github.com/dslc-io/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/dslc-io/tidytuesdayR/actions)
 [![Coverage
-status](https://codecov.io/gh/thebioengineer/tidytuesdayR/branch/master/graph/badge.svg)](https://app.codecov.io/github/thebioengineer/tidytuesdayR?branch=master)
+status](https://codecov.io/gh/dslc-io/tidytuesdayR/branch/main/graph/badge.svg)](https://app.codecov.io/github/dslc-io/tidytuesdayR?branch=main)
 [![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/tidytuesdayR)](https://cran.r-project.org/package=tidytuesdayR)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R-CMD-check](https://github.com/thebioengineer/tidytuesdayR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thebioengineer/tidytuesdayR/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/dslc-io/tidytuesdayR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dslc-io/tidytuesdayR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 {tidytuesdayR} has the main goal to make it easy to participate in the
@@ -30,8 +30,8 @@ install.packages("tidytuesdayR")
 To get the latest in-development features, install the development version from GitHub:
 
 ``` r
-#install.packages("remotes")
-remotes::install_github("thebioengineer/tidytuesdayR")
+#install.packages("pak")
+pak::pak("dslc-io/tidytuesdayR")
 ```
 
 ## Usage

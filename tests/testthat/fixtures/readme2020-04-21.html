@@ -19,12 +19,12 @@
 gdpr_violations &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_violations.tsv')
 gdpr_text &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_text.tsv')
 
-# Or read in with tidytuesdayR package (https://github.com/thebioengineer/tidytuesdayR)
+# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)
 # PLEASE NOTE TO USE 2020 DATA YOU NEED TO USE the tidytuesdayR version after Jan 2020.
 
 # Either ISO-8601 date or year/week works!
 
-# Install via devtools::install_github(&quot;thebioengineer/tidytuesdayR&quot;)
+# Install via pak::pak(&quot;dslc-io/tidytuesdayR&quot;)
 
 tuesdata &lt;- tidytuesdayR::tt_load('2020-04-21')
 tuesdata &lt;- tidytuesdayR::tt_load(2020, week = 17)
@@ -35,12 +35,12 @@ gdpr_violations &lt;- tuesdata$gdpr_violations"><pre lang="{r}" class="notransla
 gdpr_violations &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_violations.tsv')
 gdpr_text &lt;- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_text.tsv')
 
-# Or read in with tidytuesdayR package (https://github.com/thebioengineer/tidytuesdayR)
+# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)
 # PLEASE NOTE TO USE 2020 DATA YOU NEED TO USE the tidytuesdayR version after Jan 2020.
 
 # Either ISO-8601 date or year/week works!
 
-# Install via devtools::install_github("thebioengineer/tidytuesdayR")
+# Install via pak::pak("dslc-io/tidytuesdayR")
 
 tuesdata &lt;- tidytuesdayR::tt_load('2020-04-21')
 tuesdata &lt;- tidytuesdayR::tt_load(2020, week = 17)
@@ -180,72 +180,72 @@ link &lt;- &quot;https://www.privacyaffairs.com/gdpr-fines/&quot;
 page &lt;- read_html(link)
 
 
-temp &lt;- page %&gt;% html_nodes(&quot;script&quot;) %&gt;% 
-  .[9] %&gt;% 
-  rvest::html_text() 
+temp &lt;- page %&gt;% html_nodes(&quot;script&quot;) %&gt;%
+  .[9] %&gt;%
+  rvest::html_text()
 
 ends &lt;- str_locate_all(temp, &quot;\\]&quot;)
 starts &lt;- str_locate_all(temp, &quot;\\[&quot;)
 
-table1 &lt;- temp %&gt;% 
-  stringr::str_sub(start = starts[[1]][1,2], end = ends[[1]][1,1]) %&gt;% 
-  str_remove_all(&quot;\\\n&quot;) %&gt;% 
+table1 &lt;- temp %&gt;%
+  stringr::str_sub(start = starts[[1]][1,2], end = ends[[1]][1,1]) %&gt;%
+  str_remove_all(&quot;\\\n&quot;) %&gt;%
   str_remove_all(&quot;\\\r&quot;) %&gt;%
-  jsonlite::fromJSON() %&gt;% 
-  as_tibble() %&gt;% 
+  jsonlite::fromJSON() %&gt;%
+  as_tibble() %&gt;%
   mutate(summary = str_remove_all(summary,&quot;&lt;p&gt;|&lt;/p&gt;|\n&quot;))
 
 
-table2 &lt;- temp %&gt;% 
-  stringr::str_sub(start = starts[[1]][2,2], end = ends[[1]][2,1]) %&gt;% 
-  str_remove_all(&quot;\\\n&quot;) %&gt;% 
-  str_remove_all(&quot;\\\r&quot;) %&gt;%  
-  jsonlite::fromJSON() %&gt;% 
-  as_tibble() %&gt;% 
+table2 &lt;- temp %&gt;%
+  stringr::str_sub(start = starts[[1]][2,2], end = ends[[1]][2,1]) %&gt;%
+  str_remove_all(&quot;\\\n&quot;) %&gt;%
+  str_remove_all(&quot;\\\r&quot;) %&gt;%
+  jsonlite::fromJSON() %&gt;%
+  as_tibble() %&gt;%
   mutate(summary = str_remove_all(summary,&quot;&lt;p&gt;|&lt;/p&gt;|\n&quot;))
 
 
-all_df &lt;- bind_rows(table1, table2) %&gt;% 
+all_df &lt;- bind_rows(table1, table2) %&gt;%
   janitor::clean_names() %&gt;%
   mutate(
     authority = str_remove(authority, &quot;\t&quot;),
-    article_violated = str_remove(article_violated, '&lt;a href=&quot;https://www.privacy-regulation.eu/en/32.htm&quot;&gt;') %&gt;% 
+    article_violated = str_remove(article_violated, '&lt;a href=&quot;https://www.privacy-regulation.eu/en/32.htm&quot;&gt;') %&gt;%
            str_remove('&lt;/a&gt;'),
     article_violated = str_replace_all(article_violated, &quot;, Art&quot;, &quot;|Art&quot;),
-    type = str_remove(type, '&lt;a href=&quot;https://www.privacy-regulation.eu/en/32.htm&quot;&gt;') %&gt;% 
+    type = str_remove(type, '&lt;a href=&quot;https://www.privacy-regulation.eu/en/32.htm&quot;&gt;') %&gt;%
       str_remove('&lt;/a&gt;')
            )
 
 # most frequent articles violated
-all_df %&gt;% 
-  separate_rows(article_violated, sep = &quot;\\|&quot;) %&gt;% 
+all_df %&gt;%
+  separate_rows(article_violated, sep = &quot;\\|&quot;) %&gt;%
   count(article_violated, sort = T)
 
-all_df %&gt;% 
+all_df %&gt;%
   write_tsv(&quot;2020/2020-04-21/gdpr_violations.tsv&quot;)
 
 
 # Getting the actual article text -----------------------------------------
 
-raw_article &lt;- &quot;https://gdpr-info.eu/&quot; %&gt;% 
+raw_article &lt;- &quot;https://gdpr-info.eu/&quot; %&gt;%
   read_html()
 
 # Get all the urls for specific articles/chapters
-gdpr_href &lt;- raw_article %&gt;% 
-  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;% 
-  html_nodes(&quot;a&quot;) %&gt;% 
+gdpr_href &lt;- raw_article %&gt;%
+  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;%
+  html_nodes(&quot;a&quot;) %&gt;%
   html_attr(&quot;href&quot;)
 
 # pull the titles as well
-gdpr_titles &lt;- raw_article %&gt;% 
-  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;% 
-  html_nodes(&quot;a&quot;) %&gt;% 
+gdpr_titles &lt;- raw_article %&gt;%
+  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;%
+  html_nodes(&quot;a&quot;) %&gt;%
   html_attr(&quot;data-title&quot;)
 
 # pull the numbers of article/chapters
-gdpr_numbers &lt;- raw_article %&gt;% 
-  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;% 
-  html_nodes(&quot;a&quot;) %&gt;% 
+gdpr_numbers &lt;- raw_article %&gt;%
+  html_node(xpath = '//*[@id=&quot;tablepress-12&quot;]') %&gt;%
+  html_nodes(&quot;a&quot;) %&gt;%
   html_text()
 
 # put it all into a df
@@ -253,75 +253,75 @@ gdpr_df &lt;- tibble(
   article = gdpr_numbers,
   title = str_trim(gdpr_titles),
   href = gdpr_href
-) 
+)
 
 # Tidy up the data, create chapters vs articles
-clean_gdpr &lt;- gdpr_df %&gt;% 
+clean_gdpr &lt;- gdpr_df %&gt;%
   mutate(chapter = if_else(str_length(article) &gt; 3, article, NA_character_),
-         chapter_title = if_else(str_length(article) &gt; 3, title, NA_character_)) %&gt;% 
-  fill(chapter, chapter_title) %&gt;% 
-  filter(!str_detect(article, &quot;Chapter&quot;)) %&gt;% 
-  mutate(article = as.double(article)) %&gt;% 
-  filter(!is.na(article)) %&gt;% 
+         chapter_title = if_else(str_length(article) &gt; 3, title, NA_character_)) %&gt;%
+  fill(chapter, chapter_title) %&gt;%
+  filter(!str_detect(article, &quot;Chapter&quot;)) %&gt;%
+  mutate(article = as.double(article)) %&gt;%
+  filter(!is.na(article)) %&gt;%
   select(starts_with(&quot;chapter&quot;), article, article_title = title, href)
 
 clean_gdpr
 
 # LONG running outcome
 # Get all the raw html from each of the urls for each article
-all_articles &lt;- clean_gdpr %&gt;% 
+all_articles &lt;- clean_gdpr %&gt;%
   mutate(raw_html = map(href, read_html))
 
 # function to take raw html and turn it into text for that specific article
 get_gdpr_text &lt;- function(html_in){
-  
-  test_var &lt;- html_in %&gt;% 
-    html_node(&quot;.entry-content&quot;) %&gt;% 
-    html_nodes(&quot;ol&quot;) %&gt;% 
+
+  test_var &lt;- html_in %&gt;%
+    html_node(&quot;.entry-content&quot;) %&gt;%
+    html_nodes(&quot;ol&quot;) %&gt;%
     html_text()
-  
+
   if (length(test_var) == 0){
    text &lt;- html_in %&gt;%
-     html_node(&quot;.entry-content &gt; p&quot;) %&gt;% 
-     html_text() %&gt;% 
-     str_remove(&quot;^[:digit:]&quot;) 
+     html_node(&quot;.entry-content &gt; p&quot;) %&gt;%
+     html_text() %&gt;%
+     str_remove(&quot;^[:digit:]&quot;)
   } else {
-    text &lt;- html_in %&gt;% 
-      html_node(&quot;.entry-content&quot;) %&gt;% 
-      html_nodes(&quot;ol&quot;) %&gt;% 
-      html_text() %&gt;% 
-      .[[1]] %&gt;% 
-      str_replace_all(&quot;;\n&quot;, &quot;\t&quot;) %&gt;% 
-      str_replace_all(&quot;:\n&quot;, &quot;\t&quot;) %&gt;% 
-      str_split(&quot;\n&quot;) %&gt;% 
-      .[[1]] %&gt;% 
-      .[. != &quot;&quot;] %&gt;% 
-      str_replace_all(&quot;\t&quot;, &quot;\n&quot;) %&gt;% 
+    text &lt;- html_in %&gt;%
+      html_node(&quot;.entry-content&quot;) %&gt;%
+      html_nodes(&quot;ol&quot;) %&gt;%
+      html_text() %&gt;%
+      .[[1]] %&gt;%
+      str_replace_all(&quot;;\n&quot;, &quot;\t&quot;) %&gt;%
+      str_replace_all(&quot;:\n&quot;, &quot;\t&quot;) %&gt;%
+      str_split(&quot;\n&quot;) %&gt;%
+      .[[1]] %&gt;%
+      .[. != &quot;&quot;] %&gt;%
+      str_replace_all(&quot;\t&quot;, &quot;\n&quot;) %&gt;%
       str_remove(&quot;^[:digit:]&quot;)
   }
-  
-  
+
+
   text
-    
+
 }
 
 # Test
 get_gdpr_text(read_html(&quot;http://gdpr-info.eu/art-2-gdpr/&quot;))
 
 # unnest the list column of text
-clean_articles &lt;- all_articles %&gt;% 
-  mutate(gdpr_text = map(raw_html, get_gdpr_text)) %&gt;% 
+clean_articles &lt;- all_articles %&gt;%
+  mutate(gdpr_text = map(raw_html, get_gdpr_text)) %&gt;%
   unnest_longer(gdpr_text)
 
 # final dataframe
-final_articles &lt;- clean_articles %&gt;% 
-  group_by(article) %&gt;% 
-  mutate(sub_article = row_number()) %&gt;% 
-  relocate(sub_article, .after = &quot;article_title&quot;) %&gt;% 
-  relocate(gdpr_text, .after = &quot;sub_article&quot;) %&gt;% 
-  ungroup() %&gt;% 
-  mutate(chapter = str_extract(chapter, &quot;[:digit:]+&quot;)) %&gt;% 
-  mutate_at(vars(chapter, article, sub_article), as.double) %&gt;% 
+final_articles &lt;- clean_articles %&gt;%
+  group_by(article) %&gt;%
+  mutate(sub_article = row_number()) %&gt;%
+  relocate(sub_article, .after = &quot;article_title&quot;) %&gt;%
+  relocate(gdpr_text, .after = &quot;sub_article&quot;) %&gt;%
+  ungroup() %&gt;%
+  mutate(chapter = str_extract(chapter, &quot;[:digit:]+&quot;)) %&gt;%
+  mutate_at(vars(chapter, article, sub_article), as.double) %&gt;%
   select(-raw_html)
 
 final_articles %&gt;% view()
@@ -337,72 +337,72 @@ link &lt;- "https://www.privacyaffairs.com/gdpr-fines/"
 page &lt;- read_html(link)
 
 
-temp &lt;- page %&gt;% html_nodes("script") %&gt;% 
-  .[9] %&gt;% 
-  rvest::html_text() 
+temp &lt;- page %&gt;% html_nodes("script") %&gt;%
+  .[9] %&gt;%
+  rvest::html_text()
 
 ends &lt;- str_locate_all(temp, "\\]")
 starts &lt;- str_locate_all(temp, "\\[")
 
-table1 &lt;- temp %&gt;% 
-  stringr::str_sub(start = starts[[1]][1,2], end = ends[[1]][1,1]) %&gt;% 
-  str_remove_all("\\\n") %&gt;% 
+table1 &lt;- temp %&gt;%
+  stringr::str_sub(start = starts[[1]][1,2], end = ends[[1]][1,1]) %&gt;%
+  str_remove_all("\\\n") %&gt;%
   str_remove_all("\\\r") %&gt;%
-  jsonlite::fromJSON() %&gt;% 
-  as_tibble() %&gt;% 
+  jsonlite::fromJSON() %&gt;%
+  as_tibble() %&gt;%
   mutate(summary = str_remove_all(summary,"&lt;p&gt;|&lt;/p&gt;|\n"))
 
 
-table2 &lt;- temp %&gt;% 
-  stringr::str_sub(start = starts[[1]][2,2], end = ends[[1]][2,1]) %&gt;% 
-  str_remove_all("\\\n") %&gt;% 
-  str_remove_all("\\\r") %&gt;%  
-  jsonlite::fromJSON() %&gt;% 
-  as_tibble() %&gt;% 
+table2 &lt;- temp %&gt;%
+  stringr::str_sub(start = starts[[1]][2,2], end = ends[[1]][2,1]) %&gt;%
+  str_remove_all("\\\n") %&gt;%
+  str_remove_all("\\\r") %&gt;%
+  jsonlite::fromJSON() %&gt;%
+  as_tibble() %&gt;%
   mutate(summary = str_remove_all(summary,"&lt;p&gt;|&lt;/p&gt;|\n"))
 
 
-all_df &lt;- bind_rows(table1, table2) %&gt;% 
+all_df &lt;- bind_rows(table1, table2) %&gt;%
   janitor::clean_names() %&gt;%
   mutate(
     authority = str_remove(authority, "\t"),
-    article_violated = str_remove(article_violated, '&lt;a href="https://www.privacy-regulation.eu/en/32.htm"&gt;') %&gt;% 
+    article_violated = str_remove(article_violated, '&lt;a href="https://www.privacy-regulation.eu/en/32.htm"&gt;') %&gt;%
            str_remove('&lt;/a&gt;'),
     article_violated = str_replace_all(article_violated, ", Art", "|Art"),
-    type = str_remove(type, '&lt;a href="https://www.privacy-regulation.eu/en/32.htm"&gt;') %&gt;% 
+    type = str_remove(type, '&lt;a href="https://www.privacy-regulation.eu/en/32.htm"&gt;') %&gt;%
       str_remove('&lt;/a&gt;')
            )
 
 # most frequent articles violated
-all_df %&gt;% 
-  separate_rows(article_violated, sep = "\\|") %&gt;% 
+all_df %&gt;%
+  separate_rows(article_violated, sep = "\\|") %&gt;%
   count(article_violated, sort = T)
 
-all_df %&gt;% 
+all_df %&gt;%
   write_tsv("2020/2020-04-21/gdpr_violations.tsv")
 
 
 # Getting the actual article text -----------------------------------------
 
-raw_article &lt;- "https://gdpr-info.eu/" %&gt;% 
+raw_article &lt;- "https://gdpr-info.eu/" %&gt;%
   read_html()
 
 # Get all the urls for specific articles/chapters
-gdpr_href &lt;- raw_article %&gt;% 
-  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;% 
-  html_nodes("a") %&gt;% 
+gdpr_href &lt;- raw_article %&gt;%
+  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;%
+  html_nodes("a") %&gt;%
   html_attr("href")
 
 # pull the titles as well
-gdpr_titles &lt;- raw_article %&gt;% 
-  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;% 
-  html_nodes("a") %&gt;% 
+gdpr_titles &lt;- raw_article %&gt;%
+  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;%
+  html_nodes("a") %&gt;%
   html_attr("data-title")
 
 # pull the numbers of article/chapters
-gdpr_numbers &lt;- raw_article %&gt;% 
-  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;% 
-  html_nodes("a") %&gt;% 
+gdpr_numbers &lt;- raw_article %&gt;%
+  html_node(xpath = '//*[@id="tablepress-12"]') %&gt;%
+  html_nodes("a") %&gt;%
   html_text()
 
 # put it all into a df
@@ -410,75 +410,75 @@ gdpr_df &lt;- tibble(
   article = gdpr_numbers,
   title = str_trim(gdpr_titles),
   href = gdpr_href
-) 
+)
 
 # Tidy up the data, create chapters vs articles
-clean_gdpr &lt;- gdpr_df %&gt;% 
+clean_gdpr &lt;- gdpr_df %&gt;%
   mutate(chapter = if_else(str_length(article) &gt; 3, article, NA_character_),
-         chapter_title = if_else(str_length(article) &gt; 3, title, NA_character_)) %&gt;% 
-  fill(chapter, chapter_title) %&gt;% 
-  filter(!str_detect(article, "Chapter")) %&gt;% 
-  mutate(article = as.double(article)) %&gt;% 
-  filter(!is.na(article)) %&gt;% 
+         chapter_title = if_else(str_length(article) &gt; 3, title, NA_character_)) %&gt;%
+  fill(chapter, chapter_title) %&gt;%
+  filter(!str_detect(article, "Chapter")) %&gt;%
+  mutate(article = as.double(article)) %&gt;%
+  filter(!is.na(article)) %&gt;%
   select(starts_with("chapter"), article, article_title = title, href)
 
 clean_gdpr
 
 # LONG running outcome
 # Get all the raw html from each of the urls for each article
-all_articles &lt;- clean_gdpr %&gt;% 
+all_articles &lt;- clean_gdpr %&gt;%
   mutate(raw_html = map(href, read_html))
 
 # function to take raw html and turn it into text for that specific article
 get_gdpr_text &lt;- function(html_in){
-  
-  test_var &lt;- html_in %&gt;% 
-    html_node(".entry-content") %&gt;% 
-    html_nodes("ol") %&gt;% 
+
+  test_var &lt;- html_in %&gt;%
+    html_node(".entry-content") %&gt;%
+    html_nodes("ol") %&gt;%
     html_text()
-  
+
   if (length(test_var) == 0){
    text &lt;- html_in %&gt;%
-     html_node(".entry-content &gt; p") %&gt;% 
-     html_text() %&gt;% 
-     str_remove("^[:digit:]") 
+     html_node(".entry-content &gt; p") %&gt;%
+     html_text() %&gt;%
+     str_remove("^[:digit:]")
   } else {
-    text &lt;- html_in %&gt;% 
-      html_node(".entry-content") %&gt;% 
-      html_nodes("ol") %&gt;% 
-      html_text() %&gt;% 
-      .[[1]] %&gt;% 
-      str_replace_all(";\n", "\t") %&gt;% 
-      str_replace_all(":\n", "\t") %&gt;% 
-      str_split("\n") %&gt;% 
-      .[[1]] %&gt;% 
-      .[. != ""] %&gt;% 
-      str_replace_all("\t", "\n") %&gt;% 
+    text &lt;- html_in %&gt;%
+      html_node(".entry-content") %&gt;%
+      html_nodes("ol") %&gt;%
+      html_text() %&gt;%
+      .[[1]] %&gt;%
+      str_replace_all(";\n", "\t") %&gt;%
+      str_replace_all(":\n", "\t") %&gt;%
+      str_split("\n") %&gt;%
+      .[[1]] %&gt;%
+      .[. != ""] %&gt;%
+      str_replace_all("\t", "\n") %&gt;%
       str_remove("^[:digit:]")
   }
-  
-  
+
+
   text
-    
+
 }
 
 # Test
 get_gdpr_text(read_html("http://gdpr-info.eu/art-2-gdpr/"))
 
 # unnest the list column of text
-clean_articles &lt;- all_articles %&gt;% 
-  mutate(gdpr_text = map(raw_html, get_gdpr_text)) %&gt;% 
+clean_articles &lt;- all_articles %&gt;%
+  mutate(gdpr_text = map(raw_html, get_gdpr_text)) %&gt;%
   unnest_longer(gdpr_text)
 
 # final dataframe
-final_articles &lt;- clean_articles %&gt;% 
-  group_by(article) %&gt;% 
-  mutate(sub_article = row_number()) %&gt;% 
-  relocate(sub_article, .after = "article_title") %&gt;% 
-  relocate(gdpr_text, .after = "sub_article") %&gt;% 
-  ungroup() %&gt;% 
-  mutate(chapter = str_extract(chapter, "[:digit:]+")) %&gt;% 
-  mutate_at(vars(chapter, article, sub_article), as.double) %&gt;% 
+final_articles &lt;- clean_articles %&gt;%
+  group_by(article) %&gt;%
+  mutate(sub_article = row_number()) %&gt;%
+  relocate(sub_article, .after = "article_title") %&gt;%
+  relocate(gdpr_text, .after = "sub_article") %&gt;%
+  ungroup() %&gt;%
+  mutate(chapter = str_extract(chapter, "[:digit:]+")) %&gt;%
+  mutate_at(vars(chapter, article, sub_article), as.double) %&gt;%
   select(-raw_html)
 
 final_articles %&gt;% view()

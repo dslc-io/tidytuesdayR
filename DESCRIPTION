@@ -15,11 +15,11 @@ Description: 'TidyTuesday' is a project by the 'Data Science Learning
     people to analyze and visualize. This package provides the tools to
     easily download this data and the description of the source.
 License: MIT + file LICENSE
-URL: https://thebioengineer.github.io/tidytuesdayR/,
-    https://github.com/thebioengineer/tidytuesdayR
-BugReports: https://github.com/thebioengineer/tidytuesdayR/issues
+URL: https://dslc-io.github.io/tidytuesdayR/,
+    https://github.com/dslc-io/tidytuesdayR
+BugReports: https://github.com/dslc-io/tidytuesdayR/issues
 Depends: 
-    R (>= 3.4.0)
+    R (>= 3.5.0)
 Imports:
     cli,
     gh,

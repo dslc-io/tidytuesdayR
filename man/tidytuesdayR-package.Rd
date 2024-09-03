@@ -13,9 +13,9 @@
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://thebioengineer.github.io/tidytuesdayR/}
-  \item \url{https://github.com/thebioengineer/tidytuesdayR}
-  \item Report bugs at \url{https://github.com/thebioengineer/tidytuesdayR/issues}
+  \item \url{https://dslc-io.github.io/tidytuesdayR/}
+  \item \url{https://github.com/dslc-io/tidytuesdayR}
+  \item Report bugs at \url{https://github.com/dslc-io/tidytuesdayR/issues}
 }
 
 }
