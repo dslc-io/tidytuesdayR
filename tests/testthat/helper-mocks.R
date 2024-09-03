@@ -70,6 +70,22 @@ local_tt_download_file_raw <- function(.env = parent.frame()) {
   )
 }
 
+local_gh_get <- function(.env = parent.frame()) {
+  local_tt_mocked_bindings(
+    gh_get = function(path, ...) {
+      file <- stringr::str_extract(path, "\\d{4}-\\d{2}-\\d{2}/.+$")
+      file <- stringr::str_replace_all(file, "/", "-")
+      file <- glue::glue("response-{file}.rds")
+      path <- test_path("fixtures", file)
+      if (file.exists(path)) {
+        return(readRDS(path))
+      }
+      cli::cli_abort("Test file not found.")
+    },
+    .env = .env
+  )
+}
+
 local_gh_get_sha_in_folder <- function(.env = parent.frame()) {
   local_tt_mocked_bindings(
     gh_get_sha_in_folder = function(path, file, auth) {

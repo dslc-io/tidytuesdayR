@@ -54,7 +54,7 @@ html_viewer <- function(url, is_interactive = interactive()) {
 }
 
 rstudio_is_available <- function() {
-  rlang::is_installed("rstudioapi") && rstudioapi::isAvailable()
+  rlang::is_installed("rstudioapi") && rstudioapi::isAvailable() # nocov
 }
 
 # For mocking in tests.
@@ -63,7 +63,7 @@ browse_url <- function(url) {
 }
 
 rstudio_viewer <- function(url) {
-  rstudioapi::viewer(url = url)
+  rstudioapi::viewer(url = url) # nocov
 }
 
 contiguous_weeks <- function(week_vctr) {

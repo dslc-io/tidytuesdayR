@@ -57,6 +57,16 @@ save_file_response("2019-01-15", "launches.csv")
 save_file_response("2018-04-02", "us_avg_tuition.xlsx")
 save_file_response("2022-05-10", "nyt_titles.tsv")
 
+# For this one, we only save the first version of the response.
+tt_date <- "2018-05-29"
+target <- "week9_comic_characters.csv"
+tt_year <- lubridate::year(tt_date)
+gh_response <- gh_get(file.path("data", tt_year, tt_date, target))
+saveRDS(
+  gh_response,
+  test_path("fixtures", glue::glue("response-{tt_date}-{target}.rds"))
+
+)
 
 simple_tt_data <- structure(
   list(

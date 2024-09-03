@@ -21,6 +21,10 @@ gh_get <- function(path, auth = gh::gh_token(), ...) {
     ...
   )
 }
+
+gh_get_url <- function(path, auth = gh::gh_token(), ...) {
+  gh::gh(path, .token = auth, ...)
+}
 # nocov end
 
 gh_get_sha_in_folder <- function(path, file, auth = gh::gh_token()) {

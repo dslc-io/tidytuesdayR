@@ -50,7 +50,11 @@ tt_subset_file_info <- function(file_info, x) {
 
 tt_download_file_raw <- function(tt_date, target) {
   tt_year <- lubridate::year(tt_date)
-  return(gh_get(file.path("data", tt_year, tt_date, target)))
+  gh_response <- gh_get(file.path("data", tt_year, tt_date, target))
+  if (gh_response$content == "") {
+    gh_response <- gh_get_url(gh_response$git_url)
+  }
+  return(gh_response)
 }
 
 tt_parse_download <- function(gh_response, ..., data_type, delim = NA) {
@@ -59,7 +63,7 @@ tt_parse_download <- function(gh_response, ..., data_type, delim = NA) {
     "xls" = return(tt_parse_excel(gh_response, ...)), # nocov 0 examples
     "xlsx" = return(tt_parse_excel(gh_response, ...)),
     "vgz" = return(tt_parse_vgz(gh_response, ...)), # nocov 12 examples
-    "zip" = rlang::abort("We cannot parse zip files without more information") # nocov 3 examples
+    "zip" = return(tt_parse_zip(gh_response, data_type, delim, ...)) # nocov 3 examples
   )
   file_content <- gh_extract_text(gh_response)
   delim <- tt_guess_delim(delim, data_type)
@@ -91,6 +95,11 @@ tt_guess_delim <- function(delim, data_type) {
 }
 
 # nocov start
+tt_parse_zip <- function(gh_response, data_type, delim, ...) {
+  delim <- tt_guess_delim(delim, data_type)
+  tt_parse_file(gh_response, readr::read_delim, delim = delim, ...)
+}
+
 tt_parse_rds <- function(gh_response, ...) {
   tt_parse_file(gh_response, parser_fn = readRDS, ...)
 }
