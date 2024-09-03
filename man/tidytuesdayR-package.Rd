@@ -20,11 +20,15 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ellis Hughes \email{ellishughes@live.com}
+\strong{Maintainer}: Jon Harmon \email{jonthegeek@gmail.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
+
+Authors:
+\itemize{
+  \item Ellis Hughes \email{ellishughes@live.com}
+}
 
 Other contributors:
 \itemize{
-  \item Jon Harmon \email{jonthegeek@gmail.com} [contributor]
   \item Thomas Mock \email{j.thomasmock@gmail.com} [contributor]
   \item Data Science Learning Community \email{tidytuesday@dslc.io} [data contributor]
 }

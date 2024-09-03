@@ -76,6 +76,21 @@ test_that("tt_download_file downloads and parses xlsx", {
   )
 })
 
+test_that("tt_download_file downloads and parses large csv", {
+  # This test kind of sucks but it's rare and this at least tests that the path
+  # is followed.
+  local_mocked_bindings(
+    gh_get_url = function(url) {
+      cli::cli_inform("downloading {url}")
+    }
+  )
+  local_gh_get()
+  expect_message(
+    tt_download_file_raw("2018-05-29", "week9_comic_characters.csv"),
+    "d183c7b0bec0b78409f063f3b80b0def2dfbe5c9"
+  )
+})
+
 # test_that("tt_download_file downloads and parses rds", {
 #   local_tt_master_file()
 #   local_tt_week_readme_html()
@@ -113,24 +128,6 @@ test_that("tt_download_file downloads and parses xlsx", {
 # })
 
 # test_that("tt_download_file downloads and parses vgz", {
-#   local_tt_master_file()
-#   local_tt_week_readme_html()
-#   local_tt_download_file_raw()
-#   expect_message(expect_message(expect_warning(
-#     {tt <- tt_load_gh("2018-04-02")}
-#   )))
-#   test_result <- tt_download_file(tt, 1)
-#   expect_s3_class(test_result, c("tbl_df", "data.frame"))
-#   expect_setequal(
-#     colnames(test_result),
-#     c(
-#       "State", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10",
-#       "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16"
-#     )
-#   )
-# })
-
-# test_that("tt_download_file downloads and parses zip", {
 #   local_tt_master_file()
 #   local_tt_week_readme_html()
 #   local_tt_download_file_raw()
