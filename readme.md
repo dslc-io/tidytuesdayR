@@ -1,7 +1,5 @@
 # tidytuesdayR <img src="man/figures/logo.png" align="right" height=140/>
 
-Ellis Hughes
-
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/tidytuesdayR)](https://CRAN.R-project.org/package=tidytuesdayR)
 [![R build status](https://github.com/dslc-io/tidytuesdayR/workflows/R-CMD-check/badge.svg)](https://github.com/dslc-io/tidytuesdayR/actions)
