@@ -102,7 +102,6 @@ tt_check_year <- function(year, auth = gh::gh_token()) {
 }
 
 
-#' @importFrom stats aggregate na.pass setNames
 tt_weeks <- function(year, auth = gh::gh_token()) {
   tt_check_year(year, auth = auth)
 

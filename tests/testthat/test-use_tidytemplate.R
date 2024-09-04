@@ -3,6 +3,9 @@ test_that("use_tidytemplate processes inputs", {
     use_template = function(...) {
       list(...)
     },
+    .package = "usethis"
+  )
+  local_mocked_bindings(
     today = function() {
       as.Date("2024-08-19")
     }

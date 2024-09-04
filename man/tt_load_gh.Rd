@@ -16,7 +16,7 @@ is a valid year.}
 \item{auth}{A GitHub token. See \code{\link[gh:gh_token]{gh::gh_token()}} for more details.}
 }
 \value{
-a 'tt' object. This contains the files available for the week,
+A \code{tt} object. This contains the files available for the week,
 readme html, and the date of the TidyTuesday.
 }
 \description{

@@ -33,7 +33,6 @@ tt_load <- function(x,
 }
 
 #' @rdname printing
-#' @importFrom tools file_path_sans_ext
 #' @export
 #' @return used to show readme and list names of available datasets
 print.tt_data <- function(x, ...) {

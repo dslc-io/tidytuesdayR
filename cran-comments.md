@@ -16,6 +16,8 @@
 
 ## R CMD check results
 
+Dealt with internet usage issues, and changed maintainer of package.
+
 0 errors | 0 warnings | 1 note
 
   Maintainer: 'Jon Harmon <jonthegeek@gmail.com>'
@@ -28,3 +30,9 @@
     X-CRAN-Comment: Archived on 2024-08-31 for policy violation.
   
     On Internet access.
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Removed an internal man page that talked about html tags and caused unnecessary confusion.

@@ -164,16 +164,6 @@ make_tt_dataset_list_html <- function(x, file = tempfile(fileext = ".html")) {
   invisible(readme)
 }
 
-#' Create shell for HTML content from github
-#'
-#' Provide the necessary <head> section to wrap around raw html content read
-#' from github. This is only actually used locally for printing, and may not be
-#' necessary anymore.
-#'
-#' @param page_content html content in xml_document class
-#'
-#' @return xml_document with github header
-#' @keywords internal
 github_page <- function(page_content) {
   header <- paste0(
     "<head><link crossorigin=\"anonymous\" ",

@@ -7,7 +7,7 @@
 
 #' Get data from the tt github repo.
 #'
-#' @param path Path within the rfordatascience/tidytuesday repo.
+#' @param path Path within the `rfordatascience/tidytuesday` repo.
 #' @param ... Additional parameters passed to [gh::gh()].
 #'
 #' @return The GitHub response as parsed by [gh::gh()].

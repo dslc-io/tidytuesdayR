@@ -6,7 +6,7 @@
 #' @inheritParams gh_get
 #' @inheritParams shared-params
 #'
-#' @return a 'tt' object. This contains the files available for the week,
+#' @return A `tt` object. This contains the files available for the week,
 #'  readme html, and the date of the TidyTuesday.
 #' @export
 #' @examplesIf interactive()

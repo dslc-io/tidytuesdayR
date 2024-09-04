@@ -5,7 +5,6 @@
 #' @param date A date as a date object or character string in `YYYY-MM-DD`
 #'   format. Defaults to today's date.
 #'
-#' @importFrom lubridate wday today
 #' @examples
 #' last_tuesday() # get last Tuesday relative to today's date
 #' last_tuesday("2020-01-01") # get last Tuesday relative to a specified date

@@ -7,7 +7,7 @@
 gh_get(path, auth = gh::gh_token(), ...)
 }
 \arguments{
-\item{path}{Path within the rfordatascience/tidytuesday repo.}
+\item{path}{Path within the \code{rfordatascience/tidytuesday} repo.}
 
 \item{...}{Additional parameters passed to \code{\link[gh:gh]{gh::gh()}}.}
 }
