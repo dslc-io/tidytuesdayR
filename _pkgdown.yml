@@ -1,3 +1,4 @@
+url: https://dslc-io.github.io/tidytuesdayR/
+
 template:
-  params:
-    bootswatch: cosmo
+  bootstrap: 5
