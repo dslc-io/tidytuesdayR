@@ -1,19 +1,30 @@
 ## Release summary
 
-* Update to address failing examples build on CRAN causing removal
-* small bug fixes identified by the community (partial argument matching, malformed url)
-
+* Refactor to use 'gh' package for all github activity.
+* Mock all tests so that tests work offline.
+* Only run examples in interactive sessions.
+* Changed maintainer to jonthegeek@gmail.com and moved repository to the dslc-io organization.
 * There are no reverse dependencies to check at this time
 
 ## Test environments
-* local R installation, R 4.1.0
-* ubuntu 18.04 (on github actions),R-devel, R-release
-* mac OS (on github actions) R-devel, R-release
-* Windows-lated (on github actions) R-devel, R-release
+
+* local R installation, R 4.4.1
+* ubuntu 22.04 (on github actions), R-release, R-devel, R-oldrel-1
+* mac OS (on github actions) R-release
+* Windows-latest (on github actions) R-release
 * win-builder (devel)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 1 note
 
-R CMD check succeeded
+  Maintainer: 'Jon Harmon <jonthegeek@gmail.com>'
+  
+  New submission
+  
+  Package was archived on CRAN
+  
+  CRAN repository db overrides:
+    X-CRAN-Comment: Archived on 2024-08-31 for policy violation.
+  
+    On Internet access.
