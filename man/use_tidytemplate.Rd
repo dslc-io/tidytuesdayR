@@ -13,16 +13,21 @@ use_tidytemplate(name = NULL, open = interactive(), ..., refdate = today())
 
 \item{...}{arguments to be passed to \code{\link[usethis:use_template]{usethis::use_template()}}}
 
-\item{refdate}{date to use as reference to determine which TidyTuesday to
-use for the template. Either date object or character string in
-YYYY-MM-DD format.}
+\item{refdate}{date to use as reference to determine which TidyTuesday to use
+for the template. Either date object or character string in YYYY-MM-DD
+format.}
+}
+\value{
+A logical vector indicating whether the file was created or modified,
+invisibly.
 }
 \description{
-Use the tidytemplate Rmd for starting your analysis with a
-leg up for processing
+Use the tidytemplate Rmd for starting your analysis with a leg up for
+processing
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
+
+  use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
 \dontshow{\}) # examplesIf}
 }

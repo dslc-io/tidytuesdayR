@@ -10,6 +10,10 @@ last_tuesday(date = today(tzone = "America/New_York"))
 \item{date}{A date as a date object or character string in \code{YYYY-MM-DD}
 format. Defaults to today's date.}
 }
+\value{
+The TidyTuesday date in the same week as the specified date, using
+Monday as the start of the week.
+}
 \description{
 Identify the most recent 'TidyTuesday' date relative to a specified date.
 }

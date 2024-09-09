@@ -1,4 +1,4 @@
-# tidytuesdayR 1.1.0
+# tidytuesdayR 1.1.2
 
 * [maintenance] tidytuesdayR now uses the {gh} package to manage all interactions with the GitHub API. This should make the package more stable and easier to maintain. (@jonthegeek, #78)
 * [maintenance] tidytuesdayR is now maintained by the Data Science Learning Community. 

@@ -1,14 +1,21 @@
-#' @title Call and open the tidytemplate
-#' @description Use the tidytemplate Rmd for starting your analysis with a
-#' leg up for processing
+#' Call and open the tidytemplate
+#'
+#' Use the tidytemplate Rmd for starting your analysis with a leg up for
+#' processing
+#'
 #' @param name name of your TidyTuesday analysis file
 #' @param open should the file be opened after being created
 #' @param ... arguments to be passed to [usethis::use_template()]
-#' @param refdate date to use as reference to determine which TidyTuesday to
-#' use for the template. Either date object or character string in
-#' YYYY-MM-DD format.
+#' @param refdate date to use as reference to determine which TidyTuesday to use
+#'   for the template. Either date object or character string in YYYY-MM-DD
+#'   format.
+#'
+#' @return A logical vector indicating whether the file was created or modified,
+#'   invisibly.
+#'
 #' @examplesIf interactive()
-#' use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
+#'
+#'   use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
 #'
 #' @export
 use_tidytemplate <- function(name = NULL,

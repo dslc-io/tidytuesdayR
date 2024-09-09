@@ -35,4 +35,5 @@ Dealt with internet usage issues, and changed maintainer of package.
 
 This is a resubmission. In this version I have:
 
-* Removed an internal man page that talked about html tags and caused unnecessary confusion.
+* Added return values for last_tuesday() and use_tidytemplate().
+* Removed examples from tt_date() and formally flagged it as internal.

@@ -6,8 +6,7 @@
 #'
 #' @inheritParams gh_get
 #' @inheritParams shared-params
-#' @examplesIf interactive()
-#' tt_date(2019, week = 42)
+#' @keywords internal
 tt_date <- function(year, week = NULL, auth = gh::gh_token()) {
   tt_check_date(year, week, auth = auth)
 }
