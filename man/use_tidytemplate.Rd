@@ -4,18 +4,25 @@
 \alias{use_tidytemplate}
 \title{Call and open the tidytemplate}
 \usage{
-use_tidytemplate(name = NULL, open = interactive(), ..., refdate = today())
+use_tidytemplate(
+  name = NULL,
+  open = rlang::is_interactive(),
+  refdate = today(),
+  ignore = FALSE
+)
 }
 \arguments{
-\item{name}{name of your TidyTuesday analysis file}
+\item{name}{A name for your generated TidyTuesday analysis Rmd, such as
+"My_TidyTuesday.Rmd".}
 
-\item{open}{should the file be opened after being created}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 
-\item{...}{arguments to be passed to \code{\link[usethis:use_template]{usethis::use_template()}}}
-
-\item{refdate}{date to use as reference to determine which TidyTuesday to use
+\item{refdate}{Date to use as reference to determine which TidyTuesday to use
 for the template. Either date object or character string in YYYY-MM-DD
 format.}
+
+\item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 }
 \value{
 A logical vector indicating whether the file was created or modified,

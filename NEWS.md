@@ -1,5 +1,7 @@
 # tidytuesdayR (development version)
 
+* [bug fix] `use_tidytemplate()` now explicitly takes an `ignore` argument, rather than passing (almost entirely overruled) `...` through to `usethis::use_template()`. (@jonthegeek, #76)
+
 # tidytuesdayR 1.1.2
 
 * [maintenance] tidytuesdayR now uses the {gh} package to manage all interactions with the GitHub API. This should make the package more stable and easier to maintain. (@jonthegeek, #78)

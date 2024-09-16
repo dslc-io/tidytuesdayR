@@ -20,6 +20,7 @@ test_that("use_tidytemplate processes inputs", {
         call_tuesday = "2024-08-20"
       ),
       package = "tidytuesdayR",
+      ignore = FALSE,
       open = FALSE
     )
   )
