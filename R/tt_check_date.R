@@ -38,6 +38,13 @@ tt_check_date <- function(x, week = NULL, auth = gh::gh_token()) {
 tt_check_date.date <- function(x, auth = gh::gh_token()) {
   tt_year <- lubridate::year(x)
   tt_formatted_date <- tt_date_format(x)
+  if (as.character(tt_formatted_date) %in% c("2018-05-15", "2018-05-21")) {
+    cli::cli_abort(
+      "The dataset for {tt_formatted_date} is dirty and cannot be automatically loaded.",
+      class = "tt-error-invalid_date"
+    )
+  }
+
   tt_folders <- tt_weeks(tt_year, auth = auth)
   if (!as.character(tt_formatted_date) %in% tt_folders[["folders"]]) {
     closest <- tt_closest_date(tt_formatted_date, tt_folders$folders)
@@ -53,6 +60,13 @@ tt_check_date.date <- function(x, auth = gh::gh_token()) {
 }
 
 tt_check_date.year <- function(x, week, auth = gh::gh_token()) {
+  if (x == 2018 && week %in% c(7, 8)) {
+    cli::cli_abort(
+      "The dataset for 2018 week {week} is dirty and cannot be automatically loaded.",
+      class = "tt-error-invalid_date"
+    )
+  }
+
   tt_folders <- tt_weeks(x, auth = auth)
 
   if (!week %in% tt_folders$week_desc && week >= 1) {
@@ -76,7 +90,7 @@ tt_check_date.year <- function(x, week, auth = gh::gh_token()) {
   tt_date <- tt_folders$folders[tt_folders$week_desc == week]
 
   if (!tt_date %in% tt_folders[["folders"]] ||
-    !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
+      !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
     cli::cli_abort(
       "Week {week} of {x} does not have data available for download.",
       class = "tt-error-invalid_date"

@@ -82,3 +82,14 @@ test_that("tt_check_date errors informatively with no args", {
     class = "tt-error-invalid_date"
   )
 })
+
+test_that("tt_check_date errors informatively for the dirtiest dataset", {
+  local_tt_master_file()
+  expect_error(
+    {
+      tt_check_date("2018-05-15")
+    },
+    "cannot be automatically loaded",
+    class = "tt-error-invalid_date"
+  )
+})
