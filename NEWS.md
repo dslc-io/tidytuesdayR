@@ -1,6 +1,7 @@
 # tidytuesdayR (development version)
 
 * [bug fix] `use_tidytemplate()` now explicitly takes an `ignore` argument, rather than passing (almost entirely overruled) `...` through to `usethis::use_template()`. (@jonthegeek, #76)
+* [bug fix] Attempting to load data for particularly strange, early weeks (2018 weeks 7 and 8) now errors more informatively. (@jonthegeek, #90)
 
 # tidytuesdayR 1.1.2
 
