@@ -33,7 +33,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tidytuesdayr-development-version">tidytuesdayR (development version)<a class="anchor" aria-label="anchor" href="#tidytuesdayr-development-version"></a></h2>
-</div>
+<ul><li>[bug fix] <code><a href="../reference/use_tidytemplate.html">use_tidytemplate()</a></code> now explicitly takes an <code>ignore</code> argument, rather than passing (almost entirely overruled) <code>...</code> through to <code><a href="https://usethis.r-lib.org/reference/use_template.html" class="external-link">usethis::use_template()</a></code>. (<a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>, <a href="https://github.com/dslc-io/tidytuesdayR/issues/76" class="external-link">#76</a>)</li>
+<li>[bug fix] Attempting to load data for particularly strange, early weeks (2018 weeks 7 and 8) now errors more informatively. (<a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>, <a href="https://github.com/dslc-io/tidytuesdayR/issues/90" class="external-link">#90</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.2" id="tidytuesdayr-112">tidytuesdayR 1.1.2<a class="anchor" aria-label="anchor" href="#tidytuesdayr-112"></a></h2><p class="text-muted">CRAN release: 2024-09-09</p>
 <ul><li>[maintenance] tidytuesdayR now uses the {gh} package to manage all interactions with the GitHub API. This should make the package more stable and easier to maintain. (<a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>, <a href="https://github.com/dslc-io/tidytuesdayR/issues/78" class="external-link">#78</a>)</li>
