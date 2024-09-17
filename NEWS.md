@@ -1,11 +1,12 @@
 # tidytuesdayR (development version)
 
-* [bug fix] `use_tidytemplate()` now explicitly takes an `ignore` argument, rather than passing (almost entirely overruled) `...` through to `usethis::use_template()`. (@jonthegeek, #76)
-* [bug fix] Attempting to load data for particularly strange, early weeks (2018 weeks 7 and 8) now errors more informatively. (@jonthegeek, #90)
+* [bug fix] `use_tidytemplate()` now explicitly takes an `ignore` argument, rather than passing (almost entirely overruled) `...` through to `usethis::use_template()`. (#76)
+* [bug fix] Attempting to load data for particularly strange, early weeks (2018 weeks 7 and 8) now errors more informatively. (#90)
+* [maintenance] The `Language` of this package is officially declared in the DESCRIPTION as "en-US".
 
 # tidytuesdayR 1.1.2
 
-* [maintenance] tidytuesdayR now uses the {gh} package to manage all interactions with the GitHub API. This should make the package more stable and easier to maintain. (@jonthegeek, #78)
+* [maintenance] tidytuesdayR now uses the {gh} package to manage all interactions with the GitHub API. This should make the package more stable and easier to maintain. (#78)
 * [maintenance] tidytuesdayR is now maintained by the Data Science Learning Community. 
 
 # tidytuesdayR 1.0.3
