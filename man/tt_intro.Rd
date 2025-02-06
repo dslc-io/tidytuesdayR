@@ -2,7 +2,7 @@
 % Please edit documentation in R/tt_intro.R
 \name{tt_intro}
 \alias{tt_intro}
-\title{Create and open intro.Rmd}
+\title{Create and open intro.md}
 \usage{
 tt_intro(
   path = "tt_submission",
@@ -26,7 +26,7 @@ modified, invisibly.
 }
 \description{
 When curating a TidyTuesday dataset, you need to introduce the dataset. This
-function creates a simple \code{intro.Rmd} file in the specified path, and (if
+function creates a simple \code{intro.md} file in the specified path, and (if
 possible) opens it for editing.
 }
 \examples{

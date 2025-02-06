@@ -3,7 +3,7 @@ test_that("tt_find_dataset_files finds expected files", {
     tt_find_dataset_files(test_path("fixtures", "tt_submission")),
     c(
       test_path("fixtures", "tt_submission", "cleaning.R"),
-      test_path("fixtures", "tt_submission", "intro.Rmd"),
+      test_path("fixtures", "tt_submission", "intro.md"),
       test_path("fixtures", "tt_submission", "meta.yaml"),
       test_path("fixtures", "tt_submission", "states.csv"),
       test_path("fixtures", "tt_submission", "states.md"),

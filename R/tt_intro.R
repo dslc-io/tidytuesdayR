@@ -1,7 +1,7 @@
-#' Create and open intro.Rmd
+#' Create and open intro.md
 #'
 #' When curating a TidyTuesday dataset, you need to introduce the dataset. This
-#' function creates a simple `intro.Rmd` file in the specified path, and (if
+#' function creates a simple `intro.md` file in the specified path, and (if
 #' possible) opens it for editing.
 #'
 #' @inheritParams usethis::use_template
@@ -18,10 +18,10 @@ tt_intro <- function(path = "tt_submission",
                      open = rlang::is_interactive(),
                      ignore = FALSE) {
   prep_tt_curate(path, ignore = ignore)
-  intro_path <- fs::path(path, "intro.Rmd")
+  intro_path <- fs::path(path, "intro.md")
 
   usethis::use_template(
-    "intro.Rmd",
+    "intro.md",
     save_as = intro_path,
     ignore = ignore,
     open = open,

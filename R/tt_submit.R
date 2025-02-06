@@ -63,7 +63,7 @@ tt_find_dataset_files <- function(path = "tt_submission") {
 tt_find_expected_files <- function(path = "tt_submission") {
   expected_files <- fs::path(
     path,
-    c("cleaning.R", "intro.Rmd", "meta.yaml")
+    c("cleaning.R", "intro.md", "meta.yaml")
   )
   missing_files <- expected_files[!fs::file_exists(expected_files)]
   if (rlang::is_empty(missing_files)) {

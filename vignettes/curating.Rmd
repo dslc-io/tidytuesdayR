@@ -135,7 +135,7 @@ Repeat this process for each dataset that you wrangled.
 ## Introduce
 
 Next we need to introduce the dataset.
-Create an `intro.Rmd` file in your `tt_submission` directory with `tt_intro()`.
+Create an `intro.md` file in your `tt_submission` directory with `tt_intro()`.
 
 ```{r tt_intro}
 tt_intro()
