@@ -4,7 +4,11 @@
 \alias{prep_tt_curate}
 \title{Set up a directory for dataset curation}
 \usage{
-prep_tt_curate(path = "tt_submission", ignore = FALSE)
+prep_tt_curate(
+  path = "tt_submission",
+  ignore = FALSE,
+  env = rlang::caller_env()
+)
 }
 \arguments{
 \item{path}{The relative path to the directory to hold your submission files

@@ -1,8 +1,9 @@
 #' Create and open cleaning.R
 #'
 #' The first step of curating a TidyTuesday dataset is cleaning the data. This
-#' function creates a simple `cleaning.R` file in the specified path, and (if
-#' possible) opens it for editing.
+#' function creates a simple `cleaning.R` file in the specified path (creating
+#' that path if it does not already exist), and (if possible) opens it for
+#' editing.
 #'
 #' @inheritParams usethis::use_template
 #' @inheritParams shared-params

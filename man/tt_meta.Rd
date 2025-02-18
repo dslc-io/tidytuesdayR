@@ -85,9 +85,10 @@ modified, invisibly.
 }
 \description{
 We need a set of metadata information about each TidyTuesday dataset. Use
-this function to set up the \code{meta.yaml} file for your submission. If you do
-not provide values for the parameters, you will be prompted to enter them in
-an interactive session.
+this function to set up the \code{meta.yaml} file for your submission (and create
+the submission directory if it does not already exist). If you do not provide
+values for the parameters, you will be prompted to enter them in an
+interactive session.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
