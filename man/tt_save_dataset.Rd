@@ -34,9 +34,10 @@ modified, invisibly.
 \description{
 Datasets for TidyTuesday submissions should be saved in a specific format,
 with an accompanying data dictionary \code{dataset_name.md} file. This function
-saves the dataset as a CSV file in your submission directory, and creates a
-data dictionary file for you to fill out. If you're in an interactive
-session, the dictionary file is opened for editing.
+saves the dataset as a CSV file in your submission directory (creating the
+submission directory if it does not already exist), and creates a data
+dictionary file for you to fill out. If you're in an interactive session, the
+dictionary file is opened for editing.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

@@ -1,8 +1,9 @@
 #' Create and open intro.md
 #'
 #' When curating a TidyTuesday dataset, you need to introduce the dataset. This
-#' function creates a simple `intro.md` file in the specified path, and (if
-#' possible) opens it for editing.
+#' function creates a simple `intro.md` file in the specified path (creating
+#' that path if it does not already exist), and (if possible) opens it for
+#' editing.
 #'
 #' @inheritParams usethis::use_template
 #' @inheritParams shared-params

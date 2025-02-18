@@ -26,8 +26,9 @@ modified, invisibly.
 }
 \description{
 The first step of curating a TidyTuesday dataset is cleaning the data. This
-function creates a simple \code{cleaning.R} file in the specified path, and (if
-possible) opens it for editing.
+function creates a simple \code{cleaning.R} file in the specified path (creating
+that path if it does not already exist), and (if possible) opens it for
+editing.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
