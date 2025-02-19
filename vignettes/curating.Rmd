@@ -15,10 +15,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(tidytuesdayR)
-```
-
 We curate a new dataset (or collection of datasets) for TidyTuesday every week.
 We welcome dataset submissions from the community!
 
@@ -55,6 +51,7 @@ However you wrangle the data, we need a single file, `cleaning.R`, to show users
 Use `tt_clean()` to create and open this file.
 
 ```{r tt_clean}
+library(tidytuesdayR)
 tt_clean()
 ```
 
