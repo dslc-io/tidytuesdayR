@@ -21,12 +21,12 @@ We welcome dataset submissions from the community!
 There are 6 main steps to submit a dataset (plus a 0th step that you might have to do the first time you submit a dataset):
 
 0. [Set up your GitHub account].
-1. [Wrangle] the data: `tt_clean()`
-2. [Save & document] the data: `tt_save_dataset()`
-3. [Introduce] the data: `tt_intro()`
+1. [Wrangle] the data with `tt_clean()`
+2. [Save & document] the data with `tt_save_dataset()`
+3. [Introduce] the data with `tt_intro()`
 4. [Find images] (or create them).
-5. [Provide metadata]: `tt_meta()`
-6. [Submit] for review: `tt_submit()`
+5. [Provide metadata] with `tt_meta()`
+6. [Submit] for review with `tt_submit()`
 
 ## Set up your GitHub account
 
