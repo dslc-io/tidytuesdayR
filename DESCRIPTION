@@ -19,7 +19,7 @@ URL: https://dslc-io.github.io/tidytuesdayR/,
     https://github.com/dslc-io/tidytuesdayR
 BugReports: https://github.com/dslc-io/tidytuesdayR/issues
 Depends: 
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports:
     cli,
     gh,
