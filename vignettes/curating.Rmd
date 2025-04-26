@@ -279,4 +279,7 @@ You're requesting that we "pull" changes from your copy on GitHub to our source 
 tt_submit()
 ```
 
+If we request that you make changes, you can use `tt_submit()` again to upload any files you change.
+
+After confirming that everything looks correct, we'll assign your submission to a date.
 Congratulations! You are now an open-source contributor!

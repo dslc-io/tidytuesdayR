@@ -2,7 +2,8 @@
 #'
 #' Submit a curated dataset for review by uploading it to GitHub and creating a
 #' pull request. The dataset should be prepared using [tt_clean()],
-#' [tt_save_dataset()], [tt_intro()], and [tt_meta()].
+#' [tt_save_dataset()], [tt_intro()], and [tt_meta()]. You can also use this
+#' function to submit changes to your local copies of the files.
 #'
 #' @inheritParams shared-params
 #' @param open Whether to open the pull request in a browser. Defaults to `TRUE`
@@ -22,7 +23,7 @@ tt_submit <- function(path = "tt_submission",
 
   user <- tt_user(auth = auth)
   repo <- getOption("tidytuesdayR.tt_repo", "rfordatascience/tidytuesday")
-  branch <- glue::glue("submission-{today()}")
+  branch <- tt_find_branch(path)
 
   fork_repo <- tt_fork(user = user, repo = repo, auth = auth)
   tt_branch_create(fork_repo = fork_repo, branch = branch, auth = auth)
@@ -33,18 +34,33 @@ tt_submit <- function(path = "tt_submission",
     auth = auth
   )
 
-  pr_url <- glue::glue(
-    "https://github.com/{repo}/compare/main...{user}:{branch}"
+  existing_prs <- gh::gh(
+    "/repos/{repo}/pulls",
+    head = glue::glue("{user}:{branch}"),
+    repo = repo,
+    state = "open"
   )
+
+  if (length(existing_prs)) {
+    # I tested this manually, leaving it at that for now.
+    pr_url <- existing_prs[[1]]$html_url # nocov
+    cli::cli_inform("View PR at {.url {pr_url}}") # nocov
+  } else {
+    pr_url <- glue::glue(
+      "https://github.com/{repo}/compare/main...{user}:{branch}"
+    )
+    cli::cli_inform("Create PR at {.url {pr_url}}")
+  }
+
   if (open) {
     utils::browseURL(pr_url) # nocov
   }
-  cli::cli_inform("Create PR at {.url {pr_url}}")
   return(invisible(pr_url))
 }
 
 tt_find_dataset_files <- function(path = "tt_submission") {
   files <- list.files(path, full.names = TRUE)
+  files <- setdiff(files, fs::path(path, "branch.txt"))
   expected_files <- tt_find_expected_files(path)
   csv_files <- unname(fs::dir_ls(path, glob = "*.csv"))
   dictionary_files <- tt_find_dictionaries(csv_files)
@@ -107,6 +123,18 @@ tt_find_dictionaries <- function(csv_files) {
   ))
 }
 
+tt_find_branch <- function(path = "tt_submission") {
+  branch_tag_path <- fs::path(path, "branch.txt")
+  if (fs::file_exists(branch_tag_path)) {
+    return(stringr::str_trim(readLines(branch_tag_path)))
+  }
+  branch <- unclass(
+    glue::glue("submission-{today()}-{round(runif(1)*100000)}")
+  )
+  writeLines(branch, branch_tag_path)
+  return(branch)
+}
+
 # Skipping coverage of the gh stuff for now.
 # nocov start
 tt_user <- function(auth = gh::gh_token()) {
@@ -131,31 +159,84 @@ tt_branch_create <- function(fork_repo, branch, auth = gh::gh_token()) {
     fork_repo = fork_repo,
     .token = auth
   )$object$sha
-  gh::gh(
-    "POST /repos/{fork_repo}/git/refs",
+  target_ref <- glue::glue("refs/heads/{branch}")
+  existing <- gh::gh(
+    "GET /repos/{fork_repo}/git/refs/heads",
     fork_repo = fork_repo,
-    ref = glue::glue("refs/heads/{branch}"),
-    sha = main_sha,
     .token = auth
   )
+  if (!target_ref %in% purrr::map_chr(existing, "ref")) {
+    gh::gh(
+      "POST /repos/{fork_repo}/git/refs",
+      fork_repo = fork_repo,
+      ref = glue::glue("refs/heads/{branch}"),
+      sha = main_sha,
+      .token = auth
+    )
+  }
+  return(invisible(target_ref))
 }
 
 tt_branch_populate <- function(fork_repo,
                                branch,
                                files,
                                auth = gh::gh_token()) {
+  existing_content <- tt_branch_content(fork_repo, branch, auth)
   purrr::walk(files, function(file) {
     content <- base64enc::base64encode(file)
     filename <- basename(file)
-    gh::gh(
-      "PUT /repos/{fork_repo}/contents/data/curated/new_submission/{filename}",
-      fork_repo = fork_repo,
-      filename = filename,
-      message = glue::glue("Add {filename} to new_submission"),
-      content = content,
-      branch = branch,
-      .token = auth
-    )
+    sha <- existing_content[[filename]]
+    if (!identical(sha, git_blob_sha1(file))) {
+      action <- ifelse(is.null(sha), "Add", "Update")
+      gh::gh(
+        "PUT /repos/{fork_repo}/contents/data/curated/new_submission/{filename}",
+        fork_repo = fork_repo,
+        filename = filename,
+        message = glue::glue("{action} {filename}"),
+        content = content,
+        branch = branch,
+        sha = sha,
+        .token = auth
+      )
+    }
   })
 }
+
+tt_branch_content <- function(fork_repo, branch, auth = gh::gh_token()) {
+  # If the branch has a "new_submission" folder, return the contents of that
+  # folder.
+  new_submission <- tryCatch(
+    gh::gh(
+      "GET /repos/{fork_repo}/contents/data/curated/new_submission",
+      fork_repo = fork_repo,
+      ref = glue::glue("refs/heads/{branch}"),
+      .token = auth
+    ),
+    error = function(e) {
+      NULL
+    }
+  )
+  existing_file_names <- purrr::map_chr(new_submission, "name")
+  existing_file_shas <- purrr::map(new_submission, "sha")
+  return(rlang::set_names(existing_file_shas, existing_file_names))
+}
+
+git_blob_sha1 <- function(file) {
+  rlang::check_installed("openssl", "to check for file changes.")
+  size <- file.info(file)$size
+  contents <- readBin(file, "raw", size)
+  unclass(
+    as.character(
+      openssl::sha1(
+        c(
+          charToRaw(sprintf("blob %d", size)),
+          as.raw(0),
+          contents
+        )
+      )
+    )
+  )
+}
+
+
 # nocov end
