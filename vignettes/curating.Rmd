@@ -18,15 +18,16 @@ knitr::opts_chunk$set(
 We curate a new dataset (or collection of datasets) for TidyTuesday every week.
 We welcome dataset submissions from the community!
 
-There are 6 main steps to submit a dataset (plus a 0th step that you might have to do the first time you submit a dataset):
+There are 7 main steps to submit a dataset (plus a 0th step that you might have to do the first time you submit a dataset):
 
 0. [Set up your GitHub account].
-1. [Wrangle] the data with `tt_clean()`
-2. [Save & document] the data with `tt_save_dataset()`
-3. [Introduce] the data with `tt_intro()`
-4. [Find images] (or create them).
-5. [Provide metadata] with `tt_meta()`
-6. [Submit] for review with `tt_submit()`
+1. [Open these instructions as a step-by-step script].
+2. [Wrangle] the data with `tt_clean()`
+3. [Save & document] the data with `tt_save_dataset()`
+4. [Introduce] the data with `tt_intro()`
+5. [Find images] (or create them).
+6. [Provide metadata] with `tt_meta()`
+7. [Submit] for review with `tt_submit()`
 
 ## Set up your GitHub account
 
@@ -38,6 +39,15 @@ After you submit a dataset, you'll officially be an open-source contributor!
 2. `install.packages("usethis")` if you don't already have it.
 3. Run `usethis::create_github_token()` to set up a "Personal Access Token" for GitHub. This token is how you authorize your R session to act on your behalf on GitHub. As mentioned in `usethis::create_github_token()`, you should store your token using `gitcreds::gitcreds_set()`.
 3. Run `usethis::git_sitrep()`. It will print a lot of information about your git setup. You don't need to set up anything for the "GitHub project" section of that report, but check for any other issues, and resolve them as recommended by {usethis}.
+
+## Open these instructions as a step-by-step script
+
+These instructions are also provided as an R script.
+
+```{r tt_curate_data}
+library(tidytuesdayR)
+tt_curate_data()
+```
 
 ## Wrangle
 
