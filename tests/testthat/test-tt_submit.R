@@ -54,6 +54,20 @@ test_that("tt_find_dataset_files errors informatively for missing dictionary", {
   )
 })
 
+test_that("tt_find_branch deals with branch names", {
+  path <- withr::local_tempdir()
+  branch <- tt_find_branch(path)
+  expect_match(
+    branch,
+    "submission-\\d{4}-\\d{2}-\\d{2}",
+    all = TRUE
+  )
+  branch_file_path <- fs::path(path, "branch.txt")
+  expect_true(fs::file_exists(branch_file_path))
+  branch2 <- tt_find_branch(path)
+  expect_identical(branch2, branch)
+})
+
 test_that("tt_submit informs about the PR url", {
   local_mocked_bindings(
     tt_user = function(auth) {
@@ -62,14 +76,14 @@ test_that("tt_submit informs about the PR url", {
     tt_fork = function(...) {
       return("fork_path")
     },
+    tt_find_branch = function(...) {
+      return("submission-2025-01-01")
+    },
     tt_branch_create = function(...) {
       return("branch_response")
     },
     tt_branch_populate = function(...) {
       return("populate_response")
-    },
-    today = function() {
-      return("2025-01-01")
     }
   )
   expect_message(
