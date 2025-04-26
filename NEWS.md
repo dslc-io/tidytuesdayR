@@ -1,6 +1,7 @@
 # tidytuesdayR (development version)
 
 * [feature] Added functions `tt_clean()`, `tt_save_dataset()`, `tt_intro()`, `tt_meta()`, and `tt_submit()` for curation and submission of datasets for use in TidyTuesday. See `vignette("curating", package = "tidytuesdayR")` for details. (#117, #118, #120, #121, #123, #124)
+* [feature] Added function `tt_curate_data()` with step-by-step script for curation and submission of datasets as described in `vignette("curating", package = "tidytuesdayR")`. (#128)
 * [bug fix] `use_tidytemplate()` now explicitly takes an `ignore` argument, rather than passing (almost entirely overruled) `...` through to `usethis::use_template()`. (#76, #113)
 * [bug fix] Attempting to load data for particularly strange, early weeks (2018 weeks 7 and 8) now errors more informatively. (#90, #113)
 * [maintenance] The `Language` of this package is officially declared in the DESCRIPTION as "en-US". (#114)
