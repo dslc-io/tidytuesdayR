@@ -12,8 +12,9 @@
 #' @returns The URL of the pull request, invisibly.
 #' @export
 #'
-#' @examplesIf interactive() # First set up a dataset in the "tt_submission"
-#'   folder. tt_submit()
+#' @examplesIf interactive()
+#' # First set up a dataset in the "tt_submission" folder.
+#' tt_submit()
 tt_submit <- function(path = "tt_submission",
                       auth = gh::gh_token(),
                       open = rlang::is_interactive()) {

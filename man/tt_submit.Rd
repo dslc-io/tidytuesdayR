@@ -26,7 +26,8 @@ The URL of the pull request, invisibly.
 \description{
 Submit a curated dataset for review by uploading it to GitHub and creating a
 pull request. The dataset should be prepared using \code{\link[=tt_clean]{tt_clean()}},
-\code{\link[=tt_save_dataset]{tt_save_dataset()}}, \code{\link[=tt_intro]{tt_intro()}}, and \code{\link[=tt_meta]{tt_meta()}}.
+\code{\link[=tt_save_dataset]{tt_save_dataset()}}, \code{\link[=tt_intro]{tt_intro()}}, and \code{\link[=tt_meta]{tt_meta()}}. You can also use this
+function to submit changes to your local copies of the files.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
