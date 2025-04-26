@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidytuesdayR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,12 +72,15 @@
     
 <p>We curate a new dataset (or collection of datasets) for TidyTuesday
 every week. We welcome dataset submissions from the community!</p>
-<p>There are 6 main steps to submit a dataset (plus a 0th step that you
+<p>There are 7 main steps to submit a dataset (plus a 0th step that you
 might have to do the first time you submit a dataset):</p>
 <ol start="0" style="list-style-type: decimal">
 <li>
 <a href="#set-up-your-github-account">Set up your GitHub
 account</a>.</li>
+<li>
+<a href="#open-these-instructions-as-a-step-by-step-script">Open
+these instructions as a step-by-step script</a>.</li>
 <li>
 <a href="#wrangle">Wrangle</a> the data with
 <code><a href="../reference/tt_clean.html">tt_clean()</a></code>
@@ -126,6 +129,14 @@ issues, and resolve them as recommended by {usethis}.</li>
 </ol>
 </div>
 <div class="section level2">
+<h2 id="open-these-instructions-as-a-step-by-step-script">Open these instructions as a step-by-step script<a class="anchor" aria-label="anchor" href="#open-these-instructions-as-a-step-by-step-script"></a>
+</h2>
+<p>These instructions are also provided as an R script.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dslc-io.github.io/tidytuesdayR/">tidytuesdayR</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/tt_curate_data.html">tt_curate_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="wrangle">Wrangle<a class="anchor" aria-label="anchor" href="#wrangle"></a>
 </h2>
 <p>We try to provide datasets as one or more tidy tibbles that can be
@@ -137,7 +148,7 @@ resource for help with preparation of tidy data.</p>
 <code>cleaning.R</code>, to show users how you turned the raw dataset
 into a tidy dataset. Use <code><a href="../reference/tt_clean.html">tt_clean()</a></code> to create and open this
 file.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dslc-io.github.io/tidytuesdayR/">tidytuesdayR</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tt_clean.html">tt_clean</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>By default, <code>cleaning.R</code> (and the other files we create in
@@ -149,7 +160,7 @@ in a different directory, provide a <code>path</code> argument to
 like, imagine we want to use the built-in <code>state.x77</code> dataset
 from the {datasets} package. Our <code>cleaning.R</code> file might look
 like this.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span></span>
 <span></span>
@@ -180,37 +191,37 @@ that it works as expected) before moving on to the <a href="#save-document">Save
 <p>Use <code><a href="../reference/tt_save_dataset.html">tt_save_dataset()</a></code> to save each wrangled dataset as a
 csv file, and to create a formatted dictionary markdown file for each
 dataset.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tt_save_dataset.html">tt_save_dataset</a></span><span class="op">(</span><span class="va">states</span><span class="op">)</span></span></code></pre></div>
 <p>Running that code creates two files in your
 <code>tt_submission</code> directory: <code>states.csv</code> and
 <code>states.md</code>. The <code>.md</code> file contains a formatted
 data dictionary table for the dataset, and is opened so you can provide
 information about each column.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="pp">|</span>variable   <span class="pp">|</span>class     <span class="pp">|</span>description                           <span class="pp">|</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="pp">|:----------|:---------|:-------------------------------------|</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="pp">|</span>state      <span class="pp">|</span>character <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="pp">|</span>population <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="pp">|</span>income     <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="pp">|</span>illiteracy <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="pp">|</span>life_exp   <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="pp">|</span>murder     <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="pp">|</span>hs_grad    <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="pp">|</span>frost      <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="pp">|</span>area       <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span></code></pre></div>
-<p>Provide information so users can understand what each column
-represents.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="pp">|</span>variable   <span class="pp">|</span>class     <span class="pp">|</span>description                           <span class="pp">|</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="pp">|:----------|:---------|:-------------------------------------|</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="pp">|</span>state      <span class="pp">|</span>character <span class="pp">|</span>Name of the state. <span class="pp">|</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="pp">|</span>population <span class="pp">|</span>character <span class="pp">|</span>Population estimate as of July 1, 1975. <span class="pp">|</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="pp">|</span>income     <span class="pp">|</span>integer   <span class="pp">|</span>Per capita income in 1974. <span class="pp">|</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="pp">|</span>illiteracy <span class="pp">|</span>integer   <span class="pp">|</span>Illiteracy in 1970, as percent of population. <span class="pp">|</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="pp">|</span>life_exp   <span class="pp">|</span>double    <span class="pp">|</span>Life expectancy in years (1969–71). <span class="pp">|</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="pp">|</span>murder     <span class="pp">|</span>double    <span class="pp">|</span>Murder and non-negligent manslaughter rate per 100,000 population in 1976. <span class="pp">|</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="pp">|</span>hs_grad    <span class="pp">|</span>double    <span class="pp">|</span>Percent high-school graduates in 1970. <span class="pp">|</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="pp">|</span>frost      <span class="pp">|</span>integer   <span class="pp">|</span>Mean number of days with minimum temperature below freezing (1931–1960) in capital or large city. <span class="pp">|</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="pp">|</span>area       <span class="pp">|</span>integer   <span class="pp">|</span>Land area in square miles. <span class="pp">|</span></span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="pp">|</span>state      <span class="pp">|</span>character <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="pp">|</span>population <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="pp">|</span>income     <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="pp">|</span>illiteracy <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="pp">|</span>life_exp   <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="pp">|</span>murder     <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="pp">|</span>hs_grad    <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="pp">|</span>frost      <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="pp">|</span>area       <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span></code></pre></div>
+<p>Provide information so users can understand what each column
+represents.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="pp">|</span>variable   <span class="pp">|</span>class     <span class="pp">|</span>description                           <span class="pp">|</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="pp">|:----------|:---------|:-------------------------------------|</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="pp">|</span>state      <span class="pp">|</span>character <span class="pp">|</span>Name of the state. <span class="pp">|</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="pp">|</span>population <span class="pp">|</span>character <span class="pp">|</span>Population estimate as of July 1, 1975. <span class="pp">|</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="pp">|</span>income     <span class="pp">|</span>integer   <span class="pp">|</span>Per capita income in 1974. <span class="pp">|</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="pp">|</span>illiteracy <span class="pp">|</span>integer   <span class="pp">|</span>Illiteracy in 1970, as percent of population. <span class="pp">|</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="pp">|</span>life_exp   <span class="pp">|</span>double    <span class="pp">|</span>Life expectancy in years (1969–71). <span class="pp">|</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="pp">|</span>murder     <span class="pp">|</span>double    <span class="pp">|</span>Murder and non-negligent manslaughter rate per 100,000 population in 1976. <span class="pp">|</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="pp">|</span>hs_grad    <span class="pp">|</span>double    <span class="pp">|</span>Percent high-school graduates in 1970. <span class="pp">|</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="pp">|</span>frost      <span class="pp">|</span>integer   <span class="pp">|</span>Mean number of days with minimum temperature below freezing (1931–1960) in capital or large city. <span class="pp">|</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="pp">|</span>area       <span class="pp">|</span>integer   <span class="pp">|</span>Land area in square miles. <span class="pp">|</span></span></code></pre></div>
 <p>Notice that we don’t have to perfectly align the <code>|</code>
 characters in the table.</p>
 <p>Repeat this process for each dataset that you wrangled.</p>
@@ -221,7 +232,7 @@ characters in the table.</p>
 <p>Next we need to introduce the dataset. Create an
 <code>intro.md</code> file in your <code>tt_submission</code> directory
 with <code><a href="../reference/tt_intro.html">tt_intro()</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tt_intro.html">tt_intro</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The file looks like this:</p>
 <pre><code>&lt;!-- 
@@ -273,7 +284,7 @@ the dataset. These images might come from the source of the dataset, or
 you might create them yourself. For our <code>states</code> data, we’ll
 create a basic map of the united states with the states colored by
 population.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="va">state_outlines</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu">map_data</span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span></span>
 <span><span class="va">states</span> <span class="op">|&gt;</span> </span>
@@ -296,7 +307,7 @@ population.</p>
 <p>The final preparation step is to provide metadata about the dataset.
 Create a <code>meta.yaml</code> file in your <code>tt_submission</code>
 directory with <code><a href="../reference/tt_meta.html">tt_meta()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tt_meta.html">tt_meta</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"The 50 US States"</span>,</span>
 <span>  article_title <span class="op">=</span> <span class="st">"U.S. Department of Commerce, Bureau of the Census"</span>,</span>
@@ -320,27 +331,27 @@ except Mastodon, which requires <code>@username@server</code>.</p>
 <p>The completed <code>meta.yaml</code> file looks like this (I edited
 the image alt text so I could read it without scrolling, but otherwise
 this is what <code><a href="../reference/tt_meta.html">tt_meta()</a></code> produced):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The 50 US States"</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">article</span><span class="kw">:</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"U.S. Department of Commerce, Bureau of the Census"</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.census.gov/"</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">data_source</span><span class="kw">:</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The R datasets package"</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.r-project.org/"</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">images</span><span class="kw">:</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co"># Please include at least one image, and up to three images</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">file</span><span class="kw">:</span><span class="at"> </span><span class="st">"states_population.png"</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">  alt</span><span class="kw">: </span><span class="ch">&gt;</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>    A map of the continental United States, with each state colored in shades of</span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>    blue by population as of 1975. California and New York are the lightest,</span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>    indicating the highest population. Maine, New Hampshire, Vermont, and the</span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>    Plains States are all quite dark, indicating low population.</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="fu">credit</span><span class="kw">:</span></span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="at">  </span><span class="fu">post</span><span class="kw">:</span><span class="at"> </span><span class="st">"Jon Harmon, Data Science Learning Community"</span></span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="at">  </span><span class="fu">github</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="at">  </span><span class="fu">bluesky</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek.com"</span></span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="at">  </span><span class="fu">linkedin</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="at">  </span><span class="fu">mastodon</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek@fosstodon.org"</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The 50 US States"</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">article</span><span class="kw">:</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"U.S. Department of Commerce, Bureau of the Census"</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.census.gov/"</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">data_source</span><span class="kw">:</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The R datasets package"</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.r-project.org/"</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">images</span><span class="kw">:</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># Please include at least one image, and up to three images</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">file</span><span class="kw">:</span><span class="at"> </span><span class="st">"states_population.png"</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="fu">  alt</span><span class="kw">: </span><span class="ch">&gt;</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    A map of the continental United States, with each state colored in shades of</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    blue by population as of 1975. California and New York are the lightest,</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>    indicating the highest population. Maine, New Hampshire, Vermont, and the</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    Plains States are all quite dark, indicating low population.</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="fu">credit</span><span class="kw">:</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="at">  </span><span class="fu">post</span><span class="kw">:</span><span class="at"> </span><span class="st">"Jon Harmon, Data Science Learning Community"</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="at">  </span><span class="fu">github</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="at">  </span><span class="fu">bluesky</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek.com"</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="at">  </span><span class="fu">linkedin</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="at">  </span><span class="fu">mastodon</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek@fosstodon.org"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="submit">Submit<a class="anchor" aria-label="anchor" href="#submit"></a>
@@ -352,7 +363,7 @@ pull request (PR) on the TidyTuesday GitHub repo. A PR is a way to
 suggest changes to a repository (a collection of files on GitHub), and
 it’s how we manage submissions to TidyTuesday. You’re requesting that we
 “pull” changes from your copy on GitHub to our source repository.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tt_submit.html">tt_submit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Congratulations! You are now an open-source contributor!</p>
 </div>
