@@ -45,8 +45,7 @@ tt
 Take an initial look at the format of the data available.
 
 ```{r Glimpse}
-tt %>% 
-  map(glimpse)
+map(tt, glimpse)
 ```
 
 # Wrangle
