@@ -15,7 +15,7 @@ tt_curate_data <- function() {
     if (rlang::is_installed("rstudioapi")) {
       rstudioapi::documentOpen(path)
     } else {
-      browseURL(path)
+      utils::browseURL(path)
     }
   } # nocov end
   return(invisible(path))
