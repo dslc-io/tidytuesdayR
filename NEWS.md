@@ -1,3 +1,5 @@
+# tidytuesdayR (development version)
+
 # tidytuesdayR 1.2.0
 
 * [feature] Added functions `tt_clean()`, `tt_save_dataset()`, `tt_intro()`, `tt_meta()`, and `tt_submit()` for curation and submission of datasets for use in TidyTuesday. See `vignette("curating", package = "tidytuesdayR")` for details. (#117, #118, #120, #121, #123, #124, #130)
