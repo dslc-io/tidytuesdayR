@@ -1,4 +1,5 @@
 # tidytuesdayR (development version)
+* [messaging] Added a clearer error message for missing github credentials (#135).
 
 # tidytuesdayR 1.2.1
 * [tests] No user-facing changes.

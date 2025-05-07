@@ -70,6 +70,9 @@ test_that("tt_find_branch deals with branch names", {
 
 test_that("tt_submit informs about the PR url", {
   local_mocked_bindings(
+    gh_auth_check = function(...) {
+      return("auth")
+    },
     tt_user = function(auth) {
       return("testuser")
     },
