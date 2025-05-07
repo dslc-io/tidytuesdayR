@@ -14,6 +14,7 @@
 #' @returns The GitHub response as parsed by [gh::gh()].
 #' @keywords internal
 gh_get <- function(path, auth = gh::gh_token(), ...) {
+  auth <- gh_auth_check(auth)
   gh::gh(
     "/repos/:tt_repo/contents/:path",
     path = path,
@@ -71,6 +72,19 @@ gh_get_readme_html <- function(path, auth = gh::gh_token()) {
 }
 
 # Do not hit api ----
+
+gh_auth_check <- function(auth = gh::gh_token()) {
+  if (!nchar(auth)) {
+    cli::cli_abort(
+      c(
+        x = "{.arg auth} is not a valid github token.",
+        i = "See the {.vignette gh::managing-personal-access-tokens} vignette."
+      ),
+      class = "tt-error-bad_gh_auth"
+    )
+  }
+  return(auth)
+}
 
 gh_raw_to_chr <- function(encoded_raw) {
   return(rawToChar(jsonlite::base64_dec(encoded_raw)))

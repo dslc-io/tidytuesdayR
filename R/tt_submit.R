@@ -21,6 +21,7 @@ tt_submit <- function(path = "tt_submission",
   rlang::check_installed("base64enc", "to prepare files for a submission.")
   files <- tt_find_dataset_files(path)
 
+  auth <- gh_auth_check(auth)
   user <- tt_user(auth = auth)
   repo <- getOption("tidytuesdayR.tt_repo", "rfordatascience/tidytuesday")
   branch <- tt_find_branch(path)

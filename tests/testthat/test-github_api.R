@@ -101,3 +101,23 @@ test_that("gh_extract_sha_in_folder errors for missing file", {
     class = "tt-error-file_not_found"
   )
 })
+
+test_that("gh_auth_check makes sure auth looks valid", {
+  expect_error(
+    {
+      gh_auth_check("")
+    },
+    "is not a valid github token",
+    class = "tt-error-bad_gh_auth"
+  )
+  expect_error(
+    {
+      gh_auth_check(structure("", class = "gh_pat"))
+    },
+    "is not a valid github token",
+    class = "tt-error-bad_gh_auth"
+  )
+  expect_no_error({
+    gh_auth_check(structure("valid_token", class = "gh_pat"))
+  })
+})
