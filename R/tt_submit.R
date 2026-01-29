@@ -26,20 +26,21 @@ tt_submit <- function(path = "tt_submission",
   repo <- getOption("tidytuesdayR.tt_repo", "rfordatascience/tidytuesday")
   branch <- tt_find_branch(path)
 
-  fork_repo <- tt_fork(user = user, repo = repo, auth = auth)
-  tt_branch_create(fork_repo = fork_repo, branch = branch, auth = auth)
+  fork_info <- tt_fork(user = user, repo = repo, auth = auth)
+  tt_branch_create(fork_info = fork_info, branch = branch, auth = auth)
   tt_branch_populate(
-    fork_repo = fork_repo,
+    fork_repo = fork_info$full_name,
     branch = branch,
     files = files,
     auth = auth
   )
 
-  existing_prs <- gh::gh(
+  existing_prs <- call_gh(
     "/repos/{repo}/pulls",
     head = glue::glue("{user}:{branch}"),
     repo = repo,
-    state = "open"
+    state = "open",
+    auth = auth
   )
 
   if (length(existing_prs)) {
@@ -138,41 +139,44 @@ tt_find_branch <- function(path = "tt_submission") {
 
 # Skipping coverage of the gh stuff for now.
 # nocov start
+call_gh <- function(..., auth = gh::gh_token()) {
+  gh::gh(..., .token = auth)
+}
+# nocov end
+
 tt_user <- function(auth = gh::gh_token()) {
-  gh::gh("GET /user", .token = auth)$login
+  call_gh("GET /user", auth = auth)$login
 }
 
 tt_fork <- function(user, repo, auth = gh::gh_token()) {
-  # Check if the fork exists and is linked to the original repo
-  forks <- gh::gh("GET /repos/{repo}/forks", repo = repo, .token = auth)
-  my_fork <- purrr::keep(forks, ~ .x$owner$login == user)
-  if (length(my_fork)) {
-    my_fork <- my_fork[[1]]
-  } else {
-    my_fork <- gh::gh("POST /repos/{repo}/forks", repo = repo, .token = auth)
-  }
-  return(my_fork$full_name)
+  # GitHub automatically returns existing fork if it exists, no need to check
+  my_fork <- call_gh("POST /repos/{repo}/forks", repo = repo, auth = auth)
+  return(my_fork)
 }
 
-tt_branch_create <- function(fork_repo, branch, auth = gh::gh_token()) {
-  main_sha <- gh::gh(
-    "GET /repos/{fork_repo}/git/refs/heads/main",
+tt_branch_create <- function(fork_info, branch, auth = gh::gh_token()) {
+  fork_repo <- fork_info$full_name
+  default_branch <- fork_info$default_branch
+  
+  main_sha <- call_gh(
+    "GET /repos/{fork_repo}/git/refs/heads/{default_branch}",
     fork_repo = fork_repo,
-    .token = auth
+    default_branch = default_branch,
+    auth = auth
   )$object$sha
   target_ref <- glue::glue("refs/heads/{branch}")
-  existing <- gh::gh(
+  existing <- call_gh(
     "GET /repos/{fork_repo}/git/refs/heads",
     fork_repo = fork_repo,
-    .token = auth
+    auth = auth
   )
   if (!target_ref %in% purrr::map_chr(existing, "ref")) {
-    gh::gh(
+    call_gh(
       "POST /repos/{fork_repo}/git/refs",
       fork_repo = fork_repo,
       ref = glue::glue("refs/heads/{branch}"),
       sha = main_sha,
-      .token = auth
+      auth = auth
     )
   }
   return(invisible(target_ref))
@@ -189,7 +193,7 @@ tt_branch_populate <- function(fork_repo,
     sha <- existing_content[[filename]]
     if (!identical(sha, git_blob_sha1(file))) {
       action <- ifelse(is.null(sha), "Add", "Update")
-      gh::gh(
+      call_gh(
         "PUT /repos/{fork_repo}/contents/data/curated/new_submission/{filename}",
         fork_repo = fork_repo,
         filename = filename,
@@ -197,7 +201,7 @@ tt_branch_populate <- function(fork_repo,
         content = content,
         branch = branch,
         sha = sha,
-        .token = auth
+        auth = auth
       )
     }
   })
@@ -207,11 +211,11 @@ tt_branch_content <- function(fork_repo, branch, auth = gh::gh_token()) {
   # If the branch has a "new_submission" folder, return the contents of that
   # folder.
   new_submission <- tryCatch(
-    gh::gh(
+    call_gh(
       "GET /repos/{fork_repo}/contents/data/curated/new_submission",
       fork_repo = fork_repo,
       ref = glue::glue("refs/heads/{branch}"),
-      .token = auth
+      auth = auth
     ),
     error = function(e) {
       NULL
@@ -238,6 +242,3 @@ git_blob_sha1 <- function(file) {
     )
   )
 }
-
-
-# nocov end

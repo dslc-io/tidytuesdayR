@@ -18,7 +18,7 @@ License: MIT + file LICENSE
 URL: https://dslc-io.github.io/tidytuesdayR/,
     https://github.com/dslc-io/tidytuesdayR
 BugReports: https://github.com/dslc-io/tidytuesdayR/issues
-Depends: 
+Depends:
     R (>= 4.1.0)
 Imports:
     cli,
@@ -35,7 +35,7 @@ Imports:
     tools (>= 3.1.0),
     utils,
     xml2 (>= 1.2.0)
-Suggests: 
+Suggests:
     base64enc,
     covr,
     dplyr,
@@ -52,11 +52,11 @@ Suggests:
     vctrs,
     withr,
     yaml
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 Config/Needs/website: pkgdown
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

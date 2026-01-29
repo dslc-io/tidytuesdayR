@@ -33,7 +33,7 @@ Use the tidytemplate Rmd for starting your analysis with a leg up for
 processing
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 
   use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
 \dontshow{\}) # examplesIf}

@@ -40,7 +40,7 @@ dictionary file for you to fill out. If you're in an interactive session, the
 dictionary file is opened for editing.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 
   tt_save_dataset(mtcars)
 \dontshow{\}) # examplesIf}

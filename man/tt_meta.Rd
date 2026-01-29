@@ -91,7 +91,7 @@ values for the parameters, you will be prompted to enter them in an
 interactive session.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 
   tt_meta()
 \dontshow{\}) # examplesIf}

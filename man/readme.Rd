@@ -17,7 +17,7 @@ dataset in the Viewer.
 Readme HTML maker and Viewer
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 if (rate_limit_check(quiet = TRUE) > 30) {
   tt_output <- tt_load_gh("2019-01-15")
   readme(tt_output)

@@ -24,7 +24,7 @@ A list of tibbles from the downloaded files.
 Download all or specific files identified in a TidyTuesday dataset.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # Get the list of files for a week.
 tt_output <- tt_load_gh("2019-01-15")
 
