@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   curating: curating.html
-last_built: 2026-01-30T12:16Z
+last_built: 2026-01-30T13:01Z
 urls:
   reference: https://dslc-io.github.io/tidytuesdayR/reference
   article: https://dslc-io.github.io/tidytuesdayR/articles

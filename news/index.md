@@ -11,6 +11,15 @@
   branch of the fork, and accurately compares local file SHAs with
   remote file SHAs to determine whether files need to be updated
   ([\#135](https://github.com/dslc-io/tidytuesdayR/issues/135)).
+- \[bug fix\]
+  [`tt_curate_data()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_curate_data.md)
+  now uses
+  [`usethis::edit_file()`](https://usethis.r-lib.org/reference/edit_file.html)
+  instead of RStudio-specific
+  [`rstudioapi::documentOpen()`](https://rstudio.github.io/rstudioapi/reference/rstudio-documents.html),
+  making it compatible with Positron and other IDEs. Also added an
+  `open` parameter for consistency with other curation functions.
+  ([\#139](https://github.com/dslc-io/tidytuesdayR/issues/139))
 
 ## tidytuesdayR 1.2.1
 

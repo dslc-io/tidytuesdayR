@@ -7,8 +7,14 @@ submitting a TidyTuesday dataset. See
 ## Usage
 
 ``` r
-tt_curate_data()
+tt_curate_data(open = rlang::is_interactive())
 ```
+
+## Arguments
+
+- open:
+
+  Whether to open the file for interactive editing.
 
 ## Value
 
