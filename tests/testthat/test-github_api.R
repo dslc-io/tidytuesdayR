@@ -95,7 +95,10 @@ test_that("gh_extract_sha_in_folder errors for missing file", {
   )
   expect_error(
     {
-      gh_extract_sha_in_folder(list(list(name = "found_file_name")), "missing_file_name")
+      gh_extract_sha_in_folder(
+        list(list(name = "found_file_name")),
+        "missing_file_name"
+      )
     },
     "Found 1 file",
     class = "tt-error-file_not_found"

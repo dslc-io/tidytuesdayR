@@ -25,7 +25,7 @@ printing utilities for showing the available datasets for a specific year or
 all time
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # check to make sure there are requests still available
 if (rate_limit_check(quiet = TRUE) > 30) {
   available_datasets_2018 <- tt_datasets(2018)

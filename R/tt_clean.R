@@ -15,9 +15,11 @@
 #' @examplesIf interactive()
 #'
 #'   tt_clean()
-tt_clean <- function(path = "tt_submission",
-                     open = rlang::is_interactive(),
-                     ignore = FALSE) {
+tt_clean <- function(
+  path = "tt_submission",
+  open = rlang::is_interactive(),
+  ignore = FALSE
+) {
   prep_tt_curate(path, ignore = ignore)
   cleaning_path <- fs::path(path, "cleaning.R")
 

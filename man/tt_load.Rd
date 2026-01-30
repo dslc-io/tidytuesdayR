@@ -30,7 +30,7 @@ the object or calling \code{\link[=readme]{readme()}}.
 Load TidyTuesday data from Github
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 tt_output <- tt_load("2019-01-15")
 tt_output
 agencies <- tt_output$agencies

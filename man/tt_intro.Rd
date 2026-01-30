@@ -31,7 +31,7 @@ that path if it does not already exist), and (if possible) opens it for
 editing.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 
   tt_intro()
 \dontshow{\}) # examplesIf}

@@ -15,3 +15,5 @@
 ^CRAN-RELEASE$
 logo\.png
 ^CRAN-SUBMISSION$
+^[.]?air[.]toml$
+^\.vscode$

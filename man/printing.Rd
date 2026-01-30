@@ -25,7 +25,7 @@ print the available datasets/files. If there is a readme available,
 it will try to display the TidyTuesday readme.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 tt <- tt_load_gh("2019-01-15")
 print(tt)
 

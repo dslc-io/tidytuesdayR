@@ -41,7 +41,7 @@ Viewer or print to console all the available data sets ever made for
 TidyTuesday.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # check to make sure there are requests still available
 if (rate_limit_check(quiet = TRUE) > 30) {
   ## show data available from 2018

@@ -61,10 +61,7 @@ tt_datasets <- function(year, auth = gh::gh_token()) {
   datasets <- rvest::html_table(readme_html)[[1]]
   ##############################################################################
 
-  structure(datasets,
-    .html = readme_html,
-    class = "tt_dataset_table"
-  )
+  structure(datasets, .html = readme_html, class = "tt_dataset_table")
 }
 
 #' Printing Utilities for Listing Available Datasets
@@ -112,7 +109,11 @@ save_tt_object <- function(x, fn) {
 
 #' @rdname tt_print
 #' @export
-print.tt_dataset_table_list <- function(x, ..., is_interactive = interactive()) {
+print.tt_dataset_table_list <- function(
+  x,
+  ...,
+  is_interactive = interactive()
+) {
   if (is_interactive) {
     tmpHTML <- save_tt_object(x, fn = make_tt_dataset_list_html)
     html_viewer(tmpHTML)
@@ -121,7 +122,8 @@ print.tt_dataset_table_list <- function(x, ..., is_interactive = interactive()) 
       purrr::map(
         function(.x, x) {
           list(
-            table = data.frame(unclass(x[[.x]])), year = .x
+            table = data.frame(unclass(x[[.x]])),
+            year = .x
           )
         },
         x = x
@@ -144,7 +146,9 @@ make_tt_dataset_list_html <- function(x, file = tempfile(fileext = ".html")) {
         year_table <- attr(x[[.x]], ".html") |>
           rvest::html_element("table")
         paste(
-          "<h2>", .x, "</h2>",
+          "<h2>",
+          .x,
+          "</h2>",
           as.character(year_table),
           ""
         )
@@ -155,7 +159,8 @@ make_tt_dataset_list_html <- function(x, file = tempfile(fileext = ".html")) {
 
   readme <- paste(
     "<article class='markdown-body entry-content' itemprop='text'>",
-    paste("<h1>TidyTuesday Datasets</h1>", readme), "</article>"
+    paste("<h1>TidyTuesday Datasets</h1>", readme),
+    "</article>"
   ) |>
     xml2::read_html() |>
     github_page()

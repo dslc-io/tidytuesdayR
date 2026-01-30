@@ -1,5 +1,6 @@
 # tidytuesdayR (development version)
 * [messaging] Added a clearer error message for missing github credentials (#135).
+* [bug fix] `tt_submit()` now correctly discovers existing forks, properly handles the default branch of the fork, and accurately compares local file SHAs with remote file SHAs to determine whether files need to be updated (#135).
 
 # tidytuesdayR 1.2.1
 * [tests] No user-facing changes.

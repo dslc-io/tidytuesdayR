@@ -30,7 +30,7 @@ pull request. The dataset should be prepared using \code{\link[=tt_clean]{tt_cle
 function to submit changes to your local copies of the files.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # First set up a dataset in the "tt_submission" folder.
 tt_submit()
 \dontshow{\}) # examplesIf}
