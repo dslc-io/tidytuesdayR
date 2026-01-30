@@ -30,7 +30,8 @@ should_update_tt_master_file <- function(force = FALSE, auth = gh::gh_token()) {
       "static",
       "tt_data_type.csv",
       auth = auth
-    ) != attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha")
+    ) !=
+      attr(TT_MASTER_ENV$TT_MASTER_FILE, ".sha")
 }
 
 # The Master List of Files from TidyTuesday

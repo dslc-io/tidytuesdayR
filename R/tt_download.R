@@ -14,10 +14,7 @@
 #'
 #' # Download a specific file.
 #' agencies <- tt_download(tt_output, files = "agencies.csv")
-tt_download <- function(tt,
-                        files = "All",
-                        ...,
-                        auth = gh::gh_token()) {
+tt_download <- function(tt, files = "All", ..., auth = gh::gh_token()) {
   files <- tt_check_files(tt, files)
   cli::cli_h1("Downloading files")
   files_len <- length(files)

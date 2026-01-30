@@ -52,21 +52,23 @@
 #' @examplesIf interactive()
 #'
 #'   tt_meta()
-tt_meta <- function(path = "tt_submission",
-                    title,
-                    article_title,
-                    article_url,
-                    source_title,
-                    source_url,
-                    image_filename,
-                    image_alt,
-                    attribution,
-                    github = gh::gh_whoami()$login,
-                    bluesky = NULL,
-                    linkedin = NULL,
-                    mastodon = NULL,
-                    open = rlang::is_interactive(),
-                    ignore = FALSE) {
+tt_meta <- function(
+  path = "tt_submission",
+  title,
+  article_title,
+  article_url,
+  source_title,
+  source_url,
+  image_filename,
+  image_alt,
+  attribution,
+  github = gh::gh_whoami()$login,
+  bluesky = NULL,
+  linkedin = NULL,
+  mastodon = NULL,
+  open = rlang::is_interactive(),
+  ignore = FALSE
+) {
   prep_tt_curate(path, ignore = ignore)
   meta_path <- fs::path(path, "meta.yaml")
 
@@ -132,12 +134,15 @@ tt_meta <- function(path = "tt_submission",
   )
 }
 
-ensure_arg_filled <- function(var,
-                              question,
-                              arg_name = rlang::caller_arg(var),
-                              call = rlang::caller_env()) {
+ensure_arg_filled <- function(
+  var,
+  question,
+  arg_name = rlang::caller_arg(var),
+  call = rlang::caller_env()
+) {
   arg_name <- remove_caller_arg_missing(arg_name)
-  if (rlang::is_missing(var) && rlang::is_interactive()) { # nocov start
+  if (rlang::is_missing(var) && rlang::is_interactive()) {
+    # nocov start
     question <- paste0("\n", stringr::str_trim(question), "\n")
     cat(question)
     var <- readline()
@@ -172,10 +177,12 @@ format_image_data <- function(image_filename, image_alt) {
   )
 }
 
-format_social_media <- function(github = gh::gh_whoami()$login,
-                                bluesky = NULL,
-                                linkedin = NULL,
-                                mastodon = NULL) {
+format_social_media <- function(
+  github = gh::gh_whoami()$login,
+  bluesky = NULL,
+  linkedin = NULL,
+  mastodon = NULL
+) {
   socials <- list(
     c(
       attribution_type = "github",
@@ -195,7 +202,8 @@ format_social_media <- function(github = gh::gh_whoami()$login,
     )
   )
   return(purrr::keep(socials, \(social) {
-    "attribution_text" %in% names(social) &&
+    "attribution_text" %in%
+      names(social) &&
       length(social[["attribution_text"]]) > 0 &&
       social[["attribution_text"]] != ""
   }))

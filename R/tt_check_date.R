@@ -89,8 +89,10 @@ tt_check_date.year <- function(x, week, auth = gh::gh_token()) {
 
   tt_date <- tt_folders$folders[tt_folders$week_desc == week]
 
-  if (!tt_date %in% tt_folders[["folders"]] ||
-      !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]) {
+  if (
+    !tt_date %in% tt_folders[["folders"]] ||
+      !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]
+  ) {
     cli::cli_abort(
       "Week {week} of {x} does not have data available for download.",
       class = "tt-error-invalid_date"

@@ -15,9 +15,11 @@
 #' @examplesIf interactive()
 #' # First set up a dataset in the "tt_submission" folder.
 #' tt_submit()
-tt_submit <- function(path = "tt_submission",
-                      auth = gh::gh_token(),
-                      open = rlang::is_interactive()) {
+tt_submit <- function(
+  path = "tt_submission",
+  auth = gh::gh_token(),
+  open = rlang::is_interactive()
+) {
   rlang::check_installed("base64enc", "to prepare files for a submission.")
   files <- tt_find_dataset_files(path)
 
@@ -157,7 +159,7 @@ tt_fork <- function(user, repo, auth = gh::gh_token()) {
 tt_branch_create <- function(fork_info, branch, auth = gh::gh_token()) {
   fork_repo <- fork_info$full_name
   default_branch <- fork_info$default_branch
-  
+
   main_sha <- call_gh(
     "GET /repos/{fork_repo}/git/refs/heads/{default_branch}",
     fork_repo = fork_repo,
@@ -182,10 +184,12 @@ tt_branch_create <- function(fork_info, branch, auth = gh::gh_token()) {
   return(invisible(target_ref))
 }
 
-tt_branch_populate <- function(fork_repo,
-                               branch,
-                               files,
-                               auth = gh::gh_token()) {
+tt_branch_populate <- function(
+  fork_repo,
+  branch,
+  files,
+  auth = gh::gh_token()
+) {
   existing_content <- tt_branch_content(fork_repo, branch, auth)
   purrr::walk(files, function(file) {
     content <- base64enc::base64encode(file)

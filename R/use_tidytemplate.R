@@ -18,10 +18,12 @@
 #'   use_tidytemplate(name = "My_Awesome_TidyTuesday.Rmd")
 #'
 #' @export
-use_tidytemplate <- function(name = NULL,
-                             open = rlang::is_interactive(),
-                             refdate = today(),
-                             ignore = FALSE) {
+use_tidytemplate <- function(
+  name = NULL,
+  open = rlang::is_interactive(),
+  refdate = today(),
+  ignore = FALSE
+) {
   rlang::check_installed("usethis", "to use the tidytemplate.")
   stopifnot(valid_date(refdate))
   last_tt <- last_tuesday(refdate)

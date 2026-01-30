@@ -6,7 +6,10 @@ static_contents <- gh_get("static") |>
   purrr::keep(~ .x$name %in% c("tt_data_type.csv", "tt_logo.png"))
 saveRDS(static_contents, test_path("fixtures", "static_contents.rds"))
 tt_data_type_response <- gh_get("static/tt_data_type.csv")
-saveRDS(tt_data_type_response, test_path("fixtures", "tt_data_type_response.rds"))
+saveRDS(
+  tt_data_type_response,
+  test_path("fixtures", "tt_data_type_response.rds")
+)
 folder2020_response <- gh_get("data/2020")
 saveRDS(folder2020_response, test_path("fixtures", "folder2020_response.rds"))
 readme2020_response <- gh_get(
@@ -35,7 +38,10 @@ xml2::write_html(readme2024, test_path("fixtures", "readme2024.html"))
 save_readme <- function(date) {
   tt_year <- lubridate::year(date)
   readme <- gh_get_readme_html(file.path("data", tt_year, date))
-  xml2::write_html(readme, test_path("fixtures", glue::glue("readme{date}.html")))
+  xml2::write_html(
+    readme,
+    test_path("fixtures", glue::glue("readme{date}.html"))
+  )
 }
 save_readme("2019-01-15")
 save_readme("2019-04-02")
@@ -65,7 +71,6 @@ gh_response <- gh_get(file.path("data", tt_year, tt_date, target))
 saveRDS(
   gh_response,
   test_path("fixtures", glue::glue("response-{tt_date}-{target}.rds"))
-
 )
 
 simple_tt_data <- structure(

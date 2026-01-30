@@ -13,11 +13,7 @@
 #' agencies <- tt_output$agencies
 #'
 #' @export
-tt_load <- function(x,
-                    week = NULL,
-                    files = "All",
-                    ...,
-                    auth = gh::gh_token()) {
+tt_load <- function(x, week = NULL, files = "All", ..., auth = gh::gh_token()) {
   # download readme and identify files
   tt <- tt_load_gh(x, week, auth = auth)
 

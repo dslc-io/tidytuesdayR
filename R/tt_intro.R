@@ -15,9 +15,11 @@
 #' @examplesIf interactive()
 #'
 #'   tt_intro()
-tt_intro <- function(path = "tt_submission",
-                     open = rlang::is_interactive(),
-                     ignore = FALSE) {
+tt_intro <- function(
+  path = "tt_submission",
+  open = rlang::is_interactive(),
+  ignore = FALSE
+) {
   prep_tt_curate(path, ignore = ignore)
   intro_path <- fs::path(path, "intro.md")
 

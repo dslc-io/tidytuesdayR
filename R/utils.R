@@ -36,8 +36,11 @@ readme <- function(tt) {
     tt <- attr(tt, ".tt")
   }
   if (length(attr(tt, ".readme")) > 0) {
-    xml2::write_html(attr(tt, ".readme"), file = tmpHTML <-
-      tempfile(fileext = ".html"))
+    xml2::write_html(
+      attr(tt, ".readme"),
+      file = tmpHTML <-
+        tempfile(fileext = ".html")
+    )
     # if running in rstudio, print out that
     html_viewer(tmpHTML)
   }
@@ -82,13 +85,27 @@ contiguous_weeks <- function(week_vctr) {
       }
       contig_split <- 1
       while (contig_split < length(is_not_contig)) {
-        if (diff(c(is_not_contig[contig_split], is_not_contig[contig_split + 1])) == 1) {
+        if (
+          diff(c(
+            is_not_contig[contig_split],
+            is_not_contig[contig_split + 1]
+          )) ==
+            1
+        ) {
           text_out <- paste0(
-            text_out, ", ", week_vctr[is_not_contig[contig_split] + 1]
+            text_out,
+            ", ",
+            week_vctr[is_not_contig[contig_split] + 1]
           )
         } else {
           text_out <- paste0(
-            text_out, ", ", paste0(week_vctr[is_not_contig[contig_split] + 1], "-", week_vctr[is_not_contig[contig_split + 1]])
+            text_out,
+            ", ",
+            paste0(
+              week_vctr[is_not_contig[contig_split] + 1],
+              "-",
+              week_vctr[is_not_contig[contig_split + 1]]
+            )
           )
         }
         contig_split %+=% 1
@@ -96,11 +113,19 @@ contiguous_weeks <- function(week_vctr) {
 
       if (length(week_vctr) == (is_not_contig[contig_split] + 1)) {
         text_out <- paste0(
-          text_out, ", ", week_vctr[length(week_vctr)]
+          text_out,
+          ", ",
+          week_vctr[length(week_vctr)]
         )
       } else {
         text_out <- paste0(
-          text_out, ", ", paste0(week_vctr[is_not_contig[contig_split] + 1], "-", week_vctr[length(week_vctr)])
+          text_out,
+          ", ",
+          paste0(
+            week_vctr[is_not_contig[contig_split] + 1],
+            "-",
+            week_vctr[length(week_vctr)]
+          )
         )
       }
     }
