@@ -373,3 +373,127 @@ test_that("tt_submit informs about the PR url", {
     )
   )
 })
+
+# CSV file validation --------------------------------------------------------
+
+test_that("tt_find_csv_files passes when CSVs are under 25MB", {
+  expect_no_error(
+    tt_find_csv_files(test_path("fixtures", "tt_submission"))
+  )
+})
+
+test_that("tt_find_csv_files errors when CSV exceeds 25MB", {
+  local_mocked_bindings(
+    file_size = function(path) {
+      fs::fs_bytes("30MB")
+    },
+    .package = "fs"
+  )
+  expect_error(
+    tt_find_csv_files(test_path("fixtures", "tt_submission")),
+    class = "tt-error-csv_size"
+  )
+})
+
+test_that("tt_find_csv_files handles multiple large CSVs", {
+  local_mocked_bindings(
+    dir_ls = function(path, glob) {
+      c(
+        test_path("fixtures", "tt_submission", "file1.csv"),
+        test_path("fixtures", "tt_submission", "file2.csv")
+      )
+    },
+    file_size = function(path) {
+      c(fs::fs_bytes("30MB"), fs::fs_bytes("40MB"))
+    },
+    .package = "fs"
+  )
+
+  expect_error(
+    tt_find_csv_files(test_path("fixtures", "tt_submission")),
+    "file2",
+    class = "tt-error-csv_size"
+  )
+})
+
+# Image validation and resizing ----------------------------------------------
+
+test_that("tt_find_images passes when images are under limit", {
+  expect_no_error(
+    tt_find_images(test_path("fixtures", "tt_submission"))
+  )
+})
+
+test_that("tt_find_images resizes large images non-interactively", {
+  # Use temp dir so we can resize.
+  temp_dir <- withr::local_tempdir()
+  fs::file_copy(
+    fs::dir_ls(test_path("fixtures", "tt_submission_large_img")),
+    temp_dir
+  )
+  img_path <- fs::path(temp_dir, "states_population.png")
+  withr::local_options(list(rlang_interactive = FALSE))
+  expect_message(
+    expect_message(
+      tt_find_images(temp_dir),
+      "exceeds the Bluesky limit"
+    ),
+    "Image resized from"
+  )
+  expect_lte(
+    unclass(fs::file_size(img_path)),
+    unclass(fs::fs_bytes("976.56KB"))
+  )
+})
+
+test_that("tt_find_images cancels on user rejection", {
+  withr::local_options(
+    list(
+      rlang_interactive = TRUE,
+      viewer = function(x) invisible(NULL)
+    )
+  )
+  local_mocked_bindings(
+    menu = function(choices, title) {
+      2 # Choose "No, cancel submission"
+    },
+    .package = "utils"
+  )
+  expect_message(
+    expect_error(
+      tt_find_images(
+        test_path("fixtures", "tt_submission_large_img")
+      ),
+      "Submission cancelled by user"
+    ),
+    "exceeds the Bluesky limit"
+  )
+})
+
+test_that("tt_find_images accepts on user approval", {
+  # Use temp dir so we can resize.
+  temp_dir <- withr::local_tempdir()
+  fs::file_copy(
+    fs::dir_ls(test_path("fixtures", "tt_submission_large_img")),
+    temp_dir
+  )
+  withr::local_options(
+    list(
+      rlang_interactive = TRUE,
+      viewer = function(x) invisible(NULL)
+    )
+  )
+  local_mocked_bindings(
+    menu = function(choices, title) {
+      1 # Choose "Yes, use resized image"
+    },
+    .package = "utils"
+  )
+  expect_message(
+    expect_message(
+      tt_find_images(temp_dir),
+      "exceeds the Bluesky limit"
+    ),
+    "Image resized from"
+  )
+})

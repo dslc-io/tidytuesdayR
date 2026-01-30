@@ -41,6 +41,7 @@ Suggests:
     dplyr,
     fs,
     knitr,
+    magick,
     openssl,
     readxl (>= 1.0.0),
     rmarkdown,
