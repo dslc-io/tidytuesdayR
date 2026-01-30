@@ -20,6 +20,12 @@
   making it compatible with Positron and other IDEs. Also added an
   `open` parameter for consistency with other curation functions.
   ([\#139](https://github.com/dslc-io/tidytuesdayR/issues/139))
+- \[feature\]
+  [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
+  now verifies that CSVs and images have acceptable sizes *before*
+  attempting to submit the pull request
+  ([\#140](https://github.com/dslc-io/tidytuesdayR/issues/140),
+  [\#141](https://github.com/dslc-io/tidytuesdayR/issues/141)).
 
 ## tidytuesdayR 1.2.1
 
