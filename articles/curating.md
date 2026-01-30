@@ -1,0 +1,327 @@
+# Curating a Dataset
+
+We curate a new dataset (or collection of datasets) for TidyTuesday
+every week. We welcome dataset submissions from the community!
+
+There are 7 main steps to submit a dataset (plus a 0th step that you
+might have to do the first time you submit a dataset):
+
+0.  [Set up your GitHub account](#set-up-your-github-account).
+1.  [Open these instructions as a step-by-step
+    script](#open-these-instructions-as-a-step-by-step-script).
+2.  [Wrangle](#wrangle) the data with
+    [`tt_clean()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_clean.md)
+3.  [Save & document](#save-document) the data with
+    [`tt_save_dataset()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_save_dataset.md)
+4.  [Introduce](#introduce) the data with
+    [`tt_intro()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_intro.md)
+5.  [Find images](#find-images) (or create them).
+6.  [Provide metadata](#provide-metadata) with
+    [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
+7.  [Submit](#submit) for review with
+    [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
+
+## Set up your GitHub account
+
+If you’ve never worked with GitHub, don’t worry! It’s relatively easy,
+and we’ll guide you through the setup process. After you submit a
+dataset, you’ll officially be an open-source contributor!
+
+1.  [Create a GitHub account](https://github.com/). It’s easy and free!
+2.  `install.packages("usethis")` if you don’t already have it.
+3.  Run
+    [`usethis::create_github_token()`](https://usethis.r-lib.org/reference/github-token.html)
+    to set up a “Personal Access Token” for GitHub. This token is how
+    you authorize your R session to act on your behalf on GitHub. As
+    mentioned in
+    [`usethis::create_github_token()`](https://usethis.r-lib.org/reference/github-token.html),
+    you should store your token using
+    [`gitcreds::gitcreds_set()`](https://gitcreds.r-lib.org/reference/gitcreds_get.html).
+4.  Run
+    [`usethis::git_sitrep()`](https://usethis.r-lib.org/reference/git_sitrep.html).
+    It will print a lot of information about your git setup. You don’t
+    need to set up anything for the “GitHub project” section of that
+    report, but check for any other issues, and resolve them as
+    recommended by {usethis}.
+
+## Open these instructions as a step-by-step script
+
+These instructions are also provided as an R script.
+
+``` r
+library(tidytuesdayR)
+tt_curate_data()
+```
+
+## Wrangle
+
+We try to provide datasets as one or more tidy tibbles that can be saved
+as CSV files. This ensures that the data is easy for learners to access,
+regardless of what tools they might use.
+
+Fully teaching this step is beyond the scope of this vignette. [R for
+Data Science](https://r4ds.hadley.nz/) is an excellent resource for help
+with preparation of tidy data.
+
+However you wrangle the data, we need a single file, `cleaning.R`, to
+show users how you turned the raw dataset into a tidy dataset. Use
+[`tt_clean()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_clean.md)
+to create and open this file.
+
+``` r
+library(tidytuesdayR)
+tt_clean()
+```
+
+By default, `cleaning.R` (and the other files we create in this process)
+will be created in a `tt_submission` directory in your working
+directory. If you would like to create your submission in a different
+directory, provide a `path` argument to
+[`tt_clean()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_clean.md).
+
+As an example of what a `cleaning.R` script should look like, imagine we
+want to use the built-in `state.x77` dataset from the {datasets}
+package. Our `cleaning.R` file might look like this.
+
+``` r
+library(tidyverse)
+library(janitor)
+
+states <- state.x77 |> 
+  tibble::as_tibble(rownames = "state") |> 
+  janitor::clean_names() |> 
+  dplyr::mutate(
+    dplyr::across(
+      c("population", "income", "frost", "area"),
+      as.integer
+    )
+  )
+```
+
+Please [`library()`](https://rdrr.io/r/base/library.html) any packages
+used in your script at the top of the script to make it easier for
+learners to see what they might need to install. In addition to the
+{tidyverse}, we often use {janitor} to clean up column names.
+
+While not required, we usually try to cast numeric variables to their
+“actual” class (integer, logical, date, etc, not necessarily leaving
+them as the “double” class that many datasets use by default). That way
+users can see a little more information about what they should expect in
+that column.
+
+Be sure to execute your code (ideally in a fresh R session to ensure
+that it works as expected) before moving on to the [Save &
+document](#save-document) step.
+
+## Save & document
+
+Use
+[`tt_save_dataset()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_save_dataset.md)
+to save each wrangled dataset as a csv file, and to create a formatted
+dictionary markdown file for each dataset.
+
+``` r
+tt_save_dataset(states)
+```
+
+Running that code creates two files in your `tt_submission` directory:
+`states.csv` and `states.md`. The `.md` file contains a formatted data
+dictionary table for the dataset, and is opened so you can provide
+information about each column.
+
+``` states.md
+|variable   |class     |description                           |
+|:----------|:---------|:-------------------------------------|
+|state      |character |Describe this field in sentence case. |
+|population |integer   |Describe this field in sentence case. |
+|income     |integer   |Describe this field in sentence case. |
+|illiteracy |double    |Describe this field in sentence case. |
+|life_exp   |double    |Describe this field in sentence case. |
+|murder     |double    |Describe this field in sentence case. |
+|hs_grad    |double    |Describe this field in sentence case. |
+|frost      |integer   |Describe this field in sentence case. |
+|area       |integer   |Describe this field in sentence case. |
+```
+
+Provide information so users can understand what each column represents.
+
+``` states.md
+|variable   |class     |description                           |
+|:----------|:---------|:-------------------------------------|
+|state      |character |Name of the state. |
+|population |character |Population estimate as of July 1, 1975. |
+|income     |integer   |Per capita income in 1974. |
+|illiteracy |integer   |Illiteracy in 1970, as percent of population. |
+|life_exp   |double    |Life expectancy in years (1969–71). |
+|murder     |double    |Murder and non-negligent manslaughter rate per 100,000 population in 1976. |
+|hs_grad    |double    |Percent high-school graduates in 1970. |
+|frost      |integer   |Mean number of days with minimum temperature below freezing (1931–1960) in capital or large city. |
+|area       |integer   |Land area in square miles. |
+```
+
+Notice that we don’t have to perfectly align the `|` characters in the
+table.
+
+Repeat this process for each dataset that you wrangled.
+
+## Introduce
+
+Next we need to introduce the dataset. Create an `intro.md` file in your
+`tt_submission` directory with
+[`tt_intro()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_intro.md).
+
+``` r
+tt_intro()
+```
+
+The file looks like this:
+
+    <!-- 
+    Describe the dataset. See previous weeks for the general format of the
+    description. The description is the part of the readme.md file above "The Data";
+    everything else will be filled in from the other md files in this directory +
+    automatic scripts. We usually include brief introduction along the lines of
+    "This week we're exploring DATASET" or "The dataset this week comes from 
+    SOURCE".
+    -->
+
+    <!-- Add a quote from the source, starting lines with a ">" character, like 
+    this:
+    > Plant traits are critical to plant form and function — including growth, 
+    > survival and reproduction — and therefore shape fundamental aspects of
+    > population and ecosystem dynamics as well as ecosystem services. Here, we 
+    > present a global species-level compilation of key functional traits for palms 
+    > (Arecaceae), a plant family with keystone importance in tropical and 
+    > subtropical ecosystems.
+    -->
+
+    > PasteQuoteHere
+
+    <!--
+    Optional: Add questions that users should try to answer. For example:
+    - How does the sizes of the different species of palms vary across sub families?
+    - Which fruit colors occur most often?
+    -->
+
+Fill in a description with information about the dataset, as described
+in the comments (text between `<!--` and `-->`). Find a quotation from
+the source or the article that describes the dataset or a use case for
+it, and paste it over `PasteQuoteHere`. Optionally, add one or more
+questions that participants might answer using the data. For our
+`states` dataset, we might end up with something like this:
+
+    This week we're exploring data about the 50 states of the United States of America!
+    The data this week comes from the U.S. Department of Commerce, Bureau of the Census (1977) *Statistical Abstract of the United States* and *County and City Data Book* via the core R {datasets} package.
+
+    > Data sets related to the 50 states of the United States of America. Note that all data are arranged according to alphabetical order of the state names.
+
+    - Is there a relationship between income and illiteracy?
+    - Which states had the highest population density in 1975? Which states had the lowest?
+
+## Find images
+
+We need at least one image to include in our social media posts about
+the dataset. These images might come from the source of the dataset, or
+you might create them yourself. For our `states` data, we’ll create a
+basic map of the united states with the states colored by population.
+
+``` r
+library(tidyverse)
+state_outlines <- ggplot2::map_data("state")
+states |> 
+  dplyr::select(state, population) |>
+  dplyr::mutate(region = tolower(state)) |> 
+  dplyr::left_join(state_outlines, by = "region") |> 
+  ggplot(aes(long, lat, group = state, fill = population)) +
+  geom_polygon() +
+  coord_map() +
+  theme_void()
+ggsave(
+  usethis::proj_path("tt_submission", "states_population.png"),
+  width = 5, height = 3, units = "in",
+  bg = "white"
+)
+```
+
+## Provide metadata
+
+The final preparation step is to provide metadata about the dataset.
+Create a `meta.yaml` file in your `tt_submission` directory with
+[`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md).
+
+``` r
+tt_meta(
+  title = "The 50 US States",
+  article_title = "U.S. Department of Commerce, Bureau of the Census",
+  article_url = "https://www.census.gov/",
+  source_title = "The R datasets package",
+  source_url = "https://www.r-project.org/",
+  image_filename = "states_population.png",
+  image_alt = "A map of the continental United States, with each state colored in shades of blue by population as of 1975. California and New York are the lightest, indicating the highest population. Maine, New Hampshire, Vermont, and the Plains States are all quite dark, indicating low population.",
+  attribution = "Jon Harmon, Data Science Learning Community",
+  github = "jonthegeek",
+  bluesky = "jonthegeek.com",
+  linkedin = "jonthegeek",
+  mastodon = "fosstodon.org/@jonthegeek"
+)
+```
+
+In an interactive session, the function will ask you questions to
+pre-fill the metadata file, and then open it so you can confirm that
+everything looks right. You can also provide the data directly to the
+function (as I did here), which will skip the Q&A. Notice that the
+social media links are formatted as `@username` in all cases except
+Mastodon, which requires `@username@server`.
+
+The completed `meta.yaml` file looks like this (I edited the image alt
+text so I could read it without scrolling, but otherwise this is what
+[`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
+produced):
+
+``` yaml
+title: "The 50 US States"
+article:
+  title: "U.S. Department of Commerce, Bureau of the Census"
+  url: "https://www.census.gov/"
+data_source:
+  title: "The R datasets package"
+  url: "https://www.r-project.org/"
+images:
+# Please include at least one image, and up to three images
+- file: "states_population.png"
+  alt: >
+    A map of the continental United States, with each state colored in shades of
+    blue by population as of 1975. California and New York are the lightest,
+    indicating the highest population. Maine, New Hampshire, Vermont, and the
+    Plains States are all quite dark, indicating low population.
+credit:
+  post: "Jon Harmon, Data Science Learning Community"
+  github: "@jonthegeek"
+  bluesky: "@jonthegeek.com"
+  linkedin: "@jonthegeek"
+  mastodon: "@jonthegeek@fosstodon.org"
+```
+
+## Submit
+
+Once your submission is prepared, please submit it for review! If you
+haven’t already done so, be sure to [Set up your GitHub
+account](#set-up-your-github-account). Once that’s ready, use
+[`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
+to submit your dataset as a pull request (PR) on the TidyTuesday GitHub
+repo. A PR is a way to suggest changes to a repository (a collection of
+files on GitHub), and it’s how we manage submissions to TidyTuesday.
+You’re requesting that we “pull” changes from your copy on GitHub to our
+source repository.
+
+``` r
+tt_submit()
+```
+
+If we request that you make changes, you can use
+[`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
+again to upload any files you change.
+
+After confirming that everything looks correct, we’ll assign your
+submission to a date. Congratulations! You are now an open-source
+contributor!
