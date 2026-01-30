@@ -163,8 +163,10 @@ tt_find_images <- function(path = "tt_submission") {
   )
 }
 
+TT_BSKY_MAX_SIZE <- fs::fs_bytes("976.56KB")
+
 tt_check_and_resize_image_single <- function(image, path) {
-  max_bsky_size <- fs::fs_bytes("976.56KB")
+  max_bsky_size <- TT_BSKY_MAX_SIZE
   img_path <- fs::path(path, image$file)
   img_size <- fs::file_size(img_path)
 
@@ -189,11 +191,13 @@ tt_inform_image_resize <- function(filename, current_size, max_size) {
   ))
 }
 
+COMPRESSION_SAFETY_FACTOR <- 90L
+
 tt_calculate_resize_ratio <- function(img_size, max_size) {
   # Round down to make sure we're *under* 1MB. This isn't actually guaranteed to
   # work because image size isn't directly proportional to file size, but it
   # errs on the side of making things smaller than they need to be.
-  floor(as.integer(max_size) / as.integer(img_size) * 90)
+  floor(as.integer(max_size) / as.integer(img_size) * COMPRESSION_SAFETY_FACTOR)
 }
 
 tt_resize_image <- function(img_path, ratio) {
