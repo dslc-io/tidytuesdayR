@@ -314,6 +314,9 @@ files on GitHub), and it’s how we manage submissions to TidyTuesday.
 You’re requesting that we “pull” changes from your copy on GitHub to our
 source repository.
 
+**Note:** To avoid confusion, we recommend that you [login to
+GitHub.com](https://github.com/login) before you run this command.
+
 ``` r
 tt_submit()
 ```
