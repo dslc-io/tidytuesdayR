@@ -1,6 +1,7 @@
 # tidytuesdayR (development version)
 * [messaging] Added a clearer error message for missing github credentials (#135).
 * [bug fix] `tt_submit()` now correctly discovers existing forks, properly handles the default branch of the fork, and accurately compares local file SHAs with remote file SHAs to determine whether files need to be updated (#135).
+* [bug fix] `tt_curate_data()` now uses `usethis::edit_file()` instead of RStudio-specific `rstudioapi::documentOpen()`, making it compatible with Positron and other IDEs. Also added an `open` parameter for consistency with other curation functions. (#139)
 
 # tidytuesdayR 1.2.1
 * [tests] No user-facing changes.
