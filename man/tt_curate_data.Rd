@@ -4,7 +4,10 @@
 \alias{tt_curate_data}
 \title{Guidance for TidyTuesday dataset curation}
 \usage{
-tt_curate_data()
+tt_curate_data(open = rlang::is_interactive())
+}
+\arguments{
+\item{open}{Whether to open the file for interactive editing.}
 }
 \value{
 The path to the \code{tt_curation.R} script, invisibly.
