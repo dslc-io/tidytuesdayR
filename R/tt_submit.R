@@ -21,6 +21,7 @@ tt_submit <- function(
   open = rlang::is_interactive()
 ) {
   rlang::check_installed("base64enc", "to prepare files for a submission.")
+
   files <- tt_find_dataset_files(path)
 
   auth <- gh_auth_check(auth)
@@ -66,18 +67,21 @@ tt_find_dataset_files <- function(path = "tt_submission") {
   files <- list.files(path, full.names = TRUE)
   files <- setdiff(files, fs::path(path, "branch.txt"))
   expected_files <- tt_find_expected_files(path)
-  csv_files <- unname(fs::dir_ls(path, glob = "*.csv"))
+  csv_files <- tt_find_csv_files(path)
   dictionary_files <- tt_find_dictionaries(csv_files)
   img_files <- tt_find_images(path)
   known_files <- c(expected_files, csv_files, dictionary_files, img_files)
   extra_files <- setdiff(files, known_files)
-  if (rlang::is_empty(extra_files)) {
-    return(known_files)
+  if (length(extra_files)) {
+    cli::cli_abort(
+      c(
+        "{.arg path} should only contain submission files.",
+        x = "Extra files: {extra_files}"
+      ),
+      class = "tt-error-extra_files"
+    )
   }
-  cli::cli_abort(c(
-    "{.arg path} should only contain submission files.",
-    x = "Extra files: {extra_files}"
-  ))
+  return(known_files)
 }
 
 tt_find_expected_files <- function(path = "tt_submission") {
@@ -86,13 +90,47 @@ tt_find_expected_files <- function(path = "tt_submission") {
     c("cleaning.R", "intro.md", "meta.yaml")
   )
   missing_files <- expected_files[!fs::file_exists(expected_files)]
-  if (rlang::is_empty(missing_files)) {
-    return(expected_files)
+  if (length(missing_files)) {
+    cli::cli_abort(
+      c(
+        "All expected files must exist in {.arg path}.",
+        x = "Missing files: {missing_files}"
+      ),
+      class = "tt-error-missing_expected"
+    )
   }
-  cli::cli_abort(c(
-    "All expected files must exist in {.arg path}.",
-    x = "Missing files: {missing_files}"
-  ))
+  return(expected_files)
+}
+
+tt_find_csv_files <- function(path = "tt_submission") {
+  csv_files <- unname(fs::dir_ls(path, glob = "*.csv"))
+  return(tt_validate_csv_sizes(csv_files))
+}
+
+tt_validate_csv_sizes <- function(csv_files) {
+  max_size <- fs::fs_bytes("25MB")
+  file_sizes <- fs::file_size(csv_files)
+  too_large <- file_sizes > max_size
+  if (any(too_large)) {
+    large_files <- csv_files[too_large]
+    large_sizes <- file_sizes[too_large]
+    cli::cli_abort(
+      c(
+        "CSV files must be <= 25MB to upload to GitHub.",
+        x = "Files too large:",
+        rlang::set_names(
+          purrr::map2_chr(
+            large_files,
+            large_sizes,
+            \(file, size) paste0(file, " (", format(size), ")")
+          ),
+          rep("*", length(large_files))
+        )
+      ),
+      class = "tt-error-csv_size"
+    )
+  }
+  return(csv_files)
 }
 
 tt_find_images <- function(path = "tt_submission") {
@@ -103,28 +141,112 @@ tt_find_images <- function(path = "tt_submission") {
     if (length(meta$images)) {
       expected_images <- fs::path(path, purrr::map_chr(meta$images, "file"))
       missing_files <- expected_images[!fs::file_exists(expected_images)]
-      if (rlang::is_empty(missing_files)) {
-        return(expected_images)
+      if (length(missing_files)) {
+        cli::cli_abort(
+          c(
+            "All images in meta.yaml must exist in {.arg path}.",
+            x = "Missing images: {missing_files}"
+          ),
+          class = "tt-error-missing_images"
+        )
       }
-      cli::cli_abort(c(
-        "All images in meta.yaml must exist in {.arg path}.",
-        x = "Missing images: {missing_files}"
-      ))
+      # Check and resize images if needed
+      purrr::walk(meta$images, function(image) {
+        tt_check_and_resize_image_single(image, path)
+      })
+      return(expected_images)
     }
   }
-  cli::cli_abort("No images found in meta.yaml")
+  cli::cli_abort(
+    "No images found in meta.yaml",
+    class = "tt-error-no_images"
+  )
+}
+
+tt_check_and_resize_image_single <- function(image, path) {
+  max_bsky_size <- fs::fs_bytes("976.56KB")
+  img_path <- fs::path(path, image$file)
+  img_size <- fs::file_size(img_path)
+
+  if (img_size > max_bsky_size) {
+    rlang::check_installed("magick", "to resize images.")
+    tt_inform_image_resize(image$file, img_size, max_bsky_size)
+    ratio <- tt_calculate_resize_ratio(img_size, max_bsky_size)
+    resized_img <- tt_resize_image(img_path, ratio)
+    tt_confirm_resized_image(resized_img, img_path, ratio)
+    magick::image_write(resized_img, img_path)
+    new_size <- fs::file_size(img_path)
+    tt_inform_resize_complete(img_size, new_size)
+  }
+
+  return(invisible(NULL))
+}
+
+tt_inform_image_resize <- function(filename, current_size, max_size) {
+  cli::cli_inform(c(
+    "i" = "Image {.file {filename}} is {format(current_size)}, which exceeds the Bluesky limit of {format(max_size)}.",
+    "i" = "Resizing image to fit within the limit..."
+  ))
+}
+
+COMPRESSION_SAFETY_FACTOR <- 90L
+
+tt_calculate_resize_ratio <- function(img_size, max_size) {
+  # Round down to make sure we're *under* 1MB. This isn't actually guaranteed to
+  # work because image size isn't directly proportional to file size, but it
+  # errs on the side of making things smaller than they need to be.
+  floor(as.integer(max_size) / as.integer(img_size) * COMPRESSION_SAFETY_FACTOR)
+}
+
+tt_resize_image <- function(img_path, ratio) {
+  magick::image_read(img_path) |>
+    magick::image_resize(magick::geometry_size_percent(ratio))
+}
+
+tt_confirm_resized_image <- function(resized_img, img_path, ratio) {
+  if (!rlang::is_interactive() || is.null(getOption("viewer"))) {
+    return(invisible(NULL))
+  }
+
+  temp_preview <- withr::local_tempfile(fileext = fs::path_ext(img_path))
+  magick::image_write(resized_img, temp_preview)
+  viewer <- getOption("viewer")
+  viewer(temp_preview)
+
+  response <- utils::menu(
+    choices = c("Yes, use resized image", "No, cancel submission"),
+    title = sprintf(
+      "Image resized to %d%% of original. Does it look acceptable?",
+      ratio
+    )
+  )
+
+  if (response != 1) {
+    cli::cli_abort("Submission cancelled by user.")
+  }
+
+  return(invisible(NULL))
+}
+
+tt_inform_resize_complete <- function(original_size, new_size) {
+  cli::cli_inform(c(
+    "v" = "Image resized from {format(original_size)} to {format(new_size)}."
+  ))
 }
 
 tt_find_dictionaries <- function(csv_files) {
   expected_md_files <- fs::path_ext_set(csv_files, "md")
   missing_files <- expected_md_files[!fs::file_exists(expected_md_files)]
-  if (rlang::is_empty(missing_files)) {
-    return(expected_md_files)
+  if (length(missing_files)) {
+    cli::cli_abort(
+      c(
+        "All datasets must have an associated md file in {.arg path}.",
+        x = "Missing dictionaries: {missing_files}"
+      ),
+      class = "tt-error-missing_dictionaries"
+    )
   }
-  cli::cli_abort(c(
-    "All datasets must have an associated md file in {.arg path}.",
-    x = "Missing dictionaries: {missing_files}"
-  ))
+  return(expected_md_files)
 }
 
 tt_find_branch <- function(path = "tt_submission") {
