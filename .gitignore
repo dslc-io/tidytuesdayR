@@ -5,3 +5,4 @@
 docs
 inst/doc
 .positai
+tests/testthat/_problems/
