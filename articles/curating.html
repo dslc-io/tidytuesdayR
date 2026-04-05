@@ -197,30 +197,30 @@ dataset.</p>
 <code>states.md</code>. The <code>.md</code> file contains a formatted
 data dictionary table for the dataset, and is opened so you can provide
 information about each column.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="pp">|</span>variable   <span class="pp">|</span>class     <span class="pp">|</span>description                           <span class="pp">|</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="pp">|:----------|:---------|:-------------------------------------|</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="pp">|</span>state      <span class="pp">|</span>character <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="pp">|</span>population <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="pp">|</span>income     <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="pp">|</span>illiteracy <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="pp">|</span>life_exp   <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="pp">|</span>murder     <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="pp">|</span>hs_grad    <span class="pp">|</span>double    <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="pp">|</span>frost      <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="pp">|</span>area       <span class="pp">|</span>integer   <span class="pp">|</span>Describe this field in sentence case. <span class="pp">|</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>|variable   |class     |description                           |</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>|:----------|:---------|:-------------------------------------|</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>|state      |character |Describe this field in sentence case. |</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>|population |integer   |Describe this field in sentence case. |</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>|income     |integer   |Describe this field in sentence case. |</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>|illiteracy |double    |Describe this field in sentence case. |</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>|life_exp   |double    |Describe this field in sentence case. |</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>|murder     |double    |Describe this field in sentence case. |</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>|hs_grad    |double    |Describe this field in sentence case. |</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>|frost      |integer   |Describe this field in sentence case. |</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>|area       |integer   |Describe this field in sentence case. |</span></code></pre></div>
 <p>Provide information so users can understand what each column
 represents.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="pp">|</span>variable   <span class="pp">|</span>class     <span class="pp">|</span>description                           <span class="pp">|</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="pp">|:----------|:---------|:-------------------------------------|</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="pp">|</span>state      <span class="pp">|</span>character <span class="pp">|</span>Name of the state. <span class="pp">|</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="pp">|</span>population <span class="pp">|</span>character <span class="pp">|</span>Population estimate as of July 1, 1975. <span class="pp">|</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="pp">|</span>income     <span class="pp">|</span>integer   <span class="pp">|</span>Per capita income in 1974. <span class="pp">|</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="pp">|</span>illiteracy <span class="pp">|</span>integer   <span class="pp">|</span>Illiteracy in 1970, as percent of population. <span class="pp">|</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="pp">|</span>life_exp   <span class="pp">|</span>double    <span class="pp">|</span>Life expectancy in years (1969–71). <span class="pp">|</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="pp">|</span>murder     <span class="pp">|</span>double    <span class="pp">|</span>Murder and non-negligent manslaughter rate per 100,000 population in 1976. <span class="pp">|</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="pp">|</span>hs_grad    <span class="pp">|</span>double    <span class="pp">|</span>Percent high-school graduates in 1970. <span class="pp">|</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="pp">|</span>frost      <span class="pp">|</span>integer   <span class="pp">|</span>Mean number of days with minimum temperature below freezing (1931–1960) in capital or large city. <span class="pp">|</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="pp">|</span>area       <span class="pp">|</span>integer   <span class="pp">|</span>Land area in square miles. <span class="pp">|</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode states.md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>|variable   |class     |description                           |</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>|:----------|:---------|:-------------------------------------|</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>|state      |character |Name of the state. |</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>|population |character |Population estimate as of July 1, 1975. |</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>|income     |integer   |Per capita income in 1974. |</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>|illiteracy |integer   |Illiteracy in 1970, as percent of population. |</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>|life_exp   |double    |Life expectancy in years (1969–71). |</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>|murder     |double    |Murder and non-negligent manslaughter rate per 100,000 population in 1976. |</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>|hs_grad    |double    |Percent high-school graduates in 1970. |</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>|frost      |integer   |Mean number of days with minimum temperature below freezing (1931–1960) in capital or large city. |</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>|area       |integer   |Land area in square miles. |</span></code></pre></div>
 <p>Notice that we don’t have to perfectly align the <code>|</code>
 characters in the table.</p>
 <p>Repeat this process for each dataset that you wrangled.</p>
