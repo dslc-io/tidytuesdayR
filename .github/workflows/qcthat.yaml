@@ -1,0 +1,157 @@
+# Workflow derived from
+# https://github.com/Gilead-BioStats/qcthat/tree/v1.1.1/inst/workflows/qcthat.yaml.
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize, milestoned]
+  release:
+    types: [released]
+  issues:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: PR number to which reports should be added (leave blank for none).
+        required: false
+      milestone:
+        description: Milestone name to use for the milestone report (leave blank for none).
+        required: false
+      tag:
+        description: Release tag to which the report should be attached (leave blank for none).
+        required: false
+      issueNumber:
+        description: The closed issue number to process to update user acceptance testing information.
+        required: false
+
+name: qcthat Quality Control
+
+permissions:
+  # read: Required for generating reports and updating UAT status.
+  # write: Required for initiating the UAT process.
+  issues: write
+  # read: Required for updating UAT status.
+  # write: Required for adding reports to pull requests.
+  pull-requests: write
+  # write: Required for attaching reports to releases.
+  contents: write
+  # write: Required for updating UAT status.
+  actions: write
+
+# Configuration variables for controlling workflow behavior
+env:
+  qcthat_UAT: true
+  qcthat_PR_REPORT: true
+  qcthat_COMPLETED_REPORT: true
+  qcthat_MILESTONE_REPORT: true
+  qcthat_RELEASE_REPORT: true
+  qcthat_FAIL_FOR_TEST_FAILURES: true
+
+jobs:
+  qcthat:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/api2r/pkgskills-ci:release
+    if: >-
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'qcthat-uat')) ||
+      github.event_name != 'issues'
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/workflows/install
+        with:
+          use-container: "true"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          extra-packages: Gilead-BioStats/qcthat@main local::.
+
+      - name: Manage User Acceptance Testing
+        if: >-
+          env.qcthat_UAT == 'true' && (
+            (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'qcthat-uat')) ||
+            (github.event_name == 'workflow_dispatch' && inputs.issueNumber != '')
+          )
+        run: |
+          Rscript -e "qcthat::TriggerUAT()"
+
+      - name: Generate Issue-Test Matrix
+        if: >-
+          (env.qcthat_PR_REPORT == 'true' || env.qcthat_RELEASE_REPORT == 'true' || env.qcthat_FAIL_FOR_TEST_FAILURES == 'true') && (
+            github.event_name == 'pull_request' ||
+            github.event_name == 'release' ||
+            (github.event_name == 'workflow_dispatch' && inputs.issueNumber == '')
+          )
+        run: |
+          # Generate the full matrix for the package
+          IssueTestMatrix <- qcthat::QCPackage()
+          print(IssueTestMatrix)
+
+          # Save the matrix and UAT data for subsequent steps
+          saveRDS(IssueTestMatrix, "ITM.rds")
+          qcthat::SaveUATIssues()
+        shell: Rscript {0}
+
+      - name: Update PR Reports
+        if: >-
+          env.qcthat_PR_REPORT == 'true' && (
+            github.event_name == 'pull_request' ||
+            (github.event_name == 'workflow_dispatch' && inputs.pr != '')
+          )
+        run: |
+          issueTestMatrix <- readRDS("ITM.rds")
+          qcthat::LoadUATIssues()
+          qcthat::CommentAllReports(
+            dfITM = issueTestMatrix,
+            lglPR = as.logical("${{ env.qcthat_PR_REPORT }}"),
+            lglMilestone = as.logical("${{ env.qcthat_MILESTONE_REPORT }}"),
+            lglCompleted = as.logical("${{ env.qcthat_COMPLETED_REPORT }}"),
+            lglUAT = as.logical("${{ env.qcthat_UAT }}")
+          )
+        shell: Rscript {0}
+
+      - name: Update Release Reports
+        if: >-
+          env.qcthat_RELEASE_REPORT == 'true' && (
+            github.event_name == 'release' || inputs.tag != ''
+          )
+        run: |
+          issueTestMatrix <- readRDS("ITM.rds")
+          qcthat::LoadUATIssues()
+          qcthat::AttachReleaseReports(
+            dfITM = issueTestMatrix,
+            lglCompleted = as.logical("${{ env.qcthat_COMPLETED_REPORT }}"),
+            lglMilestone = as.logical("${{ env.qcthat_MILESTONE_REPORT }}")
+          )
+        shell: Rscript {0}
+
+      - name: Flag failure for PR
+        if: >-
+          env.qcthat_FAIL_FOR_TEST_FAILURES == 'true' && (
+            github.event_name == 'pull_request' ||
+            (github.event_name == 'workflow_dispatch' && inputs.pr != '')
+          )
+        run: |
+          issueTestMatrix <- readRDS("ITM.rds")
+          dfPR <- qcthat::QCPR(dfITM = issueTestMatrix)
+          if (any(dfPR$Disposition == "fail", na.rm = TRUE)) {
+            cli::cli_abort(
+              "One or more tests failed or were skipped for PR-associated issues."
+            )
+          }
+        shell: Rscript {0}
+
+      - name: Flag failure for completed
+        if: >-
+          env.qcthat_FAIL_FOR_TEST_FAILURES == 'true' && (
+            github.event_name == 'pull_request' ||
+            github.event_name == 'release' ||
+            (github.event_name == 'workflow_dispatch' && inputs.issueNumber == '')
+          )
+        run: |
+          issueTestMatrix <- readRDS("ITM.rds")
+          dfCompleted = qcthat::QCCompletedIssues(dfITM = issueTestMatrix)
+          if (any(dfCompleted$Disposition == "fail", na.rm = TRUE)) {
+            cli::cli_abort(
+              "One or more tests failed or were skipped for completed issues."
+            )
+          }
+        shell: Rscript {0}
