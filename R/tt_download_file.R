@@ -65,7 +65,7 @@ tt_parse_download <- function(gh_response, ..., data_type, delim = NA) {
   )
   file_content <- gh_extract_text(gh_response)
   delim <- tt_guess_delim(delim, data_type)
-  readr::read_delim(file_content, delim = delim, show_col_types = FALSE, ...)
+  readr::read_delim(I(file_content), delim = delim, show_col_types = FALSE, ...)
 }
 
 tt_parse_excel <- function(gh_response, ...) {

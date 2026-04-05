@@ -3,6 +3,7 @@
 #' Reused parameter definitions are gathered here for easier editing.
 #'
 #' @param auth A GitHub token. See [gh::gh_token()] for more details.
+#' @param call (`environment`) The caller environment for error messages.
 #' @param files Which file names to download. Default "All" downloads all files
 #'   for the specified week.
 #' @param path The relative path to the directory to hold your submission files

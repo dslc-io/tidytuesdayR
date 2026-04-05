@@ -31,11 +31,13 @@ Imports:
     readr (>= 1.0.0),
     rlang,
     rvest (>= 0.3.2),
+    stbl (>= 0.3.0),
     tidyr,
     tools (>= 3.1.0),
     utils,
     xml2 (>= 1.2.0)
 Suggests:
+    astgrepr,
     base64enc,
     covr,
     dplyr,

@@ -2,20 +2,20 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
+    branches: [main]
   release:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown.yaml
-
-permissions: read-all
+name: pkgdown
 
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/api2r/pkgskills-ci:release
     # Only restrict concurrency for non-PR jobs
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
@@ -23,27 +23,50 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     permissions:
       contents: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
+      - uses: ./.github/workflows/install
         with:
-          use-public-rspm: true
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::pkgdown, local::.
+          use-container: "true"
+          token: ${{ secrets.GITHUB_TOKEN }}
           needs: website
+          extra-packages: any::pkgdown gilead-biostats/qcthat local::. any::glue
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
+      - name: Deploy PR preview 🧪
+        if: github.event_name == 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
+        with:
+          clean: false
+          branch: gh-pages
+          folder: docs
+          target-folder: pr/${{ github.event.number }}
+
+      - name: Comment with PR site URL 🌐
+        if: github.event_name == 'pull_request'
+        run: |
+          intPRNumber <- ${{ github.event.pull_request.number }}
+          strOwner <- tolower(qcthat::GetGHOwner())
+          strRepo <- qcthat::GetGHRepo()
+          strURL <- glue::glue(
+            "https://{strOwner}.github.io/{strRepo}/pr/{intPRNumber}"
+          )
+          print(paste("🌐 URL:", strURL))
+          qcthat::CommentIssue(
+            intPRNumber,
+            glue::glue("🌐 [PR pkgdown deployed]({strURL})"),
+            NULL
+          )
+        shell: Rscript {0}
+
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           clean: false
           branch: gh-pages

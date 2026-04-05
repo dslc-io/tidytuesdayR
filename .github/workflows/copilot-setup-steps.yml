@@ -1,0 +1,51 @@
+name: "Copilot Setup Steps"
+
+# Automatically run when the file changes to allow for easy validation,
+# and allow manual testing through the repository's "Actions" tab.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/workflows/install
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cache-version: copilot
+          needs: build, check, website
+          # Extra packages include things referenced in skills, to make sure the
+          # agent has them available.
+          optional-packages: any::astgrepr
+          extra-packages: >-
+            any::cli
+            any::covr
+            any::devtools
+            any::magick
+            any::pak
+            any::pkgdown
+            any::purrr
+            any::rcmdcheck
+            any::rlang
+            any::roxygen2
+            any::stbl
+            any::testthat
+            any::usethis
+            any::withr
+            local::.
+
+      - name: Install air
+        uses: posit-dev/setup-air@v1

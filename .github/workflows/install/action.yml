@@ -1,0 +1,118 @@
+name: "Install R and dependencies"
+description: "Set up pandoc, R, and package dependencies"
+inputs:
+  token:
+    description: "GitHub token, set to secrets.GITHUB_TOKEN"
+    required: true
+  r-version:
+    description: "R version, passed to r-lib/actions/setup-r@v2"
+    required: false
+    default: release
+  http-user-agent:
+    description: "HTTP user agent, passed to r-lib/actions/setup-r@v2"
+    required: false
+    default: ""
+  needs:
+    description: "Config/Needs tag(s), passed to r-lib/actions/setup-r-dependencies@v2"
+    required: false
+    default: ""
+  extra-packages:
+    description: "Extra packages, passed to r-lib/actions/setup-r-dependencies@v2"
+    required: false
+    default: any::rcmdcheck
+  optional-packages:
+    description: "Optional extra packages; installed individually, warn (not error) on failure"
+    required: false
+    default: ""
+  cache-version:
+    description: "Cache version for r-lib/actions/setup-r-dependencies@v2"
+    required: false
+    default: "1"
+  use-container:
+    description: "Set to 'true' when running inside a pre-warmed container (skips R and pandoc setup)"
+    required: false
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    - if: inputs.use-container != 'true'
+      uses: r-lib/actions/setup-pandoc@v2
+
+    - uses: r-lib/actions/setup-r@v2
+      with:
+        install-r: ${{ inputs.use-container != 'true' }}
+        r-version: ${{ inputs.r-version }}
+        http-user-agent: ${{ inputs.http-user-agent }}
+        use-public-rspm: true
+
+    # In pre-warmed containers every package may already be in the system
+    # library, so nothing is ever written to R_LIBS_USER.  Ensure the
+    # directory exists with a sentinel so the actions/cache glob matches
+    # and the "Path Validation Error" warning doesn't fire at cache-save.
+    - if: inputs.use-container == 'true'
+      name: Ensure R_LIBS_USER exists
+      shell: bash
+      run: |
+        lib="$(Rscript -e 'cat(Sys.getenv("R_LIBS_USER"))')"
+        mkdir -p "$lib"
+        touch "$lib/.keep"
+
+    # Container path: call pak::pak() directly so it checks .libPaths() and
+    # only installs/updates packages that are genuinely missing or outdated.
+    # setup-r-dependencies always runs a full lockfile-create → lockfile-install
+    # cycle which reinstalls everything even when the container already has it.
+    - if: inputs.use-container == 'true'
+      name: Update R package dependencies (container)
+      shell: Rscript {0}
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
+      run: |
+        # Replicate needs → Config/Needs/<field> expansion from r-lib/actions
+        needs_parts <- strsplit("${{ inputs.needs }}", "[[:space:],]+")[[1]]
+        needs_parts <- needs_parts[nzchar(needs_parts)]
+        needs <- sprintf("Config/Needs/%s", needs_parts)
+
+        extra_deps <- strsplit("${{ inputs.extra-packages }}", "[[:space:],]+")[[1]]
+        extra_deps <- extra_deps[nzchar(extra_deps)]
+
+        # Over-protect for strangeness in the container
+        if (!requireNamespace("pak", quietly = TRUE)) {
+          install.packages("pak")
+        }
+
+        pak::pak(
+          c("deps::.", extra_deps),
+          dependencies = c(needs, "all"),
+          upgrade = TRUE,
+          ask = FALSE
+        )
+
+    # Non-container path: standard setup-r-dependencies flow with caching.
+    - if: inputs.use-container != 'true'
+      uses: r-lib/actions/setup-r-dependencies@v2
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
+      with:
+        needs: ${{ inputs.needs }}
+        extra-packages: ${{ inputs.extra-packages }}
+        cache-version: ${{ inputs.cache-version }}
+
+    - if: inputs.optional-packages != ''
+      name: Install optional packages
+      shell: Rscript {0}
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
+      run: |
+        pkgs <- strsplit("${{ inputs.optional-packages }}", "\\s+")[[1]]
+        pkgs <- pkgs[nzchar(pkgs)]
+        for (pkg in pkgs) {
+          tryCatch(
+            pak::pak(pkg),
+            error = function(e) {
+              msg <- sprintf("Failed to install optional package %s: %s", pkg, conditionMessage(e))
+              msg <- gsub("[\r\n]+", " ", msg)
+              cat("::warning::", msg, "\n", sep = "")
+            }
+          )
+        }
