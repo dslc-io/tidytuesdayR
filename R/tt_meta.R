@@ -35,15 +35,20 @@
 #' @param attribution Your name as you would like it to appear when we credit
 #'   you in the post for this dataset. You can include a title and/or
 #'   affiliation if you like, such as "Jon Harmon, Executive Director, Data
-#'   Science Learning Community".
+#'   Science Learning Community". Defaults to
+#'   `getOption("tidytuesdayR.attribution")`. We recommend setting this option
+#'   in your `.Rprofile` with `usethis::edit_r_profile()` so you don't have to
+#'   provide it every time you submit a dataset.
 #' @param github Your GitHub username, or a link to your profile on GitHub.
 #' @param bluesky Your Bluesky username, or a link to your profile on Bluesky.
-#'   Leave as `NULL` if you do not wish to be credited on Bluesky.
-#' @param linkedin Your LinkedIn username, or a link to your profile on LinkedIn
-#'   Leave as `NULL` if you do not wish to be credited on LinkedIn.
+#'   Leave as `NULL` if you do not wish to be credited on Bluesky. Defaults to
+#'   `getOption("tidytuesdayR.bluesky")`.
+#' @param linkedin Your LinkedIn username, or a link to your profile on LinkedIn.
+#'   Leave as `NULL` if you do not wish to be credited on LinkedIn. Defaults to
+#'   `getOption("tidytuesdayR.linkedin")`.
 #' @param mastodon Your mastodon server and username, or a link to your profile
 #'   on a mastodon server. Leave as `NULL` if you do not wish to be credited on
-#'   Mastodon.
+#'   Mastodon. Defaults to `getOption("tidytuesdayR.mastodon")`.
 #'
 #' @returns A logical vector indicating whether the file was created or
 #'   modified, invisibly.
@@ -61,11 +66,11 @@ tt_meta <- function(
   source_url,
   image_filename,
   image_alt,
-  attribution,
+  attribution = getOption("tidytuesdayR.attribution"),
   github = gh::gh_whoami()$login,
-  bluesky = NULL,
-  linkedin = NULL,
-  mastodon = NULL,
+  bluesky = getOption("tidytuesdayR.bluesky"),
+  linkedin = getOption("tidytuesdayR.linkedin"),
+  mastodon = getOption("tidytuesdayR.mastodon"),
   open = rlang::is_interactive(),
   ignore = FALSE
 ) {
@@ -141,7 +146,9 @@ ensure_arg_filled <- function(
   call = rlang::caller_env()
 ) {
   arg_name <- remove_caller_arg_missing(arg_name)
-  if (rlang::is_missing(var) && rlang::is_interactive()) {
+  if (
+    rlang::is_interactive() && (rlang::is_missing(var) || rlang::is_null(var))
+  ) {
     # nocov start
     question <- paste0("\n", stringr::str_trim(question), "\n")
     cat(question)
