@@ -29,8 +29,7 @@ Raise a package-scoped error
 
 - call:
 
-  `(environment)` The execution environment to mention as the source of
-  error messages.
+  (`environment`) The caller environment for error messages.
 
 - message_env:
 
