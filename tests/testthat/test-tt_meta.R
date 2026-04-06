@@ -87,4 +87,3 @@ test_that("tt_meta uses options for attribution fields (#142)", {
   file_path <- fs::path(full_submission_path, "meta.yaml")
   expect_snapshot_file(file_path, name = "meta-from-options.yaml")
 })
-
