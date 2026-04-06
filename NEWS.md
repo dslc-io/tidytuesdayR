@@ -1,4 +1,5 @@
 # tidytuesdayR (development version)
+* [feature] `tt_submit()` now syncs the submitter's fork with the latest version of the main TidyTuesday repository before submitting (#147).
 * [feature] `tt_meta()` now reads attribution defaults from `getOption("tidytuesdayR.attribution")`, `getOption("tidytuesdayR.bluesky")`, `getOption("tidytuesdayR.linkedin")`, and `getOption("tidytuesdayR.mastodon")`. Set these in your `.Rprofile` via `usethis::edit_r_profile()` to avoid re-entering them with each submission (#142).
 * [messaging] Added a clearer error message for missing github credentials (#135).
 * [bug fix] `tt_submit()` now correctly discovers existing forks, properly handles the default branch of the fork, and accurately compares local file SHAs with remote file SHAs to determine whether files need to be updated (#135).

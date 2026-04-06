@@ -85,7 +85,15 @@ test_that("tt_user extracts login from GitHub response", {
   expect_equal(result, "testuser")
 })
 
-test_that("tt_fork returns fork info from GitHub", {
+test_that("tt_fork returns fork info from GitHub and syncs it (#147)", {
+  local_mocked_bindings(
+    tt_sync_fork = function(fork_repo, branch, auth) {
+      expect_equal(fork_repo, "testuser/tidytuesday")
+      expect_equal(branch, "main")
+      expect_equal(auth, "test_token")
+      return(invisible(NULL))
+    }
+  )
   local_mocked_call_gh(function(endpoint, repo, auth, ...) {
     expect_equal(endpoint, "POST /repos/{repo}/forks")
     expect_equal(repo, "rfordatascience/tidytuesday")
@@ -104,6 +112,28 @@ test_that("tt_fork returns fork info from GitHub", {
   )
   expect_equal(result$full_name, "testuser/tidytuesday")
   expect_equal(result$default_branch, "main")
+})
+
+test_that("tt_sync_fork calls merge-upstream API (#147)", {
+  local_mocked_call_gh(function(endpoint, fork_repo, branch, auth, ...) {
+    expect_equal(endpoint, "POST /repos/{fork_repo}/merge-upstream")
+    expect_equal(fork_repo, "testuser/tidytuesday")
+    expect_equal(branch, "main")
+    expect_equal(auth, "test_token")
+    return(list(
+      message = "Successfully fetched and fast-forwarded from upstream",
+      merge_type = "fast-forward",
+      base_branch = "upstream:main"
+    ))
+  })
+
+  expect_invisible(
+    tt_sync_fork(
+      fork_repo = "testuser/tidytuesday",
+      branch = "main",
+      auth = "test_token"
+    )
+  )
 })
 
 test_that("tt_branch_create creates new branch from default branch", {
