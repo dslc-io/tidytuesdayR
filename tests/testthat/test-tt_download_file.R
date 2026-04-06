@@ -4,19 +4,15 @@ test_that("tt_download_file errors for bad index", {
   expect_message(expect_message({
     tt <- tt_load_gh("2019-01-15")
   }))
-  expect_error(
-    {
-      tt_download_file(tt, 3)
-    },
-    "File 3 not found",
-    class = "tt-error-bad_index"
+  stbl::expect_pkg_error_snapshot(
+    tt_download_file(tt, 3),
+    "tidytuesdayR",
+    "bad_index"
   )
-  expect_error(
-    {
-      tt_download_file(tt, "bad_filename")
-    },
-    "File bad_filename not found",
-    class = "tt-error-bad_index"
+  stbl::expect_pkg_error_snapshot(
+    tt_download_file(tt, "bad_filename"),
+    "tidytuesdayR",
+    "bad_index"
   )
 })
 

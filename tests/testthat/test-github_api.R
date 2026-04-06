@@ -66,59 +66,47 @@ test_that("gh_get_readme_html warns when no readme found", {
 })
 
 test_that("gh_extract_text errors with empty response", {
-  expect_error(
-    {
-      gh_extract_text(list())
-    },
-    "No content found",
-    class = "tt-error-bad_gh_response"
+  stbl::expect_pkg_error_snapshot(
+    gh_extract_text(list()),
+    "tidytuesdayR",
+    "bad_gh_response"
   )
 })
 
 test_that("gh_extract_html errors with empty response", {
-  expect_error(
-    {
-      gh_extract_html(list())
-    },
-    "No html found",
-    class = "tt-error-bad_gh_response"
+  stbl::expect_pkg_error_snapshot(
+    gh_extract_html(list()),
+    "tidytuesdayR",
+    "bad_gh_response"
   )
 })
 
 test_that("gh_extract_sha_in_folder errors for missing file", {
-  expect_error(
-    {
-      gh_extract_sha_in_folder(list(), "missing_file_name")
-    },
-    "Found no",
-    class = "tt-error-file_not_found"
+  stbl::expect_pkg_error_snapshot(
+    gh_extract_sha_in_folder(list(), "missing_file_name"),
+    "tidytuesdayR",
+    "file_not_found"
   )
-  expect_error(
-    {
-      gh_extract_sha_in_folder(
-        list(list(name = "found_file_name")),
-        "missing_file_name"
-      )
-    },
-    "Found 1 file",
-    class = "tt-error-file_not_found"
+  stbl::expect_pkg_error_snapshot(
+    gh_extract_sha_in_folder(
+      list(list(name = "found_file_name")),
+      "missing_file_name"
+    ),
+    "tidytuesdayR",
+    "file_not_found"
   )
 })
 
 test_that("gh_auth_check makes sure auth looks valid", {
-  expect_error(
-    {
-      gh_auth_check("")
-    },
-    "is not a valid github token",
-    class = "tt-error-bad_gh_auth"
+  stbl::expect_pkg_error_snapshot(
+    gh_auth_check(""),
+    "tidytuesdayR",
+    "bad_gh_auth"
   )
-  expect_error(
-    {
-      gh_auth_check(structure("", class = "gh_pat"))
-    },
-    "is not a valid github token",
-    class = "tt-error-bad_gh_auth"
+  stbl::expect_pkg_error_snapshot(
+    gh_auth_check(structure("", class = "gh_pat")),
+    "tidytuesdayR",
+    "bad_gh_auth"
   )
   expect_no_error({
     gh_auth_check(structure("valid_token", class = "gh_pat"))

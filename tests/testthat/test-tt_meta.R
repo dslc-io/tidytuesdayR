@@ -22,20 +22,18 @@ test_that("tt_meta creates the expected file", {
 })
 
 test_that("ensure_arg_filled errors informatively", {
-  expect_snapshot(
-    {
-      ensure_arg_filled("", question = "", arg_name = "myArg")
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    ensure_arg_filled("", question = "", arg_name = "myArg"),
+    "tidytuesdayR",
+    "required_arg"
   )
 })
 
 test_that("format_image_data errors informatively", {
-  expect_snapshot(
-    {
-      format_image_data(c("a", "b"), "c")
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    format_image_data(c("a", "b"), "c"),
+    "tidytuesdayR",
+    "image_data"
   )
 })
 
@@ -55,11 +53,10 @@ test_that("format_mastodon extracts mastodon info from non-URLs", {
 })
 
 test_that("ensure_arg_filled errors informatively for NULL (#142)", {
-  expect_snapshot(
-    {
-      ensure_arg_filled(NULL, question = "", arg_name = "myArg")
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    ensure_arg_filled(NULL, question = "", arg_name = "myArg"),
+    "tidytuesdayR",
+    "required_arg"
   )
 })
 

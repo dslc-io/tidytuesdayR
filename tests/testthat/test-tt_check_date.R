@@ -18,56 +18,57 @@ test_that("valid year-week combinations work", {
 
 test_that("Close dates are suggested if provided date is incorrect", {
   local_tt_master_file()
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date("2019-04-04"),
-    "2019-04-02",
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
 })
 
 test_that("Invalid weeks throw errors", {
   local_tt_master_file()
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date(2018, 20),
-    "1-19",
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date(2018, 0),
-    "positive integer",
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date(2018, 7),
-    "automatically loaded",
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date(2018, 8),
-    "automatically loaded",
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date(2020, 1),
-    "data available for download",
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
 })
 
 test_that("invalid entries are flagged", {
   local_tt_master_file()
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_date("xyz"),
-    "Entries must render to a valid date or year"
+    "tidytuesdayR",
+    "invalid_date"
   )
 })
 
 test_that("tt_check_year checks years", {
   local_tt_master_file()
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_check_year(2015),
-    "did not exist",
-    class = "tt-error-invalid_year"
+    "tidytuesdayR",
+    "invalid_year"
   )
 })
 
@@ -84,22 +85,18 @@ test_that("tt_date also works", {
 
 test_that("tt_check_date errors informatively with no args", {
   local_tt_master_file()
-  expect_error(
-    {
-      tt_check_date()
-    },
-    "Provide either",
-    class = "tt-error-invalid_date"
+  stbl::expect_pkg_error_snapshot(
+    tt_check_date(),
+    "tidytuesdayR",
+    "invalid_date"
   )
 })
 
 test_that("tt_check_date errors informatively for the dirtiest dataset", {
   local_tt_master_file()
-  expect_error(
-    {
-      tt_check_date("2018-05-15")
-    },
-    "cannot be automatically loaded",
-    class = "tt-error-invalid_date"
+  stbl::expect_pkg_error_snapshot(
+    tt_check_date("2018-05-15"),
+    "tidytuesdayR",
+    "invalid_date"
   )
 })

@@ -20,9 +20,9 @@ tt_date <- function(year, week = NULL, auth = gh::gh_token()) {
 #' @keywords internal
 tt_check_date <- function(x, week = NULL, auth = gh::gh_token()) {
   if (missing(x)) {
-    cli::cli_abort(
+    .pkg_abort(
       "Provide either the year & week or the date of the TidyTuesday dataset.",
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
 
@@ -31,7 +31,7 @@ tt_check_date <- function(x, week = NULL, auth = gh::gh_token()) {
   } else if (valid_year(x)) {
     tt_check_date.year(x, week, auth = auth)
   } else {
-    stop("Entries must render to a valid date or year")
+    .pkg_abort("Entries must render to a valid date or year", "invalid_date")
   }
 }
 
@@ -39,21 +39,21 @@ tt_check_date.date <- function(x, auth = gh::gh_token()) {
   tt_year <- lubridate::year(x)
   tt_formatted_date <- tt_date_format(x)
   if (as.character(tt_formatted_date) %in% c("2018-05-15", "2018-05-21")) {
-    cli::cli_abort(
+    .pkg_abort(
       "The dataset for {tt_formatted_date} is dirty and cannot be automatically loaded.",
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
 
   tt_folders <- tt_weeks(tt_year, auth = auth)
   if (!as.character(tt_formatted_date) %in% tt_folders[["folders"]]) {
     closest <- tt_closest_date(tt_formatted_date, tt_folders$folders)
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "{tt_formatted_date} does not have TidyTuesday data.",
         i = "Did you mean {closest}?"
       ),
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
   tt_formatted_date
@@ -61,9 +61,9 @@ tt_check_date.date <- function(x, auth = gh::gh_token()) {
 
 tt_check_date.year <- function(x, week, auth = gh::gh_token()) {
   if (x == 2018 && week %in% c(7, 8)) {
-    cli::cli_abort(
+    .pkg_abort(
       "The dataset for 2018 week {week} is dirty and cannot be automatically loaded.",
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
 
@@ -71,19 +71,19 @@ tt_check_date.year <- function(x, week, auth = gh::gh_token()) {
 
   if (!week %in% tt_folders$week_desc && week >= 1) {
     weeks <- contiguous_weeks(tt_folders$week_desc)
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "Week {week} does not have TidyTuesday data in {x}.",
         i = "Please choose a valid week from {weeks}"
       ),
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   } else if (week < 1) {
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "{.arg week} must be a valid positive integer value."
       ),
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
 
@@ -93,9 +93,9 @@ tt_check_date.year <- function(x, week, auth = gh::gh_token()) {
     !tt_date %in% tt_folders[["folders"]] ||
       !tt_folders[["data"]][tt_folders[["folders"]] == tt_date]
   ) {
-    cli::cli_abort(
+    .pkg_abort(
       "Week {week} of {x} does not have data available for download.",
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
 
@@ -107,12 +107,12 @@ tt_check_year <- function(year, auth = gh::gh_token()) {
   if (year %in% tt_yrs) {
     return(invisible(year))
   }
-  cli::cli_abort(
+  .pkg_abort(
     c(
       "TidyTuesday did not exist in {year} (or {year} is in the future).",
       i = "Available years: {tt_yrs}"
     ),
-    class = "tt-error-invalid_year"
+    "invalid_year"
   )
 }
 

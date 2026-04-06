@@ -73,12 +73,12 @@ tt_find_dataset_files <- function(path = "tt_submission") {
   known_files <- c(expected_files, csv_files, dictionary_files, img_files)
   extra_files <- setdiff(files, known_files)
   if (length(extra_files)) {
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "{.arg path} should only contain submission files.",
         x = "Extra files: {extra_files}"
       ),
-      class = "tt-error-extra_files"
+      "extra_files"
     )
   }
   return(known_files)
@@ -91,12 +91,12 @@ tt_find_expected_files <- function(path = "tt_submission") {
   )
   missing_files <- expected_files[!fs::file_exists(expected_files)]
   if (length(missing_files)) {
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "All expected files must exist in {.arg path}.",
         x = "Missing files: {missing_files}"
       ),
-      class = "tt-error-missing_expected"
+      "missing_expected"
     )
   }
   return(expected_files)
@@ -114,7 +114,7 @@ tt_validate_csv_sizes <- function(csv_files) {
   if (any(too_large)) {
     large_files <- csv_files[too_large]
     large_sizes <- file_sizes[too_large]
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "CSV files must be <= 25MB to upload to GitHub.",
         x = "Files too large:",
@@ -127,7 +127,7 @@ tt_validate_csv_sizes <- function(csv_files) {
           rep("*", length(large_files))
         )
       ),
-      class = "tt-error-csv_size"
+      "csv_size"
     )
   }
   return(csv_files)
@@ -142,24 +142,24 @@ tt_find_images <- function(path = "tt_submission") {
       expected_images <- fs::path(path, purrr::map_chr(meta$images, "file"))
       missing_files <- expected_images[!fs::file_exists(expected_images)]
       if (length(missing_files)) {
-        cli::cli_abort(
+        .pkg_abort(
           c(
             "All images in meta.yaml must exist in {.arg path}.",
             x = "Missing images: {missing_files}"
           ),
-          class = "tt-error-missing_images"
+          "missing_images"
         )
       }
       # Check and resize images if needed
-      purrr::walk(meta$images, function(image) {
+      for (image in meta$images) {
         tt_check_and_resize_image_single(image, path)
-      })
+      }
       return(expected_images)
     }
   }
-  cli::cli_abort(
+  .pkg_abort(
     "No images found in meta.yaml",
-    class = "tt-error-no_images"
+    "no_images"
   )
 }
 
@@ -222,7 +222,7 @@ tt_confirm_resized_image <- function(resized_img, img_path, ratio) {
   )
 
   if (response != 1) {
-    cli::cli_abort("Submission cancelled by user.")
+    .pkg_abort("Submission cancelled by user.", "cancelled")
   }
 
   return(invisible(NULL))
@@ -238,12 +238,12 @@ tt_find_dictionaries <- function(csv_files) {
   expected_md_files <- fs::path_ext_set(csv_files, "md")
   missing_files <- expected_md_files[!fs::file_exists(expected_md_files)]
   if (length(missing_files)) {
-    cli::cli_abort(
+    .pkg_abort(
       c(
         "All datasets must have an associated md file in {.arg path}.",
         x = "Missing dictionaries: {missing_files}"
       ),
-      class = "tt-error-missing_dictionaries"
+      "missing_dictionaries"
     )
   }
   return(expected_md_files)
