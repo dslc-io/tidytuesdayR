@@ -1,12 +1,14 @@
 # Changelog
 
-## tidytuesdayR (development version)
+## tidytuesdayR 1.3.0
 
-- \[feature\]
-  [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
-  now syncs the submitter’s fork with the latest version of the main
-  TidyTuesday repository before submitting
-  ([\#147](https://github.com/dslc-io/tidytuesdayR/issues/147)).
+- \[messaging\] Missing GitHub credentials now produce a clearer error
+  message ([\#135](https://github.com/dslc-io/tidytuesdayR/issues/135)).
+- \[bug fix\]
+  [`tt_curate_data()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_curate_data.md)
+  now works in Positron and other IDEs, not just RStudio. It also gains
+  an `open` parameter for consistency with other curation functions
+  ([\#139](https://github.com/dslc-io/tidytuesdayR/issues/139)).
 - \[feature\]
   [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
   now reads attribution defaults from
@@ -18,27 +20,16 @@
   [`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html)
   to avoid re-entering them with each submission
   ([\#142](https://github.com/dslc-io/tidytuesdayR/issues/142)).
-- \[messaging\] Added a clearer error message for missing github
-  credentials
-  ([\#135](https://github.com/dslc-io/tidytuesdayR/issues/135)).
-- \[bug fix\]
-  [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
-  now correctly discovers existing forks, properly handles the default
-  branch of the fork, and accurately compares local file SHAs with
-  remote file SHAs to determine whether files need to be updated
-  ([\#135](https://github.com/dslc-io/tidytuesdayR/issues/135)).
-- \[bug fix\]
-  [`tt_curate_data()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_curate_data.md)
-  now uses
-  [`usethis::edit_file()`](https://usethis.r-lib.org/reference/edit_file.html)
-  instead of RStudio-specific
-  [`rstudioapi::documentOpen()`](https://rstudio.github.io/rstudioapi/reference/rstudio-documents.html),
-  making it compatible with Positron and other IDEs. Also added an
-  `open` parameter for consistency with other curation functions.
-  ([\#139](https://github.com/dslc-io/tidytuesdayR/issues/139))
 - \[feature\]
   [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
-  now verifies that CSVs and images have acceptable sizes *before*
+  now handles submitter forks more reliably: it correctly discovers
+  existing forks, syncs them with the latest version of the TidyTuesday
+  repository, and accurately determines which files need updating
+  ([\#135](https://github.com/dslc-io/tidytuesdayR/issues/135),
+  [\#147](https://github.com/dslc-io/tidytuesdayR/issues/147)).
+- \[feature\]
+  [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
+  now verifies that CSVs and images have acceptable sizes before
   attempting to submit the pull request
   ([\#140](https://github.com/dslc-io/tidytuesdayR/issues/140),
   [\#141](https://github.com/dslc-io/tidytuesdayR/issues/141)).
