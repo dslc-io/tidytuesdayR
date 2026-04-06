@@ -10,6 +10,10 @@ Reused parameter definitions are gathered here for easier editing.
   [`gh::gh_token()`](https://gh.r-lib.org/reference/gh_token.html) for
   more details.
 
+- call:
+
+  (`environment`) The caller environment for error messages.
+
 - files:
 
   Which file names to download. Default "All" downloads all files for
