@@ -14,7 +14,7 @@
       Error in `format_image_data()`:
       ! Please provide at least one image filename and corresponding alt text.
 
-# ensure_arg_filled errors informatively for NULL
+# ensure_arg_filled errors informatively for NULL (#142)
 
     Code
       ensure_arg_filled(NULL, question = "", arg_name = "myArg")

@@ -226,6 +226,7 @@ To avoid entering your attribution information every time you submit a dataset, 
 Open your `.Rprofile` with `usethis::edit_r_profile()`, then add an options block like this:
 
 ```r
+# tidytuesdayR attribution
 options(
   tidytuesdayR.attribution = "Jon Harmon, Data Science Learning Community",
   tidytuesdayR.bluesky = "jonthegeek.com",

@@ -54,7 +54,7 @@ test_that("format_mastodon extracts mastodon info from non-URLs", {
   )
 })
 
-test_that("ensure_arg_filled errors informatively for NULL", {
+test_that("ensure_arg_filled errors informatively for NULL (#142)", {
   expect_snapshot(
     {
       ensure_arg_filled(NULL, question = "", arg_name = "myArg")
@@ -63,7 +63,7 @@ test_that("ensure_arg_filled errors informatively for NULL", {
   )
 })
 
-test_that("tt_meta uses options for attribution fields", {
+test_that("tt_meta uses options for attribution fields (#142)", {
   proj_dir <- withr::local_tempdir()
   full_submission_path <- fs::path(proj_dir, "tt_submission")
   usethis::local_project(proj_dir, force = TRUE, quiet = TRUE)
