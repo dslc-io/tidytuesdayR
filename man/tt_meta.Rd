@@ -13,11 +13,11 @@ tt_meta(
   source_url,
   image_filename,
   image_alt,
-  attribution,
+  attribution = getOption("tidytuesdayR.attribution"),
   github = gh::gh_whoami()$login,
-  bluesky = NULL,
-  linkedin = NULL,
-  mastodon = NULL,
+  bluesky = getOption("tidytuesdayR.bluesky"),
+  linkedin = getOption("tidytuesdayR.linkedin"),
+  mastodon = getOption("tidytuesdayR.mastodon"),
   open = rlang::is_interactive(),
   ignore = FALSE
 )
@@ -60,19 +60,24 @@ population."}
 \item{attribution}{Your name as you would like it to appear when we credit
 you in the post for this dataset. You can include a title and/or
 affiliation if you like, such as "Jon Harmon, Executive Director, Data
-Science Learning Community".}
+Science Learning Community". Defaults to
+\code{getOption("tidytuesdayR.attribution")}. We recommend setting this option
+in your \code{.Rprofile} with \code{usethis::edit_r_profile()} so you don't have to
+provide it every time you submit a dataset.}
 
 \item{github}{Your GitHub username, or a link to your profile on GitHub.}
 
 \item{bluesky}{Your Bluesky username, or a link to your profile on Bluesky.
-Leave as \code{NULL} if you do not wish to be credited on Bluesky.}
+Leave as \code{NULL} if you do not wish to be credited on Bluesky. Defaults to
+\code{getOption("tidytuesdayR.bluesky")}.}
 
-\item{linkedin}{Your LinkedIn username, or a link to your profile on LinkedIn
-Leave as \code{NULL} if you do not wish to be credited on LinkedIn.}
+\item{linkedin}{Your LinkedIn username, or a link to your profile on LinkedIn.
+Leave as \code{NULL} if you do not wish to be credited on LinkedIn. Defaults to
+\code{getOption("tidytuesdayR.linkedin")}.}
 
 \item{mastodon}{Your mastodon server and username, or a link to your profile
 on a mastodon server. Leave as \code{NULL} if you do not wish to be credited on
-Mastodon.}
+Mastodon. Defaults to \code{getOption("tidytuesdayR.mastodon")}.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}

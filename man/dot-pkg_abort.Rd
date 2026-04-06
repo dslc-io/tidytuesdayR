@@ -19,7 +19,8 @@ formatted with \code{\link[cli:cli_bullets]{cli::cli_bullets()}}.}
 \item{subclass}{(\code{character}) Class(es) to assign to the error. Will be
 prefixed by "\{package\}-error-".}
 
-\item{call}{(\code{environment}) The caller environment for error messages.}
+\item{call}{\code{(environment)} The execution environment to mention as the
+source of error messages.}
 
 \item{message_env}{(\code{environment}) The execution environment to use to
 evaluate variables in error messages.}

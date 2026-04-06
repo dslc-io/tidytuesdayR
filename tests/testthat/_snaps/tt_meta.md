@@ -14,12 +14,11 @@
       Error in `format_image_data()`:
       ! Please provide at least one image filename and corresponding alt text.
 
-# format_mastodon errors informatively for weird inputs
+# ensure_arg_filled errors informatively for NULL (#142)
 
     Code
-      format_mastodon("jonthegeek")
+      ensure_arg_filled(NULL, question = "", arg_name = "myArg")
     Condition
-      Error in `format_mastodon()`:
-      ! Please provide a valid mastodon username and server.
-      i eg, yourname@yourserver.org or https://yourserver.org/@yourname
+      Error:
+      ! `myArg` is required.
 
