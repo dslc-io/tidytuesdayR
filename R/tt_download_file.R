@@ -2,7 +2,7 @@
 #'
 #' Download an actual data file from the TidyTuesday github repository.
 #'
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @param x Index or name of file to download.
 #' @param ... Additional parameters to pass to the parsing functions. Note:
 #'   These arguments will be passed for all filetypes.

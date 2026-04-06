@@ -6,7 +6,7 @@
 #' editing.
 #'
 #' @inheritParams usethis::use_template
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #'
 #' @returns A logical vector indicating whether the file was created or
 #'   modified, invisibly.

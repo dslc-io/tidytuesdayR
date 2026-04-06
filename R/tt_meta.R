@@ -7,7 +7,7 @@
 #' interactive session.
 #'
 #' @inheritParams usethis::use_template
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @param title A short title for your submission. It should fit into the
 #'   sentence "This week we're exploring `title`!" For example, for "This week
 #'   we're exploring The 50 US States!", the `title` would be `"The 50 US

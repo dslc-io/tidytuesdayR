@@ -16,6 +16,6 @@
 #'   year as a number.
 #' @param year What year of TidyTuesday to use
 #'
-#' @name shared-params
+#' @name .shared-params
 #' @keywords internal
 NULL

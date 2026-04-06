@@ -1,7 +1,7 @@
 #' Set up a directory for dataset curation
 #'
 #' @inheritParams usethis::use_template
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #'
 #' @returns The resolved path (invisibly).
 #' @keywords internal

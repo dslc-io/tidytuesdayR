@@ -34,7 +34,7 @@
 NULL
 
 #' @rdname tt_available
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @export
 #' @returns `tt_available()` returns a `tt_dataset_table_list`, which is a
 #' list of `tt_dataset_table`. This class has special printing methods to show
@@ -47,7 +47,7 @@ tt_available <- function(auth = gh::gh_token()) {
 }
 
 #' @rdname tt_available
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @export
 #' @returns `tt_datasets()` returns a `tt_dataset_table` object. This class has
 #'  special printing methods to show the available datasets for the year.
