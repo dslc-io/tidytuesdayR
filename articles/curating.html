@@ -306,7 +306,22 @@ population.</p>
 <p>The final preparation step is to provide metadata about the dataset.
 Create a <code>meta.yaml</code> file in your <code>tt_submission</code>
 directory with <code><a href="../reference/tt_meta.html">tt_meta()</a></code>.</p>
+<p>To avoid entering your attribution information every time you submit
+a dataset, we recommend adding your details to your
+<code>.Rprofile</code>. Open your <code>.Rprofile</code> with
+<code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_profile()</a></code>, then add an options block like
+this:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># tidytuesdayR attribution</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
+<span>  tidytuesdayR.attribution <span class="op">=</span> <span class="st">"Jon Harmon, Data Science Learning Community"</span>,</span>
+<span>  tidytuesdayR.bluesky <span class="op">=</span> <span class="st">"jonthegeek.com"</span>,</span>
+<span>  tidytuesdayR.linkedin <span class="op">=</span> <span class="st">"jonthegeek"</span>,</span>
+<span>  tidytuesdayR.mastodon <span class="op">=</span> <span class="st">"fosstodon.org/@jonthegeek"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>After saving and restarting R, <code><a href="../reference/tt_meta.html">tt_meta()</a></code> will use these
+values as defaults.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tt_meta.html">tt_meta</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"The 50 US States"</span>,</span>
 <span>  article_title <span class="op">=</span> <span class="st">"U.S. Department of Commerce, Bureau of the Census"</span>,</span>
@@ -330,27 +345,27 @@ except Mastodon, which requires <code>@username@server</code>.</p>
 <p>The completed <code>meta.yaml</code> file looks like this (I edited
 the image alt text so I could read it without scrolling, but otherwise
 this is what <code><a href="../reference/tt_meta.html">tt_meta()</a></code> produced):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The 50 US States"</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">article</span><span class="kw">:</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"U.S. Department of Commerce, Bureau of the Census"</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.census.gov/"</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">data_source</span><span class="kw">:</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The R datasets package"</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.r-project.org/"</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">images</span><span class="kw">:</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># Please include at least one image, and up to three images</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">file</span><span class="kw">:</span><span class="at"> </span><span class="st">"states_population.png"</span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="fu">  alt</span><span class="kw">: </span><span class="ch">&gt;</span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    A map of the continental United States, with each state colored in shades of</span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    blue by population as of 1975. California and New York are the lightest,</span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>    indicating the highest population. Maine, New Hampshire, Vermont, and the</span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    Plains States are all quite dark, indicating low population.</span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="fu">credit</span><span class="kw">:</span></span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="at">  </span><span class="fu">post</span><span class="kw">:</span><span class="at"> </span><span class="st">"Jon Harmon, Data Science Learning Community"</span></span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="at">  </span><span class="fu">github</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="at">  </span><span class="fu">bluesky</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek.com"</span></span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="at">  </span><span class="fu">linkedin</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
-<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="at">  </span><span class="fu">mastodon</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek@fosstodon.org"</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The 50 US States"</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">article</span><span class="kw">:</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"U.S. Department of Commerce, Bureau of the Census"</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.census.gov/"</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">data_source</span><span class="kw">:</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"The R datasets package"</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="at">  </span><span class="fu">url</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.r-project.org/"</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">images</span><span class="kw">:</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co"># Please include at least one image, and up to three images</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">file</span><span class="kw">:</span><span class="at"> </span><span class="st">"states_population.png"</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="fu">  alt</span><span class="kw">: </span><span class="ch">&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>    A map of the continental United States, with each state colored in shades of</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>    blue by population as of 1975. California and New York are the lightest,</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>    indicating the highest population. Maine, New Hampshire, Vermont, and the</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>    Plains States are all quite dark, indicating low population.</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="fu">credit</span><span class="kw">:</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="at">  </span><span class="fu">post</span><span class="kw">:</span><span class="at"> </span><span class="st">"Jon Harmon, Data Science Learning Community"</span></span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="at">  </span><span class="fu">github</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="at">  </span><span class="fu">bluesky</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek.com"</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="at">  </span><span class="fu">linkedin</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek"</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="at">  </span><span class="fu">mastodon</span><span class="kw">:</span><span class="at"> </span><span class="st">"@jonthegeek@fosstodon.org"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="submit">Submit<a class="anchor" aria-label="anchor" href="#submit"></a>
@@ -364,7 +379,7 @@ it’s how we manage submissions to TidyTuesday. You’re requesting that we
 “pull” changes from your copy on GitHub to our source repository.</p>
 <p><strong>Note:</strong> To avoid confusion, we recommend that you <a href="https://github.com/login" class="external-link">login to GitHub.com</a> before you run
 this command.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tt_submit.html">tt_submit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If we request that you make changes, you can use
 <code><a href="../reference/tt_submit.html">tt_submit()</a></code> again to upload any files you change.</p>

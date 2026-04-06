@@ -63,11 +63,11 @@ interactive session.</p>
 <span>  <span class="va">source_url</span>,</span>
 <span>  <span class="va">image_filename</span>,</span>
 <span>  <span class="va">image_alt</span>,</span>
-<span>  <span class="va">attribution</span>,</span>
+<span>  attribution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tidytuesdayR.attribution"</span><span class="op">)</span>,</span>
 <span>  github <span class="op">=</span> <span class="fu">gh</span><span class="fu">::</span><span class="fu"><a href="https://gh.r-lib.org/reference/gh_whoami.html" class="external-link">gh_whoami</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">login</span>,</span>
-<span>  bluesky <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  linkedin <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  mastodon <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bluesky <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tidytuesdayR.bluesky"</span><span class="op">)</span>,</span>
+<span>  linkedin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tidytuesdayR.linkedin"</span><span class="op">)</span>,</span>
+<span>  mastodon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tidytuesdayR.mastodon"</span><span class="op">)</span>,</span>
 <span>  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  ignore <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -131,7 +131,10 @@ population."</p></dd>
 <dd><p>Your name as you would like it to appear when we credit
 you in the post for this dataset. You can include a title and/or
 affiliation if you like, such as "Jon Harmon, Executive Director, Data
-Science Learning Community".</p></dd>
+Science Learning Community". Defaults to
+<code>getOption("tidytuesdayR.attribution")</code>. We recommend setting this option
+in your <code>.Rprofile</code> with <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_profile()</a></code> so you don't have to
+provide it every time you submit a dataset.</p></dd>
 
 
 <dt id="arg-github">github<a class="anchor" aria-label="anchor" href="#arg-github"></a></dt>
@@ -140,18 +143,20 @@ Science Learning Community".</p></dd>
 
 <dt id="arg-bluesky">bluesky<a class="anchor" aria-label="anchor" href="#arg-bluesky"></a></dt>
 <dd><p>Your Bluesky username, or a link to your profile on Bluesky.
-Leave as <code>NULL</code> if you do not wish to be credited on Bluesky.</p></dd>
+Leave as <code>NULL</code> if you do not wish to be credited on Bluesky. Defaults to
+<code>getOption("tidytuesdayR.bluesky")</code>.</p></dd>
 
 
 <dt id="arg-linkedin">linkedin<a class="anchor" aria-label="anchor" href="#arg-linkedin"></a></dt>
-<dd><p>Your LinkedIn username, or a link to your profile on LinkedIn
-Leave as <code>NULL</code> if you do not wish to be credited on LinkedIn.</p></dd>
+<dd><p>Your LinkedIn username, or a link to your profile on LinkedIn.
+Leave as <code>NULL</code> if you do not wish to be credited on LinkedIn. Defaults to
+<code>getOption("tidytuesdayR.linkedin")</code>.</p></dd>
 
 
 <dt id="arg-mastodon">mastodon<a class="anchor" aria-label="anchor" href="#arg-mastodon"></a></dt>
 <dd><p>Your mastodon server and username, or a link to your profile
 on a mastodon server. Leave as <code>NULL</code> if you do not wish to be credited on
-Mastodon.</p></dd>
+Mastodon. Defaults to <code>getOption("tidytuesdayR.mastodon")</code>.</p></dd>
 
 
 <dt id="arg-open">open<a class="anchor" aria-label="anchor" href="#arg-open"></a></dt>

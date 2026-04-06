@@ -2,6 +2,17 @@
 
 ## tidytuesdayR (development version)
 
+- \[feature\]
+  [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
+  now reads attribution defaults from
+  `getOption("tidytuesdayR.attribution")`,
+  `getOption("tidytuesdayR.bluesky")`,
+  `getOption("tidytuesdayR.linkedin")`, and
+  `getOption("tidytuesdayR.mastodon")`. Set these in your `.Rprofile`
+  via
+  [`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html)
+  to avoid re-entering them with each submission
+  ([\#142](https://github.com/dslc-io/tidytuesdayR/issues/142)).
 - \[messaging\] Added a clearer error message for missing github
   credentials
   ([\#135](https://github.com/dslc-io/tidytuesdayR/issues/135)).

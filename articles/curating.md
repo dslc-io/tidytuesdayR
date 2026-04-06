@@ -249,6 +249,26 @@ The final preparation step is to provide metadata about the dataset.
 Create a `meta.yaml` file in your `tt_submission` directory with
 [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md).
 
+To avoid entering your attribution information every time you submit a
+dataset, we recommend adding your details to your `.Rprofile`. Open your
+`.Rprofile` with
+[`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html),
+then add an options block like this:
+
+``` r
+# tidytuesdayR attribution
+options(
+  tidytuesdayR.attribution = "Jon Harmon, Data Science Learning Community",
+  tidytuesdayR.bluesky = "jonthegeek.com",
+  tidytuesdayR.linkedin = "jonthegeek",
+  tidytuesdayR.mastodon = "fosstodon.org/@jonthegeek"
+)
+```
+
+After saving and restarting R,
+[`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
+will use these values as defaults.
+
 ``` r
 tt_meta(
   title = "The 50 US States",

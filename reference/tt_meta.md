@@ -18,11 +18,11 @@ tt_meta(
   source_url,
   image_filename,
   image_alt,
-  attribution,
+  attribution = getOption("tidytuesdayR.attribution"),
   github = gh::gh_whoami()$login,
-  bluesky = NULL,
-  linkedin = NULL,
-  mastodon = NULL,
+  bluesky = getOption("tidytuesdayR.bluesky"),
+  linkedin = getOption("tidytuesdayR.linkedin"),
+  mastodon = getOption("tidytuesdayR.mastodon"),
   open = rlang::is_interactive(),
   ignore = FALSE
 )
@@ -86,7 +86,11 @@ tt_meta(
   Your name as you would like it to appear when we credit you in the
   post for this dataset. You can include a title and/or affiliation if
   you like, such as "Jon Harmon, Executive Director, Data Science
-  Learning Community".
+  Learning Community". Defaults to
+  `getOption("tidytuesdayR.attribution")`. We recommend setting this
+  option in your `.Rprofile` with
+  [`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html)
+  so you don't have to provide it every time you submit a dataset.
 
 - github:
 
@@ -95,18 +99,20 @@ tt_meta(
 - bluesky:
 
   Your Bluesky username, or a link to your profile on Bluesky. Leave as
-  `NULL` if you do not wish to be credited on Bluesky.
+  `NULL` if you do not wish to be credited on Bluesky. Defaults to
+  `getOption("tidytuesdayR.bluesky")`.
 
 - linkedin:
 
-  Your LinkedIn username, or a link to your profile on LinkedIn Leave as
-  `NULL` if you do not wish to be credited on LinkedIn.
+  Your LinkedIn username, or a link to your profile on LinkedIn. Leave
+  as `NULL` if you do not wish to be credited on LinkedIn. Defaults to
+  `getOption("tidytuesdayR.linkedin")`.
 
 - mastodon:
 
   Your mastodon server and username, or a link to your profile on a
   mastodon server. Leave as `NULL` if you do not wish to be credited on
-  Mastodon.
+  Mastodon. Defaults to `getOption("tidytuesdayR.mastodon")`.
 
 - open:
 
