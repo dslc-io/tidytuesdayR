@@ -275,7 +275,22 @@ tt_user <- function(auth = gh::gh_token()) {
 tt_fork <- function(user, repo, auth = gh::gh_token()) {
   # GitHub automatically returns existing fork if it exists, no need to check
   my_fork <- call_gh("POST /repos/{repo}/forks", repo = repo, auth = auth)
+  tt_sync_fork(
+    fork_repo = my_fork$full_name,
+    branch = my_fork$default_branch,
+    auth = auth
+  )
   return(my_fork)
+}
+
+tt_sync_fork <- function(fork_repo, branch, auth = gh::gh_token()) {
+  call_gh(
+    "POST /repos/{fork_repo}/merge-upstream",
+    fork_repo = fork_repo,
+    branch = branch,
+    auth = auth
+  )
+  return(invisible(NULL))
 }
 
 tt_branch_create <- function(fork_info, branch, auth = gh::gh_token()) {
