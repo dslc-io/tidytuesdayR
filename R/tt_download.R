@@ -2,7 +2,7 @@
 #'
 #' Download all or specific files identified in a TidyTuesday dataset.
 #'
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @inheritParams tt_download_file
 #'
 #' @returns A list of tibbles from the downloaded files.

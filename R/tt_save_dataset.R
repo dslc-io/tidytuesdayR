@@ -8,7 +8,7 @@
 #' dictionary file is opened for editing.
 #'
 #' @inheritParams usethis::use_template
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @param dataset The clean dataset to save. The dataset must be a data.frame.
 #' @param dataset_name The name to save the dataset as. By default, the name of
 #'   the dataset variable is used.

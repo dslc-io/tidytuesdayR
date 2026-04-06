@@ -5,7 +5,7 @@
 #' to get the correct date
 #'
 #' @inheritParams gh_get
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @keywords internal
 tt_date <- function(year, week = NULL, auth = gh::gh_token()) {
   tt_check_date(year, week, auth = auth)
@@ -16,7 +16,7 @@ tt_date <- function(year, week = NULL, auth = gh::gh_token()) {
 #' Given multiple types of inputs, generate a valid TidyTuesday URL.
 #'
 #' @inheritParams gh_get
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @keywords internal
 tt_check_date <- function(x, week = NULL, auth = gh::gh_token()) {
   if (missing(x)) {

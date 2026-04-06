@@ -1,6 +1,6 @@
 #' Load TidyTuesday data from Github
 #'
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @inheritParams tt_download
 #'
 #' @returns `tt_data` object, which contains data that can be accessed via `$`,

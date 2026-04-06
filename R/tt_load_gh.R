@@ -4,7 +4,7 @@
 #' github folder based on the date provided
 #'
 #' @inheritParams gh_get
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #'
 #' @returns A `tt` object. This contains the files available for the week,
 #'  readme html, and the date of the TidyTuesday.

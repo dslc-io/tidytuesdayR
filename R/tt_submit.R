@@ -5,7 +5,7 @@
 #' [tt_save_dataset()], [tt_intro()], and [tt_meta()]. You can also use this
 #' function to submit changes to your local copies of the files.
 #'
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @param open Whether to open the pull request in a browser. Defaults to `TRUE`
 #'   in an interactive session.
 #'

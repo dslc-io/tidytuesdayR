@@ -7,7 +7,7 @@
 
 #' Get data from the tt github repo.
 #'
-#' @inheritParams shared-params
+#' @inheritParams .shared-params
 #' @param path Path within the `rfordatascience/tidytuesday` repo.
 #' @param ... Additional parameters passed to [gh::gh()].
 #'
