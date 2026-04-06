@@ -151,9 +151,9 @@ tt_find_images <- function(path = "tt_submission") {
         )
       }
       # Check and resize images if needed
-      purrr::walk(meta$images, function(image) {
+      for (image in meta$images) {
         tt_check_and_resize_image_single(image, path)
-      })
+      }
       return(expected_images)
     }
   }

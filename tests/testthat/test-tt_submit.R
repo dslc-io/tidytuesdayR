@@ -486,11 +486,12 @@ test_that("tt_find_images cancels on user rejection", {
     .package = "utils"
   )
   expect_message(
-    expect_error(
+    stbl::expect_pkg_error_classes(
       tt_find_images(
         test_path("fixtures", "tt_submission_large_img")
       ),
-      "Submission cancelled by user"
+      "tidytuesdayR",
+      "cancelled"
     ),
     "exceeds the Bluesky limit"
   )
