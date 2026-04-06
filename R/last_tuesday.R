@@ -15,9 +15,9 @@
 #' @export
 last_tuesday <- function(date = today(tzone = "America/New_York")) {
   if (!valid_date(date)) {
-    cli::cli_abort(
+    .pkg_abort(
       "{.val {date}} cannot be coerced to a {.cls Date}.",
-      class = "tt-error-invalid_date"
+      "invalid_date"
     )
   }
   date <- as.Date(tt_date_format(date))

@@ -4,12 +4,10 @@ test_that("tt_download errors for bad file", {
   expect_message(expect_message({
     tt <- tt_load_gh("2019-01-15")
   }))
-  expect_error(
-    {
-      tt_download(tt, "bad_filename")
-    },
-    "must be one or more of",
-    class = "tt-error-bad_file"
+  stbl::expect_pkg_error_snapshot(
+    tt_download(tt, "bad_filename"),
+    "tidytuesdayR",
+    "bad_file"
   )
 })
 

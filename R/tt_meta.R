@@ -155,8 +155,9 @@ ensure_arg_filled <- function(
     var <- readline()
   } # nocov end
   if (rlang::is_empty(var) || identical(var, "")) {
-    cli::cli_abort(
+    .pkg_abort(
       "{.arg {arg_name}} is required.",
+      "required_arg",
       call = call
     )
   }
@@ -179,8 +180,9 @@ format_image_data <- function(image_filename, image_alt) {
       })
     )
   }
-  cli::cli_abort(
-    "Please provide at least one image filename and corresponding alt text."
+  .pkg_abort(
+    "Please provide at least one image filename and corresponding alt text.",
+    "image_data"
   )
 }
 
@@ -242,10 +244,13 @@ format_mastodon <- function(mastodon) {
     server <- stringr::str_extract(mastodon, "@([^@]+)$", group = 1)
   }
   if (is.na(username) || is.na(server)) {
-    cli::cli_abort(c(
-      "Please provide a valid mastodon username and server.",
-      i = "eg, yourname@yourserver.org or https://yourserver.org/@yourname"
-    ))
+    .pkg_abort(
+      c(
+        "Please provide a valid mastodon username and server.",
+        i = "eg, yourname@yourserver.org or https://yourserver.org/@yourname"
+      ),
+      "mastodon_format"
+    )
   }
   return(glue::glue("@{username}@{server}"))
 }

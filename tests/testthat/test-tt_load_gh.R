@@ -102,9 +102,10 @@ test_that("tt_load_gh returns tt object when provided proper year and TT week nu
 
 test_that("tt_load_gh errors when incorrect date", {
   local_tt_master_file()
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_load_gh("2019-01-16"),
-    class = "tt-error-invalid_date"
+    "tidytuesdayR",
+    "invalid_date"
   )
 })
 

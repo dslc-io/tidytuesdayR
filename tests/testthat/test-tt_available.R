@@ -4,11 +4,10 @@ test_that("tt_datasets throws errors when asking for invalid years", {
       2018:2024
     }
   )
-  expect_error(
-    {
-      tt_datasets(2017)
-    },
-    class = "tt-error-invalid_year"
+  stbl::expect_pkg_error_snapshot(
+    tt_datasets(2017),
+    "tidytuesdayR",
+    "invalid_year"
   )
 })
 

@@ -13,50 +13,45 @@ test_that("tt_find_dataset_files finds expected files", {
 })
 
 test_that("tt_find_dataset_files errors informatively for extra files", {
-  expect_snapshot(
-    {
-      tt_find_dataset_files(test_path("fixtures", "tt_submission_extra"))
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    tt_find_dataset_files(test_path("fixtures", "tt_submission_extra")),
+    "tidytuesdayR",
+    "extra_files"
   )
 })
 
 test_that("tt_find_dataset_files errors informatively for missing files", {
-  expect_snapshot(
-    {
-      tt_find_dataset_files(test_path("fixtures", "tt_submission_missing"))
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    tt_find_dataset_files(test_path("fixtures", "tt_submission_missing")),
+    "tidytuesdayR",
+    "missing_expected"
   )
 })
 
 test_that("tt_find_dataset_files errors informatively for missing images", {
-  expect_snapshot(
-    {
-      tt_find_dataset_files(test_path(
-        "fixtures",
-        "tt_submission_missing_image1"
-      ))
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    tt_find_dataset_files(test_path(
+      "fixtures",
+      "tt_submission_missing_image1"
+    )),
+    "tidytuesdayR",
+    "missing_images"
   )
-  expect_snapshot(
-    {
-      tt_find_dataset_files(test_path(
-        "fixtures",
-        "tt_submission_missing_image2"
-      ))
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    tt_find_dataset_files(test_path(
+      "fixtures",
+      "tt_submission_missing_image2"
+    )),
+    "tidytuesdayR",
+    "no_images"
   )
 })
 
 test_that("tt_find_dataset_files errors informatively for missing dictionary", {
-  expect_snapshot(
-    {
-      tt_find_dataset_files(test_path("fixtures", "tt_submission_missing_md"))
-    },
-    error = TRUE
+  stbl::expect_pkg_error_snapshot(
+    tt_find_dataset_files(test_path("fixtures", "tt_submission_missing_md")),
+    "tidytuesdayR",
+    "missing_dictionaries"
   )
 })
 
@@ -419,9 +414,10 @@ test_that("tt_find_csv_files errors when CSV exceeds 25MB", {
     },
     .package = "fs"
   )
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_find_csv_files(test_path("fixtures", "tt_submission")),
-    class = "tt-error-csv_size"
+    "tidytuesdayR",
+    "csv_size"
   )
 })
 
@@ -439,10 +435,10 @@ test_that("tt_find_csv_files handles multiple large CSVs", {
     .package = "fs"
   )
 
-  expect_error(
+  stbl::expect_pkg_error_snapshot(
     tt_find_csv_files(test_path("fixtures", "tt_submission")),
-    "file2",
-    class = "tt-error-csv_size"
+    "tidytuesdayR",
+    "csv_size"
   )
 })
 

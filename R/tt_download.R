@@ -40,9 +40,9 @@ tt_check_files <- function(tt, files, call = rlang::caller_env()) {
       )
     },
     error = function(cnd) {
-      cli::cli_abort(
+      .pkg_abort(
         "{.arg files} must be one or more of {.or {.val {all_files}}}, or {.val All}.",
-        class = "tt-error-bad_file",
+        "bad_file",
         call = call
       )
     }

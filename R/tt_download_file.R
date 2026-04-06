@@ -24,9 +24,9 @@ tt_download_file <- function(tt, x, ..., auth = gh::gh_token()) {
   target <- tryCatch(
     tt_subset_file_info(file_info, x),
     error = function(e) {
-      cli::cli_abort(
+      .pkg_abort(
         "File {x} not found in the available files for {tt_date}.",
-        class = "tt-error-bad_index",
+        "bad_index",
         call = call
       )
     }
