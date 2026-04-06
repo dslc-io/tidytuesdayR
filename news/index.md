@@ -3,6 +3,11 @@
 ## tidytuesdayR (development version)
 
 - \[feature\]
+  [`tt_submit()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_submit.md)
+  now syncs the submitter’s fork with the latest version of the main
+  TidyTuesday repository before submitting
+  ([\#147](https://github.com/dslc-io/tidytuesdayR/issues/147)).
+- \[feature\]
   [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
   now reads attribution defaults from
   `getOption("tidytuesdayR.attribution")`,

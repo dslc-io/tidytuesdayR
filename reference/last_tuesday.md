@@ -25,7 +25,7 @@ Monday as the start of the week.
 
 ``` r
 last_tuesday() # get last Tuesday relative to today's date
-#> [1] "2026-03-31"
+#> [1] "2026-04-07"
 last_tuesday("2020-01-01") # get last Tuesday relative to a specified date
 #> [1] "2019-12-31"
 ```
