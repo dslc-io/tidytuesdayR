@@ -1,3 +1,7 @@
+# tidytuesdayR 1.3.2
+
+* [tests] No user-facing changes.
+
 # tidytuesdayR 1.3.1
 
 * [tests] No user-facing changes.
