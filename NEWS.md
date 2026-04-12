@@ -1,3 +1,7 @@
+# tidytuesdayR 1.3.1
+
+* [tests] Limited test threads for safer CRAN testing.
+
 # tidytuesdayR 1.3.0
 
 * [messaging] Missing GitHub credentials now produce a clearer error message
