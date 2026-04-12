@@ -2,7 +2,7 @@
 
 ## tidytuesdayR 1.3.1
 
-- \[tests\] Limited test threads for safer CRAN testing.
+- \[tests\] No user-facing changes.
 
 ## tidytuesdayR 1.3.0
 
