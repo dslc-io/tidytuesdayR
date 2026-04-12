@@ -1,5 +1,6 @@
 test_that("tt_save_dataset creates the expected files", {
   skip_on_ci()
+  skip_on_cran()
   proj_dir <- withr::local_tempdir()
   full_submission_path <- fs::path(proj_dir, "tt_submission")
   usethis::local_project(proj_dir, force = TRUE, quiet = TRUE)
