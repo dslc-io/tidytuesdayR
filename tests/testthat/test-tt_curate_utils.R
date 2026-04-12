@@ -1,5 +1,6 @@
 test_that("prep_tt_curate creates the directory", {
   skip_on_ci()
+  skip_on_cran()
   proj_dir <- withr::local_tempdir()
   usethis::local_project(proj_dir, force = TRUE, quiet = TRUE)
   full_submission_path <- usethis::proj_path("tt_submission")
@@ -9,6 +10,7 @@ test_that("prep_tt_curate creates the directory", {
 
 test_that("prep_tt_curate works with ignore", {
   skip_on_ci()
+  skip_on_cran()
   proj_dir <- withr::local_tempdir()
   usethis::local_project(proj_dir, force = TRUE, quiet = TRUE)
   full_submission_path <- usethis::proj_path("tt_submission")
