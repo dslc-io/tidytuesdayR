@@ -174,6 +174,12 @@ format_image_data <- function(image_filename, image_alt) {
     "What text could serve in place of the image for a visually impaired person?"
   )
   if (length(image_filename) && length(image_alt) == length(image_filename)) {
+    if (!all(nchar(image_alt) <= 1000)) {
+      .pkg_abort(
+        "Alt text must be 1000 characters or fewer (Mastodon limit).",
+        c("image_data", "alt_text")
+      )
+    }
     return(
       purrr::map2(image_filename, image_alt, function(file, alt) {
         list(image_filename = file, image_alt = alt)

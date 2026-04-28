@@ -1,5 +1,7 @@
 # tidytuesdayR (development version)
 
+* `tt_meta()` now validates that image alt text is 1000 characters or fewer (Mastodon limit) (#163).
+
 # tidytuesdayR 1.3.2
 
 * [tests] No user-facing changes.
