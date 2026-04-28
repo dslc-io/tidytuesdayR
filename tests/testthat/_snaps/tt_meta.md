@@ -18,7 +18,7 @@
       Error in `format_image_data()`:
       ! Please provide at least one image filename and corresponding alt text.
 
-# format_image_data errors when alt text exceeds 1000 characters
+# format_image_data errors when alt text exceeds 1000 characters (#163)
 
     Code
       (expect_pkg_error_classes(format_image_data("a.png", strrep("x", 1001)),

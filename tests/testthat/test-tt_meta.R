@@ -37,7 +37,7 @@ test_that("format_image_data errors informatively", {
   )
 })
 
-test_that("format_image_data errors when alt text exceeds 1000 characters", {
+test_that("format_image_data errors when alt text exceeds 1000 characters (#163)", {
   stbl::expect_pkg_error_snapshot(
     format_image_data("a.png", strrep("x", 1001)),
     "tidytuesdayR",
