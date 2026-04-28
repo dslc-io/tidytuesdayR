@@ -2,7 +2,14 @@
 
 ## tidytuesdayR (development version)
 
+- [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
+  now validates that image alt text is 1000 characters or fewer
+  (Mastodon limit)
+  ([\#163](https://github.com/dslc-io/tidytuesdayR/issues/163)).
+
 ## tidytuesdayR 1.3.2
+
+CRAN release: 2026-04-12
 
 - \[tests\] No user-facing changes.
 
