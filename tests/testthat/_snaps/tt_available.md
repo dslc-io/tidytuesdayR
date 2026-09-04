@@ -1,9 +1,8 @@
 # tt_datasets throws errors when asking for invalid years
 
     Code
-      (expect_pkg_error_classes(tt_datasets(2017), "tidytuesdayR", "invalid_year"))
-    Output
-      <error/tidytuesdayR-error-invalid_year>
+      tt_datasets(2017)
+    Condition <tidytuesdayR-error-invalid_year>
       Error in `tt_check_year()`:
       ! TidyTuesday did not exist in 2017 (or 2017 is in the future).
       i Available years: 2018, 2019, 2020, 2021, 2022, 2023, and 2024

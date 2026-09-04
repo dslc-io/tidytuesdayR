@@ -27,6 +27,7 @@ Imports:
     jsonlite,
     lubridate (>= 1.7.0),
     magrittr,
+    markdown,
     purrr (>= 1.0.0),
     readr (>= 1.0.0),
     rlang,
@@ -37,7 +38,6 @@ Imports:
     utils,
     xml2 (>= 1.2.0)
 Suggests:
-    astgrepr,
     base64enc,
     covr,
     dplyr,
