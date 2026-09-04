@@ -1,0 +1,33 @@
+# This workflow removes the pkgdown preview directory when a PR is closed.
+name: Clean up pkgdown preview
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  clean-pr-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ github.repository }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: gh-pages
+
+      - name: Remove PR preview directory
+        run: |
+          pr_dir="pr/${{ github.event.number }}"
+          if [ -d "$pr_dir" ]; then
+            git config --local user.name "$GITHUB_ACTOR"
+            git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+            git rm -rf "$pr_dir"
+            git commit -m "Remove preview for PR #${{ github.event.number }}"
+            git push
+          else
+            echo "Directory $pr_dir does not exist, skipping cleanup."
+          fi

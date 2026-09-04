@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: ./.github/workflows/install
+      - uses: api2r/actions/install@v1
         with:
           use-container: "true"
           token: ${{ secrets.GITHUB_TOKEN }}

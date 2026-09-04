@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: ./.github/workflows/install
+      - uses: api2r/actions/install@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           cache-version: copilot
@@ -45,6 +45,7 @@ jobs:
             any::testthat
             any::usethis
             any::withr
+            Gilead-BioStats/qcthat
             local::.
 
       - name: Install air
