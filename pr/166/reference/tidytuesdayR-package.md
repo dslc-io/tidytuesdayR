@@ -23,6 +23,9 @@ Useful links:
 
 Authors:
 
+- Jon Harmon <jonthegeek@gmail.com>
+  ([ORCID](https://orcid.org/0000-0003-4781-4346))
+
 - Ellis Hughes <ellishughes@live.com>
 
 Other contributors:
