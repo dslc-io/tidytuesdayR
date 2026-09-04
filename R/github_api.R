@@ -101,8 +101,14 @@ gh_extract_text <- function(gh_response) {
 }
 
 gh_extract_html <- function(gh_response) {
-  if (length(gh_response) && length(gh_response$message)) {
-    return(xml2::read_html(gh_response$message))
+  if (length(gh_response)) {
+    if (length(gh_response$message)) {
+      return(xml2::read_html(gh_response$message))
+    }
+    if (length(gh_response$content) && gh_response$encoding == "base64") {
+      md_content <- gh_raw_to_chr(gh_response$content)
+      return(xml2::read_html(markdown::markdownToHTML(text = md_content)))
+    }
   }
   .pkg_abort(
     "No html found in {.var gh_response}.",

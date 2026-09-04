@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Jon Harmon \email{jonthegeek@gmail.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
   \item Ellis Hughes \email{ellishughes@live.com}
 }
 

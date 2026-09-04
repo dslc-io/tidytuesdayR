@@ -23,6 +23,8 @@ export(use_tidytemplate)
 importFrom(glue,glue)
 importFrom(lubridate,today)
 importFrom(magrittr,"%>%")
-importFrom(stats,aggregate)
-importFrom(stats,na.pass)
-importFrom(stats,setNames)
+importFrom(stats,
+  aggregate,
+  na.pass,
+  setNames
+)

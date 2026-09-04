@@ -81,6 +81,40 @@ test_that("gh_extract_html errors with empty response", {
   )
 })
 
+test_that("gh_extract_html works for md response (#165)", {
+  local_tt_mocked_bindings(
+    gh_get = function(path, auth, ...) {
+      if (path == "data/2020") {
+        return(readRDS(test_path("fixtures", "folder2020_response.rds")))
+      } else if (path == "data/2020/readme.md") {
+        list(
+          encoding = "base64",
+          content = jsonlite::base64_enc(
+            # A simple md table
+            paste0(
+              "Year | Week | Date | data_files | data_type | delim\n",
+              "---- | ---- | ---- | ---------- | --------- | -----\n",
+              "2020 | 1    | 2020-01-07 | data/2020/2020-01-07/tt_data_type.csv | csv | ,\n"
+            )
+          )
+        )
+      }
+    }
+  )
+  test_result <- gh_get_readme_html("data/2020") |>
+    rvest::html_table()
+  expected_result <- tibble::tibble(
+    Year = 2020L,
+    Week = 1L,
+    Date = "2020-01-07",
+    data_files = "data/2020/2020-01-07/tt_data_type.csv",
+    data_type = "csv",
+    delim = ","
+  )
+  expect_length(test_result, 1)
+  expect_identical(test_result[[1]], expected_result)
+})
+
 test_that("gh_extract_sha_in_folder errors for missing file", {
   stbl::expect_pkg_error_snapshot(
     gh_extract_sha_in_folder(list(), "missing_file_name"),
