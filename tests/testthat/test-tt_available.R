@@ -1,4 +1,5 @@
 test_that("tt_datasets throws errors when asking for invalid years", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_mocked_bindings(
     tt_years = function(...) {
       2018:2024

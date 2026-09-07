@@ -1,4 +1,5 @@
 test_that("tt_download_file errors for bad index", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   local_tt_week_readme_html()
   expect_message(expect_message({

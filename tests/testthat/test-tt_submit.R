@@ -13,6 +13,7 @@ test_that("tt_find_dataset_files finds expected files", {
 })
 
 test_that("tt_find_dataset_files errors informatively for extra files", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     tt_find_dataset_files(test_path("fixtures", "tt_submission_extra")),
     "tidytuesdayR",
@@ -21,6 +22,7 @@ test_that("tt_find_dataset_files errors informatively for extra files", {
 })
 
 test_that("tt_find_dataset_files errors informatively for missing files", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     tt_find_dataset_files(test_path("fixtures", "tt_submission_missing")),
     "tidytuesdayR",
@@ -29,6 +31,7 @@ test_that("tt_find_dataset_files errors informatively for missing files", {
 })
 
 test_that("tt_find_dataset_files errors informatively for missing images", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     tt_find_dataset_files(test_path(
       "fixtures",
@@ -48,6 +51,7 @@ test_that("tt_find_dataset_files errors informatively for missing images", {
 })
 
 test_that("tt_find_dataset_files errors informatively for missing dictionary", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     tt_find_dataset_files(test_path("fixtures", "tt_submission_missing_md")),
     "tidytuesdayR",
@@ -408,6 +412,7 @@ test_that("tt_find_csv_files passes when CSVs are under 25MB", {
 })
 
 test_that("tt_find_csv_files errors when CSV exceeds 25MB", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_mocked_bindings(
     file_size = function(path) {
       fs::fs_bytes("30MB")
@@ -422,6 +427,7 @@ test_that("tt_find_csv_files errors when CSV exceeds 25MB", {
 })
 
 test_that("tt_find_csv_files handles multiple large CSVs", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_mocked_bindings(
     dir_ls = function(path, glob) {
       c(
