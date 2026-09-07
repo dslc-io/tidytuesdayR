@@ -26,6 +26,7 @@ test_that("last_tuesday will give you the most recent tuesday", {
 })
 
 test_that("last_tuesday errors with bad dates", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     last_tuesday("blue"),
     "tidytuesdayR",

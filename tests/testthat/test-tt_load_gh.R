@@ -101,6 +101,7 @@ test_that("tt_load_gh returns tt object when provided proper year and TT week nu
 })
 
 test_that("tt_load_gh errors when incorrect date", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_load_gh("2019-01-16"),

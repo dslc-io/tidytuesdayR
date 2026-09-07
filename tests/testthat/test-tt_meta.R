@@ -22,6 +22,7 @@ test_that("tt_meta creates the expected file", {
 })
 
 test_that("ensure_arg_filled errors informatively", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     ensure_arg_filled("", question = "", arg_name = "myArg"),
     "tidytuesdayR",
@@ -30,6 +31,7 @@ test_that("ensure_arg_filled errors informatively", {
 })
 
 test_that("format_image_data errors informatively", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     format_image_data(c("a", "b"), "c"),
     "tidytuesdayR",
@@ -38,6 +40,7 @@ test_that("format_image_data errors informatively", {
 })
 
 test_that("format_image_data errors when alt text exceeds 1000 characters (#163)", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     format_image_data("a.png", strrep("x", 1001)),
     "tidytuesdayR",
@@ -62,6 +65,7 @@ test_that("format_mastodon extracts mastodon info from non-URLs", {
 })
 
 test_that("ensure_arg_filled errors informatively for NULL (#142)", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     ensure_arg_filled(NULL, question = "", arg_name = "myArg"),
     "tidytuesdayR",

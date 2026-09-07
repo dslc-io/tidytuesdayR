@@ -66,6 +66,7 @@ test_that("gh_get_readme_html warns when no readme found", {
 })
 
 test_that("gh_extract_text errors with empty response", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     gh_extract_text(list()),
     "tidytuesdayR",
@@ -74,6 +75,7 @@ test_that("gh_extract_text errors with empty response", {
 })
 
 test_that("gh_extract_html errors with empty response", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     gh_extract_html(list()),
     "tidytuesdayR",
@@ -116,6 +118,7 @@ test_that("gh_extract_html works for md response (#165)", {
 })
 
 test_that("gh_extract_sha_in_folder errors for missing file", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     gh_extract_sha_in_folder(list(), "missing_file_name"),
     "tidytuesdayR",
@@ -132,6 +135,7 @@ test_that("gh_extract_sha_in_folder errors for missing file", {
 })
 
 test_that("gh_auth_check makes sure auth looks valid", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   stbl::expect_pkg_error_snapshot(
     gh_auth_check(""),
     "tidytuesdayR",

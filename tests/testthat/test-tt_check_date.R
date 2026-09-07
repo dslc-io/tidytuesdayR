@@ -17,6 +17,7 @@ test_that("valid year-week combinations work", {
 })
 
 test_that("Close dates are suggested if provided date is incorrect", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_check_date("2019-04-04"),
@@ -26,6 +27,7 @@ test_that("Close dates are suggested if provided date is incorrect", {
 })
 
 test_that("Invalid weeks throw errors", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_check_date(2018, 20),
@@ -55,6 +57,7 @@ test_that("Invalid weeks throw errors", {
 })
 
 test_that("invalid entries are flagged", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_check_date("xyz"),
@@ -64,6 +67,7 @@ test_that("invalid entries are flagged", {
 })
 
 test_that("tt_check_year checks years", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_check_year(2015),
@@ -84,6 +88,7 @@ test_that("tt_date also works", {
 })
 
 test_that("tt_check_date errors informatively with no args", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_check_date(),
@@ -93,6 +98,7 @@ test_that("tt_check_date errors informatively with no args", {
 })
 
 test_that("tt_check_date errors informatively for the dirtiest dataset", {
+  skip_if_not_installed("stbl", "0.4.0.9000")
   local_tt_master_file()
   stbl::expect_pkg_error_snapshot(
     tt_check_date("2018-05-15"),
