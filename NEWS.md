@@ -1,6 +1,8 @@
 # tidytuesdayR (development version)
 
-* `tt_meta()` now validates that image alt text is 1000 characters or fewer (Mastodon limit) (#163).
+* [feature] `tt_meta()` now validates that image alt text is 1000 characters or fewer (Mastodon limit) (#163).
+* [bug fix] `tt_available()` no longer fails when one week's data is strange (#165).
+* [tests] Tests that use stbl are now skipped if an appropriate version is not available.
 
 # tidytuesdayR 1.3.2
 
