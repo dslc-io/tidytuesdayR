@@ -14,16 +14,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dslc-io/tidytuesdayR/blob/v1.3.3/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dslc-io/tidytuesdayR/blob/main/DESCRIPTION)
 
 Harmon J, Hughes E (2026). *tidytuesdayR: Access the Weekly
-'TidyTuesday' Project Dataset*. R package version 1.3.3,
+'TidyTuesday' Project Dataset*. R package version 1.3.3.9000,
 <https://dslc-io.github.io/tidytuesdayR/>.
 
     @Manual{,
       title = {tidytuesdayR: Access the Weekly 'TidyTuesday' Project Dataset},
       author = {Jon Harmon and Ellis Hughes},
       year = {2026},
-      note = {R package version 1.3.3},
+      note = {R package version 1.3.3.9000},
       url = {https://dslc-io.github.io/tidytuesdayR/},
     }
