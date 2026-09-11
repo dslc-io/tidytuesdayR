@@ -1,11 +1,18 @@
 # Changelog
 
-## tidytuesdayR (development version)
+## tidytuesdayR 1.3.3
 
-- [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
+- \[feature\]
+  [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
   now validates that image alt text is 1000 characters or fewer
   (Mastodon limit)
   ([\#163](https://github.com/dslc-io/tidytuesdayR/issues/163)).
+- \[bug fix\]
+  [`tt_available()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_available.md)
+  no longer fails when one week’s data is strange
+  ([\#165](https://github.com/dslc-io/tidytuesdayR/issues/165)).
+- \[tests\] Tests that use stbl are now skipped if an appropriate
+  version is not available.
 
 ## tidytuesdayR 1.3.2
 
