@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dslc-io/tidytuesdayR/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dslc-io/tidytuesdayR/blob/v1.3.3/DESCRIPTION)
 
 Harmon J, Hughes E (2026). *tidytuesdayR: Access the Weekly
 'TidyTuesday' Project Dataset*. R package version 1.3.3,
