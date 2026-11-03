@@ -1,5 +1,7 @@
 # tidytuesdayR (development version)
 
+* `tt_load()` now handles datasets with non-ASCII or non-UTF-8 content, such as 2019 week 37, in any locale (#170).
+
 # tidytuesdayR 1.3.3
 
 * [feature] `tt_meta()` now validates that image alt text is 1000 characters or fewer (Mastodon limit) (#163).
