@@ -2,7 +2,14 @@
 
 ## tidytuesdayR (development version)
 
+- [`tt_load()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_load.md)
+  now handles datasets with non-ASCII or non-UTF-8 content, such as 2019
+  week 37, in any locale
+  ([\#170](https://github.com/dslc-io/tidytuesdayR/issues/170)).
+
 ## tidytuesdayR 1.3.3
+
+CRAN release: 2026-09-11
 
 - \[feature\]
   [`tt_meta()`](https://dslc-io.github.io/tidytuesdayR/reference/tt_meta.md)
