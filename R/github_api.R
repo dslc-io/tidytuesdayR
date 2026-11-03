@@ -87,7 +87,13 @@ gh_auth_check <- function(auth = gh::gh_token()) {
 }
 
 gh_raw_to_chr <- function(encoded_raw) {
-  return(rawToChar(jsonlite::base64_dec(encoded_raw)))
+  text <- rawToChar(jsonlite::base64_dec(encoded_raw))
+  # Without an explicit encoding, non-ASCII content breaks in non-UTF-8 locales.
+  Encoding(text) <- "UTF-8"
+  if (!validUTF8(text)) {
+    text <- iconv(text, from = "latin1", to = "UTF-8")
+  }
+  return(text)
 }
 
 gh_extract_text <- function(gh_response) {

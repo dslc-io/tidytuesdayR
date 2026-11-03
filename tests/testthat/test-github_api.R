@@ -150,3 +150,12 @@ test_that("gh_auth_check makes sure auth looks valid", {
     gh_auth_check(structure("valid_token", class = "gh_pat"))
   })
 })
+
+test_that("gh_raw_to_chr() marks encoding and handles non-UTF-8 bytes (#170)", {
+  utf8 <- jsonlite::base64_enc(charToRaw("caf\u00e9"))
+  expect_identical(gh_raw_to_chr(utf8), "caf\u00e9")
+  expect_identical(Encoding(gh_raw_to_chr(utf8)), "UTF-8")
+
+  latin1 <- jsonlite::base64_enc(as.raw(c(0x63, 0x61, 0x66, 0xe9)))
+  expect_identical(gh_raw_to_chr(latin1), "caf\u00e9")
+})
